@@ -1,9 +1,10 @@
-$ErrorActionPreference = "Stop"
 param(
   [string]$PiHost = "192.168.0.218",
   [string]$SshUser = "haikan",
   [string]$SshKey = "$HOME\yes"
 )
+
+$ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent $ScriptDir

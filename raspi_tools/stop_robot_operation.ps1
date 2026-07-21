@@ -1,8 +1,9 @@
-$ErrorActionPreference = "Stop"
 param(
   [string]$PiHost = "192.168.0.218",
   [switch]$StopPcSender
 )
+
+$ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent $ScriptDir
