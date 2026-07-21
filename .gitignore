@@ -43,5 +43,6 @@ sensor_logger/*.html
 sensor_logger/*.csv
 sensor_logger/*.jpg
 sensor_logger/*.png
+sensor_logger/*.dll
 raspi_tools/camera_stream/assets/*.stl
 raspi_tools/camera_stream/assets/*.stp

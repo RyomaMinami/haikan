@@ -30,6 +30,18 @@ GitHubからcloneした後、リポジトリ直下で実行します。
 python -m pip install -r requirements_pc.txt
 ```
 
+LK-G85A / DL50 Hi計測・点群解析も同じPCで使う場合は、追加で次を実行します。
+
+```powershell
+python -m pip install -r requirements_sensor_logger.txt
+```
+
+LK-G関連の詳しい説明は次を参照してください。
+
+```text
+sensor_logger/README_LK_G_MEASUREMENT.md
+```
+
 通信確認:
 
 ```powershell
