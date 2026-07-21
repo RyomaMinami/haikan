@@ -112,6 +112,8 @@ def summarize_state(state: dict) -> str:
     valve_on = []
     if isinstance(valves, dict):
         for name, value in valves.items():
+            if name in {"last_raw", "updated_s", "mask"}:
+                continue
             if value:
                 valve_on.append(name)
 

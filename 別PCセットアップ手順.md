@@ -115,6 +115,12 @@ cd haikan\raspi_tools
 .\stop_robot_operation.ps1
 ```
 
+リポジトリ直下 `haikan` にいる場合は、次のように実行します。
+
+```powershell
+.\raspi_tools\stop_robot_operation.ps1
+```
+
 PC側のコントローラ送信プログラムも止めたい場合:
 
 ```powershell
