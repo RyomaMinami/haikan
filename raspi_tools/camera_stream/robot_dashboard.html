@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pipe Robot Monitor</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #101113;
+      --panel: #191b1f;
+      --panel2: #202329;
+      --line: #30343a;
+      --text: #f3f5f7;
+      --muted: #9aa3ad;
+      --accent: #4fb4ff;
+      --warn: #ffb84f;
+      --ok: #72e59a;
+      --bad: #ff6f79;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .grid {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: 50vh 50vh;
+    }
+    .cams {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+    .cam, .panel {
+      min-width: 0;
+      min-height: 0;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .cam {
+      display: grid;
+      grid-template-rows: 26px minmax(0, 1fr);
+    }
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 26px;
+      padding: 0 8px;
+      font-size: 12px;
+      color: #dbe3ea;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .title a { color: var(--accent); text-decoration: none; }
+    .cam img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+    .status {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 0.85fr 0.82fr 1.0fr;
+      gap: 8px;
+      padding: 8px;
+    }
+    .panel {
+      display: grid;
+      grid-template-rows: 30px minmax(0, 1fr);
+    }
+    .panel h2 {
+      margin: 0;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-weight: 650;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel2);
+    }
+    .scene-wrap {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
+        radial-gradient(circle at 50% 52%, #25303a 0, #111318 62%);
+      background-size: 34px 34px, 34px 34px, auto;
+    }
+    #robotScene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .hud {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      pointer-events: none;
+    }
+    .hud span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .kv {
+      padding: 8px 10px;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 4px;
+    }
+    .key { color: var(--muted); }
+    .value { font-variant-numeric: tabular-nums; text-align: right; }
+    .raw {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      word-break: break-all;
+      padding-top: 4px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: end;
+      max-width: 300px;
+    }
+    .chip {
+      min-width: 24px;
+      padding: 2px 6px;
+      border: 1px solid #3a424c;
+      border-radius: 4px;
+      color: #c7d0da;
+      background: #15181c;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .chip.on {
+      border-color: #8ecbff;
+      color: #061016;
+      background: var(--ok);
+    }
+    .pill {
+      display: inline-block;
+      min-width: 44px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #3a424c;
+      color: var(--muted);
+      background: #14171b;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .pill.on {
+      color: #071017;
+      border-color: #9cf7b9;
+      background: var(--ok);
+      font-weight: 700;
+    }
+    .age-ok { color: var(--ok); }
+    .age-warn { color: var(--warn); }
+    .age-bad { color: var(--bad); }
+    @media (max-width: 1250px) {
+      body { overflow: auto; }
+      .grid { height: auto; grid-template-rows: auto auto; }
+      .cams { grid-template-columns: 1fr; height: auto; }
+      .cam { height: 30vh; min-height: 220px; }
+      .status { grid-template-columns: 1fr; }
+      .panel { min-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <section class="cams">
+      <div class="cam">
+        <div class="title"><span>Camera 1 / global_left</span><a class="cam-link" data-port="8080" href="#" target="_blank">open</a></div>
+        <img class="cam-stream" data-port="8080" alt="camera 1">
+      </div>
+      <div class="cam">
+        <div class="title"><span>Camera 2 / usb_16mp</span><a class="cam-link" data-port="8081" href="#" target="_blank">open</a></div>
+        <img class="cam-stream" data-port="8081" alt="camera 2">
+      </div>
+      <div class="cam">
+        <div class="title"><span>Camera 3 / global_right</span><a class="cam-link" data-port="8082" href="#" target="_blank">open</a></div>
+        <img class="cam-stream" data-port="8082" alt="camera 3">
+      </div>
+    </section>
+    <section class="status">
+      <div class="panel">
+        <h2>3D姿勢</h2>
+        <div class="scene-wrap">
+          <canvas id="robotScene"></canvas>
+          <div class="hud">
+            <span id="poseLabel">roll 0.0 deg / pitch 0.0 deg</span>
+            <span id="modelLabel">model loading</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>IMU / センサ</h2>
+        <div class="kv" id="imuPanel"></div>
+      </div>
+      <div class="panel">
+        <h2>本体加速度センサ</h2>
+        <div class="kv" id="bodyAccelPanel"></div>
+      </div>
+      <div class="panel">
+        <h2>モータ / 電流</h2>
+        <div class="kv" id="motorPanel"></div>
+      </div>
+      <div class="panel">
+        <h2>電磁弁</h2>
+        <div class="kv" id="valvePanel"></div>
+      </div>
+      <div class="panel">
+        <h2>コントローラ入力</h2>
+        <div class="kv" id="controllerPanel"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="./vendor/three.min.js"></script>
+  <script>
+    const poseLabel = document.getElementById("poseLabel");
+    const modelLabel = document.getElementById("modelLabel");
+    const imuPanel = document.getElementById("imuPanel");
+    const bodyAccelPanel = document.getElementById("bodyAccelPanel");
+    const motorPanel = document.getElementById("motorPanel");
+    const valvePanel = document.getElementById("valvePanel");
+    const controllerPanel = document.getElementById("controllerPanel");
+    const canvas = document.getElementById("robotScene");
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 5000);
+    camera.position.set(0, -520, 260);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const root = new THREE.Group();
+    const modelGroup = new THREE.Group();
+    const mechanismGroup = new THREE.Group();
+    root.add(modelGroup);
+    root.add(mechanismGroup);
+    scene.add(root);
+
+    scene.add(new THREE.HemisphereLight(0xd8f1ff, 0x1a1f25, 1.35));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    keyLight.position.set(-180, -260, 420);
+    scene.add(keyLight);
+    const fillLight = new THREE.DirectionalLight(0x9acbff, 0.55);
+    fillLight.position.set(220, 160, 180);
+    scene.add(fillLight);
+
+    const grid = new THREE.GridHelper(520, 13, 0x566170, 0x2c333b);
+    grid.rotation.x = Math.PI / 2;
+    grid.position.z = -70;
+    scene.add(grid);
+
+    const materialBody = new THREE.MeshStandardMaterial({
+      color: 0x7ea1b8,
+      metalness: 0.35,
+      roughness: 0.55,
+      side: THREE.DoubleSide
+    });
+    const materialAccent = new THREE.MeshStandardMaterial({ color: 0xffd35c, roughness: 0.35 });
+    const materialWheel = new THREE.MeshStandardMaterial({ color: 0x1d2228, roughness: 0.7 });
+    const materialAxis = new THREE.MeshBasicMaterial({ color: 0x72e59a });
+    const materialLaser = new THREE.MeshBasicMaterial({ color: 0xff4358, transparent: true, opacity: 0.75 });
+
+    let screwMesh;
+    let sliderMesh;
+    let leftWheel;
+    let rightWheel;
+    let stepPhase = 0;
+    let sliderPhase = 0;
+    let currentState = {};
+    let accelBase = null;
+    let smoothRoll = 0;
+    let smoothPitch = 0;
+
+    function initCameraUrls() {
+      const host = window.location.hostname || "192.168.0.218";
+      document.querySelectorAll(".cam-stream, .cam-link").forEach((el) => {
+        const port = el.dataset.port;
+        const url = `http://${host}:${port}/?action=stream`;
+        if (el.tagName === "IMG") {
+          el.dataset.baseUrl = url;
+          el.src = `${url}&_=${Date.now()}`;
+          el.onerror = () => {
+            setTimeout(() => {
+              el.src = `${el.dataset.baseUrl}&_=${Date.now()}`;
+            }, 1500);
+          };
+        } else {
+          el.href = url;
+        }
+      });
+    }
+
+    function refreshCameraStreams() {
+      document.querySelectorAll(".cam-stream").forEach((el) => {
+        if (!el.dataset.baseUrl) return;
+        el.src = `${el.dataset.baseUrl}&_=${Date.now()}`;
+      });
+    }
+
+    function fmt(v, digits = 2, unit = "") {
+      if (v === null || v === undefined || Number.isNaN(Number(v))) return "-";
+      return `${Number(v).toFixed(digits)}${unit}`;
+    }
+
+    function ageValue(updatedS) {
+      if (!updatedS) return { text: "-", cls: "age-warn" };
+      const age = Date.now() / 1000 - updatedS;
+      if (age < 2) return { text: fmt(age, 1, " s ago"), cls: "age-ok" };
+      if (age < 8) return { text: fmt(age, 1, " s ago"), cls: "age-warn" };
+      return { text: fmt(age, 1, " s ago"), cls: "age-bad" };
+    }
+
+    function row(key, value, cls = "") {
+      return `<div class="row"><span class="key">${key}</span><span class="value ${cls}">${value}</span></div>`;
+    }
+
+    function chips(values, onSet = new Set()) {
+      if (!values || values.length === 0) return "-";
+      return `<div class="chips">${values.map((v, i) => {
+        const value = Array.isArray(v) ? v.join("/") : (Number.isFinite(Number(v)) ? Number(v).toFixed(2) : v);
+        return `<span class="chip ${onSet.has(i) ? "on" : ""}">${i}:${value}</span>`;
+      }).join("")}</div>`;
+    }
+
+    function valveStatus(value) {
+      const on = Number(value) === 1 || value === true || value === "1";
+      return `<span class="pill ${on ? "on" : ""}">${on ? "ON" : "OFF"}</span>`;
+    }
+
+    function accelToRelativePose(imu) {
+      const ax = Number(imu.ax_g);
+      const ay = Number(imu.ay_g);
+      const az = Number(imu.az_g);
+      if (![ax, ay, az].every(Number.isFinite)) {
+        return { roll: smoothRoll, pitch: smoothPitch };
+      }
+      if (!accelBase) accelBase = { ax, ay, az };
+      const dax = ax - accelBase.ax;
+      const day = ay - accelBase.ay;
+      const daz = az - accelBase.az;
+      const roll = THREE.MathUtils.clamp(day * 70, -35, 35);
+      const pitch = THREE.MathUtils.clamp(-dax * 70 + daz * 15, -35, 35);
+      smoothRoll = smoothRoll * 0.82 + roll * 0.18;
+      smoothPitch = smoothPitch * 0.82 + pitch * 0.18;
+      return { roll: smoothRoll, pitch: smoothPitch };
+    }
+
+    function parseBinaryStl(buffer) {
+      const view = new DataView(buffer);
+      const triCount = view.getUint32(80, true);
+      const expected = 84 + triCount * 50;
+      if (expected !== buffer.byteLength) return null;
+      const positions = new Float32Array(triCount * 9);
+      const normals = new Float32Array(triCount * 9);
+      let offset = 84;
+      let out = 0;
+      for (let i = 0; i < triCount; i++) {
+        const nx = view.getFloat32(offset, true);
+        const ny = view.getFloat32(offset + 4, true);
+        const nz = view.getFloat32(offset + 8, true);
+        offset += 12;
+        for (let v = 0; v < 3; v++) {
+          positions[out] = view.getFloat32(offset, true);
+          normals[out++] = nx;
+          positions[out] = view.getFloat32(offset + 4, true);
+          normals[out++] = ny;
+          positions[out] = view.getFloat32(offset + 8, true);
+          normals[out++] = nz;
+          offset += 12;
+        }
+        offset += 2;
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+      return geometry;
+    }
+
+    function parseAsciiStl(text) {
+      const values = [];
+      const normals = [];
+      const lines = text.split(/\r?\n/);
+      let normal = [0, 0, 1];
+      for (const line of lines) {
+        const t = line.trim();
+        if (t.startsWith("facet normal")) {
+          const p = t.split(/\s+/).slice(2).map(Number);
+          if (p.length === 3 && p.every(Number.isFinite)) normal = p;
+        } else if (t.startsWith("vertex")) {
+          const p = t.split(/\s+/).slice(1).map(Number);
+          if (p.length === 3 && p.every(Number.isFinite)) {
+            values.push(...p);
+            normals.push(...normal);
+          }
+        }
+      }
+      if (values.length < 9) return null;
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.Float32BufferAttribute(values, 3));
+      geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+      return geometry;
+    }
+
+    function fitGeometry(geometry) {
+      geometry.computeBoundingBox();
+      const box = geometry.boundingBox;
+      const center = new THREE.Vector3();
+      const size = new THREE.Vector3();
+      box.getCenter(center);
+      box.getSize(size);
+      geometry.translate(-center.x, -center.y, -center.z);
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const scale = 310 / maxDim;
+      modelGroup.scale.setScalar(scale);
+      modelGroup.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
+    }
+
+    async function loadRobotModel() {
+      const useCad = new URLSearchParams(window.location.search).get("cad") === "1";
+      if (!useCad) {
+        modelLabel.textContent = "軽量モデル";
+        buildFallbackBody();
+        buildMechanismOverlay();
+        return;
+      }
+      try {
+        const res = await fetch("./assets/robot_model.stl", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const buffer = await res.arrayBuffer();
+        let geometry = parseBinaryStl(buffer);
+        if (!geometry) {
+          geometry = parseAsciiStl(new TextDecoder().decode(buffer));
+        }
+        if (!geometry) throw new Error("STL parse failed");
+        fitGeometry(geometry);
+        const mesh = new THREE.Mesh(geometry, materialBody);
+        modelGroup.add(mesh);
+        modelLabel.textContent = "CADモデル";
+      } catch (err) {
+        modelLabel.textContent = "簡易モデル";
+        buildFallbackBody();
+      }
+      buildMechanismOverlay();
+    }
+
+    function buildFallbackBody() {
+      const body = new THREE.Mesh(new THREE.BoxGeometry(240, 92, 54), materialBody);
+      modelGroup.add(body);
+      leftWheel = wheelMesh(-92);
+      rightWheel = wheelMesh(92);
+      modelGroup.add(leftWheel, rightWheel);
+      const head = new THREE.Mesh(new THREE.BoxGeometry(36, 30, 28), materialAccent);
+      head.position.set(130, 0, 4);
+      modelGroup.add(head);
+    }
+
+    function wheelMesh(x) {
+      const wheel = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 18, 32), materialWheel);
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(x, 48, -32);
+      return wheel;
+    }
+
+    function buildMechanismOverlay() {
+      const axisLen = 245;
+      const axis = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, axisLen, 16), materialAxis);
+      axis.rotation.z = Math.PI / 2;
+      axis.position.set(0, -76, 48);
+      mechanismGroup.add(axis);
+
+      screwMesh = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 210, 18), materialAccent);
+      screwMesh.rotation.z = Math.PI / 2;
+      screwMesh.position.set(0, -98, 70);
+      mechanismGroup.add(screwMesh);
+
+      sliderMesh = new THREE.Mesh(new THREE.BoxGeometry(38, 26, 32), materialAccent);
+      sliderMesh.position.set(0, -98, 70);
+      mechanismGroup.add(sliderMesh);
+
+      const laser = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 10, 120, 24), materialLaser);
+      laser.rotation.x = Math.PI / 2;
+      laser.position.set(0, -152, 70);
+      mechanismGroup.add(laser);
+    }
+
+    function resize3d() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const width = Math.max(1, Math.floor(rect.width));
+      const height = Math.max(1, Math.floor(rect.height));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    function updatePanels(s) {
+      currentState = s || {};
+      const imu = s.imu || {};
+      const bodyAccel = s.body_accel || {};
+      const sensors = s.sensors || {};
+      const motor = s.motor || {};
+      const valves = s.valves || {};
+      const controller = s.controller || {};
+      const pose = accelToRelativePose(imu);
+
+      root.rotation.x = THREE.MathUtils.degToRad(pose.pitch);
+      root.rotation.z = THREE.MathUtils.degToRad(-pose.roll);
+      poseLabel.textContent = `roll ${fmt(pose.roll, 1, " deg")} / pitch ${fmt(pose.pitch, 1, " deg")}`;
+
+      const imuAge = ageValue(imu.updated_s);
+      const motorAge = ageValue(motor.updated_s);
+      const valveAge = ageValue(valves.updated_s);
+      const controllerAge = ageValue(controller.updated_s);
+
+      imuPanel.innerHTML = [
+        row("更新", imuAge.text, imuAge.cls),
+        row("ax", fmt(imu.ax_g, 3, " g")),
+        row("ay", fmt(imu.ay_g, 3, " g")),
+        row("az", fmt(imu.az_g, 3, " g")),
+        row("表示roll", fmt(pose.roll, 1, " deg")),
+        row("表示pitch", fmt(pose.pitch, 1, " deg")),
+        row("距離", fmt(sensors.distance_mm, 0, " mm")),
+        row("圧力", fmt(sensors.pressure_mpa, 3, " MPa")),
+        row("KI1233-AA rpm", fmt(sensors.grinder_rpm, 0, " rpm")),
+        row("KI1233-AA Hz", fmt(sensors.ki1233_pulse_hz, 1, " Hz")),
+        row("KI1233-AA 信号", sensors.ki1233_signal ?? sensors.photo_gate ?? "-"),
+        row("rpm算出", sensors.grinder_rpm_source || "-"),
+        `<div class="raw">${imu.last_raw || ""}</div>`
+      ].join("");
+
+      const bodyAge = ageValue(bodyAccel.updated_s);
+      const bodyRaw = bodyAccel.raw_gpio || {};
+      const bodyVolt = bodyAccel.raw_voltage_v || {};
+      const bodyOffset = bodyAccel.mount_offset_mm || {};
+      const bodyPins = bodyAccel.pins || {};
+      bodyAccelPanel.innerHTML = [
+        row("更新", bodyAge.text, bodyAge.cls),
+        row("GPIO", `x=${bodyPins.x ?? "-"}, y=${bodyPins.y ?? "-"}, z=${bodyPins.z ?? "-"}`),
+        row("生GPIO", `x=${bodyRaw.x ?? "-"}, y=${bodyRaw.y ?? "-"}, z=${bodyRaw.z ?? "-"}`),
+        row("生電圧", `x=${fmt(bodyVolt.x, 3, " V")}, y=${fmt(bodyVolt.y, 3, " V")}, z=${fmt(bodyVolt.z, 3, " V")}`),
+        row("加速度", `x=${fmt(bodyAccel.ax_g, 3, " g")}, y=${fmt(bodyAccel.ay_g, 3, " g")}, z=${fmt(bodyAccel.az_g, 3, " g")}`),
+        row("計算roll", fmt(bodyAccel.roll_deg, 1, " deg")),
+        row("計算pitch", fmt(bodyAccel.pitch_deg, 1, " deg")),
+        row("設置位置", `x=${fmt(bodyOffset.x, 1, " mm")}, y=${fmt(bodyOffset.y, 3, " mm")}, z=${fmt(bodyOffset.z, 2, " mm")}`),
+        row("状態", bodyAccel.status || "-"),
+        `<div class="raw">${bodyAccel.note || ""}</div>`
+      ].join("");
+
+      motorPanel.innerHTML = [
+        row("更新", motorAge.text, motorAge.cls),
+        row("状態", motor.state || "-"),
+        row("duty", motor.duty ?? "-"),
+        row("enabled", motor.enabled ?? "-"),
+        row("ESCON電流", fmt(motor.current_a, 3, " A")),
+        row("encoder rpm", fmt(motor.encoder_rpm, 1, " rpm")),
+        row("step_hz", fmt(motor.step_hz, 0, " Hz")),
+        row("step A", `${fmt(motor.step_sense_a_v, 3, " V")} / ${fmt(motor.step_sense_a_a, 3, " A")}`),
+        row("step B", `${fmt(motor.step_sense_b_v, 3, " V")} / ${fmt(motor.step_sense_b_a, 3, " A")}`),
+        row("step max", fmt(motor.step_current_abs_a, 3, " A")),
+        `<div class="raw">${motor.last_raw || ""}</div>`
+      ].join("");
+
+      valvePanel.innerHTML = [
+        row("更新", valveAge.text, valveAge.cls),
+        row("移動体 押し出し", valveStatus(valves.move_push)),
+        row("移動体 引き込み", valveStatus(valves.move_pull)),
+        row("穿孔 押し出し", valveStatus(valves.drill_push)),
+        row("穿孔 引き込み", valveStatus(valves.drill_pull)),
+        row("グラインダ空圧", valveStatus(valves.grinder_air)),
+        row("mask", valves.mask ?? "-"),
+        `<div class="raw">${valves.last_raw || ""}</div>`
+      ].join("");
+
+      const pressed = new Set(controller.pressed_buttons || []);
+      controllerPanel.innerHTML = [
+        row("更新", controllerAge.text, controllerAge.cls),
+        row("送信元", controller.source_ip || "-"),
+        row("名前", controller.name || "-"),
+        row("seq", controller.seq ?? "-"),
+        row("押下ボタン", (controller.pressed_buttons || []).join(", ") || "-"),
+        row("軸", chips(controller.axes || [])),
+        row("ボタン", chips(controller.buttons || [], pressed)),
+        row("十字キー", chips(controller.hats || [])),
+        `<div class="raw">${controller.last_raw || ""}</div>`
+      ].join("");
+    }
+
+    function animate3d() {
+      requestAnimationFrame(animate3d);
+      const motor = currentState.motor || {};
+      const controller = currentState.controller || {};
+      const now = performance.now() * 0.001;
+      const rpm = Number(motor.encoder_rpm || 0);
+      const stepHz = Math.abs(Number(motor.step_hz || 0));
+
+      if (screwMesh) {
+        stepPhase += Math.min(stepHz, 2000) * 0.00012;
+        screwMesh.rotation.x = stepPhase * Math.PI * 2;
+      }
+      if (sliderMesh) {
+        if (stepHz > 2) sliderPhase += Math.min(stepHz, 1800) * 0.00005;
+        const axis = Array.isArray(controller.axes) ? Number(controller.axes[1] || 0) : 0;
+        const commandOffset = Number.isFinite(axis) && Math.abs(axis) > 0.05 ? axis * 60 : Math.sin(sliderPhase) * 35;
+        sliderMesh.position.x = THREE.MathUtils.clamp(commandOffset, -84, 84);
+      }
+      if (leftWheel && rightWheel) {
+        const wheelPhase = now * rpm * 0.11;
+        leftWheel.rotation.x = wheelPhase;
+        rightWheel.rotation.x = wheelPhase;
+      }
+      renderer.render(scene, camera);
+    }
+
+    async function tick() {
+      try {
+        const res = await fetch("/api/state", { cache: "no-store" });
+        if (res.ok) updatePanels(await res.json());
+      } catch (err) {
+        imuPanel.innerHTML = row("API", "not connected", "age-warn");
+      }
+    }
+
+    initCameraUrls();
+    resize3d();
+    loadRobotModel();
+    animate3d();
+    tick();
+    addEventListener("resize", resize3d);
+    setInterval(tick, 250);
+    setInterval(refreshCameraStreams, 45000);
+  </script>
+</body>
+</html>

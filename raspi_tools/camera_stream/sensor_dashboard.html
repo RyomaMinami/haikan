@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pipe Robot Sensors</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0e1116;
+      --panel: #181d24;
+      --line: #2c3440;
+      --text: #edf2f7;
+      --muted: #9ca6b4;
+      --good: #65d58a;
+      --warn: #ffd166;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #121720;
+    }
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .time { color: var(--muted); font-size: 14px; }
+    main {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(260px, 1fr));
+      gap: 12px;
+      padding: 12px;
+    }
+    .panel {
+      min-height: 160px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel h2 {
+      margin: 0;
+      padding: 12px 14px;
+      font-size: 17px;
+      border-bottom: 1px solid var(--line);
+      background: #1d232c;
+    }
+    .kv { padding: 8px 14px 12px; }
+    .row {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.8fr) minmax(120px, 1.2fr);
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 15px;
+    }
+    .row:last-child { border-bottom: 0; }
+    .key { color: var(--muted); }
+    .value { text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .raw {
+      margin-top: 8px;
+      padding: 8px;
+      max-height: 92px;
+      overflow: auto;
+      color: var(--muted);
+      background: #11161d;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    @media (max-width: 1100px) {
+      main { grid-template-columns: repeat(2, minmax(260px, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      main { grid-template-columns: 1fr; }
+      header { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>配管ロボット センサ表示</h1>
+    <div class="time" id="status">connecting...</div>
+  </header>
+  <main>
+    <section class="panel"><h2>本体加速度センサ</h2><div class="kv" id="bodyAccel"></div></section>
+    <section class="panel"><h2>IMU / 外部センサ</h2><div class="kv" id="imu"></div></section>
+    <section class="panel"><h2>モータ / 電流</h2><div class="kv" id="motor"></div></section>
+    <section class="panel"><h2>電磁弁</h2><div class="kv" id="valves"></div></section>
+    <section class="panel"><h2>コントローラ</h2><div class="kv" id="controller"></div></section>
+    <section class="panel"><h2>通信ポート</h2><div class="kv" id="ports"></div></section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function fmt(value, digits = 2, unit = "") {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return "-";
+      return `${n.toFixed(digits)}${unit}`;
+    }
+
+    function age(updatedS) {
+      const n = Number(updatedS);
+      if (!Number.isFinite(n)) return { text: "-", cls: "warn" };
+      const sec = Date.now() / 1000 - n;
+      return { text: `${sec.toFixed(1)} s ago`, cls: sec < 2 ? "good" : "warn" };
+    }
+
+    function row(key, value, cls = "") {
+      return `<div class="row"><div class="key">${key}</div><div class="value ${cls}">${value ?? "-"}</div></div>`;
+    }
+
+    function raw(text) {
+      return text ? `<div class="raw">${String(text)}</div>` : "";
+    }
+
+    function valve(value) {
+      return Number(value) ? '<span class="good">ON</span>' : "off";
+    }
+
+    function update(s) {
+      $("status").textContent = `${s.server_time || new Date().toLocaleString()} / API OK`;
+      const b = s.body_accel || {};
+      const bv = b.raw_voltage_v || {};
+      const bp = b.pins || {};
+      const bo = b.mount_offset_mm || {};
+      const ba = age(b.updated_s);
+      $("bodyAccel").innerHTML = [
+        row("更新", ba.text, ba.cls),
+        row("ピン", `x=${bp.x ?? "-"}, y=${bp.y ?? "-"}, z=${bp.z ?? "-"}`),
+        row("電圧 X", fmt(bv.x, 4, " V")),
+        row("電圧 Y", fmt(bv.y, 4, " V")),
+        row("電圧 Z", fmt(bv.z, 4, " V")),
+        row("加速度 X", fmt(b.ax_g, 4, " g")),
+        row("加速度 Y", fmt(b.ay_g, 4, " g")),
+        row("加速度 Z", fmt(b.az_g, 4, " g")),
+        row("roll", fmt(b.roll_deg, 1, " deg")),
+        row("pitch", fmt(b.pitch_deg, 1, " deg")),
+        row("設置位置", `x=${fmt(bo.x, 1, " mm")}, y=${fmt(bo.y, 3, " mm")}, z=${fmt(bo.z, 2, " mm")}`),
+        row("状態", b.status || "-"),
+        raw(b.note)
+      ].join("");
+
+      const imu = s.imu || {};
+      const sensors = s.sensors || {};
+      const ia = age(imu.updated_s);
+      $("imu").innerHTML = [
+        row("更新", ia.text, ia.cls),
+        row("ax", fmt(imu.ax_g, 3, " g")),
+        row("ay", fmt(imu.ay_g, 3, " g")),
+        row("az", fmt(imu.az_g, 3, " g")),
+        row("roll", fmt(imu.roll_deg, 1, " deg")),
+        row("pitch", fmt(imu.pitch_deg, 1, " deg")),
+        row("距離", fmt(sensors.distance_mm, 0, " mm")),
+        row("圧力", fmt(sensors.pressure_mpa, 3, " MPa")),
+        row("KI1233 rpm", fmt(sensors.grinder_rpm, 0, " rpm")),
+        row("KI1233 Hz", fmt(sensors.ki1233_pulse_hz, 1, " Hz")),
+        raw(imu.last_raw)
+      ].join("");
+
+      const m = s.motor || {};
+      const ma = age(m.updated_s);
+      $("motor").innerHTML = [
+        row("更新", ma.text, ma.cls),
+        row("状態", m.state || "-"),
+        row("duty", m.duty ?? "-"),
+        row("enabled", m.enabled ?? "-"),
+        row("ESCON電流", fmt(m.current_a, 4, " A")),
+        row("ESCON電流V", fmt(m.current_v, 4, " V")),
+        row("速度V", fmt(m.speed_v, 4, " V")),
+        row("rpm", fmt(m.rpm, 1, " rpm")),
+        row("encoder rpm", fmt(m.encoder_rpm, 1, " rpm")),
+        row("step_hz", fmt(m.step_hz, 0, " Hz")),
+        row("step A", `${fmt(m.step_sense_a_v, 3, " V")} / ${fmt(m.step_sense_a_a, 3, " A")}`),
+        row("step B", `${fmt(m.step_sense_b_v, 3, " V")} / ${fmt(m.step_sense_b_a, 3, " A")}`),
+        raw(m.last_raw)
+      ].join("");
+
+      const v = s.valves || {};
+      const va = age(v.updated_s);
+      $("valves").innerHTML = [
+        row("更新", va.text, va.cls),
+        row("移動体 押し出し", valve(v.move_push)),
+        row("移動体 引き込み", valve(v.move_pull)),
+        row("穿孔 押し出し", valve(v.drill_push)),
+        row("穿孔 引き込み", valve(v.drill_pull)),
+        row("グラインダ空気", valve(v.grinder_air)),
+        row("mask", v.mask ?? "-"),
+        raw(v.last_raw)
+      ].join("");
+
+      const c = s.controller || {};
+      const ca = age(c.updated_s);
+      $("controller").innerHTML = [
+        row("更新", ca.text, ca.cls),
+        row("送信元", c.source_ip || "-"),
+        row("名前", c.name || "-"),
+        row("seq", c.seq ?? "-"),
+        row("押下ボタン", (c.pressed_buttons || []).join(", ") || "-"),
+        row("軸", (c.axes || []).map((x) => fmt(x, 2)).join(", ") || "-"),
+        row("十字キー", (c.hats || []).join(", ") || "-"),
+        raw(c.last_raw)
+      ].join("");
+
+      const ports = s.ports || {};
+      $("ports").innerHTML = Object.entries(ports).map(([name, p]) => {
+        const pa = age(p.updated_s);
+        return row(name, `${p.status || "updated"} / ${pa.text}`, pa.cls);
+      }).join("");
+    }
+
+    async function tick() {
+      try {
+        const res = await fetch("/api/state", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        update(await res.json());
+      } catch (err) {
+        $("status").textContent = `API not connected: ${err}`;
+      }
+    }
+
+    tick();
+    setInterval(tick, 250);
+  </script>
+</body>
+</html>

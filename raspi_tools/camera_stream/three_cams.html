@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pipe Robot Cameras</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111;
+      color: #f2f2f2;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111;
+    }
+    header {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid #333;
+      background: #181818;
+    }
+    h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+    .links {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .links a {
+      color: #9fd1ff;
+      text-decoration: none;
+    }
+    main {
+      height: calc(100vh - 44px);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+    }
+    .cam {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 28px minmax(0, 1fr);
+      border: 1px solid #333;
+      background: #050505;
+    }
+    .cam-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 0 10px;
+      font-size: 13px;
+      color: #ddd;
+      background: #202020;
+      border-bottom: 1px solid #333;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .cam-title span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cam-title a {
+      color: #9fd1ff;
+      text-decoration: none;
+      flex: 0 0 auto;
+    }
+    .cam img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+    @media (max-width: 1100px) {
+      main {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .cam {
+        height: 33vh;
+        min-height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pipe Robot Cameras</h1>
+    <div class="links">
+      <a href="http://192.168.50.154:8080/?action=stream" target="_blank">Cam 1</a>
+      <a href="http://192.168.50.154:8081/?action=stream" target="_blank">Cam 2</a>
+      <a href="http://192.168.50.154:8082/?action=stream" target="_blank">Cam 3</a>
+    </div>
+  </header>
+  <main>
+    <section class="cam">
+      <div class="cam-title">
+        <span>global_left : /dev/video0</span>
+        <a href="http://192.168.50.154:8080/?action=stream" target="_blank">open</a>
+      </div>
+      <img src="http://192.168.50.154:8080/?action=stream" alt="global_left">
+    </section>
+    <section class="cam">
+      <div class="cam-title">
+        <span>usb_16mp : /dev/video2</span>
+        <a href="http://192.168.50.154:8081/?action=stream" target="_blank">open</a>
+      </div>
+      <img src="http://192.168.50.154:8081/?action=stream" alt="usb_16mp">
+    </section>
+    <section class="cam">
+      <div class="cam-title">
+        <span>global_right : /dev/video4</span>
+        <a href="http://192.168.50.154:8082/?action=stream" target="_blank">open</a>
+      </div>
+      <img src="http://192.168.50.154:8082/?action=stream" alt="global_right">
+    </section>
+  </main>
+</body>
+</html>
