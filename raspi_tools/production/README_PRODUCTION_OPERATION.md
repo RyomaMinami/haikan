@@ -47,21 +47,25 @@ sudo loginctl enable-linger haikan
 
 コントローラはPCに接続しているため、PC側で送信プログラムが必要。
 
-有線LANの本番IPではPiは `192.168.0.218`。PC側は次のスクリプトを起動する。
+有線LANの本番IPではPiは `192.168.0.218`。PC側はリポジトリ直下で次のスクリプトを起動する。
 
 ```powershell
-cd C:\Users\minam\Documents\Codex\2026-05-29\windows-pc-keyence-lk-g85a-lk\raspi_tools
-.\start_pc_valve_controller.ps1
+.\raspi_tools\start_pc_experiment_launcher.ps1 -PiHost 192.168.0.218
 ```
 
 現在の割当:
 
-- 左右軸: ステッピングモータ
-- 前後軸: DCモータ
-- ボタン0/1: ドリル押し出し/引き込み
-- ボタン9/10/11付近: グラインダ空圧ON/OFFは実機確認済みの割当に注意
+- 軸0: ステッピングモータ
+- 軸1: DCモータの正転/逆転
+- 軸3: DCモータ通常速度
+- ハット0上下: DCモータ専用最高速の正転/逆転
+- ボタン7/6: ドリル押し出し/引き込み
+- ボタン9/8: 走行輪押し付け/引き込み
+- ボタン10/11: グラインダ空圧ON/OFF
 
-PCも自動化したい場合は、Windowsのスタートアップまたはタスクスケジューラに `start_pc_valve_controller.ps1` を登録する。
+詳細は [`../README_ROBOT_CONTROL_AND_VISUALIZATION.md`](../README_ROBOT_CONTROL_AND_VISUALIZATION.md) を参照する。
+
+PCも自動化したい場合は、Windowsのスタートアップまたはタスクスケジューラに起動スクリプトを登録する。
 
 2026-07-20時点では、Windowsのスタートアップフォルダに次のショートカットを作成済み。
 

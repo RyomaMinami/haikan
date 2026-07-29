@@ -667,7 +667,7 @@ static void sendTelemetry(bool force = false) {
   snprintf(
       line,
       sizeof(line),
-      "TEL,ms=%lu,motor_id=1,duty=%d,enabled=%d,rpm=%.3f,current_a=%.4f,"
+      "TEL,ms=%lu,motor_id=1,duty=%d,pwm_out=%d,enabled=%d,rpm=%.3f,current_a=%.4f,"
       "current_v=%.4f,speed_v=%.4f,encoder_rpm=%.3f,step_hz=%d,estop=%d,"
       "state=%s,mode=%s,expand_state=%s,expand_pass=%u,expand_passes=%u,"
       "expand_est_step=%ld,valve_mask=%u,valve_move_push=%d,"
@@ -680,6 +680,7 @@ static void sendTelemetry(bool force = false) {
       "step_sense_a_a=%.4f,step_sense_b_a=%.4f,step_current_abs_a=%.4f\n",
       static_cast<unsigned long>(now),
       motor_get_duty(),
+      motor_get_pwm_duty(),
       motor_is_enabled() ? 1 : 0,
       motor_get_rpm(),
       motor_get_current_a(),

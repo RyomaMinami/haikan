@@ -21,13 +21,25 @@ constexpr int ESCON_PWM    = 21;
 
 // ===== LEDC(PWM) =====
 constexpr int PWM_CH   = 0;
-constexpr int PWM_BITS = 8;
-// constexpr int PWM_FREQ = 490;    // Hz
-// constexpr int PWM_FREQ = 200;    // Hz → 動作せず
-// constexpr int PWM_FREQ = 1000;   // Hz → 動作・速度固定
-constexpr int PWM_FREQ = 20000;  // Hz → 動作・速度固定（基準に戻す）
+constexpr int PWM_BITS = 11;
+// The robot PCB has an 820 ohm + 1 uF low-pass filter between GPIO21 and
+// ESCON Analog Input 1.  Drive it as a PWM DAC, not as ESCON's direct PWM
+// set-value input.  This is the configuration used in the earlier tests:
+// 0..100% PWM becomes approximately 0..3.3 V at Analog Input 1.
+constexpr int PWM_FREQ = 20000;
 
 constexpr int PWM_MAX = (1 << PWM_BITS) - 1;
+constexpr int MOTOR_COMMAND_MAX = 255;
+constexpr int ESCON_PWM_MIN = 0;
+// Actual-machine calibration (2026-07-25):
+// - Keep the well-controlled low/mid-speed range through command 200.
+// - Restore the earlier top speed (about 20.5% physical PWM) only in the
+//   remaining upper throttle travel.
+constexpr int ESCON_PWM_KNEE_COMMAND = 200;
+constexpr int ESCON_PWM_KNEE = 253;  // 12.36% of 2047
+constexpr int ESCON_PWM_HIGH_COMMAND = 250;
+constexpr int ESCON_PWM_HIGH = 318;  // stay below saturation until near full
+constexpr int ESCON_PWM_MAX = 420;   // 20.52% of 2047
 
 // Continuous step clock for the SLA7078MPRT.
 // ESCON PWM uses PWM_CH=0, so keep the step clock on another LEDC channel.

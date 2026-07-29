@@ -1,0 +1,11 @@
+{
+  "autodeskProduct": "Fusion360",
+  "type": "script",
+  "author": "Haikan project",
+  "description": {
+    "": "Export Fusion joints, axes, origins, limits, and occurrence transforms for the Haikan PC viewer."
+  },
+  "version": "1.0.0",
+  "runOnStartup": false,
+  "supportedOS": "windows|mac"
+}

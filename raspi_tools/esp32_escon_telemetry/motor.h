@@ -8,5 +8,6 @@ float motor_get_current_a();
 float motor_get_current_v();
 float motor_get_speed_v();
 int motor_get_duty();
+int motor_get_pwm_duty();
 bool motor_is_enabled();
 void keyboard_control();

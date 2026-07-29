@@ -15,6 +15,7 @@ static float s_current_a = 0.0f;
 static float s_current_v = 0.0f;
 static float s_speed_v = 0.0f;
 static int s_last_duty = 0;
+static int s_last_pwm_duty = ESCON_PWM_MIN;
 static bool s_enabled = false;
 
 static inline int clampInt(int x, int lo, int hi) {
@@ -69,7 +70,9 @@ void motor_init() {
   digitalWrite(ESCON_STOP, LOW);
   digitalWrite(ESCON_ENABLE, LOW);
   digitalWrite(ESCON_DIR, LOW);
-  ledcWrite(PWM_CH, 0);
+  // Analog Input 1 uses the RC-filtered average, so 0% means 0 V.
+  ledcWrite(PWM_CH, ESCON_PWM_MIN);
+  s_last_pwm_duty = ESCON_PWM_MIN;
 
   s_last_ab = (digitalRead(ENC_A_PIN) << 1) | digitalRead(ENC_B_PIN);
   attachInterrupt(digitalPinToInterrupt(ENC_A_PIN), encoder_isr, CHANGE);
@@ -83,8 +86,10 @@ void motor(int duty) {
   s_last_duty = duty;
 
   if (duty == 0) {
-    ledcWrite(PWM_CH, 0);
     digitalWrite(ESCON_ENABLE, LOW);
+    // Disable the drive and return the analog speed command to 0 V.
+    ledcWrite(PWM_CH, ESCON_PWM_MIN);
+    s_last_pwm_duty = ESCON_PWM_MIN;
     s_enabled = false;
     return;
   }
@@ -96,11 +101,46 @@ void motor(int duty) {
     duty = -duty;
   }
 
-  duty = clampInt(duty, 0, PWM_MAX);
+  duty = clampInt(duty, 0, MOTOR_COMMAND_MAX);
+  int pwm_duty = 0;
+  if (duty <= ESCON_PWM_KNEE_COMMAND) {
+    pwm_duty =
+        ESCON_PWM_MIN +
+        static_cast<int>(
+            (static_cast<long>(duty) * (ESCON_PWM_KNEE - ESCON_PWM_MIN) +
+             ESCON_PWM_KNEE_COMMAND / 2) /
+            ESCON_PWM_KNEE_COMMAND);
+  } else if (duty <= ESCON_PWM_HIGH_COMMAND) {
+    constexpr int upper_command_range =
+        ESCON_PWM_HIGH_COMMAND - ESCON_PWM_KNEE_COMMAND;
+    pwm_duty =
+        ESCON_PWM_KNEE +
+        static_cast<int>(
+            (static_cast<long>(duty - ESCON_PWM_KNEE_COMMAND) *
+                 (ESCON_PWM_HIGH - ESCON_PWM_KNEE) +
+             upper_command_range / 2) /
+            upper_command_range);
+  } else {
+    constexpr int top_command_range =
+        MOTOR_COMMAND_MAX - ESCON_PWM_HIGH_COMMAND;
+    pwm_duty =
+        ESCON_PWM_HIGH +
+        static_cast<int>(
+            (static_cast<long>(duty - ESCON_PWM_HIGH_COMMAND) *
+                 (ESCON_PWM_MAX - ESCON_PWM_HIGH) +
+             top_command_range / 2) /
+            top_command_range);
+  }
 
+  // Update the RC-filtered analog command before enabling the drive.
+  ledcWrite(PWM_CH, pwm_duty);
+  s_last_pwm_duty = pwm_duty;
+  if (!s_enabled) {
+    // Give the RC output a short settling interval before enabling.
+    delay(5);
+  }
   digitalWrite(ESCON_ENABLE, HIGH);
   s_enabled = true;
-  ledcWrite(PWM_CH, duty);
 }
 
 void motor_update_telemetry() {
@@ -154,6 +194,10 @@ float motor_get_speed_v() {
 
 int motor_get_duty() {
   return s_last_duty;
+}
+
+int motor_get_pwm_duty() {
+  return s_last_pwm_duty;
 }
 
 bool motor_is_enabled() {

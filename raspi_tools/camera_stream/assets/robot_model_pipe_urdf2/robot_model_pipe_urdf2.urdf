@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="robot_model_pipe_urdf2">
+    <link name="base_link">
+        <inertial>
+            <origin xyz="-0.08000524560564413 -0.007972984731741753 0.16068191113442087" rpy="0.0 0.0 0.0" />
+            <mass value="6.404211523653625" />
+            <inertia ixx="0.10266211419491902" iyy="0.10869171850216136" izz="0.022092430795215078" ixy="0.00044364378384973866" iyz="0.0020389586029267593" ixz="0.0015064625885142235" />
+        </inertial>
+        <visual name="base_link_visual">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/base_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="base_link_collision">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/base_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="motor_module-v1">
+        <inertial>
+            <origin xyz="0.0036923576645462044 -0.032496696250331 0.2609558764668533" rpy="0.0 0.0 0.0" />
+            <mass value="2.12584837391322" />
+            <inertia ixx="0.027617267143901156" iyy="0.03003410896486873" izz="0.0037427927574618415" ixy="-4.2470266040352256e-05" iyz="-0.00039711763445315906" ixz="-0.0005510989600263361" />
+        </inertial>
+        <visual name="motor_module-v1_visual">
+            <origin xyz="-0.07643936639457195 0.12076826386930549 -0.04432889747473297" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/motor_module-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="motor_module-v1_collision">
+            <origin xyz="-0.07643936639457195 0.12076826386930549 -0.04432889747473297" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/motor_module-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="drilling_module1-v1">
+        <inertial>
+            <origin xyz="-0.22154651304561132 -0.3886489321893202 0.32644157055295325" rpy="0.0 0.0 0.0" />
+            <mass value="1.3445614929447025" />
+            <inertia ixx="0.016958563492912283" iyy="0.01812125366986008" izz="0.0026610000339055096" ixy="8.11839986300178e-05" iyz="-0.0010132053440028612" ixz="-6.81740529413282e-05" />
+        </inertial>
+        <visual name="drilling_module1-v1_visual">
+            <origin xyz="0.14186326877966482 0.3351289369745858 -0.48607024567101753" rpy="1.3877787807814455e-17 3.3306690738754395e-16 -3.4694469516696206e-17" />
+            <geometry>
+                <mesh filename="meshes/drilling_module1-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="drilling_module1-v1_collision">
+            <origin xyz="0.14186326877966482 0.3351289369745858 -0.48607024567101753" rpy="1.3877787807814455e-17 3.3306690738754395e-16 -3.4694469516696206e-17" />
+            <geometry>
+                <mesh filename="meshes/drilling_module1-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="drilling_module2-v1">
+        <inertial>
+            <origin xyz="-0.03452849725074354 -0.2811535770126149 0.1003054648298443" rpy="0.0 0.0 0.0" />
+            <mass value="2.333803743488278" />
+            <inertia ixx="0.02513628917902372" iyy="0.028359093376970762" izz="0.006335177246218047" ixy="-4.146239724544219e-05" iyz="-0.0027717409424386046" ixz="-0.00029071027812833244" />
+        </inertial>
+        <visual name="drilling_module2-v1_visual">
+            <origin xyz="-0.038915866342732384 0.32427385872008757 -0.2853579923773535" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/drilling_module2-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="drilling_module2-v1_collision">
+            <origin xyz="-0.038915866342732384 0.32427385872008757 -0.2853579923773535" rpy="0.0 -0.0 0.0" />
+            <geometry>
+                <mesh filename="meshes/drilling_module2-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="bit-v1">
+        <inertial>
+            <origin xyz="0.0014189740868361688 -3.3058982040756746e-09 -0.021916525333383615" rpy="-1.1479437019748901e-41 -1.0022062668174577e-54 0.0" />
+            <mass value="0.4309811900088538" />
+            <inertia ixx="0.00047961812974462413" iyy="0.00047890341856342907" izz="0.0006494039728564065" ixy="3.4260788650541083e-17" iyz="-5.616167253474024e-16" ixz="-1.1038960664577076e-05" />
+        </inertial>
+        <visual name="bit-v1_visual">
+            <origin xyz="-0.0016152278538484222 -3.3060531201556386e-09 0.02494776999684538" rpy="-3.2982958874117803e-12 0.06465418758821853 3.1415926535897696" />
+            <geometry>
+                <mesh filename="meshes/bit-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="bit-v1_collision">
+            <origin xyz="-0.0016152278538484222 -3.3060531201556386e-09 0.02494776999684538" rpy="-3.2982958874117803e-12 0.06465418758821853 3.1415926535897696" />
+            <geometry>
+                <mesh filename="meshes/bit-v1.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="スライダ-6" type="prismatic">
+        <origin xyz="-4.162355926595751e-09 1.9535504147683014e-09 3.3064661764115044e-09" rpy="-1.5707963267949019 -1.5707963267948948 0" />
+        <parent link="base_link" />
+        <child link="motor_module-v1" />
+        <axis xyz="1.9721522630525295e-31 1.0 4.4743890415810335e-31" />
+        <limit lower="-0.02" upper="0.01" effort="1000000" velocity="1000000" />
+    </joint>
+    <joint name="回転-9" type="continuous">
+        <origin xyz="-3.6590731156138646e-09 -2.784375716657905e-09 3.306465086172494e-09" rpy="-2.2343099385599563e-15 -2.3328479519982528e-14 2.660087448615031" />
+        <parent link="base_link" />
+        <child link="drilling_module1-v1" />
+        <axis xyz="0.0 -1.5777218104420236e-30 1.0" />
+    </joint>
+    <joint name="スライダ-11" type="prismatic">
+        <origin xyz="-0.12650000330647526 0.08700000391631002 -0.0839999997538062" rpy="1.5707963267948961 0.06465418758820993 1.5707963267949216" />
+        <parent link="drilling_module1-v1" />
+        <child link="drilling_module2-v1" />
+        <axis xyz="0.064609 -0.9979109999999999 1.384879710905847e-17" />
+        <limit lower="-0.035765" upper="0.018621" effort="1000000" velocity="1000000" />
+    </joint>
+    <joint name="回転-12" type="continuous">
+        <origin xyz="-3.305970626144017e-09 -3.776706414271303e-09 1.2131364091061413e-09" rpy="3.141592653589425 1.506142139206677 -1.5707963267919718" />
+        <parent link="drilling_module2-v1" />
+        <child link="bit-v1" />
+        <axis xyz="0.064609 -7.923443788400032e-26 -0.9979110000000002" />
+    </joint>
+</robot>

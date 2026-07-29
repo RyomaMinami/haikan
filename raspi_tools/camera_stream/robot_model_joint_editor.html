@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>配管ロボット 関節検証</title>
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,"Yu Gothic UI",sans-serif;--bg:#0b1015;--panel:#161d24;--line:#34424e;--text:#edf4f8;--muted:#9aabb7;--accent:#49b9ff;--ok:#65dc90;--warn:#ffbd59;--bad:#ff6874}
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text)}
+    body{display:grid;grid-template-rows:48px minmax(0,1fr)}
+    header{display:flex;align-items:center;gap:16px;padding:0 14px;background:#1c252d;border-bottom:1px solid var(--line)}
+    h1{margin:0;font-size:16px}.header-note{color:var(--muted);font-size:12px}
+    main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 410px}.viewport{position:relative;min-width:0}
+    canvas{display:block;width:100%;height:100%;cursor:grab}canvas.dragging{cursor:grabbing}
+    .status,.legend{position:absolute;left:12px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:rgba(8,13,18,.9);font-size:12px}
+    .status{top:12px}.legend{bottom:12px;color:var(--muted);line-height:1.55}
+    aside{min-height:0;overflow:auto;padding:12px;border-left:1px solid var(--line);background:var(--panel)}
+    .notice{margin-bottom:10px;padding:9px;border-left:3px solid var(--warn);background:#241f16;color:#f4dcae;font-size:12px;line-height:1.5}
+    .joint-list{display:grid;gap:6px;margin-bottom:12px}.joint-item{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:6px;background:#10161b;cursor:pointer}
+    .joint-item.active{border-color:var(--accent);background:#142837}.joint-item .dot{width:9px;height:9px;border-radius:50%;background:var(--warn)}.joint-item.checked .dot{background:var(--ok)}.joint-item small{color:var(--muted)}
+    fieldset{margin:0 0 11px;padding:10px;border:1px solid var(--line);border-radius:6px}legend{padding:0 5px;font-size:12px;font-weight:700}
+    label{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px;align-items:center;margin:7px 0;font-size:12px}label>span{color:var(--muted)}
+    input,button{border:1px solid #455563;border-radius:4px;color:var(--text);background:#0e151b}input{width:100%;min-width:0;padding:6px}input[type=range]{padding:0;accent-color:var(--accent)}input[type=checkbox]{width:auto}
+    button{padding:7px 10px;cursor:pointer;background:#202b34}button:hover{border-color:var(--accent)}button.primary{background:#12628e;border-color:#3caeea}button.warn{color:#ffe1ac;border-color:#986b2b}
+    .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.row button{flex:1}.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+    .value{color:#fff;font-variant-numeric:tabular-nums;text-align:right}.tree{padding:8px;border:1px solid #293640;border-radius:5px;background:#0d1318;color:#b8c7d1;font:12px/1.55 ui-monospace,Consolas,monospace;white-space:pre}
+    .save-state{color:var(--muted);font-size:12px}.validation{display:flex;gap:8px;align-items:flex-start;padding:8px;border:1px solid #455563;border-radius:5px;background:#11191f;font-size:12px;line-height:1.45}
+    @media(max-width:900px){body{overflow:auto}main{grid-template-columns:1fr;grid-template-rows:62vh auto}aside{border-left:0;border-top:1px solid var(--line)}}
+  </style>
+</head>
+<body>
+  <header><h1>Fusion形状を保った関節検証</h1><span class="header-note">PCのみで確認できます。ラズパイ接続は不要です。</span></header>
+  <main>
+    <section class="viewport">
+      <canvas id="scene"></canvas><div class="status" id="status">モデルを読み込み中…</div>
+      <div class="legend">ドラッグ: 視点回転 / ホイール: 拡大縮小<br><span style="color:#ffbd59">黄線</span>: 選択中の軸　<span style="color:#ff6874">赤球</span>: 回転中心</div>
+    </section>
+    <aside>
+      <div class="notice">4軸すべてを検証済みにして保存すると、同じモジュール配置・姿勢・ジョイント設定を配信画面が読み込みます。調整中の未保存値は配信画面へ反映されません。</div>
+      <div class="joint-list" id="jointList"></div>
+      <fieldset><legend>構成</legend><div class="tree">配管（画面側の基準）
+└─ base_link / 移動体
+   ├─ slider6 → motor_module
+   └─ rotation9 → drilling_module1
+      └─ slider11 → drilling_module2
+         └─ rotation12 → bit</div></fieldset>
+      <fieldset>
+        <legend>選択中の関節</legend>
+        <label><span>名前</span><input id="jointName" readonly></label>
+        <label><span>種類</span><input id="jointType" readonly></label>
+        <label><span>親 → 子</span><input id="jointLinks" readonly></label>
+        <label><span>軸 X / Y / Z</span><div class="triple"><input id="axisX" type="number" step="0.01"><input id="axisY" type="number" step="0.01"><input id="axisZ" type="number" step="0.01"></div></label>
+        <label><span>モジュール位置 X/Y/Z mm</span><div class="triple"><input id="moduleX" type="number" step="1"><input id="moduleY" type="number" step="1"><input id="moduleZ" type="number" step="1"></div></label>
+        <label><span>モジュール姿勢 R/P/Y °</span><div class="triple"><input id="rpyR" type="number" step="1"><input id="rpyP" type="number" step="1"><input id="rpyY" type="number" step="1"></div></label>
+        <label><span>関節中心 X / Y / Z mm</span><div class="triple"><input id="pivotX" type="number" step="1"><input id="pivotY" type="number" step="1"><input id="pivotZ" type="number" step="1"></div></label>
+        <label><span>最小 / 最大</span><div class="triple"><input id="jointMin" type="number" step="0.001"><input id="jointMax" type="number" step="0.001"><span class="value" id="limitUnit"></span></div></label>
+        <label><span>テスト位置</span><input id="testRange" type="range" step="0.001"></label>
+        <label><span>現在値</span><output class="value" id="testValue"></output></label>
+        <div class="row"><button id="goMin">最小</button><button id="goZero">ゼロ</button><button id="goMax">最大</button></div>
+        <div class="row" style="margin-top:7px"><button id="axisXButton">X軸</button><button id="axisYButton">Y軸</button><button id="axisZButton">Z軸</button><button id="flipAxis">反転</button></div>
+        <div class="validation" style="margin-top:9px"><input id="jointChecked" type="checkbox"><label for="jointChecked" style="display:block;margin:0">最小・ゼロ・最大で、親子関係と移動方向が正しいことを確認した</label></div>
+      </fieldset>
+      <fieldset><legend>保存と反映</legend>
+        <div class="row"><button id="resetAll" class="warn">全軸ゼロ</button><button id="saveConfig" class="primary">設定を保存</button></div>
+        <label><span>検証状態</span><span id="validationSummary">未検証</span></label><div class="save-state" id="saveState">未変更</div>
+      </fieldset>
+    </aside>
+  </main>
+  <script src="./vendor/three.min.js"></script>
+  <script>
+    "use strict";
+    const $=id=>document.getElementById(id);
+    const MODULE_NAMES=["base_link","motor_module","drilling_module1","drilling_module2","bit"];
+    const DEFAULT_CONFIG={version:2,kinematics_schema:"module_pose_then_joint_v1",validated:false,model:"assets/robot_model.stl",component_map:"assets/robot_model_components.bin",modules:[
+      {id:0,name:"base_link",file:"assets/01_move_module.stl",position:[0,0,0],rpy_deg:[0,0,0]},{id:1,name:"motor_module",file:"assets/02_motor_module.stl",position:[0,0,0],rpy_deg:[0,0,0]},{id:2,name:"drilling_module1",file:"assets/03_drilling_module1.stl",position:[0,0,0],rpy_deg:[0,0,0]},{id:3,name:"drilling_module2",file:"assets/03_drilling_module2.stl",position:[0,0,0],rpy_deg:[0,0,0]},{id:4,name:"bit",file:"assets/04_bit.stl",position:[0,0,0],rpy_deg:[0,0,0]}],
+      joints:[
+        {id:"slider6",name:"スライダ6（押付け）",type:"prismatic",parent:null,parent_link:"base_link",child_link:"motor_module",axis:[1,0,0],pivot:[0,0,0],min:-20,max:10,unit:"mm",components:[1],checked:false},
+        {id:"rotation9",name:"回転9（穿孔部）",type:"revolute",parent:null,parent_link:"base_link",child_link:"drilling_module1",axis:[0,0,1],pivot:[0,0,0],min:-180,max:180,unit:"deg",components:[2],checked:false},
+        {id:"slider11",name:"スライダ11（直動）",type:"prismatic",parent:"rotation9",parent_link:"drilling_module1",child_link:"drilling_module2",axis:[0,0,-1],pivot:[0,0,0],min:-35.765,max:18.621,unit:"mm",components:[3],checked:false},
+        {id:"rotation12",name:"回転12（工具）",type:"revolute",parent:"slider11",parent_link:"drilling_module2",child_link:"bit",axis:[0,-1,0],pivot:[0,0,-56],min:-180,max:180,unit:"deg",components:[4],checked:false}
+      ]};
+    const canvas=$("scene"),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,5000);
+    // Fusionの標準的な見え方に合わせ、配管軸（モデルZ）を画面の横方向にする。
+    camera.up.set(1,0,0);camera.position.set(260,-720,-90);camera.lookAt(0,0,-110);
+    const renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setClearColor(0x0b1015);if(THREE.SRGBColorSpace)renderer.outputColorSpace=THREE.SRGBColorSpace;
+    scene.add(new THREE.HemisphereLight(0xdcefff,0x111820,1.7));const sun=new THREE.DirectionalLight(0xffffff,1.35);sun.position.set(250,-350,500);scene.add(sun);
+    const grid=new THREE.GridHelper(700,14,0x496071,0x24323d);grid.rotation.x=Math.PI/2;grid.position.z=-320;scene.add(grid);
+    const viewRoot=new THREE.Group(),modelRoot=new THREE.Group();scene.add(viewRoot);viewRoot.add(modelRoot);
+    const axisLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-160,0,0),new THREE.Vector3(160,0,0)]),new THREE.LineBasicMaterial({color:0xffbd59,depthTest:false}));axisLine.renderOrder=20;modelRoot.add(axisLine);
+    const pivotMarker=new THREE.Mesh(new THREE.SphereGeometry(5,18,12),new THREE.MeshBasicMaterial({color:0xff6874,depthTest:false}));pivotMarker.renderOrder=21;modelRoot.add(pivotMarker);
+    let config=structuredClone(DEFAULT_CONFIG),activeJointId="slider6",componentMeshes=[];
+    const testValues=new Map(DEFAULT_CONFIG.joints.map(j=>[j.id,0]));
+    const materials=[0xb9b7ac,0xaeb9bd,0xc3b991,0xbca8b7,0xe65c69].map(color=>new THREE.MeshStandardMaterial({color,metalness:.17,roughness:.56}));
+    const activeMaterial=new THREE.MeshStandardMaterial({color:0x69c7ff,metalness:.15,roughness:.45});
+    function parseBinaryStl(buffer){const v=new DataView(buffer);if(buffer.byteLength<84)return null;const n=v.getUint32(80,true);if(84+n*50!==buffer.byteLength)return null;const p=new Float32Array(n*9),q=new Float32Array(n*9);let o=84,w=0;for(let i=0;i<n;i++){const normal=[v.getFloat32(o,true),v.getFloat32(o+4,true),v.getFloat32(o+8,true)];o+=12;for(let k=0;k<3;k++){for(let c=0;c<3;c++){p[w]=v.getFloat32(o+c*4,true);q[w++]=normal[c]}o+=12}o+=2}const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(p,3));g.setAttribute("normal",new THREE.BufferAttribute(q,3));return g}
+    function parseComponentMap(buffer,triangles){const u=new Uint8Array(buffer),v=new DataView(buffer);if(String.fromCharCode(...u.slice(0,4))!=="HCP1"||v.getUint32(4,true)!==triangles)throw new Error("STLと部品マップが一致しません");return{count:v.getUint32(8,true),ids:new Uint16Array(buffer,12,triangles)}}
+    function splitGeometry(source,ids,count){const counts=new Uint32Array(count);for(const id of ids)counts[id]++;const out=[...counts].map(n=>{const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(new Float32Array(n*9),3));g.setAttribute("normal",new THREE.BufferAttribute(new Float32Array(n*9),3));return g});const offsets=new Uint32Array(count),sp=source.getAttribute("position").array,sn=source.getAttribute("normal").array;for(let t=0;t<ids.length;t++){const id=ids[t],d=offsets[id],s=t*9,dp=out[id].getAttribute("position").array,dn=out[id].getAttribute("normal").array;for(let k=0;k<9;k++){dp[d+k]=sp[s+k];dn[d+k]=sn[s+k]}offsets[id]+=9}return out}
+    const jointById=id=>config.joints.find(j=>j.id===id),activeJoint=()=>jointById(activeJointId);
+    function normalizedAxis(j){const a=new THREE.Vector3(...j.axis);return a.lengthSq()>.000001?a.normalize():new THREE.Vector3(1,0,0)}
+    function localJointMatrix(j,value){const axis=normalizedAxis(j);if(j.type==="prismatic")return new THREE.Matrix4().makeTranslation(axis.x*value,axis.y*value,axis.z*value);const p=new THREE.Vector3(...j.pivot);return new THREE.Matrix4().makeTranslation(p.x,p.y,p.z).multiply(new THREE.Matrix4().makeRotationAxis(axis,THREE.MathUtils.degToRad(value))).multiply(new THREE.Matrix4().makeTranslation(-p.x,-p.y,-p.z))}
+    function worldJointMatrix(j,cache){if(cache.has(j.id))return cache.get(j.id);const local=localJointMatrix(j,testValues.get(j.id)||0),parent=j.parent?jointById(j.parent):null,result=parent?worldJointMatrix(parent,cache).clone().multiply(local):local;cache.set(j.id,result);return result}
+    function moduleMatrix(module){const e=new THREE.Euler(...(module.rpy_deg||[0,0,0]).map(THREE.MathUtils.degToRad),"XYZ"),q=new THREE.Quaternion().setFromEuler(e);return new THREE.Matrix4().compose(new THREE.Vector3(...(module.position||[0,0,0])),q,new THREE.Vector3(1,1,1))}
+    function updateModel(){const cache=new Map();componentMeshes.forEach((mesh,index)=>{const owner=config.joints.find(j=>(j.components||[]).includes(index)),module=config.modules.find(m=>m.id===index)||{position:[0,0,0],rpy_deg:[0,0,0]};mesh.matrixAutoUpdate=false;mesh.matrix.copy(owner?worldJointMatrix(owner,cache).clone().multiply(moduleMatrix(module)):moduleMatrix(module));mesh.material=owner&&owner.id===activeJointId?activeMaterial:materials[index]||materials[0]});const j=activeJoint();if(!j)return;const parent=j.parent?jointById(j.parent):null,parentMatrix=parent?worldJointMatrix(parent,cache):new THREE.Matrix4(),pivot=new THREE.Vector3(...j.pivot).applyMatrix4(parentMatrix),axis=normalizedAxis(j).transformDirection(parentMatrix),value=testValues.get(j.id)||0;pivotMarker.position.copy(pivot);pivotMarker.visible=j.type==="revolute";axisLine.position.copy(pivot);axisLine.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),axis);$("testValue").textContent=`${value.toFixed(3)} ${j.unit}`;$("status").textContent=`Fusionゼロ配置 + モジュール補正 / ${j.name}: ${value.toFixed(3)} ${j.unit}`}
+    const allChecked=()=>config.joints.length===4&&config.joints.every(j=>j.checked);
+    function renderList(){$("jointList").innerHTML=config.joints.map(j=>`<div class="joint-item ${j.id===activeJointId?"active":""} ${j.checked?"checked":""}" data-id="${j.id}"><span class="dot"></span><span>${j.name}</span><small>${j.type==="prismatic"?"直動":"回転"}</small></div>`).join("");document.querySelectorAll(".joint-item").forEach(el=>el.onclick=()=>{readForm();activeJointId=el.dataset.id;fillForm();renderList();updateModel()});const ok=allChecked();config.validated=ok;$("validationSummary").textContent=ok?"4軸検証済み（配置確定待ち）":"未検証";$("validationSummary").style.color=ok?"var(--ok)":"var(--warn)"}
+    function fillForm(){const j=activeJoint();if(!j)return;const module=config.modules.find(m=>m.id===(j.components||[])[0])||{position:[0,0,0],rpy_deg:[0,0,0]};$("jointName").value=j.name;$("jointType").value=j.type==="prismatic"?"直動":"回転";$("jointLinks").value=`${j.parent_link} → ${j.child_link}`;["X","Y","Z"].forEach((k,i)=>{$(`axis${k}`).value=j.axis[i];$(`pivot${k}`).value=j.pivot[i];$(`module${k}`).value=(module.position||[0,0,0])[i]});["R","P","Y"].forEach((k,i)=>{$(`rpy${k}`).value=(module.rpy_deg||[0,0,0])[i]});$("jointMin").value=j.min;$("jointMax").value=j.max;$("limitUnit").textContent=j.unit;const range=$("testRange");range.min=j.min;range.max=j.max;range.step=j.type==="prismatic"?".1":"1";range.value=Math.min(j.max,Math.max(j.min,testValues.get(j.id)||0));$("jointChecked").checked=!!j.checked;$("testValue").textContent=`${Number(range.value).toFixed(3)} ${j.unit}`}
+    function readForm(){const j=activeJoint();if(!j)return;const module=config.modules.find(m=>m.id===(j.components||[])[0]);j.axis=["X","Y","Z"].map(k=>Number($(`axis${k}`).value)||0);j.pivot=["X","Y","Z"].map(k=>Number($(`pivot${k}`).value)||0);if(module){module.position=["X","Y","Z"].map(k=>Number($(`module${k}`).value)||0);module.rpy_deg=["R","P","Y"].map(k=>Number($(`rpy${k}`).value)||0)}j.min=Number($("jointMin").value);j.max=Number($("jointMax").value);j.checked=$("jointChecked").checked;if(!Number.isFinite(j.min))j.min=-1;if(!Number.isFinite(j.max))j.max=1;if(j.min>j.max)[j.min,j.max]=[j.max,j.min];config.validated=allChecked();$("saveState").textContent="未保存の変更あり"}
+    function setAxis(axis){const j=activeJoint();j.axis=axis;j.checked=false;fillForm();renderList();updateModel();$("saveState").textContent="未保存の変更あり"}
+    function setTest(value){const j=activeJoint(),v=Math.min(j.max,Math.max(j.min,value));testValues.set(j.id,v);$("testRange").value=v;updateModel()}
+    async function load(){const[cr,sr,mr]=await Promise.all([fetch("/api/model-config",{cache:"no-store"}).catch(()=>null),fetch("./assets/robot_model.stl",{cache:"no-store"}),fetch("./assets/robot_model_components.bin",{cache:"no-store"})]);if(cr?.ok){const saved=await cr.json();if(saved?.kinematics_schema===DEFAULT_CONFIG.kinematics_schema){config=saved;config.modules.forEach(module=>{module.position??=[0,0,0];module.rpy_deg??=[0,0,0]})}}const geometry=parseBinaryStl(await sr.arrayBuffer());if(!geometry)throw new Error("Fusion STLを読み込めません");const map=parseComponentMap(await mr.arrayBuffer(),geometry.getAttribute("position").count/3),parts=splitGeometry(geometry,map.ids,map.count);componentMeshes=parts.map((g,i)=>{const m=new THREE.Mesh(g,materials[i]||materials[0]);m.name=MODULE_NAMES[i]||`module_${i}`;modelRoot.add(m);return m});updateModel();const box=new THREE.Box3().setFromObject(modelRoot),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());modelRoot.position.copy(center).multiplyScalar(-1);viewRoot.scale.setScalar(520/(Math.max(size.x,size.y,size.z)||1));fillForm();renderList();updateModel();$("status").textContent="Fusionのゼロ配置（モジュール位置を個別調整可能）"}
+    $("testRange").oninput=()=>setTest(Number($("testRange").value));$("goMin").onclick=()=>setTest(activeJoint().min);$("goZero").onclick=()=>setTest(0);$("goMax").onclick=()=>setTest(activeJoint().max);
+    $("axisXButton").onclick=()=>setAxis([1,0,0]);$("axisYButton").onclick=()=>setAxis([0,1,0]);$("axisZButton").onclick=()=>setAxis([0,0,1]);$("flipAxis").onclick=()=>setAxis(activeJoint().axis.map(v=>-v));
+    $("resetAll").onclick=()=>{config.joints.forEach(j=>testValues.set(j.id,0));$("testRange").value=0;updateModel()};$("jointChecked").onchange=()=>{readForm();renderList()};
+    document.querySelectorAll("#axisX,#axisY,#axisZ,#moduleX,#moduleY,#moduleZ,#pivotX,#pivotY,#pivotZ,#rpyR,#rpyP,#rpyY,#jointMin,#jointMax").forEach(el=>el.oninput=()=>{readForm();activeJoint().checked=false;renderList();updateModel()});
+    $("saveConfig").onclick=async()=>{readForm();renderList();const response=await fetch("/api/model-config",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(config)});if(!response.ok)throw new Error(await response.text());$("saveState").textContent=config.validated?"保存済み・配置確定待ち":"保存済み・検証待ち"};
+    let dragging=false,moved=false,last={x:0,y:0};canvas.onpointerdown=e=>{dragging=true;moved=false;last={x:e.clientX,y:e.clientY};canvas.classList.add("dragging");canvas.setPointerCapture(e.pointerId)};canvas.onpointermove=e=>{if(!dragging)return;const dx=e.clientX-last.x,dy=e.clientY-last.y;if(Math.abs(dx)+Math.abs(dy)>2)moved=true;if(moved){viewRoot.rotation.z+=dx*.006;viewRoot.rotation.x+=dy*.006}last={x:e.clientX,y:e.clientY}};canvas.onpointerup=()=>{dragging=false;canvas.classList.remove("dragging")};canvas.onwheel=e=>{e.preventDefault();camera.position.multiplyScalar(e.deltaY>0?1.08:.92)};
+    function resize(){const r=canvas.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix()}function animate(){requestAnimationFrame(animate);renderer.render(scene,camera)}addEventListener("resize",resize);resize();animate();load().catch(error=>{$("status").textContent=`エラー: ${error.message}`;console.error(error)});
+  </script>
+</body>
+</html>

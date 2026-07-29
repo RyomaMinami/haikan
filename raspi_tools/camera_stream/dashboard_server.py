@@ -36,11 +36,12 @@ GRINDER_EDGE_WINDOW_S = 1.0
 BODY_ACCEL_PINS = {"x": 24, "y": 23, "z": 27}
 BODY_ACCEL_OFFSET_MM = {"x": 0.0, "y": -8.517, "z": -(65.34 + 16.0)}
 ACCE1_ADC_PINS = {"x": 33, "y": 25, "z": 26}
+SENSOR2_ROTATION9_OFFSET_MM = {"x": 44.221, "y": 49.765}
 VALVE_GPIO_PINS = {
     "DRILL_PUSH": 17,
     "DRILL_PULL": 18,
-    "MOVE_PULL": 19,
-    "MOVE_PUSH": 20,
+    "MOVE_PUSH": 19,
+    "MOVE_PULL": 20,
     "GRINDER_AIR": 22,
 }
 VALVE_GPIO_CHIP_CANDIDATES = (4, 0, 1, 2, 3)
@@ -187,9 +188,30 @@ def coerce_value(value: str) -> Any:
 
 
 def accel_to_orientation(ax: float, ay: float, az: float) -> tuple[float, float]:
-    roll = math.degrees(math.atan2(ay, az))
+    # Robot coordinates: X is the pipe/roll axis and gravity points toward -Y
+    # at the nominal 0-degree pose.  The accelerometer reports the opposite
+    # support acceleration, so +Y is the roll reference and -Z is positive roll.
+    roll = math.degrees(math.atan2(-az, ay))
     pitch = math.degrees(math.atan2(-ax, math.sqrt(ay * ay + az * az)))
     return roll, pitch
+
+
+def sensor2_accel_to_orientation(
+    ax: float, ay: float, az: float
+) -> tuple[float, float]:
+    """Convert sensor 2 axes to the robot/body coordinate convention.
+
+    The ESP1 ACC fields do not follow the physical sensor-2 axis labels:
+      physical sensor 2 +X == raw +Y
+      physical sensor 2 +Y == raw +Z (positive pipe/rotation-9 axis)
+      physical sensor 2 +Z == raw -X
+
+    With sensor 1 +Y == physical sensor 2 +Z, the robot/body components are:
+      robot +X = raw +Z
+      robot +Y = raw -X
+      robot +Z = raw +Y
+    """
+    return accel_to_orientation(az, -ax, ay)
 
 
 def build_body_accel_from_esp2(data: dict[str, Any], now: float) -> dict[str, Any] | None:
@@ -302,7 +324,9 @@ def parse_esp1(raw: str) -> dict[str, Any]:
     ay = float(m.group(2))
     az = float(m.group(3))
     ki_signal = int(m.group(4))
-    roll, pitch = accel_to_orientation(ax, ay, az)
+    distance_raw = int(m.group(5))
+    distance_mm = None if distance_raw >= 65535 else distance_raw
+    roll, pitch = sensor2_accel_to_orientation(ax, ay, az)
     edge_hz, edge_rpm = estimate_grinder_from_signal(ki_signal, now)
     extras = parse_extra_key_values(raw)
     pulse_hz = extras.get("ki_hz", extras.get("ki1233_hz", edge_hz))
@@ -318,6 +342,8 @@ def parse_esp1(raw: str) -> dict[str, Any]:
             "roll_deg": roll,
             "pitch_deg": pitch,
             "yaw_deg": 0.0,
+            "roll_axis": "+Y (physical) / raw +Z",
+            "rotation9_offset_mm": SENSOR2_ROTATION9_OFFSET_MM,
             "last_raw": raw,
             "updated_s": now,
         },
@@ -327,7 +353,9 @@ def parse_esp1(raw: str) -> dict[str, Any]:
             "ki1233_pulse_hz": pulse_hz,
             "grinder_rpm": grinder_rpm,
             "grinder_rpm_source": rpm_source,
-            "distance_mm": int(m.group(5)),
+            "distance_raw": distance_raw,
+            "distance_mm": distance_mm,
+            "distance_status": "invalid_or_out_of_range" if distance_mm is None else "valid",
             "pressure_mpa": float(m.group(6)),
         },
     }

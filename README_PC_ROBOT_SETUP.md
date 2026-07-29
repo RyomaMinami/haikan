@@ -1,144 +1,73 @@
-# Pipe robot PC-side setup
+# 配管ロボット実験システム
 
-別PCでロボットを操作するためのPC側セットアップメモです。
+Windows PC、Raspberry Pi、ESP32を使った配管ロボットの操縦・カメラ配信・センサ監視・3D状態表示をまとめたリポジトリです。
 
-## 必要なもの
+現行の本番構成、コントローラ操作、速度制御、通信、安全仕様、URDF表示については、次の資料を参照してください。
 
-- Windows PC
-- Python 3.11系
-- PCに接続したコントローラ
-- Raspberry Piと通信できるLAN
-- このリポジトリ一式
+- [操縦・リアルタイム表示システム](raspi_tools/README_ROBOT_CONTROL_AND_VISUALIZATION.md)
+- [PC実験ランチャー](raspi_tools/README_PC_EXPERIMENT_LAUNCHER.md)
+- [PCコントローラ操作](raspi_tools/README_PC_VALVE_CONTROLLER.md)
+- [ダッシュボード引き継ぎメモ](raspi_tools/camera_stream/README_robot_dashboard_handover.md)
 
-有線LANの実験構成では、Raspberry Piは次のIPを使います。
+## 最短の起動手順
 
-```text
-192.168.0.218
-```
+### 1. PCを準備
 
-Wi-Fi側では次のIPを使っていました。
-
-```text
-192.168.50.154
-```
-
-## 初回セットアップ
-
-GitHubからcloneした後、リポジトリ直下で実行します。
+Windows、Python 3.11系、Logitech Extreme 3D Proを使用します。
 
 ```powershell
+git clone https://github.com/RyomaMinami/haikan.git
+cd haikan
 python -m pip install -r requirements_pc.txt
 ```
 
-LK-G85A / DL50 Hi計測・点群解析も同じPCで使う場合は、追加で次を実行します。
+### 2. Raspberry Piとの通信を確認
 
-```powershell
-python -m pip install -r requirements_sensor_logger.txt
-```
-
-LK-G関連の詳しい説明は次を参照してください。
-
-```text
-sensor_logger/README_LK_G_MEASUREMENT.md
-```
-
-通信確認:
+有線LANの標準IPは `192.168.0.218` です。
 
 ```powershell
 ping 192.168.0.218
 ```
 
-ダッシュボード確認:
+Wi-Fi側のIP `192.168.50.154` を使う場合は、PCも同じ `192.168.50.x` ネットワークへ接続してください。
+
+### 3. 操縦と表示をまとめて起動
+
+リポジトリ直下で実行します。
+
+```powershell
+.\raspi_tools\start_pc_experiment_launcher.ps1
+```
+
+PCローカルのダッシュボードが開きます。
 
 ```text
-http://192.168.0.218:8090/robot_dashboard.html
+http://127.0.0.1:8095/robot_dashboard.html?pi=192.168.0.218&cad=1
 ```
 
-## 実験ランチャー
-
-Piの状態確認、PCコントローラ送信開始、配信画面オープンをまとめて行います。
+Wi-Fi接続時:
 
 ```powershell
-cd .\raspi_tools
-.\start_pc_experiment_launcher.ps1
+.\raspi_tools\start_pc_experiment_launcher.ps1 -PiHost 192.168.50.154
 ```
 
-Wi-Fi側で使う場合:
+### 4. 停止
+
+起動中のPowerShellで `Ctrl+C` を押すと、モータ中立・全電磁弁OFFを送って終了します。別のPowerShellから停止する場合:
 
 ```powershell
-.\start_pc_experiment_launcher.ps1 -PiHost 192.168.50.154
+.\raspi_tools\stop_robot_operation.ps1 -StopPcSender
 ```
 
-## 状態確認
+## Raspberry Piを起動していない場合
 
-```powershell
-cd .\raspi_tools
-.\show_robot_status.ps1
-```
+PCローカル画面と3Dモデルは開けますが、`/api/state`、実センサ値、カメラ映像、ロボット操作はオフラインになります。3D画面の「センサ入力テスト」を使うと、Piなしでジョイント動作を確認できます。
 
-## ロボット操縦停止
+## 公開リポジトリに含めないもの
 
-PC側からモータ中立、電磁弁OFFを送ります。
-
-```powershell
-cd .\raspi_tools
-.\stop_robot_operation.ps1
-```
-
-PC側のコントローラ送信プログラムも同時に止めたい場合:
-
-```powershell
-.\stop_robot_operation.ps1 -StopPcSender
-```
-
-## Pi側自動システム再起動
-
-Pi側のproductionシステムを停止してから再起動します。
-
-```powershell
-cd .\raspi_tools
-.\restart_pi_system.ps1
-```
-
-SSH鍵の場所が違う場合:
-
-```powershell
-.\restart_pi_system.ps1 -SshKey C:\Users\ユーザー名\yes
-```
-
-このコマンドはPiへSSHできることが前提です。
-
-```powershell
-ssh -i C:\Users\ユーザー名\yes haikan@192.168.0.218
-```
-
-## GitHubに上げるときの注意
-
-次のようなファイルはGitHubに含めない方が安全です。
-
-- SSH秘密鍵
-- 実験ログ
-- 録画データ
-- 大きい画像、動画
+- SSH秘密鍵、パスワードを追加したローカル設定
+- 実験ログ、録画映像、学習データ
+- 不要な中間CAD、重複したSTL、作業用スクリーンショット
 - 個人情報を含むファイル
 
-別PCで使うだけなら、まずはPC操作に必要な `raspi_tools` と `requirements_pc.txt` を中心に管理すれば十分です。
-
-## USBカメラ3台でPiが落ちる場合
-
-`vcgencmd get_throttled` で `0x50000` が出た場合、過去に低電圧とスロットリングが発生しています。
-3台目のUSBカメラを挿した瞬間にPiが落ちる場合は、USBカメラの突入電流や5V降下が原因である可能性が高いです。
-
-対策:
-
-- 3台のUSBカメラはセルフパワーUSBハブに接続する
-- Pi本体のUSBポートから3台分のカメラ電源を取らない
-- カメラを挿す順番を固定し、起動直後に同時認識させない
-- 実験前に `vcgencmd get_throttled` を確認する
-- `throttled=0x0` 以外の場合は、電源系を見直してから実験する
-
-確認コマンド:
-
-```powershell
-ssh -i C:\Users\ユーザー名\yes haikan@192.168.0.218 "vcgencmd get_throttled; lsusb; ls -l /dev/video*"
-```
+URDF、表示に必要な分割メッシュ、検証済み一体STLと部品対応表はリポジトリに含めています。

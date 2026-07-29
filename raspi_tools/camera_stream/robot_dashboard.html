@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pipe Robot Monitor</title>
+  <title>配管ロボット運転モニタ</title>
   <style>
     :root {
       color-scheme: dark;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --bg: #101113;
-      --panel: #191b1f;
-      --panel2: #202329;
-      --line: #30343a;
-      --text: #f3f5f7;
-      --muted: #9aa3ad;
+      --bg: #0d1014;
+      --panel: #171b20;
+      --panel2: #20262d;
+      --line: #303944;
+      --text: #f3f6f8;
+      --muted: #9ba7b3;
       --accent: #4fb4ff;
       --warn: #ffb84f;
       --ok: #72e59a;
@@ -27,10 +27,11 @@
       background: var(--bg);
       color: var(--text);
     }
+    button { font: inherit; }
     .grid {
       height: 100vh;
       display: grid;
-      grid-template-rows: 50vh 50vh;
+      grid-template-rows: 45vh 55vh;
     }
     .cams {
       min-height: 0;
@@ -48,13 +49,13 @@
     }
     .cam {
       display: grid;
-      grid-template-rows: 26px minmax(0, 1fr);
+      grid-template-rows: 28px minmax(0, 1fr);
     }
     .title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 26px;
+      height: 28px;
       padding: 0 8px;
       font-size: 12px;
       color: #dbe3ea;
@@ -74,14 +75,16 @@
     .status {
       min-height: 0;
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr 0.85fr 0.82fr 1.0fr;
-      gap: 8px;
-      padding: 8px;
+      grid-template-columns: minmax(430px, 1.65fr) repeat(3, minmax(185px, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      padding: 7px;
     }
     .panel {
       display: grid;
-      grid-template-rows: 30px minmax(0, 1fr);
+      grid-template-rows: 31px minmax(0, 1fr);
     }
+    .pose-panel { grid-row: 1 / 3; }
     .panel h2 {
       margin: 0;
       padding: 7px 10px;
@@ -94,9 +97,9 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
-        radial-gradient(circle at 50% 52%, #25303a 0, #111318 62%);
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        radial-gradient(circle at 50% 52%, #24313c 0, #101419 68%);
       background-size: 34px 34px, 34px 34px, auto;
     }
     #robotScene {
@@ -106,58 +109,145 @@
       height: 100%;
       display: block;
     }
+    .pose-top {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      right: 9px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .badges { display: flex; flex-wrap: wrap; gap: 5px; }
+    .badge {
+      padding: 4px 8px;
+      border: 1px solid #46515d;
+      border-radius: 999px;
+      background: rgba(13, 17, 22, 0.88);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .badge.ok { border-color: #41895d; color: var(--ok); }
+    .badge.warn { border-color: #9a6d2c; color: var(--warn); }
+    .badge.bad { border-color: #a8444d; color: var(--bad); }
+    .pose-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 5px;
+      pointer-events: auto;
+    }
+    .pose-actions button {
+      border: 1px solid #4a5865;
+      border-radius: 4px;
+      padding: 5px 8px;
+      color: #dce7ef;
+      background: rgba(25, 31, 38, 0.92);
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .pose-actions button:hover { border-color: var(--accent); }
+    .pose-actions button.active {
+      border-color: var(--warn);
+      color: #1a1104;
+      background: var(--warn);
+      font-weight: 700;
+    }
+    .alert-box {
+      position: absolute;
+      top: 45px;
+      left: 9px;
+      max-width: calc(100% - 18px);
+      padding: 7px 10px;
+      border: 1px solid #9a6d2c;
+      border-radius: 5px;
+      background: rgba(54, 34, 8, .92);
+      color: #ffd99f;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .alert-box.bad {
+      border-color: #a8444d;
+      background: rgba(64, 15, 21, .94);
+      color: #ffc1c6;
+    }
+    .alert-box[hidden] { display: none; }
+    .sensor-test {
+      position: absolute;
+      z-index: 8;
+      top: 52px;
+      right: 10px;
+      width: 285px;
+      padding: 9px;
+      border: 1px solid #47738f;
+      border-radius: 6px;
+      background: rgba(10, 22, 31, .94);
+      box-shadow: 0 4px 18px rgba(0,0,0,.35);
+    }
+    .sensor-test[hidden] { display: none; }
+    .sensor-test-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 62px;
+      gap: 7px;
+      align-items: center;
+      margin: 6px 0;
+      font-size: 11px;
+    }
+    .sensor-test-row input { width: 100%; accent-color: var(--ok); }
+    .sensor-test-row output { text-align: right; font-variant-numeric: tabular-nums; }
     .hud {
       position: absolute;
       left: 10px;
       right: 10px;
       bottom: 8px;
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr auto;
       gap: 8px;
-      color: var(--muted);
+      color: #d4dde5;
       font-size: 12px;
       pointer-events: none;
+      text-shadow: 0 1px 2px #000;
     }
-    .hud span {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    .hud .sub { color: var(--muted); font-size: 11px; }
+    .hud-right { text-align: right; }
     .kv {
-      padding: 8px 10px;
+      padding: 7px 9px;
       overflow: auto;
       display: grid;
       align-content: start;
-      gap: 6px;
-      font-size: 13px;
+      gap: 5px;
+      font-size: 12px;
     }
     .row {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 9px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 4px;
+      padding-bottom: 3px;
     }
     .key { color: var(--muted); }
     .value { font-variant-numeric: tabular-nums; text-align: right; }
     .raw {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.35;
+      color: #7f8a95;
+      font-size: 10px;
+      line-height: 1.3;
       word-break: break-all;
-      padding-top: 4px;
+      padding-top: 3px;
     }
     .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 3px;
       justify-content: end;
-      max-width: 300px;
+      max-width: 280px;
     }
     .chip {
       min-width: 24px;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border: 1px solid #3a424c;
       border-radius: 4px;
       color: #c7d0da;
@@ -165,15 +255,11 @@
       text-align: center;
       font-variant-numeric: tabular-nums;
     }
-    .chip.on {
-      border-color: #8ecbff;
-      color: #061016;
-      background: var(--ok);
-    }
+    .chip.on { border-color: #8ecbff; color: #061016; background: var(--ok); }
     .pill {
       display: inline-block;
-      min-width: 44px;
-      padding: 2px 8px;
+      min-width: 42px;
+      padding: 1px 7px;
       border-radius: 999px;
       border: 1px solid #3a424c;
       color: var(--muted);
@@ -181,22 +267,22 @@
       text-align: center;
       font-variant-numeric: tabular-nums;
     }
-    .pill.on {
-      color: #071017;
-      border-color: #9cf7b9;
-      background: var(--ok);
-      font-weight: 700;
-    }
+    .pill.on { color: #071017; border-color: #9cf7b9; background: var(--ok); font-weight: 700; }
     .age-ok { color: var(--ok); }
     .age-warn { color: var(--warn); }
     .age-bad { color: var(--bad); }
-    @media (max-width: 1250px) {
+    @media (max-width: 1350px) {
       body { overflow: auto; }
       .grid { height: auto; grid-template-rows: auto auto; }
       .cams { grid-template-columns: 1fr; height: auto; }
       .cam { height: 30vh; min-height: 220px; }
+      .status { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+      .pose-panel { grid-column: 1 / 3; grid-row: auto; min-height: 500px; }
+      .panel { min-height: 280px; }
+    }
+    @media (max-width: 760px) {
       .status { grid-template-columns: 1fr; }
-      .panel { min-height: 300px; }
+      .pose-panel { grid-column: auto; min-height: 430px; }
     }
   </style>
 </head>
@@ -204,127 +290,220 @@
   <div class="grid">
     <section class="cams">
       <div class="cam">
-        <div class="title"><span>Camera 1 / global_left</span><a class="cam-link" data-port="8080" href="#" target="_blank">open</a></div>
+        <div class="title"><span>Camera 1 / global_left</span><a class="cam-link" data-port="8080" href="#" target="_blank">別画面</a></div>
         <img class="cam-stream" data-port="8080" alt="camera 1">
       </div>
       <div class="cam">
-        <div class="title"><span>Camera 2 / usb_16mp</span><a class="cam-link" data-port="8081" href="#" target="_blank">open</a></div>
+        <div class="title"><span>Camera 2 / usb_16mp</span><a class="cam-link" data-port="8081" href="#" target="_blank">別画面</a></div>
         <img class="cam-stream" data-port="8081" alt="camera 2">
       </div>
       <div class="cam">
-        <div class="title"><span>Camera 3 / global_right</span><a class="cam-link" data-port="8082" href="#" target="_blank">open</a></div>
+        <div class="title"><span>Camera 3 / global_right</span><a class="cam-link" data-port="8082" href="#" target="_blank">別画面</a></div>
         <img class="cam-stream" data-port="8082" alt="camera 3">
       </div>
     </section>
+
     <section class="status">
-      <div class="panel">
-        <h2>3D姿勢</h2>
+      <div class="panel pose-panel">
+        <h2>配管内3D姿勢・運転状態（PC描画）</h2>
         <div class="scene-wrap">
           <canvas id="robotScene"></canvas>
+          <div class="pose-top">
+            <div class="badges">
+              <span class="badge warn" id="apiBadge">API 未接続</span>
+              <span class="badge" id="modeBadge">停止</span>
+              <span class="badge warn" id="poseBadge">姿勢値なし</span>
+              <span class="badge" id="partBadge" hidden>回転対象：モデル全体</span>
+            </div>
+            <div class="pose-actions">
+              <button id="fusionViewButton" type="button">Fusion視点</button>
+              <button id="sensorTestButton" type="button">センサ入力テスト</button>
+              <button id="pipeVisibilityButton" type="button">配管を隠す</button>
+              <button id="partSelectButton" type="button" hidden>回転対象を選択</button>
+              <button id="wholeModelButton" type="button" hidden>全体回転へ戻す</button>
+              <button id="zeroPoseButton" type="button">現在姿勢を0°</button>
+              <button id="resetPoseButton" type="button">絶対角へ戻す</button>
+            </div>
+          </div>
+          <div class="alert-box" id="alertBox" hidden></div>
+          <div class="sensor-test" id="sensorTestPanel" hidden>
+            <div style="font-size:12px;font-weight:700">PC模擬入力（実機へは送信しません）</div>
+            <label class="sensor-test-row"><span>センサ1 roll</span><input id="testSensor1" type="range" min="-180" max="180" value="0" step="1"><output id="testSensor1Value">0°</output></label>
+            <label class="sensor-test-row"><span>センサ2 roll</span><input id="testSensor2" type="range" min="-90" max="90" value="0" step="1"><output id="testSensor2Value">0°</output></label>
+            <label class="sensor-test-row"><span>スライダ6</span><input id="testSlider6" type="range" min="43" max="73" value="43" step="0.001"><output id="testSlider6Value">43 mm</output></label>
+            <label class="sensor-test-row"><span>スライダ11</span><input id="testSlider11" type="range" min="-121.764" max="-68.621" value="-121.764" step="0.001"><output id="testSlider11Value">-121.8 mm</output></label>
+            <label class="sensor-test-row"><span>工具角度</span><input id="testTool" type="range" min="-180" max="180" value="0" step="5"><output id="testToolValue">0°</output></label>
+          </div>
           <div class="hud">
-            <span id="poseLabel">roll 0.0 deg / pitch 0.0 deg</span>
-            <span id="modelLabel">model loading</span>
+            <div>
+              <div id="poseLabel">roll - / pitch -</div>
+              <div class="sub" id="poseSource">本体センサ待機中</div>
+            </div>
+            <div class="hud-right">
+              <div id="motionLabel">実測：車輪停止 / 工具停止</div>
+              <div class="sub" id="forceLabel">距離 - / 圧力 -</div>
+              <div class="sub" id="modelLabel">実STLモデルを読み込み中</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="panel">
-        <h2>IMU / センサ</h2>
-        <div class="kv" id="imuPanel"></div>
-      </div>
-      <div class="panel">
-        <h2>本体加速度センサ</h2>
-        <div class="kv" id="bodyAccelPanel"></div>
-      </div>
-      <div class="panel">
-        <h2>モータ / 電流</h2>
-        <div class="kv" id="motorPanel"></div>
-      </div>
-      <div class="panel">
-        <h2>電磁弁</h2>
-        <div class="kv" id="valvePanel"></div>
-      </div>
-      <div class="panel">
-        <h2>コントローラ入力</h2>
-        <div class="kv" id="controllerPanel"></div>
-      </div>
+      <div class="panel"><h2>姿勢センサ / 距離・圧力</h2><div class="kv" id="imuPanel"></div></div>
+      <div class="panel"><h2>本体加速度センサ（姿勢優先）</h2><div class="kv" id="bodyAccelPanel"></div></div>
+      <div class="panel"><h2>走行・ロールモータ / 電流</h2><div class="kv" id="motorPanel"></div></div>
+      <div class="panel"><h2>電磁弁 / エア状態</h2><div class="kv" id="valvePanel"></div></div>
+      <div class="panel"><h2>コントローラ入力</h2><div class="kv" id="controllerPanel"></div></div>
     </section>
   </div>
 
   <script src="./vendor/three.min.js"></script>
   <script>
-    const poseLabel = document.getElementById("poseLabel");
-    const modelLabel = document.getElementById("modelLabel");
-    const imuPanel = document.getElementById("imuPanel");
-    const bodyAccelPanel = document.getElementById("bodyAccelPanel");
-    const motorPanel = document.getElementById("motorPanel");
-    const valvePanel = document.getElementById("valvePanel");
-    const controllerPanel = document.getElementById("controllerPanel");
-    const canvas = document.getElementById("robotScene");
+    "use strict";
+    if (window.location.protocol === "file:") {
+      const query = window.location.search || "";
+      window.location.replace(
+        `http://127.0.0.1:8095/robot_dashboard.html${query}`
+      );
+    }
 
+    const elements = {
+      poseLabel: document.getElementById("poseLabel"),
+      poseSource: document.getElementById("poseSource"),
+      motionLabel: document.getElementById("motionLabel"),
+      forceLabel: document.getElementById("forceLabel"),
+      modelLabel: document.getElementById("modelLabel"),
+      apiBadge: document.getElementById("apiBadge"),
+      modeBadge: document.getElementById("modeBadge"),
+      poseBadge: document.getElementById("poseBadge"),
+      partBadge: document.getElementById("partBadge"),
+      fusionViewButton: document.getElementById("fusionViewButton"),
+      pipeVisibilityButton: document.getElementById("pipeVisibilityButton"),
+      sensorTestButton: document.getElementById("sensorTestButton"),
+      sensorTestPanel: document.getElementById("sensorTestPanel"),
+      testSensor1: document.getElementById("testSensor1"),
+      testSensor2: document.getElementById("testSensor2"),
+      testSlider6: document.getElementById("testSlider6"),
+      testSlider11: document.getElementById("testSlider11"),
+      testTool: document.getElementById("testTool"),
+      partSelectButton: document.getElementById("partSelectButton"),
+      wholeModelButton: document.getElementById("wholeModelButton"),
+      alertBox: document.getElementById("alertBox"),
+      imuPanel: document.getElementById("imuPanel"),
+      bodyAccelPanel: document.getElementById("bodyAccelPanel"),
+      motorPanel: document.getElementById("motorPanel"),
+      valvePanel: document.getElementById("valvePanel"),
+      controllerPanel: document.getElementById("controllerPanel"),
+      canvas: document.getElementById("robotScene")
+    };
+
+    const PIPE_INNER_DIAMETER_MM = 240;
+    const PIPE_RADIUS_MM = PIPE_INNER_DIAMETER_MM / 2;
+    const PIPE_LENGTH_MM = 1000;
+    // 配管中心軸は回転9の軸から工具半径方向（Fusion座標Y）へ -5.5 mm。
+    const PIPE_AXIS_FROM_ROTATION9_RADIAL_MM = -5.5;
+    const ROLL_WARNING_DEG = 3;
+    const STALE_SEC = 2;
+    const ROTATION9_SMOOTH_TAU_S = 0.3;
+    const ROTATION9_DEADBAND_DEG = 0.25;
+    const SLIDER11_DISTANCE_MEDIAN_SAMPLES = 7;
+    const SLIDER11_DISTANCE_SMOOTH_TAU_S = 0.6;
+    const SLIDER11_DISTANCE_DEADBAND_MM = 1.5;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 5000);
-    camera.position.set(0, -520, 260);
+    const camera = new THREE.PerspectiveCamera(39, 1, 0.1, 5000);
+    camera.up.set(0, 0, 1);
+    camera.position.set(180, 900, 450);
     camera.lookAt(0, 0, 0);
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ canvas: elements.canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    if (THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    const root = new THREE.Group();
+    const robotRoot = new THREE.Group();
+    robotRoot.rotation.order = "YXZ";
     const modelGroup = new THREE.Group();
     const mechanismGroup = new THREE.Group();
-    root.add(modelGroup);
-    root.add(mechanismGroup);
-    scene.add(root);
+    const pipeReferenceGroup = new THREE.Group();
+    robotRoot.add(modelGroup, mechanismGroup);
+    scene.add(robotRoot, pipeReferenceGroup);
 
-    scene.add(new THREE.HemisphereLight(0xd8f1ff, 0x1a1f25, 1.35));
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    scene.add(new THREE.HemisphereLight(0xd8f1ff, 0x15191e, 1.35));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.05);
     keyLight.position.set(-180, -260, 420);
     scene.add(keyLight);
     const fillLight = new THREE.DirectionalLight(0x9acbff, 0.55);
     fillLight.position.set(220, 160, 180);
     scene.add(fillLight);
 
-    const grid = new THREE.GridHelper(520, 13, 0x566170, 0x2c333b);
-    grid.rotation.x = Math.PI / 2;
-    grid.position.z = -70;
-    scene.add(grid);
+    const materialBody = new THREE.MeshStandardMaterial({ color: 0xb7b5aa, metalness: 0.18, roughness: 0.58 });
+    const materialDrive = new THREE.MeshStandardMaterial({ color: 0xaeb4b6, metalness: 0.16, roughness: 0.56 });
+    const materialPassive = new THREE.MeshStandardMaterial({ color: 0x353c44, roughness: 0.72 });
+    const materialStructure = new THREE.MeshStandardMaterial({ color: 0xc0beb3, metalness: 0.2, roughness: 0.52 });
+    const materialAccent = new THREE.MeshStandardMaterial({ color: 0xb0afa7, metalness: 0.15, roughness: 0.6 });
+    const materialDanger = new THREE.MeshStandardMaterial({ color: 0xff5f6d, emissive: 0x3c070c, roughness: 0.35 });
+    const materialPipe = new THREE.MeshBasicMaterial({ color: 0x55bfff, transparent: true, opacity: 0.055, wireframe: true, depthWrite: false });
+    const cadRollUniform = { value: 0 };
 
-    const materialBody = new THREE.MeshStandardMaterial({
-      color: 0x7ea1b8,
-      metalness: 0.35,
-      roughness: 0.55,
-      side: THREE.DoubleSide
-    });
-    const materialAccent = new THREE.MeshStandardMaterial({ color: 0xffd35c, roughness: 0.35 });
-    const materialWheel = new THREE.MeshStandardMaterial({ color: 0x1d2228, roughness: 0.7 });
-    const materialAxis = new THREE.MeshBasicMaterial({ color: 0x72e59a });
-    const materialLaser = new THREE.MeshBasicMaterial({ color: 0xff4358, transparent: true, opacity: 0.75 });
-
-    let screwMesh;
-    let sliderMesh;
-    let leftWheel;
-    let rightWheel;
-    let stepPhase = 0;
-    let sliderPhase = 0;
+    let driveWheels = [];
+    let passiveWheels = [];
+    let pressLinks = [];
+    let cutterGroup;
+    let drillTool;
+    let grinderSpinGroup;
+    let distanceBeam;
+    let distanceTarget;
+    let pressForceArrows = [];
+    let axialArrow;
+    let rollArrow;
+    let cadMesh;
+    let cadComponentIds;
+    let cadSelectionAttribute;
+    let cadComponentCount = 0;
+    let cadDisplayScale = 1;
+    let cadJointRuntimes = [];
+    let cadModelConfig = null;
+    let urdfLoaded = false;
+    let urdfJointsValidated = false;
+    let urdfJointRuntimes = [];
+    let urdfJointByChild = new Map();
+    let validatedModelLoaded = false;
+    let validatedAssemblyRoot = null;
+    let validatedJointRuntimes = new Map();
+    let validatedComponentMeshes = [];
+    let selectingCadParts = false;
+    let cadRotationMode = localStorage.getItem("pipeRobotCadRotationMode") || "whole";
+    const selectedCadComponents = new Set(
+      JSON.parse(localStorage.getItem("pipeRobotCadSelectedComponents") || "[]")
+        .filter((value) => Number.isInteger(value) && value >= 0)
+    );
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
     let currentState = {};
-    let accelBase = null;
+    let latestPose = null;
     let smoothRoll = 0;
     let smoothPitch = 0;
+    let zeroRoll = Number(localStorage.getItem("pipeRobotZeroRoll") || 0);
+    let zeroPitch = Number(localStorage.getItem("pipeRobotZeroPitch") || 0);
+    let zeroSensor2Roll = 0;
+    let slider11DistanceZeroMm = null;
+    let slider11FilteredDistanceMm = null;
+    let slider11LastDistanceUpdatedS = null;
+    const slider11DistanceSamples = [];
+    let lastApiAt = 0;
+    let lastFrameAt = performance.now();
+    let cutterPhase = 0;
+    let sensorTestEnabled = new URLSearchParams(window.location.search).get("demo") === "1";
+    let cutWasActive = false;
+    let cutStartRoll = null;
+    let mismatchStartedAt = null;
 
     function initCameraUrls() {
-      const host = window.location.hostname || "192.168.0.218";
+      const requestedPi = new URLSearchParams(window.location.search).get("pi");
+      const host = requestedPi || window.location.hostname || "192.168.0.218";
       document.querySelectorAll(".cam-stream, .cam-link").forEach((el) => {
-        const port = el.dataset.port;
-        const url = `http://${host}:${port}/?action=stream`;
+        const url = `http://${host}:${el.dataset.port}/?action=stream`;
         if (el.tagName === "IMG") {
           el.dataset.baseUrl = url;
           el.src = `${url}&_=${Date.now()}`;
-          el.onerror = () => {
-            setTimeout(() => {
-              el.src = `${el.dataset.baseUrl}&_=${Date.now()}`;
-            }, 1500);
-          };
+          el.onerror = () => setTimeout(() => { el.src = `${url}&_=${Date.now()}`; }, 1500);
         } else {
           el.href = url;
         }
@@ -333,33 +512,41 @@
 
     function refreshCameraStreams() {
       document.querySelectorAll(".cam-stream").forEach((el) => {
-        if (!el.dataset.baseUrl) return;
-        el.src = `${el.dataset.baseUrl}&_=${Date.now()}`;
+        if (el.dataset.baseUrl) el.src = `${el.dataset.baseUrl}&_=${Date.now()}`;
       });
     }
 
-    function fmt(v, digits = 2, unit = "") {
-      if (v === null || v === undefined || Number.isNaN(Number(v))) return "-";
-      return `${Number(v).toFixed(digits)}${unit}`;
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" })[c]);
+    }
+
+    function fmt(value, digits = 2, unit = "") {
+      if (value === null || value === undefined || !Number.isFinite(Number(value))) return "-";
+      return `${Number(value).toFixed(digits)}${unit}`;
+    }
+
+    function ageSec(updatedS) {
+      if (!Number.isFinite(Number(updatedS)) || Number(updatedS) <= 0) return Infinity;
+      return Math.max(0, Date.now() / 1000 - Number(updatedS));
     }
 
     function ageValue(updatedS) {
-      if (!updatedS) return { text: "-", cls: "age-warn" };
-      const age = Date.now() / 1000 - updatedS;
-      if (age < 2) return { text: fmt(age, 1, " s ago"), cls: "age-ok" };
-      if (age < 8) return { text: fmt(age, 1, " s ago"), cls: "age-warn" };
-      return { text: fmt(age, 1, " s ago"), cls: "age-bad" };
+      const age = ageSec(updatedS);
+      if (!Number.isFinite(age)) return { text: "-", cls: "age-warn" };
+      if (age < 2) return { text: fmt(age, 1, " 秒前"), cls: "age-ok" };
+      if (age < 8) return { text: fmt(age, 1, " 秒前"), cls: "age-warn" };
+      return { text: fmt(age, 1, " 秒前"), cls: "age-bad" };
     }
 
     function row(key, value, cls = "") {
-      return `<div class="row"><span class="key">${key}</span><span class="value ${cls}">${value}</span></div>`;
+      return `<div class="row"><span class="key">${esc(key)}</span><span class="value ${cls}">${value}</span></div>`;
     }
 
-    function chips(values, onSet = new Set()) {
-      if (!values || values.length === 0) return "-";
+    function chips(values, pressedIndexes = new Set()) {
+      if (!Array.isArray(values) || values.length === 0) return "-";
       return `<div class="chips">${values.map((v, i) => {
         const value = Array.isArray(v) ? v.join("/") : (Number.isFinite(Number(v)) ? Number(v).toFixed(2) : v);
-        return `<span class="chip ${onSet.has(i) ? "on" : ""}">${i}:${value}</span>`;
+        return `<span class="chip ${pressedIndexes.has(i) ? "on" : ""}">${i}:${esc(value)}</span>`;
       }).join("")}</div>`;
     }
 
@@ -368,45 +555,199 @@
       return `<span class="pill ${on ? "on" : ""}">${on ? "ON" : "OFF"}</span>`;
     }
 
-    function accelToRelativePose(imu) {
-      const ax = Number(imu.ax_g);
-      const ay = Number(imu.ay_g);
-      const az = Number(imu.az_g);
-      if (![ax, ay, az].every(Number.isFinite)) {
-        return { roll: smoothRoll, pitch: smoothPitch };
+    function isOn(value) {
+      return Number(value) === 1 || value === true || value === "1";
+    }
+
+    function shortestAngle(angle) {
+      return ((angle + 180) % 360 + 360) % 360 - 180;
+    }
+
+    function smoothAngle(current, target, factor) {
+      return current + shortestAngle(target - current) * factor;
+    }
+
+    function smoothJointAngle(current, target, dt) {
+      const delta = shortestAngle(target - current);
+      if (Math.abs(delta) <= ROTATION9_DEADBAND_DEG) return current;
+      const factor = 1 - Math.exp(-Math.max(0, dt) / ROTATION9_SMOOTH_TAU_S);
+      return shortestAngle(current + delta * factor);
+    }
+
+    function median(values) {
+      const sorted = [...values].sort((a, b) => a - b);
+      return sorted[Math.floor(sorted.length / 2)];
+    }
+
+    function drillDistanceExtensionMm(dt) {
+      const distanceValue = (currentState.sensors || {}).distance_mm;
+      const distance = distanceValue === null || distanceValue === undefined
+        ? NaN
+        : Number(distanceValue);
+      const updatedS = Number((currentState.imu || {}).updated_s);
+      if (
+        !Number.isFinite(distance)
+        || distance < 0
+        || !Number.isFinite(updatedS)
+        || ageSec(updatedS) >= STALE_SEC
+      ) {
+        return null;
       }
-      if (!accelBase) accelBase = { ax, ay, az };
-      const dax = ax - accelBase.ax;
-      const day = ay - accelBase.ay;
-      const daz = az - accelBase.az;
-      const roll = THREE.MathUtils.clamp(day * 70, -35, 35);
-      const pitch = THREE.MathUtils.clamp(-dax * 70 + daz * 15, -35, 35);
-      smoothRoll = smoothRoll * 0.82 + roll * 0.18;
-      smoothPitch = smoothPitch * 0.82 + pitch * 0.18;
-      return { roll: smoothRoll, pitch: smoothPitch };
+
+      if (updatedS !== slider11LastDistanceUpdatedS) {
+        slider11LastDistanceUpdatedS = updatedS;
+        slider11DistanceSamples.push(distance);
+        while (slider11DistanceSamples.length > SLIDER11_DISTANCE_MEDIAN_SAMPLES) {
+          slider11DistanceSamples.shift();
+        }
+      }
+
+      if (slider11DistanceSamples.length < 5) return null;
+      const filteredTarget = median(slider11DistanceSamples);
+      if (!Number.isFinite(slider11FilteredDistanceMm)) {
+        slider11FilteredDistanceMm = filteredTarget;
+      } else {
+        const factor = 1 - Math.exp(
+          -Math.max(0, dt) / SLIDER11_DISTANCE_SMOOTH_TAU_S
+        );
+        slider11FilteredDistanceMm += (
+          filteredTarget - slider11FilteredDistanceMm
+        ) * factor;
+      }
+      if (!Number.isFinite(slider11DistanceZeroMm)) {
+        slider11DistanceZeroMm = slider11FilteredDistanceMm;
+      }
+
+      // The distance increases as the drill slider moves in the + direction.
+      return slider11FilteredDistanceMm - slider11DistanceZeroMm;
+    }
+
+    function setBadge(el, text, kind = "") {
+      el.textContent = text;
+      el.className = `badge ${kind}`.trim();
+    }
+
+    function buildPipeReference() {
+      const pipe = new THREE.Mesh(new THREE.CylinderGeometry(PIPE_RADIUS_MM, PIPE_RADIUS_MM, PIPE_LENGTH_MM, 48, 1, true), materialPipe);
+      pipe.rotation.z = Math.PI / 2;
+      pipeReferenceGroup.add(pipe);
+
+      const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x57c1ff, transparent: true, opacity: 0.55 });
+      [-PIPE_LENGTH_MM / 2, PIPE_LENGTH_MM / 2].forEach((x) => {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(PIPE_RADIUS_MM, 1.4, 8, 64), ringMaterial);
+        ring.rotation.y = Math.PI / 2;
+        ring.position.x = x;
+        pipeReferenceGroup.add(ring);
+      });
+
+      const gravity = new THREE.ArrowHelper(new THREE.Vector3(0, 0, -1), new THREE.Vector3(-470, 0, 82), 62, 0xffd35c, 13, 7);
+      pipeReferenceGroup.add(gravity);
+      const axis = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(-450, 0, -145), 900, 0x72e59a, 14, 7);
+      pipeReferenceGroup.add(axis);
+
+      axialArrow = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(-85, -145, -110), 170, 0x4fb4ff, 20, 10);
+      axialArrow.visible = false;
+      pipeReferenceGroup.add(axialArrow);
+
+      rollArrow = new THREE.Mesh(
+        new THREE.TorusGeometry(148, 2.2, 8, 52, Math.PI * 1.55),
+        new THREE.MeshBasicMaterial({ color: 0xffb84f, transparent: true, opacity: 0.9 })
+      );
+      rollArrow.rotation.y = Math.PI / 2;
+      rollArrow.visible = false;
+      pipeReferenceGroup.add(rollArrow);
+
+      [-82, 82].forEach((x) => {
+        const arrow = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(x, 0, 45), 38, 0xffd35c, 10, 6);
+        arrow.visible = false;
+        robotRoot.add(arrow);
+        pressForceArrows.push(arrow);
+      });
+    }
+
+    function wheelMesh(x, z, material) {
+      const wheel = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 38, 28), material);
+      wheel.position.set(x, 0, z);
+      return wheel;
+    }
+
+    function addLink(x, z, material) {
+      const length = Math.abs(z) - 25;
+      const link = new THREE.Mesh(new THREE.BoxGeometry(12, 14, Math.max(20, length)), material);
+      link.position.set(x, 0, z / 2);
+      modelGroup.add(link);
+      return link;
+    }
+
+    function buildFallbackBody() {
+      const body = new THREE.Mesh(new THREE.BoxGeometry(260, 72, 50), materialBody);
+      modelGroup.add(body);
+      [-82, 82].forEach((x) => {
+        driveWheels.push(wheelMesh(x, 98, materialDrive));
+        passiveWheels.push(wheelMesh(x, -98, materialPassive));
+        pressLinks.push(addLink(x, 70, materialAccent));
+        addLink(x, -70, materialStructure);
+      });
+      modelGroup.add(...driveWheels, ...passiveWheels);
+
+      const front = new THREE.Mesh(new THREE.BoxGeometry(34, 44, 38), materialAccent);
+      front.position.set(145, 0, 2);
+      modelGroup.add(front);
+    }
+
+    function buildMechanismOverlay() {
+      cutterGroup = new THREE.Group();
+      const hub = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 28, 28), materialStructure);
+      hub.rotation.z = Math.PI / 2;
+      hub.position.x = 118;
+      cutterGroup.add(hub);
+
+      const radialArm = new THREE.Mesh(new THREE.BoxGeometry(18, 92, 14), materialAccent);
+      radialArm.position.set(118, -52, 0);
+      cutterGroup.add(radialArm);
+
+      grinderSpinGroup = new THREE.Group();
+      grinderSpinGroup.position.set(118, -116, 0);
+      drillTool = new THREE.Mesh(new THREE.CylinderGeometry(6, 9, 48, 20), materialDanger);
+      grinderSpinGroup.add(drillTool);
+      const cutterMark = new THREE.Mesh(new THREE.BoxGeometry(28, 4, 5), materialDanger);
+      cutterMark.position.y = -25;
+      grinderSpinGroup.add(cutterMark);
+      cutterGroup.add(grinderSpinGroup);
+      mechanismGroup.add(cutterGroup);
+
+      distanceBeam = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.3, 1.3, 1, 10),
+        new THREE.MeshBasicMaterial({ color: 0x72e59a, transparent: true, opacity: 0.85 })
+      );
+      distanceBeam.rotation.z = Math.PI / 2;
+      distanceBeam.visible = false;
+      mechanismGroup.add(distanceBeam);
+      distanceTarget = new THREE.Mesh(
+        new THREE.SphereGeometry(5, 14, 10),
+        new THREE.MeshBasicMaterial({ color: 0x72e59a })
+      );
+      distanceTarget.visible = false;
+      mechanismGroup.add(distanceTarget);
     }
 
     function parseBinaryStl(buffer) {
+      if (buffer.byteLength < 84) return null;
       const view = new DataView(buffer);
       const triCount = view.getUint32(80, true);
-      const expected = 84 + triCount * 50;
-      if (expected !== buffer.byteLength) return null;
+      if (84 + triCount * 50 !== buffer.byteLength) return null;
       const positions = new Float32Array(triCount * 9);
       const normals = new Float32Array(triCount * 9);
       let offset = 84;
       let out = 0;
       for (let i = 0; i < triCount; i++) {
-        const nx = view.getFloat32(offset, true);
-        const ny = view.getFloat32(offset + 4, true);
-        const nz = view.getFloat32(offset + 8, true);
+        const normal = [view.getFloat32(offset, true), view.getFloat32(offset + 4, true), view.getFloat32(offset + 8, true)];
         offset += 12;
         for (let v = 0; v < 3; v++) {
-          positions[out] = view.getFloat32(offset, true);
-          normals[out++] = nx;
-          positions[out] = view.getFloat32(offset + 4, true);
-          normals[out++] = ny;
-          positions[out] = view.getFloat32(offset + 8, true);
-          normals[out++] = nz;
+          for (let c = 0; c < 3; c++) {
+            positions[out] = view.getFloat32(offset + c * 4, true);
+            normals[out++] = normal[c];
+          }
           offset += 12;
         }
         offset += 2;
@@ -414,122 +755,1121 @@
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
-      geometry.computeBoundingBox();
-      geometry.computeBoundingSphere();
       return geometry;
     }
 
     function parseAsciiStl(text) {
       const values = [];
       const normals = [];
-      const lines = text.split(/\r?\n/);
       let normal = [0, 0, 1];
-      for (const line of lines) {
+      text.split(/\r?\n/).forEach((line) => {
         const t = line.trim();
-        if (t.startsWith("facet normal")) {
-          const p = t.split(/\s+/).slice(2).map(Number);
-          if (p.length === 3 && p.every(Number.isFinite)) normal = p;
-        } else if (t.startsWith("vertex")) {
+        if (t.startsWith("facet normal")) normal = t.split(/\s+/).slice(2).map(Number);
+        if (t.startsWith("vertex")) {
           const p = t.split(/\s+/).slice(1).map(Number);
-          if (p.length === 3 && p.every(Number.isFinite)) {
-            values.push(...p);
-            normals.push(...normal);
-          }
+          if (p.length === 3 && p.every(Number.isFinite)) { values.push(...p); normals.push(...normal); }
         }
-      }
+      });
       if (values.length < 9) return null;
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute("position", new THREE.Float32BufferAttribute(values, 3));
       geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
-      geometry.computeBoundingBox();
-      geometry.computeBoundingSphere();
       return geometry;
+    }
+
+    function parseVector(text, fallback = [0, 0, 0]) {
+      const values = String(text || "").trim().split(/\s+/).map(Number);
+      return values.length === 3 && values.every(Number.isFinite) ? values : fallback;
+    }
+
+    function setUrdfOrigin(object, originElement) {
+      const xyz = parseVector(originElement?.getAttribute("xyz"));
+      const rpy = parseVector(originElement?.getAttribute("rpy"));
+      object.position.set(...xyz);
+      object.rotation.set(rpy[0], rpy[1], rpy[2], "ZYX");
+    }
+
+    async function fetchStlGeometry(url) {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`STL HTTP ${response.status}: ${url}`);
+      const buffer = await response.arrayBuffer();
+      const geometry = parseBinaryStl(buffer) || parseAsciiStl(new TextDecoder().decode(buffer));
+      if (!geometry) throw new Error(`STL parse failed: ${url}`);
+      return geometry;
+    }
+
+    function materialForUrdfLink(linkName) {
+      if (linkName === "motor_module-v1") return materialDrive;
+      if (linkName === "drilling_module1-v1") return materialStructure;
+      if (linkName === "drilling_module2-v1") return materialAccent;
+      if (linkName === "bit-v1") return materialDanger;
+      return materialBody;
+    }
+
+    const urdfAssemblyCenters = {
+      "base_link": [-0.0720694733, -0.0408886013, -0.1106402016],
+      "motor_module-v1": [-0.1002596378, -0.0164534483, -0.0373481674],
+      "drilling_module1-v1": [0, -0.1219886551, -0.1375],
+      "drilling_module2-v1": [0.0413097095, 0.0891373444, -0.1947203979],
+      "bit-v1": [0, 0, -0.056]
+    };
+
+    function splitGeometryByComponent(geometry, componentIds, componentCount) {
+      const triangleCounts = new Uint32Array(componentCount);
+      for (let triangle = 0; triangle < componentIds.length; triangle++) {
+        triangleCounts[componentIds[triangle]]++;
+      }
+      const geometries = [...triangleCounts].map((count) => geometryFromTriangleCount(count));
+      const writeOffsets = new Uint32Array(componentCount);
+      const sourcePosition = geometry.getAttribute("position").array;
+      const sourceNormal = geometry.getAttribute("normal").array;
+      for (let triangle = 0; triangle < componentIds.length; triangle++) {
+        const targetIndex = componentIds[triangle];
+        const targetPosition = geometries[targetIndex].getAttribute("position").array;
+        const targetNormal = geometries[targetIndex].getAttribute("normal").array;
+        const sourceOffset = triangle * 9;
+        const targetOffset = writeOffsets[targetIndex];
+        for (let item = 0; item < 9; item++) {
+          targetPosition[targetOffset + item] = sourcePosition[sourceOffset + item];
+          targetNormal[targetOffset + item] = sourceNormal[sourceOffset + item];
+        }
+        writeOffsets[targetIndex] += 9;
+      }
+      geometry.dispose();
+      return geometries;
+    }
+
+    function validatedJointMatrix(definition, value) {
+      const axis = new THREE.Vector3(...(definition.axis || [1, 0, 0]));
+      if (axis.lengthSq() < 1e-9) axis.set(1, 0, 0);
+      axis.normalize();
+      if (definition.type === "prismatic") {
+        return new THREE.Matrix4().makeTranslation(
+          axis.x * value,
+          axis.y * value,
+          axis.z * value
+        );
+      }
+      const pivot = new THREE.Vector3(...(definition.pivot || [0, 0, 0]));
+      return new THREE.Matrix4()
+        .makeTranslation(pivot.x, pivot.y, pivot.z)
+        .multiply(new THREE.Matrix4().makeRotationAxis(
+          axis,
+          THREE.MathUtils.degToRad(value)
+        ))
+        .multiply(new THREE.Matrix4().makeTranslation(
+          -pivot.x,
+          -pivot.y,
+          -pivot.z
+        ));
+    }
+
+    function validatedWorldMatrix(runtime, cache) {
+      if (cache.has(runtime.definition.id)) return cache.get(runtime.definition.id);
+      const local = validatedJointMatrix(runtime.definition, runtime.value);
+      const parent = runtime.definition.parent
+        ? validatedJointRuntimes.get(runtime.definition.parent)
+        : null;
+      const result = parent
+        ? validatedWorldMatrix(parent, cache).clone().multiply(local)
+        : local;
+      cache.set(runtime.definition.id, result);
+      return result;
+    }
+
+    function validatedModuleMatrix(module) {
+      const position = new THREE.Vector3(...(module.position || [0, 0, 0]));
+      const rotation = new THREE.Euler(
+        ...(module.rpy_deg || [0, 0, 0]).map(THREE.MathUtils.degToRad),
+        "XYZ"
+      );
+      return new THREE.Matrix4().compose(
+        position,
+        new THREE.Quaternion().setFromEuler(rotation),
+        new THREE.Vector3(1, 1, 1)
+      );
+    }
+
+    function updateValidatedModelMatrices() {
+      const cache = new Map();
+      validatedComponentMeshes.forEach((mesh, componentId) => {
+        const runtime = [...validatedJointRuntimes.values()].find(
+          (item) => (item.definition.components || []).includes(componentId)
+        );
+        const module = cadModelConfig.modules.find((item) => item.id === componentId)
+          || { position: [0, 0, 0], rpy_deg: [0, 0, 0] };
+        mesh.matrixAutoUpdate = false;
+        mesh.matrix.copy(runtime
+          ? validatedWorldMatrix(runtime, cache)
+              .clone()
+              .multiply(validatedModuleMatrix(module))
+          : validatedModuleMatrix(module));
+      });
+    }
+
+    async function loadValidatedRobot() {
+      const [configResponse, modelResponse, componentResponse] = await Promise.all([
+        fetch("/api/model-config", { cache: "no-store" }),
+        fetch("./assets/robot_model.stl", { cache: "no-store" }),
+        fetch("./assets/robot_model_components.bin", { cache: "no-store" })
+      ]);
+      if (!configResponse.ok || !modelResponse.ok || !componentResponse.ok) {
+        throw new Error("validated model assets unavailable");
+      }
+      const [config, modelBuffer, componentBuffer] = await Promise.all([
+        configResponse.json(),
+        modelResponse.arrayBuffer(),
+        componentResponse.arrayBuffer()
+      ]);
+      if (
+        config?.validated !== true
+        || config?.kinematics_schema !== "module_pose_then_joint_v1"
+      ) {
+        return false;
+      }
+      const geometry = parseBinaryStl(modelBuffer)
+        || parseAsciiStl(new TextDecoder().decode(modelBuffer));
+      if (!geometry) throw new Error("validated Fusion STL parse failed");
+      const triangleCount = geometry.getAttribute("position").count / 3;
+      const componentMap = parseComponentMap(componentBuffer, triangleCount);
+      const geometries = splitGeometryByComponent(
+        geometry,
+        componentMap.ids,
+        componentMap.componentCount
+      );
+      cadModelConfig = config;
+      validatedJointRuntimes = new Map(
+        config.joints.map((definition) => [
+          definition.id,
+          {
+            definition,
+            value: definition.type === "prismatic"
+              ? Number(definition.min)
+              : 0
+          }
+        ])
+      );
+      const slider6Definition = validatedJointRuntimes.get("slider6")?.definition;
+      const slider11Definition = validatedJointRuntimes.get("slider11")?.definition;
+      if (slider6Definition) {
+        elements.testSlider6.min = slider6Definition.min;
+        elements.testSlider6.max = slider6Definition.max;
+        elements.testSlider6.value = slider6Definition.min;
+      }
+      if (slider11Definition) {
+        elements.testSlider11.min = slider11Definition.min;
+        elements.testSlider11.max = slider11Definition.max;
+        elements.testSlider11.value = slider11Definition.min;
+      }
+      updateSensorTestPanel();
+      validatedAssemblyRoot = new THREE.Group();
+      validatedComponentMeshes = geometries.map((partGeometry, componentId) => {
+        const mesh = new THREE.Mesh(
+          partGeometry,
+          materialForUrdfLink([
+            "base_link",
+            "motor_module-v1",
+            "drilling_module1-v1",
+            "drilling_module2-v1",
+            "bit-v1"
+          ][componentId])
+        );
+        validatedAssemblyRoot.add(mesh);
+        return mesh;
+      });
+      updateValidatedModelMatrices();
+
+      const axisMappedRoot = new THREE.Group();
+      axisMappedRoot.add(validatedAssemblyRoot);
+      axisMappedRoot.applyMatrix4(
+        new THREE.Matrix4().set(
+          0, 0, 1, 0,
+          1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 0, 1
+        )
+      );
+      modelGroup.add(axisMappedRoot);
+      modelGroup.updateMatrixWorld(true);
+      const box = new THREE.Box3().setFromObject(axisMappedRoot);
+      const center = box.getCenter(new THREE.Vector3());
+      const pipeAxisPivot = config.joints.find(
+        (definition) => definition.id === "rotation9"
+      )?.pivot || [0, 0, 0];
+      axisMappedRoot.position.set(
+        -center.x,
+        -Number(pipeAxisPivot[0] || 0),
+        -(Number(pipeAxisPivot[1] || 0) + PIPE_AXIS_FROM_ROTATION9_RADIAL_MM)
+      );
+      modelGroup.scale.setScalar(1);
+      modelGroup.rotation.set(0, 0, 0);
+      validatedModelLoaded = true;
+      elements.modelLabel.textContent =
+        `検証済みFusion配置 / 配管φ${PIPE_INNER_DIAMETER_MM}`
+        + ` / 軸差 ${PIPE_AXIS_FROM_ROTATION9_RADIAL_MM} mm`;
+      return true;
+    }
+
+    function applyValidatedJoints(dt) {
+      const valves = currentState.valves || {};
+      const imu = currentState.imu || {};
+      const slider6 = validatedJointRuntimes.get("slider6");
+      const rotation9 = validatedJointRuntimes.get("rotation9");
+      const slider11 = validatedJointRuntimes.get("slider11");
+      const rotation12 = validatedJointRuntimes.get("rotation12");
+
+      if (sensorTestEnabled) {
+        if (slider6) slider6.value = Number(elements.testSlider6.value);
+        if (rotation9) rotation9.value = Number(elements.testSensor2.value);
+        if (slider11) slider11.value = Number(elements.testSlider11.value);
+        if (rotation12) rotation12.value = Number(elements.testTool.value);
+        updateValidatedModelMatrices();
+        elements.modelLabel.textContent =
+          `模擬入力 / φ${PIPE_INNER_DIAMETER_MM}`
+          + ` / 軸差 ${PIPE_AXIS_FROM_ROTATION9_RADIAL_MM} / S6 ${slider6?.value.toFixed(1) ?? "-"} mm`
+          + ` / S11 ${slider11?.value.toFixed(1) ?? "-"} mm`
+          + ` / R9 ${rotation9?.value.toFixed(1) ?? "-"}°`;
+        return;
+      }
+
+      if (slider6) {
+        let target = slider6.value;
+        if (isOn(valves.move_push)) target = Number(slider6.definition.max);
+        else if (isOn(valves.move_pull)) target = Number(slider6.definition.min);
+        slider6.value = moveToward(slider6.value, target, 30 * dt);
+      }
+      if (rotation9) {
+        const sensor2Roll = Number(imu.roll_deg);
+        const sensor1Roll = Number((currentState.body_accel || {}).roll_deg);
+        if (Number.isFinite(sensor2Roll) && Number.isFinite(sensor1Roll)) {
+          const target = shortestAngle(
+            shortestAngle(sensor2Roll - sensor1Roll) - zeroSensor2Roll
+          );
+          rotation9.value = smoothJointAngle(rotation9.value, target, dt);
+        }
+      }
+      if (slider11) {
+        const extensionMm = drillDistanceExtensionMm(dt);
+        let target = Number.isFinite(extensionMm)
+          ? THREE.MathUtils.clamp(
+            Number(slider11.definition.min) + extensionMm,
+            Number(slider11.definition.min),
+            Number(slider11.definition.max)
+          )
+          : slider11.value;
+        if (
+          Math.abs(target - slider11.value) <= SLIDER11_DISTANCE_DEADBAND_MM
+        ) {
+          target = slider11.value;
+        }
+        slider11.value = moveToward(slider11.value, target, 55 * dt);
+      }
+      if (rotation12) {
+        const degrees = THREE.MathUtils.radToDeg(cutterPhase);
+        rotation12.value = ((degrees + 180) % 360 + 360) % 360 - 180;
+      }
+
+      validatedJointRuntimes.forEach((runtime) => {
+        if (runtime.definition.id === "rotation12") return;
+        if (runtime.definition.type === "prismatic") return;
+        const lower = Number(runtime.definition.min);
+        const upper = Number(runtime.definition.max);
+        if (Number.isFinite(lower) && Number.isFinite(upper)) {
+          runtime.value = THREE.MathUtils.clamp(runtime.value, lower, upper);
+        }
+      });
+      updateValidatedModelMatrices();
+      elements.modelLabel.textContent =
+        `検証済みFusion配置 / φ${PIPE_INNER_DIAMETER_MM}`
+        + ` / 軸差 ${PIPE_AXIS_FROM_ROTATION9_RADIAL_MM} / S6 ${slider6?.value.toFixed(1) ?? "-"} mm`
+        + ` / S11 ${slider11?.value.toFixed(1) ?? "-"} mm`
+        + ` / R9 ${rotation9?.value.toFixed(1) ?? "-"}°`;
+    }
+
+    async function loadUrdfRobot() {
+      const urdfUrl = "./assets/robot_model_pipe_urdf2/robot_model_pipe_urdf2.urdf";
+      const [response, modelConfigResponse] = await Promise.all([
+        fetch(urdfUrl, { cache: "no-store" }),
+        fetch("/api/model-config", { cache: "no-store" }).catch(() => null)
+      ]);
+      if (!response.ok) throw new Error(`URDF HTTP ${response.status}`);
+      if (modelConfigResponse?.ok) {
+        cadModelConfig = await modelConfigResponse.json();
+        urdfJointsValidated = cadModelConfig?.validated === true;
+      }
+      const documentXml = new DOMParser().parseFromString(await response.text(), "application/xml");
+      const parserError = documentXml.querySelector("parsererror");
+      if (parserError) throw new Error(`URDF parse failed: ${parserError.textContent}`);
+
+      const linkElements = [...documentXml.querySelectorAll("robot > link")];
+      const jointElements = [...documentXml.querySelectorAll("robot > joint")];
+      const linkGroups = new Map();
+      const meshJobs = [];
+      const componentIndexByLink = {
+        "base_link": 0,
+        "motor_module-v1": 1,
+        "drilling_module1-v1": 2,
+        "drilling_module2-v1": 3,
+        "bit-v1": 4
+      };
+      let fusionAssemblyGeometries = null;
+      try {
+        const [fusionResponse, componentResponse] = await Promise.all([
+          fetch("./assets/robot_model.stl", { cache: "no-store" }),
+          fetch("./assets/robot_model_components.bin", { cache: "no-store" })
+        ]);
+        if (!fusionResponse.ok || !componentResponse.ok) throw new Error("Fusion assembly assets unavailable");
+        const [fusionBuffer, componentBuffer] = await Promise.all([
+          fusionResponse.arrayBuffer(),
+          componentResponse.arrayBuffer()
+        ]);
+        const fusionGeometry = parseBinaryStl(fusionBuffer)
+          || parseAsciiStl(new TextDecoder().decode(fusionBuffer));
+        if (!fusionGeometry) throw new Error("Fusion assembly STL parse failed");
+        const triangleCount = fusionGeometry.getAttribute("position").count / 3;
+        const componentMap = parseComponentMap(componentBuffer, triangleCount);
+        if (componentMap.componentCount !== 5) {
+          throw new Error(`Fusion assembly component count is ${componentMap.componentCount}`);
+        }
+        fusionAssemblyGeometries = splitGeometryByComponent(
+          fusionGeometry,
+          componentMap.ids,
+          componentMap.componentCount
+        );
+      } catch (error) {
+        console.warn("Exact Fusion assembly mesh unavailable; using URDF link meshes.", error);
+      }
+
+      linkElements.forEach((linkElement) => {
+        const linkName = linkElement.getAttribute("name");
+        const linkGroup = new THREE.Group();
+        linkGroup.name = `urdf-link:${linkName}`;
+        linkGroups.set(linkName, linkGroup);
+
+        const visualElement = linkElement.querySelector(":scope > visual");
+        const meshElement = visualElement?.querySelector("geometry > mesh");
+        if (!meshElement) return;
+        const fusionComponent = fusionAssemblyGeometries?.[componentIndexByLink[linkName]];
+        if (fusionComponent) {
+          const mesh = new THREE.Mesh(fusionComponent, materialForUrdfLink(linkName));
+          mesh.name = `fusion-assembly-visual:${linkName}`;
+          mesh.scale.setScalar(0.001);
+          linkGroup.add(mesh);
+          if (!cadMesh) cadMesh = mesh;
+          return;
+        }
+        const filename = meshElement.getAttribute("filename");
+        const meshUrl = new URL(filename, new URL(urdfUrl, window.location.href)).href;
+        meshJobs.push(
+          fetchStlGeometry(meshUrl).then((geometry) => {
+            const mesh = new THREE.Mesh(geometry, materialForUrdfLink(linkName));
+            mesh.name = `urdf-visual:${linkName}`;
+            mesh.scale.fromArray(parseVector(meshElement.getAttribute("scale"), [1, 1, 1]));
+            geometry.computeBoundingBox();
+            const localCenter = geometry.boundingBox.getCenter(new THREE.Vector3());
+            const targetCenter = new THREE.Vector3(...urdfAssemblyCenters[linkName]);
+            mesh.position.copy(targetCenter).sub(localCenter.multiply(mesh.scale));
+            linkGroup.add(mesh);
+            if (!cadMesh) cadMesh = mesh;
+          })
+        );
+      });
+      await Promise.all(meshJobs);
+
+      urdfJointRuntimes = jointElements.map((jointElement) => {
+        const parentName = jointElement.querySelector(":scope > parent")?.getAttribute("link");
+        const childName = jointElement.querySelector(":scope > child")?.getAttribute("link");
+        const parentLink = linkGroups.get(parentName);
+        const childLink = linkGroups.get(childName);
+        if (!parentLink || !childLink) {
+          throw new Error(`URDF joint link mismatch: ${parentName} -> ${childName}`);
+        }
+
+        const motionGroup = new THREE.Group();
+        const axisByChild = {
+          "motor_module-v1": [1, 0, 0],
+          "drilling_module1-v1": [0, 0, 1],
+          "drilling_module2-v1": [0, 0, -1],
+          "bit-v1": [0, -1, 0]
+        };
+        const configIdByChild = {
+          "motor_module-v1": "slider6",
+          "drilling_module1-v1": "rotation9",
+          "drilling_module2-v1": "slider11",
+          "bit-v1": "rotation12"
+        };
+        const configuredJoint = cadModelConfig?.joints?.find(
+          (joint) => joint.id === configIdByChild[childName]
+        );
+        const axis = new THREE.Vector3(
+          ...(configuredJoint?.axis || axisByChild[childName])
+        ).normalize();
+
+        const limitElement = jointElement.querySelector(":scope > limit");
+        const configuredScale = configuredJoint?.unit === "mm"
+          ? 0.001
+          : (configuredJoint?.unit === "deg" ? Math.PI / 180 : 1);
+        const lower = Number.isFinite(Number(configuredJoint?.min))
+          ? Number(configuredJoint.min) * configuredScale
+          : Number(limitElement?.getAttribute("lower"));
+        const upper = Number.isFinite(Number(configuredJoint?.max))
+          ? Number(configuredJoint.max) * configuredScale
+          : Number(limitElement?.getAttribute("upper"));
+        return {
+          name: jointElement.getAttribute("name"),
+          type: jointElement.getAttribute("type"),
+          parentName,
+          childName,
+          motionGroup,
+          originPosition: new THREE.Vector3(),
+          axis,
+          basePosition: new THREE.Vector3(),
+          lower: Number.isFinite(lower) ? lower : -Infinity,
+          upper: Number.isFinite(upper) ? upper : Infinity,
+          value: 0
+        };
+      });
+      urdfJointByChild = new Map(urdfJointRuntimes.map((runtime) => [runtime.childName, runtime]));
+
+      const slider6 = urdfJointByChild.get("motor_module-v1");
+      const rotation9 = urdfJointByChild.get("drilling_module1-v1");
+      const slider11 = urdfJointByChild.get("drilling_module2-v1");
+      const rotation12 = urdfJointByChild.get("bit-v1");
+      if (!slider6 || !rotation9 || !slider11 || !rotation12) {
+        throw new Error("URDF does not contain the expected four joints");
+      }
+
+      // ACDC4Robot exports the module meshes in their Fusion assembly frames.
+      // Keep those zero-position frames, and use the URDF axes/limits for motion.
+      const flatAssembly = new THREE.Group();
+      flatAssembly.add(linkGroups.get("base_link"));
+
+      slider6.motionGroup.add(linkGroups.get("motor_module-v1"));
+      flatAssembly.add(slider6.motionGroup);
+
+      const configuredRotation9 = cadModelConfig?.joints?.find(
+        (joint) => joint.id === "rotation9"
+      );
+      const rotation9Pivot = new THREE.Vector3(
+        ...(configuredRotation9?.pivot || [0, 0, 0])
+      ).multiplyScalar(0.001);
+      const drilling1 = linkGroups.get("drilling_module1-v1");
+      drilling1.position.copy(rotation9Pivot).multiplyScalar(-1);
+      rotation9.motionGroup.add(drilling1);
+      rotation9.basePosition.copy(rotation9Pivot);
+      rotation9.motionGroup.position.copy(rotation9.basePosition);
+      flatAssembly.add(rotation9.motionGroup);
+
+      slider11.basePosition.copy(rotation9Pivot).multiplyScalar(-1);
+      slider11.motionGroup.position.copy(slider11.basePosition);
+      slider11.motionGroup.add(linkGroups.get("drilling_module2-v1"));
+      rotation9.motionGroup.add(slider11.motionGroup);
+
+      const configuredRotation12 = cadModelConfig?.joints?.find(
+        (joint) => joint.id === "rotation12"
+      );
+      const rotation12Pivot = new THREE.Vector3(
+        ...(configuredRotation12?.pivot || [0, 0, -56])
+      ).multiplyScalar(0.001);
+      const bitLink = linkGroups.get("bit-v1");
+      bitLink.position.copy(rotation12Pivot).multiplyScalar(-1);
+      rotation12.basePosition.copy(rotation12Pivot);
+      rotation12.motionGroup.position.copy(rotation12.basePosition);
+      rotation12.motionGroup.add(bitLink);
+      slider11.motionGroup.add(rotation12.motionGroup);
+
+      const axisMappedRoot = new THREE.Group();
+      axisMappedRoot.add(flatAssembly);
+      axisMappedRoot.applyMatrix4(
+        new THREE.Matrix4().set(
+          0, 0, 1, 0,
+          1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 0, 1
+        )
+      );
+      modelGroup.add(axisMappedRoot);
+      modelGroup.updateMatrixWorld(true);
+
+      const box = new THREE.Box3().setFromObject(axisMappedRoot);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      axisMappedRoot.position.set(-center.x, 0, 0);
+      modelGroup.scale.setScalar(300 / (Math.max(size.x, size.y, size.z) || 1));
+      modelGroup.rotation.set(0, 0, 0);
+      urdfLoaded = true;
+      elements.modelLabel.textContent = urdfJointsValidated
+        ? `Fusion形状 / ${linkGroups.size}リンク / ${urdfJointRuntimes.length}軸`
+        : "Fusion形状 / 関節検証待ち（ゼロ姿勢）";
+    }
+
+    function moveToward(current, target, maxStep) {
+      const difference = target - current;
+      if (Math.abs(difference) <= maxStep) return target;
+      return current + Math.sign(difference) * maxStep;
+    }
+
+    function applyUrdfJoints(dt) {
+      const valves = currentState.valves || {};
+      const imu = currentState.imu || {};
+      const slider6 = urdfJointByChild.get("motor_module-v1");
+      const rotation9 = urdfJointByChild.get("drilling_module1-v1");
+      const slider11 = urdfJointByChild.get("drilling_module2-v1");
+      const rotation12 = urdfJointByChild.get("bit-v1");
+
+      if (slider6) {
+        let target = slider6.value;
+        if (isOn(valves.move_push)) target = slider6.upper;
+        else if (isOn(valves.move_pull)) target = slider6.lower;
+        slider6.value = moveToward(slider6.value, target, 0.03 * dt);
+      }
+      if (rotation9) {
+        const sensor2Roll = Number(imu.roll_deg);
+        const sensor1Roll = Number((currentState.body_accel || {}).roll_deg);
+        if (Number.isFinite(sensor2Roll) && Number.isFinite(sensor1Roll)) {
+          const target = shortestAngle(
+            shortestAngle(sensor2Roll - sensor1Roll) - zeroSensor2Roll
+          );
+          const current = THREE.MathUtils.radToDeg(rotation9.value);
+          rotation9.value = THREE.MathUtils.degToRad(
+            smoothJointAngle(current, target, dt)
+          );
+        }
+      }
+      if (slider11) {
+        const extensionMm = drillDistanceExtensionMm(dt);
+        let target = Number.isFinite(extensionMm)
+          ? THREE.MathUtils.clamp(
+            slider11.lower + extensionMm / 1000,
+            slider11.lower,
+            slider11.upper
+          )
+          : slider11.value;
+        if (
+          Math.abs(target - slider11.value)
+          <= SLIDER11_DISTANCE_DEADBAND_MM / 1000
+        ) {
+          target = slider11.value;
+        }
+        slider11.value = moveToward(slider11.value, target, 0.055 * dt);
+      }
+      if (rotation12) rotation12.value = cutterPhase;
+
+      urdfJointRuntimes.forEach((runtime) => {
+        runtime.motionGroup.position.copy(runtime.basePosition);
+        runtime.motionGroup.quaternion.identity();
+        if (runtime.type === "prismatic") {
+          runtime.value = THREE.MathUtils.clamp(runtime.value, runtime.lower, runtime.upper);
+          runtime.motionGroup.position.addScaledVector(runtime.axis, runtime.value);
+        } else if (runtime.type === "revolute" || runtime.type === "continuous") {
+          runtime.motionGroup.quaternion.setFromAxisAngle(runtime.axis, runtime.value);
+        }
+      });
     }
 
     function fitGeometry(geometry) {
       geometry.computeBoundingBox();
-      const box = geometry.boundingBox;
       const center = new THREE.Vector3();
       const size = new THREE.Vector3();
-      box.getCenter(center);
-      box.getSize(size);
+      geometry.boundingBox.getCenter(center);
+      geometry.boundingBox.getSize(size);
       geometry.translate(-center.x, -center.y, -center.z);
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = 310 / maxDim;
-      modelGroup.scale.setScalar(scale);
-      modelGroup.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
+      const scale = 300 / (Math.max(size.x, size.y, size.z) || 1);
+      cadDisplayScale = scale;
+      geometry.scale(scale, scale, scale);
+      geometry.applyMatrix4(
+        new THREE.Matrix4().set(
+          0, 0, 1, 0,
+          1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 0, 1
+        )
+      );
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+      modelGroup.scale.setScalar(1);
+      modelGroup.rotation.set(0, 0, 0);
+    }
+
+    function stateValue(path) {
+      let value = currentState;
+      for (const key of String(path || "").split(".")) {
+        if (!value || typeof value !== "object") return NaN;
+        value = value[key];
+      }
+      return Number(value);
+    }
+
+    function geometryFromTriangleCount(triangleCount) {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(triangleCount * 9), 3));
+      geometry.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(triangleCount * 9), 3));
+      return geometry;
+    }
+
+    function buildConfiguredCadModel(geometry, componentIds, config) {
+      const joints = Array.isArray(config.joints) ? config.joints : [];
+      const ownerByComponent = new Int32Array(cadComponentCount);
+      ownerByComponent.fill(-1);
+      joints.forEach((joint, jointIndex) => {
+        (joint.components || []).forEach((componentId) => {
+          if (componentId >= 0 && componentId < cadComponentCount) {
+            ownerByComponent[componentId] = jointIndex;
+          }
+        });
+      });
+
+      const triangleCounts = new Uint32Array(joints.length + 1);
+      for (let triangle = 0; triangle < componentIds.length; triangle++) {
+        triangleCounts[ownerByComponent[componentIds[triangle]] + 1]++;
+      }
+      const geometries = [...triangleCounts].map((count) => geometryFromTriangleCount(count));
+      const writeOffsets = new Uint32Array(geometries.length);
+      const sourcePosition = geometry.getAttribute("position").array;
+      const sourceNormal = geometry.getAttribute("normal").array;
+      for (let triangle = 0; triangle < componentIds.length; triangle++) {
+        const targetIndex = ownerByComponent[componentIds[triangle]] + 1;
+        const targetPosition = geometries[targetIndex].getAttribute("position").array;
+        const targetNormal = geometries[targetIndex].getAttribute("normal").array;
+        const sourceOffset = triangle * 9;
+        const targetOffset = writeOffsets[targetIndex];
+        for (let item = 0; item < 9; item++) {
+          targetPosition[targetOffset + item] = sourcePosition[sourceOffset + item];
+          targetNormal[targetOffset + item] = sourceNormal[sourceOffset + item];
+        }
+        writeOffsets[targetIndex] += 9;
+      }
+
+      if (triangleCounts[0] > 0) {
+        const baseMesh = new THREE.Mesh(geometries[0], materialBody);
+        modelGroup.add(baseMesh);
+        cadMesh = baseMesh;
+      }
+
+      const runtimeById = new Map();
+      cadJointRuntimes = joints.map((definition, index) => {
+        const pivot = definition.pivot_reference === "pipe_centerline"
+          ? new THREE.Vector3(0, 0, 0)
+          : new THREE.Vector3().fromArray(definition.pivot || [0, 0, 0]);
+        const axis = definition.axis_reference === "pipe_axis"
+          ? new THREE.Vector3(1, 0, 0)
+          : new THREE.Vector3().fromArray(definition.axis || [1, 0, 0]);
+        if (axis.lengthSq() < 1e-9) axis.set(1, 0, 0);
+        axis.normalize();
+        const runtime = {
+          definition,
+          group: new THREE.Group(),
+          pivot,
+          axis,
+          geometry: geometries[index + 1]
+        };
+        runtimeById.set(definition.id, runtime);
+        return runtime;
+      });
+
+      cadJointRuntimes.forEach((runtime) => {
+        const parent = runtimeById.get(runtime.definition.parent);
+        const parentPivot = parent ? parent.pivot : new THREE.Vector3();
+        runtime.basePosition = runtime.pivot.clone().sub(parentPivot);
+        runtime.group.position.copy(runtime.basePosition);
+        if (parent) parent.group.add(runtime.group);
+        else modelGroup.add(runtime.group);
+        if (runtime.geometry.getAttribute("position").count > 0) {
+          const partMesh = new THREE.Mesh(runtime.geometry, materialBody);
+          partMesh.position.copy(runtime.pivot).multiplyScalar(-1);
+          runtime.group.add(partMesh);
+          if (!cadMesh) cadMesh = partMesh;
+        }
+      });
+      geometry.dispose();
+    }
+
+    function applyConfiguredJoints() {
+      cadJointRuntimes.forEach((runtime) => {
+        const definition = runtime.definition;
+        const rawValue = stateValue(definition.source);
+        const scale = Number.isFinite(Number(definition.scale)) ? Number(definition.scale) : 1;
+        const offset = Number.isFinite(Number(definition.offset)) ? Number(definition.offset) : 0;
+        const minimum = Number.isFinite(Number(definition.min)) ? Number(definition.min) : -Infinity;
+        const maximum = Number.isFinite(Number(definition.max)) ? Number(definition.max) : Infinity;
+        const value = Number.isFinite(rawValue)
+          ? THREE.MathUtils.clamp(rawValue * scale + offset, minimum, maximum)
+          : 0;
+        runtime.group.position.copy(runtime.basePosition);
+        runtime.group.quaternion.identity();
+        if (definition.type === "prismatic") {
+          runtime.group.position.addScaledVector(runtime.axis, value * cadDisplayScale);
+        } else {
+          runtime.group.quaternion.setFromAxisAngle(runtime.axis, THREE.MathUtils.degToRad(value));
+        }
+      });
+    }
+
+    function parseComponentMap(buffer, triangleCount) {
+      if (buffer.byteLength < 12) throw new Error("component map is too short");
+      const bytes = new Uint8Array(buffer, 0, 4);
+      if (String.fromCharCode(...bytes) !== "HCP1") throw new Error("component map magic mismatch");
+      const view = new DataView(buffer);
+      const mappedTriangles = view.getUint32(4, true);
+      const componentCount = view.getUint32(8, true);
+      if (mappedTriangles !== triangleCount) {
+        throw new Error(`component map triangle mismatch: ${mappedTriangles} != ${triangleCount}`);
+      }
+      if (buffer.byteLength !== 12 + mappedTriangles * 2) {
+        throw new Error("component map size mismatch");
+      }
+      return {
+        ids: new Uint16Array(buffer, 12, mappedTriangles),
+        componentCount
+      };
+    }
+
+    function createSelectableCadMaterial() {
+      const material = materialBody.clone();
+      material.onBeforeCompile = (shader) => {
+        shader.uniforms.cadSensorRoll = cadRollUniform;
+        shader.vertexShader = shader.vertexShader
+          .replace(
+            "#include <common>",
+            `#include <common>
+attribute float partSelected;
+uniform float cadSensorRoll;
+varying float vPartSelected;`
+          )
+          .replace(
+            "#include <beginnormal_vertex>",
+            `#include <beginnormal_vertex>
+if (partSelected > 0.5) {
+  float c = cos(cadSensorRoll);
+  float s = sin(cadSensorRoll);
+  objectNormal.yz = mat2(c, -s, s, c) * objectNormal.yz;
+}`
+          )
+          .replace(
+            "#include <begin_vertex>",
+            `#include <begin_vertex>
+vPartSelected = partSelected;
+if (partSelected > 0.5) {
+  float c = cos(cadSensorRoll);
+  float s = sin(cadSensorRoll);
+  transformed.yz = mat2(c, -s, s, c) * transformed.yz;
+}`
+          );
+        shader.fragmentShader = shader.fragmentShader
+          .replace(
+            "#include <common>",
+            `#include <common>
+varying float vPartSelected;`
+          )
+          .replace(
+            "vec4 diffuseColor = vec4( diffuse, opacity );",
+            `vec3 selectedColor = mix(diffuse, vec3(1.0, 0.46, 0.06), vPartSelected * 0.42);
+vec4 diffuseColor = vec4(selectedColor, opacity);`
+          );
+      };
+      material.customProgramCacheKey = () => "haikan-selectable-cad-v1";
+      return material;
+    }
+
+    function persistCadSelection() {
+      localStorage.setItem(
+        "pipeRobotCadSelectedComponents",
+        JSON.stringify([...selectedCadComponents].sort((a, b) => a - b))
+      );
+      localStorage.setItem("pipeRobotCadRotationMode", cadRotationMode);
+    }
+
+    function updateCadSelectionAttribute() {
+      if (!cadSelectionAttribute || !cadComponentIds) return;
+      const values = cadSelectionAttribute.array;
+      for (let triangle = 0; triangle < cadComponentIds.length; triangle++) {
+        const selected = selectedCadComponents.has(cadComponentIds[triangle]) ? 1 : 0;
+        const offset = triangle * 3;
+        values[offset] = selected;
+        values[offset + 1] = selected;
+        values[offset + 2] = selected;
+      }
+      cadSelectionAttribute.needsUpdate = true;
+      persistCadSelection();
+      updateCadPartControls();
+    }
+
+    function updateCadPartControls() {
+      const available = Boolean(cadMesh && cadComponentIds);
+      elements.partBadge.hidden = !available;
+      elements.partSelectButton.hidden = !available;
+      elements.wholeModelButton.hidden = !available;
+      elements.partSelectButton.classList.toggle("active", selectingCadParts);
+      elements.partSelectButton.textContent = selectingCadParts ? "選択完了" : "回転対象を選択";
+      if (!available) return;
+      const selectedCount = selectedCadComponents.size;
+      if (selectingCadParts) {
+        setBadge(elements.partBadge, `部品をクリック（${selectedCount}個選択）`, "warn");
+      } else if (cadRotationMode === "selected" && selectedCount > 0) {
+        setBadge(elements.partBadge, `回転対象：選択部品 ${selectedCount}個`, "ok");
+      } else {
+        setBadge(elements.partBadge, "回転対象：モデル全体", "");
+      }
+    }
+
+    function selectCadPartAt(event) {
+      if (!selectingCadParts || !cadMesh || !cadComponentIds) return;
+      const rect = elements.canvas.getBoundingClientRect();
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObject(cadMesh, false)[0];
+      if (!hit || !Number.isInteger(hit.faceIndex)) return;
+      const componentId = cadComponentIds[hit.faceIndex];
+      if (selectedCadComponents.has(componentId)) {
+        selectedCadComponents.delete(componentId);
+      } else {
+        selectedCadComponents.add(componentId);
+      }
+      cadRotationMode = selectedCadComponents.size > 0 ? "selected" : "whole";
+      updateCadSelectionAttribute();
     }
 
     async function loadRobotModel() {
-      const useCad = new URLSearchParams(window.location.search).get("cad") === "1";
+      const useCad = new URLSearchParams(window.location.search).get("cad") !== "0";
       if (!useCad) {
-        modelLabel.textContent = "軽量モデル";
         buildFallbackBody();
         buildMechanismOverlay();
+        elements.modelLabel.textContent = "軽量模式モデル / 青:上側駆動輪・灰:下側受動輪";
         return;
       }
       try {
-        const res = await fetch("./assets/robot_model.stl", { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const buffer = await res.arrayBuffer();
-        let geometry = parseBinaryStl(buffer);
-        if (!geometry) {
-          geometry = parseAsciiStl(new TextDecoder().decode(buffer));
-        }
-        if (!geometry) throw new Error("STL parse failed");
-        fitGeometry(geometry);
-        const mesh = new THREE.Mesh(geometry, materialBody);
-        modelGroup.add(mesh);
-        modelLabel.textContent = "CADモデル";
-      } catch (err) {
-        modelLabel.textContent = "簡易モデル";
-        buildFallbackBody();
+        if (await loadValidatedRobot()) return;
+      } catch (error) {
+        console.warn("Validated model load failed; trying URDF.", error);
+        validatedModelLoaded = false;
+        validatedJointRuntimes = new Map();
+        validatedComponentMeshes = [];
+        modelGroup.clear();
       }
-      buildMechanismOverlay();
+      try {
+        await loadUrdfRobot();
+        return;
+      } catch (error) {
+        console.warn("URDF model load failed; falling back to the legacy CAD model.", error);
+        urdfLoaded = false;
+        urdfJointRuntimes = [];
+        urdfJointByChild = new Map();
+        modelGroup.clear();
+      }
+      let cadLoaded = false;
+      try {
+        const [response, componentResponse, configResponse] = await Promise.all([
+          fetch("./assets/robot_model.stl", { cache: "no-store" }),
+          fetch("./assets/robot_model_components.bin", { cache: "no-store" }),
+          fetch("/api/model-config", { cache: "no-store" })
+        ]);
+        if (!response.ok) throw new Error(`STL HTTP ${response.status}`);
+        if (!componentResponse.ok) throw new Error(`component map HTTP ${componentResponse.status}`);
+        if (!configResponse.ok) throw new Error(`model config HTTP ${configResponse.status}`);
+        const [buffer, componentBuffer, modelConfig] = await Promise.all([
+          response.arrayBuffer(),
+          componentResponse.arrayBuffer(),
+          configResponse.json()
+        ]);
+        const geometry = parseBinaryStl(buffer) || parseAsciiStl(new TextDecoder().decode(buffer));
+        if (!geometry) throw new Error("STL parse failed");
+        const triangleCount = geometry.getAttribute("position").count / 3;
+        const componentMap = parseComponentMap(componentBuffer, triangleCount);
+        cadComponentIds = componentMap.ids;
+        cadComponentCount = componentMap.componentCount;
+        fitGeometry(geometry);
+        cadModelConfig = modelConfig;
+        buildConfiguredCadModel(geometry, cadComponentIds, cadModelConfig);
+        cadLoaded = true;
+        const assignedCount = cadModelConfig.joints.reduce(
+          (total, joint) => total + (joint.components || []).length,
+          0
+        );
+        elements.modelLabel.textContent = `CAD / ${cadComponentCount}部品 / ${cadJointRuntimes.length}軸 / 割当${assignedCount}部品`;
+      } catch (error) {
+        console.error(error);
+        buildFallbackBody();
+        elements.modelLabel.textContent = window.location.protocol === "file:"
+          ? "実モデル読込不可：PC側起動スクリプトから開いてください"
+          : "実モデル読込失敗 → 軽量模式モデル";
+      }
+      if (!cadLoaded) buildMechanismOverlay();
     }
 
-    function buildFallbackBody() {
-      const body = new THREE.Mesh(new THREE.BoxGeometry(240, 92, 54), materialBody);
-      modelGroup.add(body);
-      leftWheel = wheelMesh(-92);
-      rightWheel = wheelMesh(92);
-      modelGroup.add(leftWheel, rightWheel);
-      const head = new THREE.Mesh(new THREE.BoxGeometry(36, 30, 28), materialAccent);
-      head.position.set(130, 0, 4);
-      modelGroup.add(head);
+    function selectPose(state) {
+      const body = state.body_accel || {};
+      const imu = state.imu || {};
+      const candidates = [
+        { data: body, name: "本体加速度センサ", priority: 0 },
+        { data: imu, name: "ESP1 IMU（代替）", priority: 1 }
+      ];
+      for (const candidate of candidates) {
+        const roll = Number(candidate.data.roll_deg);
+        const pitch = Number(candidate.data.pitch_deg);
+        if (Number.isFinite(roll) && Number.isFinite(pitch) && ageSec(candidate.data.updated_s) < STALE_SEC) {
+          return { roll, pitch, name: candidate.name, fresh: true, age: ageSec(candidate.data.updated_s) };
+        }
+      }
+      for (const candidate of candidates) {
+        const roll = Number(candidate.data.roll_deg);
+        const pitch = Number(candidate.data.pitch_deg);
+        if (Number.isFinite(roll) && Number.isFinite(pitch)) {
+          return { roll, pitch, name: candidate.name, fresh: false, age: ageSec(candidate.data.updated_s) };
+        }
+      }
+      return null;
     }
 
-    function wheelMesh(x) {
-      const wheel = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 18, 32), materialWheel);
-      wheel.rotation.z = Math.PI / 2;
-      wheel.position.set(x, 48, -32);
-      return wheel;
+    function operatingMode(motor, valves) {
+      if (isOn(valves.grinder_air) || isOn(valves.drill_push)) return { text: "切削中", kind: "warn" };
+      if (Math.abs(Number(motor.step_hz || 0)) > 2) return { text: "ロール機構動作", kind: "warn" };
+      if (isOn(motor.enabled) || Math.abs(Number(motor.encoder_rpm || 0)) > 1) return { text: "軸方向走行", kind: "ok" };
+      return { text: "停止", kind: "" };
     }
 
-    function buildMechanismOverlay() {
-      const axisLen = 245;
-      const axis = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, axisLen, 16), materialAxis);
-      axis.rotation.z = Math.PI / 2;
-      axis.position.set(0, -76, 48);
-      mechanismGroup.add(axis);
+    function updateWarnings(state, pose) {
+      const motor = state.motor || {};
+      const valves = state.valves || {};
+      const cutting = isOn(valves.grinder_air) || isOn(valves.drill_push);
+      const alerts = [];
+      let severe = false;
 
-      screwMesh = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 210, 18), materialAccent);
-      screwMesh.rotation.z = Math.PI / 2;
-      screwMesh.position.set(0, -98, 70);
-      mechanismGroup.add(screwMesh);
+      if (cutting && !cutWasActive && pose) cutStartRoll = pose.roll;
+      if (!cutting) cutStartRoll = null;
+      cutWasActive = cutting;
 
-      sliderMesh = new THREE.Mesh(new THREE.BoxGeometry(38, 26, 32), materialAccent);
-      sliderMesh.position.set(0, -98, 70);
-      mechanismGroup.add(sliderMesh);
+      if (cutting && pose && cutStartRoll !== null) {
+        const drift = Math.abs(shortestAngle(pose.roll - cutStartRoll));
+        if (drift >= ROLL_WARNING_DEG) {
+          alerts.push(`切削開始時から本体ロールが ${drift.toFixed(1)}° 変化`);
+          severe = drift >= 6;
+        }
+      }
 
-      const laser = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 10, 120, 24), materialLaser);
-      laser.rotation.x = Math.PI / 2;
-      laser.position.set(0, -152, 70);
-      mechanismGroup.add(laser);
+      const duty = Math.abs(Number(motor.duty || 0));
+      const rpm = Math.abs(Number(motor.encoder_rpm));
+      const commandWithoutRotation = ageSec(motor.updated_s) < STALE_SEC && isOn(motor.enabled) && duty >= 10 && Number.isFinite(rpm) && rpm < 2;
+      if (commandWithoutRotation) {
+        if (mismatchStartedAt === null) mismatchStartedAt = performance.now();
+        if (performance.now() - mismatchStartedAt > 1000) alerts.push("走行指令あり・車輪回転を検出できません（滑り／拘束候補）");
+      } else {
+        mismatchStartedAt = null;
+      }
+
+      if (!pose || !pose.fresh) alerts.push("姿勢データが更新されていません");
+      elements.alertBox.hidden = alerts.length === 0;
+      elements.alertBox.textContent = alerts.join(" / ");
+      elements.alertBox.className = `alert-box ${severe ? "bad" : ""}`.trim();
+    }
+
+    function updatePanels(state) {
+      currentState = state || {};
+      lastApiAt = performance.now();
+      const imu = state.imu || {};
+      const body = state.body_accel || {};
+      const sensors = state.sensors || {};
+      const motor = state.motor || {};
+      const valves = state.valves || {};
+      const controller = state.controller || {};
+      latestPose = selectPose(state);
+
+      const mode = operatingMode(motor, valves);
+      setBadge(elements.apiBadge, "API 接続", "ok");
+      setBadge(elements.modeBadge, mode.text, mode.kind);
+      if (latestPose) {
+        setBadge(elements.poseBadge, latestPose.fresh ? "姿勢 更新中" : "姿勢 停止", latestPose.fresh ? "ok" : "bad");
+        const relativeRoll = shortestAngle(latestPose.roll - zeroRoll);
+        const relativePitch = shortestAngle(latestPose.pitch - zeroPitch);
+        elements.poseLabel.textContent = `roll ${fmt(relativeRoll, 1, "°")} / pitch ${fmt(relativePitch, 1, "°")}`;
+        elements.poseSource.textContent = `${latestPose.name} / 重力基準${zeroRoll || zeroPitch ? "・ゼロ補正中" : ""} / yawは未観測`;
+      } else {
+        setBadge(elements.poseBadge, "姿勢値なし", "bad");
+        elements.poseLabel.textContent = "roll - / pitch -";
+        elements.poseSource.textContent = "姿勢センサ待機中 / yawは未観測";
+      }
+
+      const rpm = Number(motor.encoder_rpm || 0);
+      const stepHz = Number(motor.step_hz || 0);
+      const grinderRpm = Number(sensors.grinder_rpm || 0);
+      const pressure = Number(sensors.pressure_mpa);
+      const theoreticalForce = Number.isFinite(pressure) ? pressure * Math.PI * 32 * 32 / 4 : NaN;
+      elements.motionLabel.textContent = `実測：車輪 ${Math.abs(rpm) > 1 ? fmt(rpm, 1, " rpm") : "停止"} / 工具 ${Math.abs(grinderRpm) > 1 ? fmt(grinderRpm, 0, " rpm") : "停止"}`;
+      elements.forceLabel.textContent = `距離 ${fmt(sensors.distance_mm, 0, " mm")} / 圧力 ${fmt(pressure, 3, " MPa")} / φ32理論推力 ${fmt(theoreticalForce, 0, " N")}`;
+      updateWarnings(state, latestPose);
+
+      const imuAge = ageValue(imu.updated_s);
+      elements.imuPanel.innerHTML = [
+        row("更新", imuAge.text, imuAge.cls),
+        row("ax / ay / az", `${fmt(imu.ax_g, 3)} / ${fmt(imu.ay_g, 3)} / ${fmt(imu.az_g, 3)} g`),
+        row("IMU roll", fmt(imu.roll_deg, 1, "°")),
+        row("IMU pitch", fmt(imu.pitch_deg, 1, "°")),
+        row("距離", fmt(sensors.distance_mm, 0, " mm")),
+        row("圧力", fmt(sensors.pressure_mpa, 3, " MPa")),
+        row("グラインダ回転", fmt(sensors.grinder_rpm, 0, " rpm")),
+        row("回転信号", sensors.ki1233_signal ?? sensors.photo_gate ?? "-"),
+        `<div class="raw">${esc(imu.last_raw || "")}</div>`
+      ].join("");
+
+      const bodyAge = ageValue(body.updated_s);
+      const pins = body.pins || {};
+      const voltage = body.raw_voltage_v || {};
+      const offset = body.mount_offset_mm || {};
+      elements.bodyAccelPanel.innerHTML = [
+        row("更新", bodyAge.text, bodyAge.cls),
+        row("状態", esc(body.status || "-")),
+        row("ax / ay / az", `${fmt(body.ax_g, 3)} / ${fmt(body.ay_g, 3)} / ${fmt(body.az_g, 3)} g`),
+        row("本体 roll", fmt(body.roll_deg, 1, "°")),
+        row("本体 pitch", fmt(body.pitch_deg, 1, "°")),
+        row("GPIO x/y/z", `${esc(pins.x ?? "-")} / ${esc(pins.y ?? "-")} / ${esc(pins.z ?? "-")}`),
+        row("電圧 x/y/z", `${fmt(voltage.x, 3)} / ${fmt(voltage.y, 3)} / ${fmt(voltage.z, 3)} V`),
+        row("設置位置", `${fmt(offset.x, 1)} / ${fmt(offset.y, 1)} / ${fmt(offset.z, 1)} mm`),
+        `<div class="raw">${esc(body.note || "")}</div>`
+      ].join("");
+
+      const motorAge = ageValue(motor.updated_s);
+      elements.motorPanel.innerHTML = [
+        row("更新", motorAge.text, motorAge.cls),
+        row("状態", esc(motor.state || "-")),
+        row("走行 enabled", esc(motor.enabled ?? "-")),
+        row("走行 duty", esc(motor.duty ?? "-")),
+        row("車輪 encoder", fmt(motor.encoder_rpm, 1, " rpm")),
+        row("ESCON電流", fmt(motor.current_a, 3, " A")),
+        row("ロール指令", fmt(motor.step_hz, 0, " Hz")),
+        row("step A", `${fmt(motor.step_sense_a_v, 3, " V")} / ${fmt(motor.step_sense_a_a, 3, " A")}`),
+        row("step B", `${fmt(motor.step_sense_b_v, 3, " V")} / ${fmt(motor.step_sense_b_a, 3, " A")}`),
+        `<div class="raw">${esc(motor.last_raw || "")}</div>`
+      ].join("");
+
+      const valveAge = ageValue(valves.updated_s);
+      elements.valvePanel.innerHTML = [
+        row("更新", valveAge.text, valveAge.cls),
+        row("走行輪 押付", valveStatus(valves.move_push)),
+        row("走行輪 引込", valveStatus(valves.move_pull)),
+        row("ドリル 押出", valveStatus(valves.drill_push)),
+        row("ドリル 引込", valveStatus(valves.drill_pull)),
+        row("グラインダ空圧", valveStatus(valves.grinder_air)),
+        row("弁 mask", esc(valves.mask ?? "-")),
+        `<div class="raw">${esc(valves.last_raw || "")}</div>`
+      ].join("");
+
+      const controllerAge = ageValue(controller.updated_s);
+      const pressed = new Set((controller.buttons || []).map((v, i) => Number(v) ? i : -1).filter((i) => i >= 0));
+      elements.controllerPanel.innerHTML = [
+        row("更新", controllerAge.text, controllerAge.cls),
+        row("送信元", esc(controller.source_ip || "-")),
+        row("名前", esc(controller.name || "-")),
+        row("seq", esc(controller.seq ?? "-")),
+        row("押下ボタン", esc((controller.pressed_buttons || []).join(", ") || "-")),
+        row("軸", chips(controller.axes || [])),
+        row("ボタン", chips(controller.buttons || [], pressed)),
+        row("十字キー", chips(controller.hats || [])),
+        `<div class="raw">${esc(controller.last_raw || "")}</div>`
+      ].join("");
     }
 
     function resize3d() {
-      const rect = canvas.parentElement.getBoundingClientRect();
+      const rect = elements.canvas.parentElement.getBoundingClientRect();
       const width = Math.max(1, Math.floor(rect.width));
       const height = Math.max(1, Math.floor(rect.height));
       renderer.setSize(width, height, false);
@@ -537,138 +1877,263 @@
       camera.updateProjectionMatrix();
     }
 
-    function updatePanels(s) {
-      currentState = s || {};
-      const imu = s.imu || {};
-      const bodyAccel = s.body_accel || {};
-      const sensors = s.sensors || {};
-      const motor = s.motor || {};
-      const valves = s.valves || {};
-      const controller = s.controller || {};
-      const pose = accelToRelativePose(imu);
-
-      root.rotation.x = THREE.MathUtils.degToRad(pose.pitch);
-      root.rotation.z = THREE.MathUtils.degToRad(-pose.roll);
-      poseLabel.textContent = `roll ${fmt(pose.roll, 1, " deg")} / pitch ${fmt(pose.pitch, 1, " deg")}`;
-
-      const imuAge = ageValue(imu.updated_s);
-      const motorAge = ageValue(motor.updated_s);
-      const valveAge = ageValue(valves.updated_s);
-      const controllerAge = ageValue(controller.updated_s);
-
-      imuPanel.innerHTML = [
-        row("更新", imuAge.text, imuAge.cls),
-        row("ax", fmt(imu.ax_g, 3, " g")),
-        row("ay", fmt(imu.ay_g, 3, " g")),
-        row("az", fmt(imu.az_g, 3, " g")),
-        row("表示roll", fmt(pose.roll, 1, " deg")),
-        row("表示pitch", fmt(pose.pitch, 1, " deg")),
-        row("距離", fmt(sensors.distance_mm, 0, " mm")),
-        row("圧力", fmt(sensors.pressure_mpa, 3, " MPa")),
-        row("KI1233-AA rpm", fmt(sensors.grinder_rpm, 0, " rpm")),
-        row("KI1233-AA Hz", fmt(sensors.ki1233_pulse_hz, 1, " Hz")),
-        row("KI1233-AA 信号", sensors.ki1233_signal ?? sensors.photo_gate ?? "-"),
-        row("rpm算出", sensors.grinder_rpm_source || "-"),
-        `<div class="raw">${imu.last_raw || ""}</div>`
-      ].join("");
-
-      const bodyAge = ageValue(bodyAccel.updated_s);
-      const bodyRaw = bodyAccel.raw_gpio || {};
-      const bodyVolt = bodyAccel.raw_voltage_v || {};
-      const bodyOffset = bodyAccel.mount_offset_mm || {};
-      const bodyPins = bodyAccel.pins || {};
-      bodyAccelPanel.innerHTML = [
-        row("更新", bodyAge.text, bodyAge.cls),
-        row("GPIO", `x=${bodyPins.x ?? "-"}, y=${bodyPins.y ?? "-"}, z=${bodyPins.z ?? "-"}`),
-        row("生GPIO", `x=${bodyRaw.x ?? "-"}, y=${bodyRaw.y ?? "-"}, z=${bodyRaw.z ?? "-"}`),
-        row("生電圧", `x=${fmt(bodyVolt.x, 3, " V")}, y=${fmt(bodyVolt.y, 3, " V")}, z=${fmt(bodyVolt.z, 3, " V")}`),
-        row("加速度", `x=${fmt(bodyAccel.ax_g, 3, " g")}, y=${fmt(bodyAccel.ay_g, 3, " g")}, z=${fmt(bodyAccel.az_g, 3, " g")}`),
-        row("計算roll", fmt(bodyAccel.roll_deg, 1, " deg")),
-        row("計算pitch", fmt(bodyAccel.pitch_deg, 1, " deg")),
-        row("設置位置", `x=${fmt(bodyOffset.x, 1, " mm")}, y=${fmt(bodyOffset.y, 3, " mm")}, z=${fmt(bodyOffset.z, 2, " mm")}`),
-        row("状態", bodyAccel.status || "-"),
-        `<div class="raw">${bodyAccel.note || ""}</div>`
-      ].join("");
-
-      motorPanel.innerHTML = [
-        row("更新", motorAge.text, motorAge.cls),
-        row("状態", motor.state || "-"),
-        row("duty", motor.duty ?? "-"),
-        row("enabled", motor.enabled ?? "-"),
-        row("ESCON電流", fmt(motor.current_a, 3, " A")),
-        row("encoder rpm", fmt(motor.encoder_rpm, 1, " rpm")),
-        row("step_hz", fmt(motor.step_hz, 0, " Hz")),
-        row("step A", `${fmt(motor.step_sense_a_v, 3, " V")} / ${fmt(motor.step_sense_a_a, 3, " A")}`),
-        row("step B", `${fmt(motor.step_sense_b_v, 3, " V")} / ${fmt(motor.step_sense_b_a, 3, " A")}`),
-        row("step max", fmt(motor.step_current_abs_a, 3, " A")),
-        `<div class="raw">${motor.last_raw || ""}</div>`
-      ].join("");
-
-      valvePanel.innerHTML = [
-        row("更新", valveAge.text, valveAge.cls),
-        row("移動体 押し出し", valveStatus(valves.move_push)),
-        row("移動体 引き込み", valveStatus(valves.move_pull)),
-        row("穿孔 押し出し", valveStatus(valves.drill_push)),
-        row("穿孔 引き込み", valveStatus(valves.drill_pull)),
-        row("グラインダ空圧", valveStatus(valves.grinder_air)),
-        row("mask", valves.mask ?? "-"),
-        `<div class="raw">${valves.last_raw || ""}</div>`
-      ].join("");
-
-      const pressed = new Set(controller.pressed_buttons || []);
-      controllerPanel.innerHTML = [
-        row("更新", controllerAge.text, controllerAge.cls),
-        row("送信元", controller.source_ip || "-"),
-        row("名前", controller.name || "-"),
-        row("seq", controller.seq ?? "-"),
-        row("押下ボタン", (controller.pressed_buttons || []).join(", ") || "-"),
-        row("軸", chips(controller.axes || [])),
-        row("ボタン", chips(controller.buttons || [], pressed)),
-        row("十字キー", chips(controller.hats || [])),
-        `<div class="raw">${controller.last_raw || ""}</div>`
-      ].join("");
+    function setFusionView() {
+      camera.up.set(0, 0, 1);
+      camera.position.set(180, 900, 450);
+      camera.lookAt(0, 0, 0);
     }
 
-    function animate3d() {
-      requestAnimationFrame(animate3d);
-      const motor = currentState.motor || {};
-      const controller = currentState.controller || {};
-      const now = performance.now() * 0.001;
-      const rpm = Number(motor.encoder_rpm || 0);
-      const stepHz = Math.abs(Number(motor.step_hz || 0));
+    function setPipeVisible(visible) {
+      pipeReferenceGroup.visible = visible;
+      elements.pipeVisibilityButton.textContent = visible ? "配管を隠す" : "配管を表示";
+      elements.pipeVisibilityButton.classList.toggle("active", !visible);
+    }
 
-      if (screwMesh) {
-        stepPhase += Math.min(stepHz, 2000) * 0.00012;
-        screwMesh.rotation.x = stepPhase * Math.PI * 2;
+    function animate3d(nowMs) {
+      requestAnimationFrame(animate3d);
+      const dt = Math.min(0.1, Math.max(0, (nowMs - lastFrameAt) / 1000));
+      lastFrameAt = nowMs;
+      const motor = currentState.motor || {};
+      const valves = currentState.valves || {};
+      const sensors = currentState.sensors || {};
+
+      if (sensorTestEnabled) {
+        const targetRoll = Number(elements.testSensor1.value);
+        smoothRoll = smoothAngle(smoothRoll, targetRoll, 1 - Math.exp(-dt * 7));
+        smoothPitch = 0;
+        setBadge(elements.modeBadge, "PC模擬入力", "warn");
+        setBadge(elements.poseBadge, "模擬センサ", "ok");
+        elements.poseLabel.textContent =
+          `sensor1 roll ${targetRoll.toFixed(1)}°`
+          + ` / sensor2 roll ${Number(elements.testSensor2.value).toFixed(1)}°`;
+        elements.poseSource.textContent = "PCテスト値 / 実機へは送信していません";
+      } else if (latestPose && latestPose.fresh) {
+        const targetRoll = shortestAngle(latestPose.roll - zeroRoll);
+        const targetPitch = shortestAngle(latestPose.pitch - zeroPitch);
+        smoothRoll = smoothAngle(smoothRoll, targetRoll, 1 - Math.exp(-dt * 7));
+        smoothPitch = smoothAngle(smoothPitch, targetPitch, 1 - Math.exp(-dt * 7));
       }
-      if (sliderMesh) {
-        if (stepHz > 2) sliderPhase += Math.min(stepHz, 1800) * 0.00005;
-        const axis = Array.isArray(controller.axes) ? Number(controller.axes[1] || 0) : 0;
-        const commandOffset = Number.isFinite(axis) && Math.abs(axis) > 0.05 ? axis * 60 : Math.sin(sliderPhase) * 35;
-        sliderMesh.position.x = THREE.MathUtils.clamp(commandOffset, -84, 84);
+      const configuredCad = cadJointRuntimes.length > 0;
+      robotRoot.rotation.x = (urdfLoaded || validatedModelLoaded)
+        ? THREE.MathUtils.degToRad(smoothRoll)
+        : (configuredCad ? 0 : THREE.MathUtils.degToRad(smoothRoll));
+      robotRoot.rotation.y = (configuredCad || urdfLoaded || validatedModelLoaded)
+        ? 0
+        : THREE.MathUtils.degToRad(smoothPitch);
+      if (configuredCad) applyConfiguredJoints();
+
+      const rpm = Number(motor.encoder_rpm || 0);
+      [...driveWheels, ...passiveWheels].forEach((wheel) => { wheel.rotation.y += rpm * dt * 0.105; });
+
+      const grinderRpm = Number(sensors.grinder_rpm || 0);
+      if (Number.isFinite(grinderRpm)) {
+        cutterPhase += THREE.MathUtils.clamp(grinderRpm, -30000, 30000) * dt * Math.PI / 30;
       }
-      if (leftWheel && rightWheel) {
-        const wheelPhase = now * rpm * 0.11;
-        leftWheel.rotation.x = wheelPhase;
-        rightWheel.rotation.x = wheelPhase;
+      if (grinderSpinGroup) {
+        grinderSpinGroup.rotation.y = cutterPhase;
+      }
+      if (validatedModelLoaded) applyValidatedJoints(dt);
+      else if (urdfLoaded && urdfJointsValidated) applyUrdfJoints(dt);
+
+      const distanceValue = sensors.distance_mm;
+      const distanceMm = distanceValue === null || distanceValue === undefined
+        ? NaN
+        : Number(distanceValue);
+      const hasDistance = Number.isFinite(distanceMm) && distanceMm >= 0 && ageSec((currentState.imu || {}).updated_s) < STALE_SEC;
+      if (distanceBeam && distanceTarget) {
+        const shownDistance = THREE.MathUtils.clamp(distanceMm, 0, 300);
+        distanceBeam.visible = hasDistance;
+        distanceTarget.visible = hasDistance;
+        if (hasDistance) {
+          distanceBeam.scale.y = Math.max(0.1, shownDistance);
+          distanceBeam.position.set(155 + shownDistance / 2, 0, 0);
+          distanceTarget.position.set(155 + shownDistance, 0, 0);
+        }
+      }
+
+      const pressure = Number(sensors.pressure_mpa);
+      const hasPressure = Number.isFinite(pressure) && pressure >= 0 && ageSec((currentState.imu || {}).updated_s) < STALE_SEC;
+      const forceN = hasPressure ? pressure * Math.PI * 32 * 32 / 4 : 0;
+      pressForceArrows.forEach((arrow) => {
+        arrow.visible = hasPressure;
+        if (hasPressure) arrow.setLength(25 + THREE.MathUtils.clamp(forceN / 600, 0, 1) * 50, 10, 6);
+      });
+
+      const stepHz = Number(motor.step_hz || 0);
+
+      const pushed = isOn(valves.move_push);
+      pressLinks.forEach((link) => { link.material = pushed ? materialAccent : materialStructure; });
+      if (drillTool) drillTool.material = Math.abs(grinderRpm) > 1 ? materialDanger : materialStructure;
+
+      if (axialArrow) {
+        axialArrow.visible = Math.abs(rpm) > 1 || isOn(motor.enabled);
+        axialArrow.setDirection(new THREE.Vector3(rpm < 0 ? -1 : 1, 0, 0));
+      }
+      if (rollArrow) rollArrow.visible = Math.abs(stepHz) > 2;
+
+      if (lastApiAt && performance.now() - lastApiAt > 1500) {
+        setBadge(elements.apiBadge, "API 更新停止", "bad");
       }
       renderer.render(scene, camera);
     }
 
     async function tick() {
       try {
-        const res = await fetch("/api/state", { cache: "no-store" });
-        if (res.ok) updatePanels(await res.json());
-      } catch (err) {
-        imuPanel.innerHTML = row("API", "not connected", "age-warn");
+        const response = await fetch("/api/state", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        updatePanels(await response.json());
+      } catch (error) {
+        setBadge(elements.apiBadge, "API 未接続", "bad");
+        if (!lastApiAt) elements.imuPanel.innerHTML = row("API", "未接続", "age-bad");
       }
     }
 
+    document.getElementById("zeroPoseButton").addEventListener("click", () => {
+      if (!latestPose) return;
+      zeroRoll = latestPose.roll;
+      zeroPitch = latestPose.pitch;
+      const sensor2Roll = Number((currentState.imu || {}).roll_deg);
+      const sensor1Roll = Number((currentState.body_accel || {}).roll_deg);
+      if (Number.isFinite(sensor2Roll) && Number.isFinite(sensor1Roll)) {
+        zeroSensor2Roll = shortestAngle(sensor2Roll - sensor1Roll);
+      }
+      smoothRoll = 0;
+      smoothPitch = 0;
+      localStorage.setItem("pipeRobotZeroRoll", String(zeroRoll));
+      localStorage.setItem("pipeRobotZeroPitch", String(zeroPitch));
+      updatePanels(currentState);
+    });
+
+    document.getElementById("resetPoseButton").addEventListener("click", () => {
+      zeroRoll = 0;
+      zeroPitch = 0;
+      zeroSensor2Roll = 0;
+      localStorage.removeItem("pipeRobotZeroRoll");
+      localStorage.removeItem("pipeRobotZeroPitch");
+      updatePanels(currentState);
+    });
+
+    elements.fusionViewButton.addEventListener("click", () => {
+      setFusionView();
+      setPipeVisible(false);
+    });
+
+    elements.pipeVisibilityButton.addEventListener("click", () => {
+      setPipeVisible(!pipeReferenceGroup.visible);
+    });
+
+    elements.partSelectButton.addEventListener("click", () => {
+      if (!cadMesh) return;
+      selectingCadParts = !selectingCadParts;
+      if (!selectingCadParts && selectedCadComponents.size > 0) {
+        cadRotationMode = "selected";
+      }
+      persistCadSelection();
+      updateCadPartControls();
+    });
+
+    elements.wholeModelButton.addEventListener("click", () => {
+      selectingCadParts = false;
+      cadRotationMode = "whole";
+      persistCadSelection();
+      updateCadPartControls();
+    });
+
+    function updateSensorTestPanel() {
+      elements.sensorTestPanel.hidden = !sensorTestEnabled;
+      elements.sensorTestButton.classList.toggle("active", sensorTestEnabled);
+      elements.sensorTestButton.textContent = sensorTestEnabled
+        ? "実センサへ戻す"
+        : "センサ入力テスト";
+      document.getElementById("testSensor1Value").textContent =
+        `${Number(elements.testSensor1.value).toFixed(0)}°`;
+      document.getElementById("testSensor2Value").textContent =
+        `${Number(elements.testSensor2.value).toFixed(0)}°`;
+      document.getElementById("testSlider6Value").textContent =
+        `${Number(elements.testSlider6.value).toFixed(1)} mm`;
+      document.getElementById("testSlider11Value").textContent =
+        `${Number(elements.testSlider11.value).toFixed(1)} mm`;
+      document.getElementById("testToolValue").textContent =
+        `${Number(elements.testTool.value).toFixed(0)}°`;
+    }
+
+    elements.sensorTestButton.addEventListener("click", () => {
+      sensorTestEnabled = !sensorTestEnabled;
+      if (!sensorTestEnabled) {
+        zeroSensor2Roll = 0;
+        slider11DistanceZeroMm = null;
+        slider11FilteredDistanceMm = null;
+        slider11LastDistanceUpdatedS = null;
+        slider11DistanceSamples.length = 0;
+        smoothRoll = 0;
+        validatedJointRuntimes.forEach((runtime) => {
+          runtime.value = runtime.definition.type === "prismatic"
+            ? Number(runtime.definition.min)
+            : 0;
+        });
+      }
+      updateSensorTestPanel();
+    });
+    [
+      elements.testSensor1,
+      elements.testSensor2,
+      elements.testSlider6,
+      elements.testSlider11,
+      elements.testTool
+    ].forEach((input) => input.addEventListener("input", updateSensorTestPanel));
+
     initCameraUrls();
+    updateSensorTestPanel();
+    buildPipeReference();
     resize3d();
     loadRobotModel();
-    animate3d();
+    requestAnimationFrame(animate3d);
     tick();
+    let cameraDragging = false;
+    let cameraDragMoved = false;
+    let cameraPointer = { x: 0, y: 0 };
+    elements.canvas.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      cameraDragging = true;
+      cameraDragMoved = false;
+      cameraPointer = { x: event.clientX, y: event.clientY };
+      elements.canvas.setPointerCapture(event.pointerId);
+    });
+    elements.canvas.addEventListener("pointermove", (event) => {
+      if (!cameraDragging) return;
+      const dx = event.clientX - cameraPointer.x;
+      const dy = event.clientY - cameraPointer.y;
+      if (Math.abs(dx) + Math.abs(dy) > 2) cameraDragMoved = true;
+      cameraPointer = { x: event.clientX, y: event.clientY };
+      const distance = camera.position.length();
+      const horizontal = Math.hypot(camera.position.x, camera.position.y);
+      const azimuth = Math.atan2(camera.position.y, camera.position.x) - dx * 0.006;
+      const elevation = THREE.MathUtils.clamp(
+        Math.atan2(camera.position.z, horizontal) + dy * 0.006,
+        -Math.PI * 0.47,
+        Math.PI * 0.47
+      );
+      const horizontalDistance = Math.cos(elevation) * distance;
+      camera.position.set(
+        Math.cos(azimuth) * horizontalDistance,
+        Math.sin(azimuth) * horizontalDistance,
+        Math.sin(elevation) * distance
+      );
+      camera.lookAt(0, 0, 0);
+    });
+    elements.canvas.addEventListener("pointerup", (event) => {
+      cameraDragging = false;
+      if (!cameraDragMoved) selectCadPartAt(event);
+    });
+    elements.canvas.addEventListener("wheel", (event) => {
+      event.preventDefault();
+      const distance = THREE.MathUtils.clamp(
+        camera.position.length() * (event.deltaY > 0 ? 1.1 : 0.9),
+        220,
+        1800
+      );
+      camera.position.setLength(distance);
+    }, { passive: false });
     addEventListener("resize", resize3d);
     setInterval(tick, 250);
     setInterval(refreshCameraStreams, 45000);

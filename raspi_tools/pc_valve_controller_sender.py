@@ -2,19 +2,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import socket
 import sys
+import threading
 import time
+import urllib.request
 
 
 DEFAULT_BUTTON_MAP = {
-    "drill_push": 0,
-    "drill_pull": 1,
-    "move_push": 3,
-    "move_pull": 4,
+    "drill_push": 7,
+    "drill_pull": 6,
+    "move_push": 9,
+    "move_pull": 8,
 }
 DEFAULT_GRINDER_ON_BUTTON = 10
 DEFAULT_GRINDER_OFF_BUTTON = 11
+DEFAULT_PRESSURE_TARGET_MPA = 0.60
+DEFAULT_PRESSURE_HYSTERESIS_MPA = 0.02
 
 VALVE_COMMAND_NAMES = {
     "move_push": "MOVE_PUSH",
@@ -26,6 +31,7 @@ VALVE_COMMAND_NAMES = {
 
 AXIS_CENTER = 512
 AXIS_RANGE_HALF = 511
+MOTOR_COMMAND_DEADZONE = 50
 
 
 def load_pygame():
@@ -56,6 +62,63 @@ def parse_map(items: list[str]) -> dict[str, int]:
 def send_command(sock: socket.socket, target: tuple[str, int], lines: list[str]) -> None:
     payload = json.dumps({"lines": lines}, separators=(",", ":")).encode("utf-8")
     sock.sendto(payload, target)
+
+
+def read_pressure_mpa(host: str, dashboard_port: int, timeout_s: float, stale_s: float) -> float:
+    url = f"http://{host}:{dashboard_port}/api/state"
+    with urllib.request.urlopen(url, timeout=timeout_s) as response:
+        payload = json.load(response)
+
+    sensors = payload.get("sensors") if isinstance(payload.get("sensors"), dict) else {}
+    imu = payload.get("imu") if isinstance(payload.get("imu"), dict) else {}
+    pressure = float(sensors.get("pressure_mpa"))
+    updated_s = float(imu.get("updated_s"))
+    age_s = max(0.0, time.time() - updated_s)
+    if not math.isfinite(pressure) or pressure < 0.0 or pressure > 1.5:
+        raise ValueError(f"invalid pressure value: {pressure!r}")
+    if not math.isfinite(updated_s) or age_s > stale_s:
+        raise ValueError(f"stale pressure value: age={age_s:.3f}s")
+    return pressure
+
+
+def pressure_regulated_output(
+    *,
+    requested: bool,
+    retracting: bool,
+    pressure_mpa: float | None,
+    previous_on: bool,
+    target_mpa: float,
+    hysteresis_mpa: float,
+) -> bool:
+    if not requested or retracting or pressure_mpa is None:
+        return False
+    if pressure_mpa >= target_mpa:
+        return False
+    if pressure_mpa <= target_mpa - hysteresis_mpa:
+        return True
+    return previous_on
+
+
+def pressure_regulation_reason(
+    *,
+    requested: bool,
+    retracting: bool,
+    pressure_mpa: float | None,
+    previous_on: bool,
+    target_mpa: float,
+    hysteresis_mpa: float,
+) -> str:
+    if not requested:
+        return "button_released"
+    if retracting:
+        return "retract_override"
+    if pressure_mpa is None:
+        return "pressure_invalid"
+    if pressure_mpa >= target_mpa:
+        return "target_reached"
+    if pressure_mpa <= target_mpa - hysteresis_mpa:
+        return "below_lower_limit"
+    return "hysteresis_hold_on" if previous_on else "hysteresis_hold_off"
 
 
 def send_controller_state(
@@ -91,11 +154,73 @@ def apply_axis_deadzone(value: float, deadzone: float) -> float:
     return sign * min(1.0, scaled)
 
 
-def axis_to_abs(value: float, *, deadzone: float, invert: bool) -> int:
+def axis_to_abs(
+    value: float,
+    *,
+    deadzone: float,
+    invert: bool,
+    response_exponent: float = 1.0,
+) -> int:
     value = apply_axis_deadzone(value, deadzone)
+    value = math.copysign(abs(value) ** response_exponent, value)
     if invert:
         value = -value
     return max(0, min(1023, int(round(AXIS_CENTER + value * AXIS_RANGE_HALF))))
+
+
+def axis_to_unipolar_abs(
+    value: float,
+    *,
+    invert: bool,
+    response_exponent: float = 1.0,
+) -> int:
+    value = max(-1.0, min(1.0, value))
+    if invert:
+        value = -value
+    throttle = (value + 1.0) * 0.5
+    throttle = throttle**response_exponent
+    return max(
+        AXIS_CENTER,
+        min(1023, int(round(AXIS_CENTER + throttle * AXIS_RANGE_HALF))),
+    )
+
+
+def throttle_direction_to_abs(
+    direction_value: float,
+    throttle_value: float,
+    *,
+    direction_deadzone: float,
+    invert_direction: bool,
+    throttle_full_scale: float,
+    motor_max_duty_ratio: float,
+) -> int:
+    if abs(direction_value) < direction_deadzone:
+        return AXIS_CENTER
+
+    throttle_value = max(-1.0, min(throttle_full_scale, throttle_value))
+    throttle_ratio = (throttle_value + 1.0) / (throttle_full_scale + 1.0)
+    throttle_ratio = max(0.0, min(1.0, throttle_ratio))
+    duty_ratio = throttle_ratio * motor_max_duty_ratio
+    if duty_ratio <= 0.0:
+        return AXIS_CENTER
+
+    if invert_direction:
+        direction_value = -direction_value
+    direction_sign = 1 if direction_value > 0.0 else -1
+
+    # ESP32 removes a 50-count command deadzone before converting the
+    # remaining 461 counts to duty 0..255. Add that deadzone back here so
+    # throttle travel and the resulting duty ratio remain linear.
+    command_offset = int(
+        round(
+            MOTOR_COMMAND_DEADZONE
+            + duty_ratio * (AXIS_RANGE_HALF - MOTOR_COMMAND_DEADZONE)
+        )
+    )
+    return max(
+        0,
+        min(1023, AXIS_CENTER + direction_sign * command_offset),
+    )
 
 
 def main() -> int:
@@ -109,12 +234,58 @@ def main() -> int:
     parser.add_argument("--pi-host", default="192.168.50.154")
     parser.add_argument("--command-port", type=int, default=8092)
     parser.add_argument("--controller-port", type=int, default=8091)
+    parser.add_argument("--dashboard-port", type=int, default=8090)
     parser.add_argument("--controller-index", type=int, default=0)
     parser.add_argument("--rate-hz", type=float, default=20.0)
-    parser.add_argument("--hold-period-s", type=float, default=0.1)
+    parser.add_argument("--hold-period-s", type=float, default=0.05)
     parser.add_argument("--deadzone", type=float, default=0.18)
     parser.add_argument("--step-axis", type=int, default=0, help="Left/right axis index for the stepper.")
     parser.add_argument("--motor-axis", type=int, default=1, help="Forward/back axis index for the DC motor.")
+    parser.add_argument(
+        "--motor-response-exponent",
+        type=float,
+        default=1.35,
+        help=(
+            "Shape the DC motor joystick response. Values above 1 move high speed "
+            "closer to full stick; 1 is linear."
+        ),
+    )
+    parser.add_argument(
+        "--motor-unipolar",
+        action="store_true",
+        help="Map motor axis -1 to stop and +1 to maximum forward speed.",
+    )
+    parser.add_argument(
+        "--motor-throttle-axis",
+        type=int,
+        help="Separate axis used only for DC motor duty; motor-axis selects direction.",
+    )
+    parser.add_argument(
+        "--motor-throttle-full-scale",
+        type=float,
+        default=0.95,
+        help="Throttle input that produces 100%% duty in separate-throttle mode.",
+    )
+    parser.add_argument(
+        "--invert-motor-throttle",
+        action="store_true",
+        help="Reverse the sign of the separate DC motor throttle axis.",
+    )
+    parser.add_argument(
+        "--motor-max-duty-ratio",
+        type=float,
+        default=1.0,
+        help="Maximum PWM duty ratio used at full throttle (0 < value <= 1).",
+    )
+    parser.add_argument(
+        "--motor-full-speed-hat",
+        type=int,
+        default=0,
+        help=(
+            "Hat index whose vertical +1/-1 input commands maximum forward/reverse "
+            "speed. Use -1 to disable."
+        ),
+    )
     parser.add_argument("--invert-step", action="store_true", help="Reverse stepper axis direction.")
     parser.add_argument(
         "--no-invert-motor",
@@ -122,6 +293,31 @@ def main() -> int:
         help="Do not invert the motor axis. Default assumes joystick forward is negative.",
     )
     parser.add_argument("--axis-period-s", type=float, default=0.05)
+    parser.add_argument("--pressure-target-mpa", type=float, default=DEFAULT_PRESSURE_TARGET_MPA)
+    parser.add_argument(
+        "--pressure-hysteresis-mpa",
+        type=float,
+        default=DEFAULT_PRESSURE_HYSTERESIS_MPA,
+    )
+    parser.add_argument("--pressure-poll-period-s", type=float, default=0.10)
+    parser.add_argument("--pressure-timeout-s", type=float, default=0.08)
+    parser.add_argument("--pressure-stale-s", type=float, default=0.50)
+    pressure_mode = parser.add_mutually_exclusive_group()
+    pressure_mode.add_argument(
+        "--pressure-control",
+        action="store_true",
+        help=(
+            "Enable 0.6 MPa DRILL_PUSH regulation for roll-position-change operation. "
+            "Normal operation uses direct momentary control."
+        ),
+    )
+    pressure_mode.add_argument(
+        "--no-pressure-control",
+        action="store_false",
+        dest="pressure_control",
+        help=argparse.SUPPRESS,
+    )
+    parser.set_defaults(pressure_control=False)
     parser.add_argument("--list", action="store_true", help="List controllers and exit.")
     parser.add_argument(
         "--toggle",
@@ -147,6 +343,18 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
+    if args.pressure_target_mpa <= 0.0:
+        parser.error("--pressure-target-mpa must be positive")
+    if not 0.0 < args.pressure_hysteresis_mpa < args.pressure_target_mpa:
+        parser.error("--pressure-hysteresis-mpa must be between 0 and the target")
+    if args.pressure_poll_period_s <= 0.0:
+        parser.error("--pressure-poll-period-s must be positive")
+    if args.motor_response_exponent < 1.0:
+        parser.error("--motor-response-exponent must be at least 1.0")
+    if not -1.0 < args.motor_throttle_full_scale <= 1.0:
+        parser.error("--motor-throttle-full-scale must be greater than -1 and at most 1")
+    if not 0.0 < args.motor_max_duty_ratio <= 1.0:
+        parser.error("--motor-max-duty-ratio must be greater than 0 and at most 1")
 
     pygame = load_pygame()
     pygame.init()
@@ -200,8 +408,47 @@ def main() -> int:
     prev_abs_x: int | None = None
     prev_abs_y: int | None = None
     prev_valve_state = {valve: False for valve in VALVE_COMMAND_NAMES}
+    motor_uses_throttle = args.motor_throttle_axis is not None or args.motor_unipolar
+    motor_armed = not motor_uses_throttle
     toggle_state = {valve: False for valve in toggle_valves}
     prev_buttons: list[int] = []
+    pressure_lock = threading.Lock()
+    pressure_state: dict[str, float | str | None] = {
+        "value": None,
+        "error": "not read",
+        "success_monotonic": 0.0,
+    }
+    pressure_stop = threading.Event()
+    pressure_thread: threading.Thread | None = None
+    last_control_signature: tuple[object, ...] | None = None
+
+    def pressure_poll_loop() -> None:
+        while not pressure_stop.is_set():
+            started = time.monotonic()
+            try:
+                value = read_pressure_mpa(
+                    args.pi_host,
+                    args.dashboard_port,
+                    args.pressure_timeout_s,
+                    args.pressure_stale_s,
+                )
+                with pressure_lock:
+                    pressure_state["value"] = value
+                    pressure_state["error"] = ""
+                    pressure_state["success_monotonic"] = time.monotonic()
+            except Exception as exc:
+                with pressure_lock:
+                    pressure_state["error"] = str(exc)
+            elapsed = time.monotonic() - started
+            pressure_stop.wait(max(0.0, args.pressure_poll_period_s - elapsed))
+
+    if args.pressure_control:
+        pressure_thread = threading.Thread(
+            target=pressure_poll_loop,
+            name="pressure-poll",
+            daemon=True,
+        )
+        pressure_thread.start()
 
     print(f"[controller] {joystick.get_name()}")
     print(f"[udp] command -> {args.pi_host}:{args.command_port}")
@@ -212,10 +459,43 @@ def main() -> int:
         print(f"  button {index:>2} -> {VALVE_COMMAND_NAMES[valve]} ({mode})")
     print(f"  button {args.grinder_on_button:>2} -> GRINDER_AIR ON")
     print(f"  button {args.grinder_off_button:>2} -> GRINDER_AIR OFF")
+    if not args.pressure_control:
+        print("  DRILL_PUSH pressure control: disabled (normal operation)")
+    else:
+        print(
+            "  DRILL_PUSH pressure control: enabled (roll-position-change operation), "
+            f"ON <= {args.pressure_target_mpa - args.pressure_hysteresis_mpa:.3f} MPa, "
+            f"OFF >= {args.pressure_target_mpa:.3f} MPa"
+        )
     print("[axis map]")
     print(f"  axis {args.step_axis} left/right -> AXIS,ABS_X stepper speed")
-    print(f"  axis {args.motor_axis} forward/back -> AXIS,ABS_Y DC motor speed")
+    if args.motor_throttle_axis is not None:
+        print(
+            f"  axis {args.motor_axis} forward/back -> DC motor direction; "
+            f"axis {args.motor_throttle_axis} -> linear speed 0..configured maximum"
+        )
+        print(
+            f"  throttle -1=0%, +{args.motor_throttle_full_scale:g}="
+            f"{args.motor_max_duty_ratio * 100:.1f}% PWM (configured maximum)"
+        )
+        if args.invert_motor_throttle:
+            print("  throttle sign: inverted (physical + side is stop)")
+        if args.motor_full_speed_hat >= 0:
+            print(
+                f"  hat {args.motor_full_speed_hat} up/down -> "
+                "maximum forward/reverse speed"
+            )
+        print("  motor start interlock: move the throttle axis to -1 once")
+    elif args.motor_unipolar:
+        print(
+            f"  axis {args.motor_axis} -1=stop, +1=maximum "
+            "-> AXIS,ABS_Y DC motor speed"
+        )
+        print("  motor start interlock: move the axis to -1 once to enable output")
+    else:
+        print(f"  axis {args.motor_axis} forward/back -> AXIS,ABS_Y DC motor speed")
     print(f"  deadzone={args.deadzone:g}")
+    print(f"  motor response exponent={args.motor_response_exponent:g}")
     print("[RUN] Hold mapped buttons for cylinders. Ctrl+C stops all valves and motors.")
 
     def all_off() -> None:
@@ -242,6 +522,18 @@ def main() -> int:
             if not prev_buttons:
                 prev_buttons = [0 for _ in buttons]
 
+            now = time.monotonic()
+            with pressure_lock:
+                pressure_mpa_value = pressure_state["value"]
+                pressure_error = str(pressure_state["error"] or "")
+                pressure_success = float(pressure_state["success_monotonic"] or 0.0)
+            pressure_mpa = (
+                float(pressure_mpa_value)
+                if pressure_mpa_value is not None
+                and now - pressure_success <= args.pressure_stale_s
+                else None
+            )
+
             desired: dict[str, bool] = {}
             for valve, button_index in button_map.items():
                 pressed = bool(button_index < len(buttons) and buttons[button_index])
@@ -267,16 +559,90 @@ def main() -> int:
                 toggle_state["grinder_air"] = False
             desired["grinder_air"] = toggle_state.get("grinder_air", False)
 
+            drill_push_requested = desired.get("drill_push", False)
+            pressure_reason = "pressure_control_disabled"
+            if args.pressure_control:
+                pressure_reason = pressure_regulation_reason(
+                    requested=drill_push_requested,
+                    retracting=desired.get("drill_pull", False),
+                    pressure_mpa=pressure_mpa,
+                    previous_on=prev_valve_state.get("drill_push", False),
+                    target_mpa=args.pressure_target_mpa,
+                    hysteresis_mpa=args.pressure_hysteresis_mpa,
+                )
+                desired["drill_push"] = pressure_regulated_output(
+                    requested=drill_push_requested,
+                    retracting=desired.get("drill_pull", False),
+                    pressure_mpa=pressure_mpa,
+                    previous_on=prev_valve_state.get("drill_push", False),
+                    target_mpa=args.pressure_target_mpa,
+                    hysteresis_mpa=args.pressure_hysteresis_mpa,
+                )
+
             lines: list[str] = []
             step_value = raw_axes[args.step_axis] if args.step_axis < len(raw_axes) else 0.0
             motor_value = raw_axes[args.motor_axis] if args.motor_axis < len(raw_axes) else 0.0
             abs_x = axis_to_abs(step_value, deadzone=args.deadzone, invert=args.invert_step)
-            abs_y = axis_to_abs(
-                motor_value,
-                deadzone=args.deadzone,
-                invert=not args.no_invert_motor,
-            )
-            now = time.monotonic()
+            if args.motor_throttle_axis is not None:
+                throttle_value = (
+                    raw_axes[args.motor_throttle_axis]
+                    if args.motor_throttle_axis < len(raw_axes)
+                    else -1.0
+                )
+                if args.invert_motor_throttle:
+                    throttle_value = -throttle_value
+                if not motor_armed and throttle_value <= -0.90:
+                    motor_armed = True
+                    print("[MOTOR] throttle reached low position; DC motor output enabled")
+                if motor_armed:
+                    abs_y = throttle_direction_to_abs(
+                        motor_value,
+                        throttle_value,
+                        direction_deadzone=args.deadzone,
+                        invert_direction=not args.no_invert_motor,
+                        throttle_full_scale=args.motor_throttle_full_scale,
+                        motor_max_duty_ratio=args.motor_max_duty_ratio,
+                    )
+                else:
+                    abs_y = AXIS_CENTER
+            elif args.motor_unipolar:
+                if not motor_armed and motor_value <= -0.90:
+                    motor_armed = True
+                    print("[MOTOR] throttle reached low position; DC motor output enabled")
+                if motor_armed:
+                    abs_y = axis_to_unipolar_abs(
+                        motor_value,
+                        invert=False,
+                        response_exponent=args.motor_response_exponent,
+                    )
+                else:
+                    abs_y = AXIS_CENTER
+            else:
+                abs_y = axis_to_abs(
+                    motor_value,
+                    deadzone=args.deadzone,
+                    invert=not args.no_invert_motor,
+                    response_exponent=args.motor_response_exponent,
+                )
+
+            if (
+                motor_armed
+                and args.motor_full_speed_hat >= 0
+                and args.motor_full_speed_hat < len(hats)
+                and len(hats[args.motor_full_speed_hat]) >= 2
+            ):
+                hat_y = int(hats[args.motor_full_speed_hat][1])
+                if hat_y != 0:
+                    # Pygame hats report up=(0,+1), down=(0,-1). Convert this
+                    # to the same forward/reverse convention as motor-axis.
+                    abs_y = throttle_direction_to_abs(
+                        -float(hat_y),
+                        1.0,
+                        direction_deadzone=args.deadzone,
+                        invert_direction=not args.no_invert_motor,
+                        throttle_full_scale=1.0,
+                        motor_max_duty_ratio=1.0,
+                    )
             if abs_x != prev_abs_x or abs_y != prev_abs_y or now - last_axis >= args.axis_period_s:
                 lines.extend([f"AXIS,ABS_X,{abs_x}", f"AXIS,ABS_Y,{abs_y}"])
                 prev_abs_x = abs_x
@@ -309,8 +675,33 @@ def main() -> int:
 
             active = [VALVE_COMMAND_NAMES[valve] for valve, on in desired.items() if on]
             pressed = [i for i, value in enumerate(buttons) if value]
+            pressure_text = (
+                f"{pressure_mpa:.3f}MPa"
+                if pressure_mpa is not None
+                else f"invalid({pressure_error})"
+            )
+            pressure_source = "fresh" if not pressure_error else f"cached_after:{pressure_error}"
+            control_signature = (
+                tuple(pressed),
+                tuple((name, bool(on)) for name, on in desired.items()),
+                pressure_reason,
+                pressure_source,
+            )
+            if control_signature != last_control_signature:
+                print(
+                    "\n[CONTROL] "
+                    f"pressed={pressed or ['-']} pressure={pressure_text} "
+                    f"pressure_source={pressure_source} "
+                    f"drill_push_request={int(drill_push_requested)} "
+                    f"drill_push_output={int(desired.get('drill_push', False))} "
+                    f"reason={pressure_reason} valves={active or ['-']}",
+                    flush=True,
+                )
+                last_control_signature = control_signature
             print(
-                f"\rseq={seq} abs_x={abs_x} abs_y={abs_y} pressed={pressed} valves={active or ['-']}      ",
+                f"\rseq={seq} abs_x={abs_x} abs_y={abs_y} "
+                f"pressure={pressure_text} pressed={pressed} "
+                f"valves={active or ['-']}      ",
                 end="",
                 flush=True,
             )
@@ -325,6 +716,9 @@ def main() -> int:
             time.sleep(0.1)
             all_off()
         finally:
+            pressure_stop.set()
+            if pressure_thread is not None:
+                pressure_thread.join(timeout=1.0)
             command_sock.close()
             state_sock.close()
             pygame.quit()

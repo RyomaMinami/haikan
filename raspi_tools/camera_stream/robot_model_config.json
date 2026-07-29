@@ -1,0 +1,186 @@
+{
+  "version": 2,
+  "kinematics_schema": "module_pose_then_joint_v1",
+  "validated": true,
+  "model": "assets/robot_model.stl",
+  "component_map": "assets/robot_model_components.bin",
+  "modules": [
+    {
+      "id": 0,
+      "name": "base_link",
+      "file": "assets/01_move_module.stl",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rpy_deg": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "name": "motor_module",
+      "file": "assets/02_motor_module.stl",
+      "position": [
+        42,
+        0,
+        -47
+      ],
+      "rpy_deg": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "name": "drilling_module1",
+      "file": "assets/03_drilling_module1.stl",
+      "position": [
+        -59,
+        50,
+        -373
+      ],
+      "rpy_deg": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 3,
+      "name": "drilling_module2",
+      "file": "assets/03_drilling_module2.stl",
+      "position": [
+        -100,
+        0,
+        -335
+      ],
+      "rpy_deg": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 4,
+      "name": "bit",
+      "file": "assets/04_bit.stl",
+      "position": [
+        -59,
+        116,
+        -369
+      ],
+      "rpy_deg": [
+        90,
+        0,
+        0
+      ]
+    }
+  ],
+  "joints": [
+    {
+      "id": "slider6",
+      "name": "スライダ6（押付け）",
+      "type": "prismatic",
+      "parent": null,
+      "parent_link": "base_link",
+      "child_link": "motor_module",
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "min": 43,
+      "max": 73,
+      "unit": "mm",
+      "components": [
+        1
+      ],
+      "checked": true
+    },
+    {
+      "id": "rotation9",
+      "name": "回転9（穿孔部）",
+      "type": "revolute",
+      "parent": null,
+      "parent_link": "base_link",
+      "child_link": "drilling_module1",
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "pivot": [
+        -59,
+        -20,
+        -300
+      ],
+      "min": -90,
+      "max": 90,
+      "unit": "deg",
+      "components": [
+        2
+      ],
+      "checked": true
+    },
+    {
+      "id": "slider11",
+      "name": "スライダ11（直動）",
+      "type": "prismatic",
+      "parent": "rotation9",
+      "parent_link": "drilling_module1",
+      "child_link": "drilling_module2",
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "min": -121.764,
+      "max": -68.621,
+      "unit": "mm",
+      "components": [
+        3
+      ],
+      "checked": true
+    },
+    {
+      "id": "rotation12",
+      "name": "回転12（工具）",
+      "type": "revolute",
+      "parent": "slider11",
+      "parent_link": "drilling_module2",
+      "child_link": "bit",
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "pivot": [
+        -59,
+        0,
+        -369
+      ],
+      "min": -180,
+      "max": 180,
+      "unit": "deg",
+      "components": [
+        4
+      ],
+      "checked": true
+    }
+  ]
+}

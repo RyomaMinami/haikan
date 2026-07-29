@@ -22,6 +22,8 @@ raspi_tools/production/run/
 *.mkv
 *.mp4
 *.avi
+camera_ridge_odometry/output/
+camera_ridge_odometry/yolo_ridge_experiment/workspace/
 
 # Local secrets / SSH keys
 yes
@@ -46,3 +48,5 @@ sensor_logger/*.png
 sensor_logger/*.dll
 raspi_tools/camera_stream/assets/*.stl
 raspi_tools/camera_stream/assets/*.stp
+raspi_tools/camera_stream/assets/*_components.bin
+raspi_tools/camera_stream/*.png

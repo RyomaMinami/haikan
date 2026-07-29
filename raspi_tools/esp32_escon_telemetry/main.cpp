@@ -123,6 +123,7 @@ static ValveChannel s_valves[VALVE_COUNT] = {
 #if ENABLE_OTA
 static bool s_otaReady = false;
 static const char* s_connectedSsid = "";
+static uint32_t s_otaStartedMs = 0;
 #endif
 
 static int clampInt(int v, int lo, int hi) {
@@ -666,7 +667,7 @@ static void sendTelemetry(bool force = false) {
   snprintf(
       line,
       sizeof(line),
-      "TEL,ms=%lu,motor_id=1,duty=%d,enabled=%d,rpm=%.3f,current_a=%.4f,"
+      "TEL,ms=%lu,motor_id=1,duty=%d,pwm_out=%d,enabled=%d,rpm=%.3f,current_a=%.4f,"
       "current_v=%.4f,speed_v=%.4f,encoder_rpm=%.3f,step_hz=%d,estop=%d,"
       "state=%s,mode=%s,expand_state=%s,expand_pass=%u,expand_passes=%u,"
       "expand_est_step=%ld,valve_mask=%u,valve_move_push=%d,"
@@ -679,6 +680,7 @@ static void sendTelemetry(bool force = false) {
       "step_sense_a_a=%.4f,step_sense_b_a=%.4f,step_current_abs_a=%.4f\n",
       static_cast<unsigned long>(now),
       motor_get_duty(),
+      motor_get_pwm_duty(),
       motor_is_enabled() ? 1 : 0,
       motor_get_rpm(),
       motor_get_current_a(),
@@ -775,6 +777,7 @@ static void setupOta() {
   });
   ArduinoOTA.begin();
   s_otaReady = true;
+  s_otaStartedMs = millis();
 
   if (WiFi.getMode() == WIFI_AP) {
     Serial2.printf("OTA,ap_ssid=%s,ip=%s\n", OTA_AP_SSID,
@@ -782,6 +785,19 @@ static void setupOta() {
   } else {
     Serial2.printf("OTA,ssid=%s,ip=%s\n", s_connectedSsid,
                    WiFi.localIP().toString().c_str());
+  }
+}
+
+static void serviceOtaWindow() {
+  if (!s_otaReady) {
+    return;
+  }
+  ArduinoOTA.handle();
+  if (OTA_ACTIVE_WINDOW_MS > 0 && millis() - s_otaStartedMs > OTA_ACTIVE_WINDOW_MS) {
+    s_otaReady = false;
+    WiFi.disconnect(true);
+    WiFi.mode(WIFI_OFF);
+    Serial2.println("OTA,wifi_off_for_adc2");
   }
 }
 #endif
@@ -902,9 +918,7 @@ void setup() {
 
 void loop() {
 #if ENABLE_OTA
-  if (s_otaReady) {
-    ArduinoOTA.handle();
-  }
+  serviceOtaWindow();
 #endif
 
   while (Serial2.available()) {
