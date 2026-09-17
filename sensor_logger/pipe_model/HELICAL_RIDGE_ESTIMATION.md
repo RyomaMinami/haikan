@@ -65,3 +65,16 @@ python .\sensor_logger\pipe_model\estimate_helical_ridge.py `
 - 「頂部幅」は使用する高さしきい値で変わります。既知の約30 mmは高さ90%以上の幅と整合します。
 - 山谷差1.51 mmと、平均面から頂部までの0.71 mmを混同しないでください。
 - 分岐開口を除外しない場合、開口の大きな半径変化が螺旋推定を歪めます。
+
+## 推定値から生成した配管モデル
+
+`build_ridged_pipe_model.py` は上記JSONを読み、測定した角度範囲の表面へ、90%幅・80%幅・半値幅を通る連続断面の1条螺旋を生成します。肉厚は5 mmで、未測定角度の補完は行いません。
+
+```powershell
+python .\sensor_logger\pipe_model\build_ridged_pipe_model.py
+```
+
+- `output/pipe_wall_5mm_measured_sector_helix_estimated.stl`: シミュレータ用の閉じた肉厚モデル
+- `output/pipe_inner_measured_sector_helix_estimated.stl`: 配管内面モデル
+- `output/pipe_measured_sector_helix_estimated.json`: 使用した寸法と出力情報
+- `output/pipe_measured_sector_helix_estimated_preview.png`: 形状確認図

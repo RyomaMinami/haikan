@@ -1,0 +1,37 @@
+{
+  "source_csv": "pipe154_auto_scan_m115_115_point_cloud_axis_corrected.csv",
+  "source_estimation_json": "helical_ridge_estimation.json",
+  "base_surface": "axis-corrected measured angular sector",
+  "ridge_type": "one-start helix",
+  "ridge_profile": "piecewise-linear interpolation of measured width levels",
+  "ridge_handedness": "right",
+  "ridge_direction": "inward into pipe cavity",
+  "ridge_peak_to_valley_height_mm": 1.5122259907957454,
+  "ridge_crest_width_90pct_mm": 25.940678743674994,
+  "ridge_crest_width_80pct_mm": 44.57765062342665,
+  "ridge_half_height_width_mm": 98.35886523313272,
+  "ridge_lead_mm_per_revolution": 189.5,
+  "ridge_start_at_theta0_mm": 18.5,
+  "ridge_start_positions_mm": [
+    18.5,
+    208.0,
+    397.5,
+    587.0
+  ],
+  "complete_turn_count": 3,
+  "axial_range_mm": [
+    18.085,
+    730.085
+  ],
+  "measured_angle_range_deg": [
+    -113.00662946916839,
+    113.21956839575626
+  ],
+  "wall_thickness_mm": 5.0,
+  "wall_mesh_watertight": true,
+  "outputs": {
+    "inner_surface_stl": "pipe_inner_measured_sector_helix_estimated.stl",
+    "wall_stl": "pipe_wall_5mm_measured_sector_helix_estimated.stl",
+    "preview_png": "pipe_measured_sector_helix_estimated_preview.png"
+  }
+}
