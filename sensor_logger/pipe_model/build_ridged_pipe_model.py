@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a measured-sector pipe model with the estimated helical ridge."""
+"""Build a full-360 pipe model from the estimated helical ridge."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-from build_pipe_model import build_mesh, build_wall_mesh, common_grid, load_tracks
+from build_pipe_model import build_mesh, build_wall_mesh
 
 
 def ridge_depth(x_mm: np.ndarray, theta_deg: np.ndarray, start_mm: float,
@@ -59,14 +59,14 @@ def write_preview(path: Path, x: np.ndarray, theta: np.ndarray,
     ax3d.set_xlabel("Pipe axis X [mm]")
     ax3d.set_ylabel("Y [mm]")
     ax3d.set_zlabel("Z [mm]")
-    ax3d.set_title("Measured sector + one-start inward helical ridge")
+    ax3d.set_title("Estimated full-360 one-start inward helical ridge")
     ax3d.set_box_aspect((max(x) - min(x), 240, 240))
     ax3d.view_init(elev=24, azim=-58)
 
     ax = fig.add_subplot(1, 2, 2)
     top_index = int(np.argmin(np.abs(theta)))
     ax.plot(x, base_radius[:, top_index], color="#777777", lw=1.2,
-            label="measured base surface")
+            label="nominal full-360 base surface")
     ax.plot(x, ridged_radius[:, top_index], color="#c62828", lw=1.5,
             label="surface with ridges")
     top_ridge = ridge[:, top_index]
@@ -91,13 +91,10 @@ def write_preview(path: Path, x: np.ndarray, theta: np.ndarray,
 def main() -> None:
     here = Path(__file__).resolve().parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--input", type=Path,
-        default=here.parent / "pipe154_auto_scan_m115_115_point_cloud_axis_corrected.csv",
-    )
     parser.add_argument("--output-dir", type=Path, default=here / "output")
     parser.add_argument("--axial-step-mm", type=float, default=2.0)
-    parser.add_argument("--smoothing-window", type=int, default=7)
+    parser.add_argument("--angular-step-deg", type=float, default=2.0)
+    parser.add_argument("--nominal-inner-radius-mm", type=float, default=120.0)
     parser.add_argument("--wall-thickness-mm", type=float, default=5.0)
     parser.add_argument(
         "--estimation-json", type=Path,
@@ -154,40 +151,44 @@ def main() -> None:
         raise SystemExit(
             "ridge widths must satisfy 0 < width90 < width80 < half-width < lead"
         )
-    if ridge_height_mm <= 0 or args.wall_thickness_mm <= 0:
-        raise SystemExit("ridge height and wall thickness must be positive")
+    if min(
+        ridge_height_mm, args.wall_thickness_mm, args.axial_step_mm,
+        args.angular_step_deg, args.nominal_inner_radius_mm,
+    ) <= 0:
+        raise SystemExit("dimensions and grid steps must be positive")
 
-    input_path = args.input.resolve()
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    tracks = load_tracks(input_path)
-    x, theta, measured_radius = common_grid(
-        tracks, args.axial_step_mm, args.smoothing_window
+    measured_range = estimation["measured_range"]
+    x_min, x_max = (float(v) for v in measured_range["x_mm"])
+    x = np.arange(x_min, x_max + 0.5 * args.axial_step_mm, args.axial_step_mm)
+    theta = np.arange(-180.0, 180.0, args.angular_step_deg)
+    base_radius = np.full(
+        (len(x), len(theta)), args.nominal_inner_radius_mm, dtype=float,
     )
 
-    # At theta=0 deg the first turn starts at the measured-range beginning.
-    # Subtracting radius makes the helix protrude into the pipe cavity.
+    # Subtracting the inferred profile makes the ridge protrude into the cavity.
     ridge = ridge_depth(
         x, theta, start_mm, ridge_height_mm, width_90_mm, width_80_mm,
         half_height_width_mm, lead_mm, handedness,
     )
-    ridged_radius = measured_radius - ridge
+    ridged_radius = base_radius - ridge
 
-    inner_mesh = build_mesh(x, theta, ridged_radius, wrap_angle=False)
+    inner_mesh = build_mesh(x, theta, ridged_radius, wrap_angle=True)
     wall_mesh = build_wall_mesh(
-        x, theta, ridged_radius, args.wall_thickness_mm, wrap_angle=False
+        x, theta, ridged_radius, args.wall_thickness_mm, wrap_angle=True
     )
     # Keep stable output names so the simulator always follows the latest
     # values in helical_ridge_estimation.json.
     stem = "helix_estimated"
-    inner_path = output_dir / f"pipe_inner_measured_sector_{stem}.stl"
-    wall_path = output_dir / f"pipe_wall_5mm_measured_sector_{stem}.stl"
-    preview_path = output_dir / f"pipe_measured_sector_{stem}_preview.png"
-    metadata_path = output_dir / f"pipe_measured_sector_{stem}.json"
+    inner_path = output_dir / f"pipe_inner_full360_{stem}.stl"
+    wall_path = output_dir / f"pipe_wall_5mm_full360_{stem}.stl"
+    preview_path = output_dir / f"pipe_full360_{stem}_preview.png"
+    metadata_path = output_dir / f"pipe_full360_{stem}.json"
     inner_mesh.export(inner_path)
     wall_mesh.export(wall_path)
     write_preview(
-        preview_path, x, theta, measured_radius, ridged_radius, ridge,
+        preview_path, x, theta, base_radius, ridged_radius, ridge,
         lead_mm, ridge_height_mm, width_90_mm,
     )
 
@@ -195,9 +196,9 @@ def main() -> None:
     ridge_starts = np.arange(first_turn, float(x[-1]) + lead_mm, lead_mm)
     complete_turns = int(np.floor((x[-1] - x[0]) / lead_mm))
     metadata = {
-        "source_csv": input_path.name,
         "source_estimation_json": estimation_path.name,
-        "base_surface": "axis-corrected measured angular sector",
+        "base_surface": "nominal 240 mm inner-diameter cylinder inferred to full 360 degrees",
+        "nominal_inner_radius_mm": args.nominal_inner_radius_mm,
         "ridge_type": "one-start helix",
         "ridge_profile": "piecewise-linear interpolation of measured width levels",
         "ridge_handedness": handedness,
@@ -211,7 +212,8 @@ def main() -> None:
         "ridge_start_positions_mm": [float(v) for v in ridge_starts if v <= x[-1]],
         "complete_turn_count": complete_turns,
         "axial_range_mm": [float(x[0]), float(x[-1])],
-        "measured_angle_range_deg": [float(theta[0]), float(theta[-1])],
+        "angular_coverage_deg": 360.0,
+        "angular_grid_deg": [float(theta[0]), float(theta[-1]), args.angular_step_deg],
         "wall_thickness_mm": args.wall_thickness_mm,
         "wall_mesh_watertight": bool(wall_mesh.is_watertight),
         "outputs": {

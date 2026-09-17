@@ -1,7 +1,7 @@
 {
-  "source_csv": "pipe154_auto_scan_m115_115_point_cloud_axis_corrected.csv",
   "source_estimation_json": "helical_ridge_estimation.json",
-  "base_surface": "axis-corrected measured angular sector",
+  "base_surface": "nominal 240 mm inner-diameter cylinder inferred to full 360 degrees",
+  "nominal_inner_radius_mm": 120.0,
   "ridge_type": "one-start helix",
   "ridge_profile": "piecewise-linear interpolation of measured width levels",
   "ridge_handedness": "right",
@@ -23,15 +23,17 @@
     18.085,
     730.085
   ],
-  "measured_angle_range_deg": [
-    -113.00662946916839,
-    113.21956839575626
+  "angular_coverage_deg": 360.0,
+  "angular_grid_deg": [
+    -180.0,
+    178.0,
+    2.0
   ],
   "wall_thickness_mm": 5.0,
   "wall_mesh_watertight": true,
   "outputs": {
-    "inner_surface_stl": "pipe_inner_measured_sector_helix_estimated.stl",
-    "wall_stl": "pipe_wall_5mm_measured_sector_helix_estimated.stl",
-    "preview_png": "pipe_measured_sector_helix_estimated_preview.png"
+    "inner_surface_stl": "pipe_inner_full360_helix_estimated.stl",
+    "wall_stl": "pipe_wall_5mm_full360_helix_estimated.stl",
+    "preview_png": "pipe_full360_helix_estimated_preview.png"
   }
 }

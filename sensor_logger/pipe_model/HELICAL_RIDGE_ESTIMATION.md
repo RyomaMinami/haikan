@@ -68,13 +68,13 @@ python .\sensor_logger\pipe_model\estimate_helical_ridge.py `
 
 ## 推定値から生成した配管モデル
 
-`build_ridged_pipe_model.py` は上記JSONを読み、測定した角度範囲の表面へ、90%幅・80%幅・半値幅を通る連続断面の1条螺旋を生成します。肉厚は5 mmで、未測定角度の補完は行いません。
+`build_ridged_pipe_model.py` は上記JSONを読み、内径240 mmの基準円筒へ、90%幅・80%幅・半値幅を通る連続断面の1条螺旋を360°全周に展開します。肉厚は5 mmです。未測定部分に実測ノイズをコピーするのではなく、測定範囲から得た代表的な螺旋形状を全周へ一般化します。
 
 ```powershell
 python .\sensor_logger\pipe_model\build_ridged_pipe_model.py
 ```
 
-- `output/pipe_wall_5mm_measured_sector_helix_estimated.stl`: シミュレータ用の閉じた肉厚モデル
-- `output/pipe_inner_measured_sector_helix_estimated.stl`: 配管内面モデル
-- `output/pipe_measured_sector_helix_estimated.json`: 使用した寸法と出力情報
-- `output/pipe_measured_sector_helix_estimated_preview.png`: 形状確認図
+- `output/pipe_wall_5mm_full360_helix_estimated.stl`: シミュレータ用の全周・閉じた肉厚モデル
+- `output/pipe_inner_full360_helix_estimated.stl`: 全周の配管内面モデル
+- `output/pipe_full360_helix_estimated.json`: 使用した寸法と出力情報
+- `output/pipe_full360_helix_estimated_preview.png`: 形状確認図
