@@ -39,6 +39,13 @@ MM_TO_M = 0.001
 ROBOT_MODULE_POSITION_MM = np.array([42.0, 0.0, -47.0])
 SLIDER6_MIN_MM = 43.0
 SLIDER6_MAX_MM = 73.0
+# Deterministic seating poses obtained from the fitted wheel hulls.  The
+# support-wheel envelope is placed against a conservative 118.5 mm inner
+# radius (120 mm nominal minus the 1.5 mm inferred ridge height).
+NORMAL_PASSIVE_SEAT_Y_M = -0.0132433341
+NORMAL_PASSIVE_SEAT_Z_M = -0.0026645325
+INVERTED_DRIVE_SEAT_Y_M = 0.0138098316
+INVERTED_DRIVE_SEAT_Z_M = -0.0109828398
 # Wheel centres measured from the Fusion-derived module STL coordinates.
 # Four passive casters belong to 01_move_module; four drive wheels belong to
 # 02_motor_module.  The simple spherical proxies intentionally model only the
@@ -266,6 +273,8 @@ class MeasuredPipeApp:
         self.drive_wheel_meshes: list[trimesh.Trimesh] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
+        self.contact_case = 1
+        self.contact_case_label = "normal / passive wheels seated"
 
         ambient = AmbientLight("ambient")
         ambient.setColor(LColor(0.55, 0.55, 0.55, 1.0))
@@ -290,10 +299,12 @@ class MeasuredPipeApp:
         self.base.disableMouse()
         self.update_camera_pose()
 
-        self.paused = False
         self.base.accept("escape", self.base.userExit)
         self.base.accept("space", self.reset_sphere)
-        self.base.accept("p", self.toggle_pause)
+        self.base.accept("1", self.apply_contact_case, [1])
+        self.base.accept("2", self.apply_contact_case, [2])
+        self.base.accept("3", self.apply_contact_case, [3])
+        self.base.accept("4", self.apply_contact_case, [4])
         self.base.accept("[", self.change_slider6, [-1.0])
         self.base.accept("[-repeat", self.change_slider6, [-1.0])
         self.base.accept("]", self.change_slider6, [1.0])
@@ -319,15 +330,16 @@ class MeasuredPipeApp:
         OnscreenText(
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
-                  "Left/Right: travel  [ / ]: cylinder  I: invert  R: reset/settle  Esc: exit"),
+                  "1: normal passive-seat  2: normal clamp  3: inverted drive-seat  4: inverted clamp\n"
+                  "Left/Right: travel  [ / ]: cylinder  I: invert  R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
         )
         self.robot_status = OnscreenText(
-            text="", pos=(-1.28, 0.74), align=TextNode.ALeft, scale=0.040,
+            text="", pos=(-1.28, 0.69), align=TextNode.ALeft, scale=0.040,
             fg=(1.0, 0.85, 0.35, 1.0), shadow=(0, 0, 0, 0.8), mayChange=True,
         )
-        self.update_robot_status()
+        self.apply_contact_case(1)
         self.base.taskMgr.add(self.update, "bullet_update")
 
     def update_camera_pose(self) -> None:
@@ -497,11 +509,48 @@ class MeasuredPipeApp:
     def update_robot_status(self) -> None:
         orientation = "inverted (drive wheels down)" if self.robot_inverted else "normal"
         self.robot_status.setText(
+            f"Case {self.contact_case}: {self.contact_case_label}\n"
             f"Robot: {orientation} / cylinder {self.slider6_mm:.0f} mm"
             f" / roll {self.robot_root.getP():+.1f} deg / 8 wheel contact proxies"
         )
 
+    def apply_contact_case(self, case_number: int) -> None:
+        """Place the robot in one of four fixed contact-inspection cases."""
+        center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
+        cases = {
+            1: ("normal / passive wheels seated", False, SLIDER6_MIN_MM,
+                NORMAL_PASSIVE_SEAT_Y_M, NORMAL_PASSIVE_SEAT_Z_M),
+            2: ("normal / cylinder extended", False, SLIDER6_MAX_MM,
+                NORMAL_PASSIVE_SEAT_Y_M, NORMAL_PASSIVE_SEAT_Z_M),
+            3: ("inverted / drive wheels seated", True, SLIDER6_MIN_MM,
+                INVERTED_DRIVE_SEAT_Y_M, INVERTED_DRIVE_SEAT_Z_M),
+            4: ("inverted / cylinder extended", True, SLIDER6_MAX_MM,
+                INVERTED_DRIVE_SEAT_Y_M,
+                INVERTED_DRIVE_SEAT_Z_M
+                + (SLIDER6_MAX_MM - SLIDER6_MIN_MM) * MM_TO_M),
+        }
+        if case_number not in cases:
+            raise ValueError(f"Unknown contact case: {case_number}")
+        label, inverted, slider_mm, y_m, z_m = cases[case_number]
+        self.contact_case = case_number
+        self.contact_case_label = label
+        self.robot_inverted = inverted
+        self.slider6_mm = slider_mm
+        if self.motor_visual is not None:
+            self.motor_visual.setZ((slider_mm - SLIDER6_MIN_MM) * MM_TO_M)
+        self.rebuild_drive_contact_shapes()
+        self.robot_root.setPos(center_x, y_m, z_m)
+        self.robot_root.setHpr(0.0, 180.0 if inverted else 0.0, 0.0)
+        self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
+        self.robot_body.setAngularVelocity(Vec3(0, 0, 0))
+        self.robot_body.clearForces()
+        self.robot_body.setActive(False)
+        if hasattr(self, "robot_status"):
+            self.update_robot_status()
+
     def change_slider6(self, delta_mm: float) -> None:
+        self.contact_case = 0
+        self.contact_case_label = "manual fixed pose"
         self.slider6_mm = float(np.clip(
             self.slider6_mm + delta_mm, SLIDER6_MIN_MM, SLIDER6_MAX_MM
         ))
@@ -522,27 +571,13 @@ class MeasuredPipeApp:
         self.robot_body.setActive(True)
 
     def toggle_robot_inversion(self) -> None:
-        self.robot_inverted = not self.robot_inverted
-        # Panda3D pitch is rotation about X, which is the pipe axis here.
-        self.robot_root.setP(180.0 if self.robot_inverted else 0.0)
-        self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
-        self.robot_body.setAngularVelocity(Vec3(0, 0, 0))
-        self.robot_body.setActive(True)
-        self.update_robot_status()
+        clamped = self.contact_case in (2, 4)
+        self.apply_contact_case(4 if (not self.robot_inverted and clamped) else
+                                3 if not self.robot_inverted else
+                                2 if clamped else 1)
 
     def reset_robot(self) -> None:
-        center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
-        self.slider6_mm = SLIDER6_MIN_MM
-        if self.motor_visual is not None:
-            self.motor_visual.setZ(0.0)
-        self.rebuild_drive_contact_shapes()
-        self.robot_root.setPos(center_x, 0.0, 0.0)
-        self.robot_root.setHpr(0.0, 180.0 if self.robot_inverted else 0.0, 0.0)
-        self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
-        self.robot_body.setAngularVelocity(Vec3(0, 0, 0))
-        self.robot_body.clearForces()
-        self.robot_body.setActive(True)
-        self.update_robot_status()
+        self.apply_contact_case(self.contact_case if self.contact_case in (1, 2, 3, 4) else 1)
 
     def reset_sphere(self) -> None:
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
@@ -552,15 +587,11 @@ class MeasuredPipeApp:
         self.sphere_np.node().setActive(True)
         self.sphere_np.show()
 
-    def toggle_pause(self) -> None:
-        self.paused = not self.paused
-
     def update(self, task):
         self.update_camera_drag()
-        if not self.paused:
-            dt = min(globalClock.getDt(), 1.0 / 30.0)
-            self.world.doPhysics(dt, 4, 1.0 / 240.0)
-            self.update_robot_status()
+        # Contact inspection is deliberately quasi-static.  Bullet shapes are
+        # retained for overlap queries, but gravity integration is disabled so
+        # contact cases do not oscillate between triangle facets.
         return task.cont
 
     def run(self) -> None:
@@ -588,6 +619,17 @@ class MeasuredPipeApp:
             self.update_camera_pose()
             self.capture(output_dir / f"wheel_mesh_fit_{name}.png")
 
+    def capture_contact_cases(self, output_dir: Path) -> None:
+        """Capture the four deterministic contact-inspection cases."""
+        output_dir.mkdir(parents=True, exist_ok=True)
+        self.camera_heading_deg = -52.0
+        self.camera_pitch_deg = 12.0
+        self.camera_distance_m = 0.86
+        self.update_camera_pose()
+        for case_number in range(1, 5):
+            self.apply_contact_case(case_number)
+            self.capture(output_dir / f"contact_case_{case_number}.png")
+
 
 def main() -> None:
     here = Path(__file__).resolve().parent
@@ -605,18 +647,21 @@ def main() -> None:
     parser.add_argument("--headless-test", action="store_true")
     parser.add_argument("--capture-preview", type=Path)
     parser.add_argument("--capture-fit-views", type=Path)
+    parser.add_argument("--capture-contact-cases", type=Path)
     args = parser.parse_args()
     mesh = args.mesh.resolve()
     if not mesh.exists():
         raise SystemExit(f"Mesh not found: {mesh}. Run build_pipe_model.py first.")
     if args.headless_test:
         raise SystemExit(run_headless(mesh))
-    if args.capture_preview or args.capture_fit_views:
+    if args.capture_preview or args.capture_fit_views or args.capture_contact_cases:
         app = MeasuredPipeApp(mesh, args.robot_assets.resolve(), offscreen=True)
         if args.capture_preview:
             app.capture(args.capture_preview.resolve())
         if args.capture_fit_views:
             app.capture_fit_views(args.capture_fit_views.resolve())
+        if args.capture_contact_cases:
+            app.capture_contact_cases(args.capture_contact_cases.resolve())
         return
     MeasuredPipeApp(mesh, args.robot_assets.resolve()).run()
 
