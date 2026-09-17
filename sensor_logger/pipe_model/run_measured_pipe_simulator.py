@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import trimesh
 from panda3d.bullet import (
+    BulletConvexHullShape,
     BulletCylinderShape,
     BulletRigidBodyNode,
     BulletSphereShape,
@@ -52,12 +53,6 @@ PASSIVE_WHEELS_CAD_MM = np.array([
     [-5.37, -119.04, -2.64],
     [-5.37, -119.04, -222.64],
 ])
-PASSIVE_WHEEL_AXES_CAD = np.array([
-    [-0.8660254, 0.5, 0.0],
-    [-0.8660254, 0.5, 0.0],
-    [-0.8660254, -0.5, 0.0],
-    [-0.8660254, -0.5, 0.0],
-])
 DRIVE_WHEELS_MODULE_CAD_MM = np.array([
     [-154.76, 2.03, 103.15],
     [-45.76, 2.03, 103.15],
@@ -66,10 +61,6 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
 ])
 # Values measured from the wheel components contained in the module STLs.
 # Wheel axes are CAD X, which maps to simulator Y.
-# Principal-axis fitting of the wheel component gives a 24.94 mm diameter and
-# a 15.00 mm axial width.  The axes are mirrored by 30 degrees left/right.
-PASSIVE_WHEEL_CONTACT_RADIUS_MM = 12.47
-PASSIVE_WHEEL_CONTACT_WIDTH_MM = 15.0
 DRIVE_WHEEL_CONTACT_RADIUS_MM = 20.0
 DRIVE_WHEEL_CONTACT_WIDTH_MM = 19.0
 
@@ -124,6 +115,29 @@ def load_robot_mesh(stl_path: Path) -> trimesh.Trimesh:
     if not isinstance(mesh, trimesh.Trimesh):
         raise TypeError(f"Expected one triangular mesh: {stl_path}")
     return mesh
+
+
+def passive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
+    """Extract the four barrel-shaped passive wheels from the module STL."""
+    components = mesh.split(only_watertight=False)
+    wheels: list[trimesh.Trimesh] = []
+    for expected_center in PASSIVE_WHEELS_CAD_MM:
+        wheel = min(
+            components,
+            key=lambda part: np.linalg.norm(
+                np.asarray(part.bounding_box.centroid) - expected_center
+            ),
+        )
+        center_error = float(np.linalg.norm(
+            np.asarray(wheel.bounding_box.centroid) - expected_center
+        ))
+        if center_error > 0.25:
+            raise RuntimeError(
+                f"Passive wheel component fit error {center_error:.3f} mm "
+                f"at expected center {expected_center.tolist()}"
+            )
+        wheels.append(wheel)
+    return wheels
 
 
 def cad_to_sim(values: np.ndarray) -> np.ndarray:
@@ -386,6 +400,7 @@ class MeasuredPipeApp:
 
         base_mesh = load_robot_mesh(base_path)
         motor_mesh = load_robot_mesh(motor_path)
+        passive_wheels = passive_wheel_components(base_mesh)
         base_offset = np.zeros(3)
         motor_at_min_offset = ROBOT_MODULE_POSITION_MM + np.array(
             [0.0, SLIDER6_MIN_MM, 0.0]
@@ -416,15 +431,10 @@ class MeasuredPipeApp:
 
         # Draw the exact proxy volumes used by Bullet in translucent red so
         # contact judgement can be checked against the CAD wheels visually.
-        for wheel_cad, wheel_axis_cad in zip(
-            PASSIVE_WHEELS_CAD_MM, PASSIVE_WHEEL_AXES_CAD
-        ):
-            local = cad_to_sim(wheel_cad - cad_center)
-            self.add_contact_marker(
-                self.robot_visual_root, local,
-                PASSIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
-                PASSIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
-                cad_direction_to_sim(wheel_axis_cad),
+        for wheel_index, wheel_mesh in enumerate(passive_wheels, start=1):
+            self.add_mesh_contact_marker(
+                self.robot_visual_root, wheel_mesh, cad_center,
+                f"passive_wheel_{wheel_index}_contact_proxy",
             )
         for wheel_module_cad in DRIVE_WHEELS_MODULE_CAD_MM:
             local = cad_to_sim(
@@ -440,23 +450,33 @@ class MeasuredPipeApp:
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
         self.robot_root.setPos(center_x, 0.0, 0.0)
         self.robot_cad_center_mm = cad_center
-        for wheel_cad, wheel_axis_cad in zip(
-            PASSIVE_WHEELS_CAD_MM, PASSIVE_WHEEL_AXES_CAD
-        ):
-            local = cad_to_sim(wheel_cad - cad_center)
-            wheel_axis = cad_direction_to_sim(wheel_axis_cad)
-            shape = BulletCylinderShape(
-                PASSIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
-                PASSIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
-                YUp,
+        for wheel_mesh in passive_wheels:
+            wheel_hull = wheel_mesh.convex_hull
+            local_vertices = cad_to_sim(
+                np.asarray(wheel_hull.vertices) - cad_center
             )
-            self.robot_body.addShape(
-                shape,
-                TransformState.makePos(Vec3(*local.tolist())).compose(
-                    TransformState.makeQuat(quaternion_from_y_axis(wheel_axis))
-                ),
-            )
+            shape = BulletConvexHullShape()
+            for vertex in local_vertices:
+                shape.addPoint(Vec3(*vertex.tolist()))
+            shape.setMargin(0.0002)
+            self.robot_body.addShape(shape)
         self.rebuild_drive_contact_shapes()
+
+    def add_mesh_contact_marker(self, parent: NodePath,
+                                wheel_mesh: trimesh.Trimesh,
+                                cad_center: np.ndarray, name: str) -> None:
+        """Overlay the exact passive-wheel mesh as a red wireframe."""
+        marker_node = GeomNode(name)
+        marker_node.addGeom(robot_geom(
+            wheel_mesh, np.zeros(3), cad_center, name
+        ))
+        marker = parent.attachNewNode(marker_node)
+        marker.setTwoSided(True)
+        marker.setTransparency(TransparencyAttrib.MAlpha)
+        marker.setColor(1.0, 0.02, 0.02, 0.92, 10)
+        marker.setRenderModeWireframe()
+        marker.setRenderModeThickness(2.0)
+        marker.setDepthOffset(2)
 
     def add_contact_marker(self, parent: NodePath, position: np.ndarray,
                            radius_m: float, width_m: float,
