@@ -1,0 +1,36 @@
+{
+  "source_csv": "pipe154_auto_scan_m115_115_point_cloud_axis_corrected.csv",
+  "method": "one-start helix Fourier least-squares fit after two-way centering",
+  "lead_mm_per_revolution": 189.5,
+  "axial_shift_mm_per_degree": 0.5263888888888889,
+  "handedness": "right-hand",
+  "phase_equation": "phase = 2*pi*x/lead + sign*theta_rad",
+  "sign": -1,
+  "r_squared": 0.42401159262512633,
+  "harmonics": 4,
+  "profile": {
+    "crest_phase_at_theta0_mm": 18.5,
+    "crest_from_detrended_mean_mm": 0.709913367524667,
+    "trough_from_detrended_mean_mm": -0.8023126232710783,
+    "peak_to_valley_mm": 1.5122259907957454,
+    "crest_width_90pct_height_mm": 25.940678743674994,
+    "crest_width_80pct_height_mm": 44.57765062342665,
+    "half_height_width_mm": 98.35886523313272
+  },
+  "branch_exclusion": {
+    "center_x_mm": 531.0,
+    "center_angle_deg": 5.0,
+    "radius_mm": 95.0
+  },
+  "measured_range": {
+    "x_mm": [
+      18.085,
+      730.085
+    ],
+    "theta_deg": [
+      -113.00662946916839,
+      113.21956839575626
+    ],
+    "angle_tracks": 47
+  }
+}
