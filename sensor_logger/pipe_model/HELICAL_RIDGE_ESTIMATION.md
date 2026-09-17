@@ -78,3 +78,12 @@ python .\sensor_logger\pipe_model\build_ridged_pipe_model.py
 - `output/pipe_inner_full360_helix_estimated.stl`: 全周の配管内面モデル
 - `output/pipe_full360_helix_estimated.json`: 使用した寸法と出力情報
 - `output/pipe_full360_helix_estimated_preview.png`: 形状確認図
+
+## シミュレータで確認
+
+```powershell
+python -m pip install -r .\requirements_simulator.txt
+.\sensor_logger\pipe_model\start_ridged_pipe_simulator.ps1
+```
+
+配管は半透明・両面表示です。左ドラッグで視点回転、右ドラッグで注視点移動、マウスホイールでズームします。キーボードでは `A/D/W/S` が視点回転、`Q/E` がズームです。ロボットは左右キーで配管軸方向へ移動し、`[` / `]` でシリンダ位置、`I` で上下反転、`R` で初期位置へ戻します。
