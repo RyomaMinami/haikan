@@ -9,11 +9,13 @@ from pathlib import Path
 import numpy as np
 import trimesh
 from panda3d.bullet import (
+    BulletCylinderShape,
     BulletRigidBodyNode,
     BulletSphereShape,
     BulletTriangleMesh,
     BulletTriangleMeshShape,
     BulletWorld,
+    YUp,
 )
 from panda3d.core import (
     AmbientLight,
@@ -55,8 +57,12 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
     [-154.76, 2.03, -191.85],
     [-45.76, 2.03, -191.85],
 ])
-PASSIVE_WHEEL_CONTACT_RADIUS_MM = 16.5
-DRIVE_WHEEL_CONTACT_RADIUS_MM = 27.0
+# Values measured from the wheel components contained in the module STLs.
+# Wheel axes are CAD X, which maps to simulator Y.
+PASSIVE_WHEEL_CONTACT_RADIUS_MM = 18.5
+PASSIVE_WHEEL_CONTACT_WIDTH_MM = 30.3
+DRIVE_WHEEL_CONTACT_RADIUS_MM = 20.0
+DRIVE_WHEEL_CONTACT_WIDTH_MM = 19.0
 
 
 def load_pipe_geom(stl_path: Path) -> tuple[Geom, np.ndarray]:
@@ -216,7 +222,7 @@ class MeasuredPipeApp:
         self.robot_root = self.base.render.attachNewNode(self.robot_body)
         self.robot_visual_root = self.robot_root.attachNewNode("moving_platform_visual")
         self.world.attachRigidBody(self.robot_body)
-        self.drive_contact_shapes: list[BulletSphereShape] = []
+        self.drive_contact_shapes: list[BulletCylinderShape] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
 
@@ -384,6 +390,7 @@ class MeasuredPipeApp:
             self.add_contact_marker(
                 self.robot_visual_root, local,
                 PASSIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
+                PASSIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
             )
         for wheel_module_cad in DRIVE_WHEELS_MODULE_CAD_MM:
             local = cad_to_sim(
@@ -392,6 +399,7 @@ class MeasuredPipeApp:
             self.add_contact_marker(
                 self.motor_visual, local,
                 DRIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
+                DRIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
             )
 
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
@@ -399,18 +407,32 @@ class MeasuredPipeApp:
         self.robot_cad_center_mm = cad_center
         for wheel_cad in PASSIVE_WHEELS_CAD_MM:
             local = cad_to_sim(wheel_cad - cad_center)
-            shape = BulletSphereShape(PASSIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M)
+            shape = BulletCylinderShape(
+                PASSIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
+                PASSIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
+                YUp,
+            )
             self.robot_body.addShape(
                 shape, TransformState.makePos(Vec3(*local.tolist()))
             )
         self.rebuild_drive_contact_shapes()
 
     def add_contact_marker(self, parent: NodePath, position: np.ndarray,
-                           radius_m: float) -> None:
-        marker = self.base.loader.loadModel("models/misc/sphere")
-        marker.reparentTo(parent)
+                           radius_m: float, width_m: float) -> None:
+        # Use the same Y-axis cylinder envelope visually and in Bullet.
+        mesh = trimesh.creation.cylinder(radius=radius_m, height=width_m, sections=32)
+        mesh.apply_transform(trimesh.transformations.rotation_matrix(
+            np.pi / 2.0, [1.0, 0.0, 0.0]
+        ))
+        marker_node = GeomNode("wheel_contact_proxy")
+        marker_node.addGeom(make_geom(
+            "wheel_contact_proxy",
+            np.asarray(mesh.vertices), np.asarray(mesh.vertex_normals),
+            np.asarray(mesh.faces, dtype=np.int32),
+        ))
+        marker = parent.attachNewNode(marker_node)
         marker.setPos(*position.tolist())
-        marker.setScale(radius_m)
+        marker.setTwoSided(True)
         marker.setTransparency(TransparencyAttrib.MAlpha)
         marker.setColor(1.0, 0.02, 0.02, 0.58, 10)
 
@@ -421,7 +443,11 @@ class MeasuredPipeApp:
         offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, self.slider6_mm, 0.0])
         for wheel_module_cad in DRIVE_WHEELS_MODULE_CAD_MM:
             local = cad_to_sim(wheel_module_cad + offset - self.robot_cad_center_mm)
-            shape = BulletSphereShape(DRIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M)
+            shape = BulletCylinderShape(
+                DRIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
+                DRIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
+                YUp,
+            )
             self.robot_body.addShape(
                 shape, TransformState.makePos(Vec3(*local.tolist()))
             )
