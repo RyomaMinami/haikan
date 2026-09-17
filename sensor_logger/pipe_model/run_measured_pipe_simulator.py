@@ -10,13 +10,11 @@ import numpy as np
 import trimesh
 from panda3d.bullet import (
     BulletConvexHullShape,
-    BulletCylinderShape,
     BulletRigidBodyNode,
     BulletSphereShape,
     BulletTriangleMesh,
     BulletTriangleMeshShape,
     BulletWorld,
-    YUp,
 )
 from panda3d.core import (
     AmbientLight,
@@ -30,9 +28,7 @@ from panda3d.core import (
     GeomVertexWriter,
     LColor,
     NodePath,
-    Quat,
     TextNode,
-    TransformState,
     TransparencyAttrib,
     Vec3,
     loadPrcFileData,
@@ -61,8 +57,6 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
 ])
 # Values measured from the wheel components contained in the module STLs.
 # Wheel axes are CAD X, which maps to simulator Y.
-DRIVE_WHEEL_CONTACT_RADIUS_MM = 20.0
-DRIVE_WHEEL_CONTACT_WIDTH_MM = 19.0
 
 
 def load_pipe_geom(stl_path: Path) -> tuple[Geom, np.ndarray]:
@@ -140,31 +134,32 @@ def passive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
     return wheels
 
 
+def drive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
+    """Extract the four asymmetric half-barrel drive wheels."""
+    components = mesh.split(only_watertight=False)
+    wheels: list[trimesh.Trimesh] = []
+    for expected_center in DRIVE_WHEELS_MODULE_CAD_MM:
+        wheel = min(
+            components,
+            key=lambda part: np.linalg.norm(
+                np.asarray(part.bounding_box.centroid) - expected_center
+            ),
+        )
+        center_error = float(np.linalg.norm(
+            np.asarray(wheel.bounding_box.centroid) - expected_center
+        ))
+        if center_error > 0.25:
+            raise RuntimeError(
+                f"Drive wheel component fit error {center_error:.3f} mm "
+                f"at expected center {expected_center.tolist()}"
+            )
+        wheels.append(wheel)
+    return wheels
+
+
 def cad_to_sim(values: np.ndarray) -> np.ndarray:
     """Map Fusion/Inventor XYZ to simulator XYZ (pipe axis is CAD Z)."""
     return np.asarray(values, dtype=float)[..., [2, 0, 1]] * MM_TO_M
-
-
-def cad_direction_to_sim(values: np.ndarray) -> np.ndarray:
-    """Map a CAD direction to simulator axes without applying unit scaling."""
-    direction = np.asarray(values, dtype=float)[..., [2, 0, 1]]
-    return direction / np.linalg.norm(direction, axis=-1, keepdims=True)
-
-
-def quaternion_from_y_axis(direction: np.ndarray) -> Quat:
-    """Return a quaternion rotating a Y-axis cylinder onto direction."""
-    target = Vec3(*(np.asarray(direction, dtype=float) / np.linalg.norm(direction)))
-    source = Vec3(0.0, 1.0, 0.0)
-    rotation_axis = source.cross(target)
-    dot = float(np.clip(source.dot(target), -1.0, 1.0))
-    angle_deg = float(np.degrees(np.arccos(dot)))
-    quaternion = Quat()
-    if rotation_axis.lengthSquared() < 1e-12:
-        quaternion.setFromAxisAngle(0.0 if dot > 0 else 180.0, Vec3(1, 0, 0))
-    else:
-        rotation_axis.normalize()
-        quaternion.setFromAxisAngle(angle_deg, rotation_axis)
-    return quaternion
 
 
 def robot_geom(mesh: trimesh.Trimesh, cad_offset_mm: np.ndarray,
@@ -267,7 +262,8 @@ class MeasuredPipeApp:
         self.robot_root = self.base.render.attachNewNode(self.robot_body)
         self.robot_visual_root = self.robot_root.attachNewNode("moving_platform_visual")
         self.world.attachRigidBody(self.robot_body)
-        self.drive_contact_shapes: list[BulletCylinderShape] = []
+        self.drive_contact_shapes: list[BulletConvexHullShape] = []
+        self.drive_wheel_meshes: list[trimesh.Trimesh] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
 
@@ -401,6 +397,7 @@ class MeasuredPipeApp:
         base_mesh = load_robot_mesh(base_path)
         motor_mesh = load_robot_mesh(motor_path)
         passive_wheels = passive_wheel_components(base_mesh)
+        self.drive_wheel_meshes = drive_wheel_components(motor_mesh)
         base_offset = np.zeros(3)
         motor_at_min_offset = ROBOT_MODULE_POSITION_MM + np.array(
             [0.0, SLIDER6_MIN_MM, 0.0]
@@ -433,18 +430,15 @@ class MeasuredPipeApp:
         # contact judgement can be checked against the CAD wheels visually.
         for wheel_index, wheel_mesh in enumerate(passive_wheels, start=1):
             self.add_mesh_contact_marker(
-                self.robot_visual_root, wheel_mesh, cad_center,
+                self.robot_visual_root, wheel_mesh, np.zeros(3), cad_center,
                 f"passive_wheel_{wheel_index}_contact_proxy",
             )
-        for wheel_module_cad in DRIVE_WHEELS_MODULE_CAD_MM:
-            local = cad_to_sim(
-                wheel_module_cad + motor_at_min_offset - cad_center
-            )
-            self.add_contact_marker(
-                self.motor_visual, local,
-                DRIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
-                DRIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
-                np.array([0.0, 1.0, 0.0]),
+        for wheel_index, wheel_mesh in enumerate(
+            self.drive_wheel_meshes, start=1
+        ):
+            self.add_mesh_contact_marker(
+                self.motor_visual, wheel_mesh, motor_at_min_offset, cad_center,
+                f"drive_wheel_{wheel_index}_contact_proxy",
             )
 
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
@@ -464,11 +458,12 @@ class MeasuredPipeApp:
 
     def add_mesh_contact_marker(self, parent: NodePath,
                                 wheel_mesh: trimesh.Trimesh,
+                                cad_offset_mm: np.ndarray,
                                 cad_center: np.ndarray, name: str) -> None:
-        """Overlay the exact passive-wheel mesh as a red wireframe."""
+        """Overlay an exact wheel mesh as a red wireframe."""
         marker_node = GeomNode(name)
         marker_node.addGeom(robot_geom(
-            wheel_mesh, np.zeros(3), cad_center, name
+            wheel_mesh, cad_offset_mm, cad_center, name
         ))
         marker = parent.attachNewNode(marker_node)
         marker.setTwoSided(True)
@@ -478,41 +473,23 @@ class MeasuredPipeApp:
         marker.setRenderModeThickness(2.0)
         marker.setDepthOffset(2)
 
-    def add_contact_marker(self, parent: NodePath, position: np.ndarray,
-                           radius_m: float, width_m: float,
-                           axis_sim: np.ndarray) -> None:
-        # Use the same Y-axis cylinder envelope visually and in Bullet.
-        mesh = trimesh.creation.cylinder(radius=radius_m, height=width_m, sections=32)
-        mesh.apply_transform(trimesh.transformations.rotation_matrix(
-            np.pi / 2.0, [1.0, 0.0, 0.0]
-        ))
-        marker_node = GeomNode("wheel_contact_proxy")
-        marker_node.addGeom(make_geom(
-            "wheel_contact_proxy",
-            np.asarray(mesh.vertices), np.asarray(mesh.vertex_normals),
-            np.asarray(mesh.faces, dtype=np.int32),
-        ))
-        marker = parent.attachNewNode(marker_node)
-        marker.setPos(*position.tolist())
-        marker.setQuat(quaternion_from_y_axis(axis_sim))
-        marker.setTwoSided(True)
-        marker.setTransparency(TransparencyAttrib.MAlpha)
-        marker.setColor(1.0, 0.02, 0.02, 0.58, 10)
-
     def rebuild_drive_contact_shapes(self) -> None:
         for shape in self.drive_contact_shapes:
             self.robot_body.removeShape(shape)
         self.drive_contact_shapes.clear()
         offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, self.slider6_mm, 0.0])
-        for wheel_module_cad in DRIVE_WHEELS_MODULE_CAD_MM:
-            local = cad_to_sim(wheel_module_cad + offset - self.robot_cad_center_mm)
-            shape = BulletCylinderShape(
-                DRIVE_WHEEL_CONTACT_RADIUS_MM * MM_TO_M,
-                DRIVE_WHEEL_CONTACT_WIDTH_MM * MM_TO_M,
-                YUp,
+        for wheel_mesh in self.drive_wheel_meshes:
+            wheel_hull = wheel_mesh.convex_hull
+            local_vertices = cad_to_sim(
+                np.asarray(wheel_hull.vertices) + offset
+                - self.robot_cad_center_mm
             )
+            shape = BulletConvexHullShape()
+            for vertex in local_vertices:
+                shape.addPoint(Vec3(*vertex.tolist()))
+            shape.setMargin(0.0002)
             self.robot_body.addShape(
-                shape, TransformState.makePos(Vec3(*local.tolist()))
+                shape
             )
             self.drive_contact_shapes.append(shape)
         self.robot_body.setActive(True)
@@ -598,7 +575,7 @@ class MeasuredPipeApp:
         print(f"screenshot={path}")
 
     def capture_fit_views(self, output_dir: Path) -> None:
-        """Capture side, oblique, and end views for proxy/CAD alignment QA."""
+        """Capture three views for all wheel proxy/CAD alignment QA."""
         output_dir.mkdir(parents=True, exist_ok=True)
         for name, heading, pitch, distance in (
             ("side", -90.0, 12.0, 0.81),
@@ -609,7 +586,7 @@ class MeasuredPipeApp:
             self.camera_pitch_deg = pitch
             self.camera_distance_m = distance
             self.update_camera_pose()
-            self.capture(output_dir / f"passive_wheel_fit_{name}.png")
+            self.capture(output_dir / f"wheel_mesh_fit_{name}.png")
 
 
 def main() -> None:
