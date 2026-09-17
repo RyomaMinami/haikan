@@ -46,10 +46,10 @@ SLIDER6_MAX_MM = 73.0
 # 02_motor_module.  The simple spherical proxies intentionally model only the
 # contact envelope, not the surrounding frames.
 PASSIVE_WHEELS_CAD_MM = np.array([
-    [-108.22, -111.45, -2.64],
-    [-108.22, -111.45, -222.64],
-    [-9.59, -111.45, -2.64],
-    [-9.59, -111.45, -222.64],
+    [-112.29, -119.04, -2.64],
+    [-112.29, -119.04, -222.64],
+    [-5.37, -119.04, -2.64],
+    [-5.37, -119.04, -222.64],
 ])
 DRIVE_WHEELS_MODULE_CAD_MM = np.array([
     [-154.76, 2.03, 103.15],
@@ -59,8 +59,11 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
 ])
 # Values measured from the wheel components contained in the module STLs.
 # Wheel axes are CAD X, which maps to simulator Y.
-PASSIVE_WHEEL_CONTACT_RADIUS_MM = 18.5
-PASSIVE_WHEEL_CONTACT_WIDTH_MM = 30.3
+# The nearby 30 x 33 x 37 mm component is the caster fork, not the wheel.
+# The wheel components themselves have a 22.65 mm axial width and an outer
+# radial envelope of 26.49 mm in the gravity direction.
+PASSIVE_WHEEL_CONTACT_RADIUS_MM = 13.245
+PASSIVE_WHEEL_CONTACT_WIDTH_MM = 22.65
 DRIVE_WHEEL_CONTACT_RADIUS_MM = 20.0
 DRIVE_WHEEL_CONTACT_WIDTH_MM = 19.0
 
