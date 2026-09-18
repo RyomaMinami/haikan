@@ -16,12 +16,19 @@
     18.5,
     208.0,
     397.5,
-    587.0
+    587.0,
+    776.5,
+    966.0,
+    1155.5,
+    1345.0,
+    1534.5,
+    1724.0,
+    1913.5
   ],
-  "complete_turn_count": 3,
+  "complete_turn_count": 10,
   "axial_range_mm": [
-    18.085,
-    730.085
+    0.0,
+    2000.0
   ],
   "angular_coverage_deg": 360.0,
   "angular_grid_deg": [

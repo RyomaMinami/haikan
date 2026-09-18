@@ -11,6 +11,8 @@ from scipy.optimize import brentq
 
 from run_measured_pipe_simulator import (
     DRIVE_WHEELS_MODULE_CAD_MM,
+    DRILLING1_MODULE_POSITION_MM,
+    DRILLING_WHEELS_MODULE_CAD_MM,
     NORMAL_PASSIVE_SEAT_Y_M,
     PASSIVE_WHEELS_CAD_MM,
     ROBOT_MODULE_POSITION_MM,
@@ -18,14 +20,18 @@ from run_measured_pipe_simulator import (
     SLIDER6_MIN_MM,
     cad_to_sim,
     drive_wheel_components,
+    drilling_wheel_components,
     load_robot_mesh,
     passive_wheel_components,
 )
 
 
-def load_geometry(asset_dir: Path) -> tuple[list[np.ndarray], list[np.ndarray]]:
+def load_geometry(
+    asset_dir: Path,
+) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray]]:
     base = load_robot_mesh(asset_dir / "01_move_module.stl")
     motor = load_robot_mesh(asset_dir / "02_motor_module.stl")
+    drilling1 = load_robot_mesh(asset_dir / "03_drilling_module1.stl")
     motor_offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, SLIDER6_MIN_MM, 0.0])
     minimum = np.minimum(base.bounds[0], motor.bounds[0] + motor_offset)
     maximum = np.maximum(base.bounds[1], motor.bounds[1] + motor_offset)
@@ -38,7 +44,14 @@ def load_geometry(asset_dir: Path) -> tuple[list[np.ndarray], list[np.ndarray]]:
         cad_to_sim(wheel.convex_hull.vertices + motor_offset - cad_center)
         for wheel in drive_wheel_components(motor)
     ]
-    return passive, drive
+    drilling = [
+        cad_to_sim(
+            wheel.convex_hull.vertices
+            + DRILLING1_MODULE_POSITION_MM - cad_center
+        )
+        for wheel in drilling_wheel_components(drilling1)
+    ]
+    return passive, drive, drilling
 
 
 def pipe_radius_m(points: np.ndarray, estimation: dict) -> np.ndarray:
@@ -162,8 +175,17 @@ def main() -> None:
     estimation_path = here / "output" / "helical_ridge_estimation.json"
     estimation = json.loads(estimation_path.read_text(encoding="utf-8"))
     assets = here.parent.parent / "raspi_tools" / "camera_stream" / "assets"
-    passive, drive = load_geometry(assets)
-    x_min, x_max = (value * 0.001 for value in estimation["measured_range"]["x_mm"])
+    passive, drive, drilling = load_geometry(assets)
+    pipe_metadata_path = here / "output" / "pipe_full360_helix_estimated.json"
+    if pipe_metadata_path.exists():
+        pipe_metadata = json.loads(pipe_metadata_path.read_text(encoding="utf-8"))
+        x_min, x_max = (
+            value * 0.001 for value in pipe_metadata["axial_range_mm"]
+        )
+    else:
+        x_min, x_max = (
+            value * 0.001 for value in estimation["measured_range"]["x_mm"]
+        )
     pipe_center_x = 0.5 * (x_min + x_max)
     # The inferred right-hand helix puts wheels 2 and 3 on the same crest:
     # their individual crest phases differ by only about 2 mm, versus a
@@ -177,6 +199,9 @@ def main() -> None:
         pose = (body_x, NORMAL_PASSIVE_SEAT_Y_M, body_z)
         passive_clearances = [
             clearance_mm(wheel, pose, estimation) for wheel in passive
+        ]
+        drilling_clearances = [
+            clearance_mm(wheel, pose, estimation) for wheel in drilling
         ]
         strokes = [drive_contact_stroke(wheel, pose, estimation) for wheel in drive]
         reachable = [value for value in strokes if value is not None]
@@ -203,6 +228,10 @@ def main() -> None:
             "body_pose_m": {"x": body_x, "y": NORMAL_PASSIVE_SEAT_Y_M, "z": body_z},
             "passive_clearance_mm": passive_clearances,
             "passive_contact_0p25mm": [gap <= 0.25 for gap in passive_clearances],
+            "drilling_wheel_clearance_mm": drilling_clearances,
+            "drilling_contact_0p25mm": [
+                gap <= 0.25 for gap in drilling_clearances
+            ],
             "drive_required_stroke_mm": strokes,
             "cylinder_first_contact_stroke_mm": stop_stroke,
             "drive_clearance_at_first_contact_mm": drive_clearances,
@@ -214,6 +243,7 @@ def main() -> None:
         "maximum_cylinder_stroke_mm": SLIDER6_MAX_MM - SLIDER6_MIN_MM,
         "passive_wheel_order_cad_centers_mm": PASSIVE_WHEELS_CAD_MM.tolist(),
         "drive_wheel_order_cad_centers_mm": DRIVE_WHEELS_MODULE_CAD_MM.tolist(),
+        "drilling_wheel_order_cad_centers_mm": DRILLING_WHEELS_MODULE_CAD_MM.tolist(),
         "cases": cases,
     }
     output = here / "output" / "ridge_contact_cases.json"

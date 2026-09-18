@@ -96,6 +96,8 @@ def main() -> None:
     parser.add_argument("--angular-step-deg", type=float, default=2.0)
     parser.add_argument("--nominal-inner-radius-mm", type=float, default=120.0)
     parser.add_argument("--wall-thickness-mm", type=float, default=5.0)
+    parser.add_argument("--axial-start-mm", type=float, default=0.0)
+    parser.add_argument("--pipe-length-mm", type=float, default=2000.0)
     parser.add_argument(
         "--estimation-json", type=Path,
         default=here / "output" / "helical_ridge_estimation.json",
@@ -159,8 +161,8 @@ def main() -> None:
 
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    measured_range = estimation["measured_range"]
-    x_min, x_max = (float(v) for v in measured_range["x_mm"])
+    x_min = float(args.axial_start_mm)
+    x_max = x_min + float(args.pipe_length_mm)
     x = np.arange(x_min, x_max + 0.5 * args.axial_step_mm, args.axial_step_mm)
     theta = np.arange(-180.0, 180.0, args.angular_step_deg)
     base_radius = np.full(

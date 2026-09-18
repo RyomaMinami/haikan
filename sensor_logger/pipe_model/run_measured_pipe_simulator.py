@@ -67,6 +67,9 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
     [-154.76, 2.03, -191.85],
     [-45.76, 2.03, -191.85],
 ])
+DRILLING_WHEELS_MODULE_CAD_MM = np.array([
+    [0.0, -180.01, 34.0],
+])
 # Values measured from the wheel components contained in the module STLs.
 # Wheel axes are CAD X, which maps to simulator Y.
 
@@ -163,6 +166,29 @@ def drive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
         if center_error > 0.25:
             raise RuntimeError(
                 f"Drive wheel component fit error {center_error:.3f} mm "
+                f"at expected center {expected_center.tolist()}"
+            )
+        wheels.append(wheel)
+    return wheels
+
+
+def drilling_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
+    """Extract the 16 mm-wide, approximately 32 mm drilling-module wheel."""
+    components = mesh.split(only_watertight=False)
+    wheels: list[trimesh.Trimesh] = []
+    for expected_center in DRILLING_WHEELS_MODULE_CAD_MM:
+        wheel = min(
+            components,
+            key=lambda part: np.linalg.norm(
+                np.asarray(part.bounding_box.centroid) - expected_center
+            ),
+        )
+        center_error = float(np.linalg.norm(
+            np.asarray(wheel.bounding_box.centroid) - expected_center
+        ))
+        if center_error > 0.25:
+            raise RuntimeError(
+                f"Drilling wheel component fit error {center_error:.3f} mm "
                 f"at expected center {expected_center.tolist()}"
             )
         wheels.append(wheel)
@@ -302,6 +328,7 @@ class MeasuredPipeApp:
         self.drive_wheel_meshes: list[trimesh.Trimesh] = []
         self.passive_contact_markers: list[NodePath] = []
         self.drive_contact_markers: list[NodePath] = []
+        self.drilling_contact_markers: list[NodePath] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
         self.contact_case = 1
@@ -438,6 +465,7 @@ class MeasuredPipeApp:
         bit_mesh = load_robot_mesh(bit_path)
         passive_wheels = passive_wheel_components(base_mesh)
         self.drive_wheel_meshes = drive_wheel_components(motor_mesh)
+        drilling_wheels = drilling_wheel_components(drilling1_mesh)
         base_offset = np.zeros(3)
         motor_at_min_offset = ROBOT_MODULE_POSITION_MM + np.array(
             [0.0, SLIDER6_MIN_MM, 0.0]
@@ -515,6 +543,13 @@ class MeasuredPipeApp:
                 f"drive_wheel_{wheel_index}_contact_proxy",
             )
             self.drive_contact_markers.append(marker)
+        for wheel_index, wheel_mesh in enumerate(drilling_wheels, start=1):
+            marker = self.add_mesh_contact_marker(
+                self.robot_visual_root, wheel_mesh,
+                DRILLING1_MODULE_POSITION_MM, cad_center,
+                f"drilling_wheel_{wheel_index}_contact_proxy",
+            )
+            self.drilling_contact_markers.append(marker)
 
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
         self.robot_root.setPos(center_x, 0.0, 0.0)
@@ -523,6 +558,17 @@ class MeasuredPipeApp:
             wheel_hull = wheel_mesh.convex_hull
             local_vertices = cad_to_sim(
                 np.asarray(wheel_hull.vertices) - cad_center
+            )
+            shape = BulletConvexHullShape()
+            for vertex in local_vertices:
+                shape.addPoint(Vec3(*vertex.tolist()))
+            shape.setMargin(0.0002)
+            self.robot_body.addShape(shape)
+        for wheel_mesh in drilling_wheels:
+            wheel_hull = wheel_mesh.convex_hull
+            local_vertices = cad_to_sim(
+                np.asarray(wheel_hull.vertices)
+                + DRILLING1_MODULE_POSITION_MM - cad_center
             )
             shape = BulletConvexHullShape()
             for vertex in local_vertices:
@@ -578,21 +624,31 @@ class MeasuredPipeApp:
         drive = [index + 1 for index, contact in enumerate(
             case["drive_contact_0p25mm"]
         ) if contact] if self.cylinder_pressed else []
+        drilling = [index + 1 for index, contact in enumerate(
+            case["drilling_contact_0p25mm"]
+        ) if contact]
+        drilling_gap = min(case["drilling_wheel_clearance_mm"])
         state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
         self.robot_status.setText(
             f"Case {self.contact_case}: {self.contact_case_label}\n"
             f"Cylinder: {state} / slider {self.slider6_mm:.2f} mm\n"
-            f"Passive contact: {passive or 'none'} / Drive contact: {drive or 'none'}"
+            f"Passive: {passive or 'none'} / Drive: {drive or 'none'}"
+            f" / Drilling: {drilling or 'none'} (gap {drilling_gap:.2f} mm)"
         )
 
     @staticmethod
     def set_contact_marker(marker: NodePath, contact: bool) -> None:
         if contact:
             marker.setColor(1.0, 0.02, 0.02, 0.96)
-            marker.setRenderModeThickness(3.0)
+            marker.setRenderModeFilled()
+            marker.setDepthTest(False)
+            marker.setBin("fixed", 100)
         else:
-            marker.setColor(0.42, 0.46, 0.52, 0.34)
-            marker.setRenderModeThickness(1.0)
+            marker.setColor(0.42, 0.46, 0.52, 0.22)
+            marker.setRenderModeWireframe()
+            marker.setRenderModeThickness(2.0)
+            marker.setDepthTest(False)
+            marker.setBin("fixed", 90)
 
     def update_contact_marker_colors(self, case: dict) -> None:
         for marker, contact in zip(
@@ -601,6 +657,10 @@ class MeasuredPipeApp:
             self.set_contact_marker(marker, bool(contact))
         drive_contacts = case["drive_contact_0p25mm"] if self.cylinder_pressed else [False] * 4
         for marker, contact in zip(self.drive_contact_markers, drive_contacts):
+            self.set_contact_marker(marker, bool(contact))
+        for marker, contact in zip(
+            self.drilling_contact_markers, case["drilling_contact_0p25mm"]
+        ):
             self.set_contact_marker(marker, bool(contact))
 
     def apply_contact_case(self, case_number: int) -> None:
