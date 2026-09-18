@@ -619,13 +619,13 @@ class MeasuredPipeApp:
     def update_robot_status(self) -> None:
         case = self.ridge_contact_result["cases"][self.contact_case - 1]
         passive = [index + 1 for index, contact in enumerate(
-            case["passive_contact_0p25mm"]
+            case["passive_contact"]
         ) if contact]
         drive = [index + 1 for index, contact in enumerate(
-            case["drive_contact_0p25mm"]
+            case["drive_contact"]
         ) if contact] if self.cylinder_pressed else []
         drilling = [index + 1 for index, contact in enumerate(
-            case["drilling_contact_0p25mm"]
+            case["drilling_contact"]
         ) if contact]
         drilling_gap = min(case["drilling_wheel_clearance_mm"])
         state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
@@ -655,14 +655,14 @@ class MeasuredPipeApp:
 
     def update_contact_marker_colors(self, case: dict) -> None:
         for marker, contact in zip(
-            self.passive_contact_markers, case["passive_contact_0p25mm"]
+            self.passive_contact_markers, case["passive_contact"]
         ):
             self.set_contact_marker(marker, bool(contact))
-        drive_contacts = case["drive_contact_0p25mm"] if self.cylinder_pressed else [False] * 4
+        drive_contacts = case["drive_contact"] if self.cylinder_pressed else [False] * 4
         for marker, contact in zip(self.drive_contact_markers, drive_contacts):
             self.set_contact_marker(marker, bool(contact))
         for marker, contact in zip(
-            self.drilling_contact_markers, case["drilling_contact_0p25mm"]
+            self.drilling_contact_markers, case["drilling_contact"]
         ):
             self.set_contact_marker(marker, bool(contact))
 

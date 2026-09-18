@@ -1,6 +1,6 @@
 {
   "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
-  "contact_tolerance_mm": 0.25,
+  "contact_tolerance_mm": 0.02,
   "maximum_cylinder_stroke_mm": 30.0,
   "passive_wheel_order_cad_centers_mm": [
     [
@@ -77,7 +77,7 @@
         0.47422867241771194,
         0.9849511172210917
       ],
-      "passive_contact_0p25mm": [
+      "passive_contact": [
         true,
         false,
         false,
@@ -86,7 +86,7 @@
       "drilling_wheel_clearance_mm": [
         0.31732159700265106
       ],
-      "drilling_contact_0p25mm": [
+      "drilling_contact": [
         false
       ],
       "drive_required_stroke_mm": [
@@ -102,7 +102,7 @@
         0.7022453595024042,
         9.71445146547012e-14
       ],
-      "drive_contact_0p25mm": [
+      "drive_contact": [
         false,
         false,
         false,
@@ -138,7 +138,7 @@
         0.0012188862044959503,
         0.44719311088553537
       ],
-      "passive_contact_0p25mm": [
+      "passive_contact": [
         false,
         true,
         true,
@@ -147,7 +147,7 @@
       "drilling_wheel_clearance_mm": [
         0.8347225723565471
       ],
-      "drilling_contact_0p25mm": [
+      "drilling_contact": [
         false
       ],
       "drive_required_stroke_mm": [
@@ -163,7 +163,7 @@
         1.145965217340783,
         0.443996359257251
       ],
-      "drive_contact_0p25mm": [
+      "drive_contact": [
         false,
         true,
         false,
@@ -193,7 +193,7 @@
         0.40953287579902076,
         3.9496184101039944e-11
       ],
-      "passive_contact_0p25mm": [
+      "passive_contact": [
         false,
         false,
         false,
@@ -202,7 +202,7 @@
       "drilling_wheel_clearance_mm": [
         1.3690837233613362
       ],
-      "drilling_contact_0p25mm": [
+      "drilling_contact": [
         false
       ],
       "drive_required_stroke_mm": [
@@ -218,11 +218,11 @@
         1.447078312740588,
         0.09121058387741299
       ],
-      "drive_contact_0p25mm": [
-        true,
+      "drive_contact": [
+        false,
         true,
         false,
-        true
+        false
       ]
     }
   ]

@@ -26,6 +26,12 @@ from run_measured_pipe_simulator import (
 )
 
 
+# Use a tight tolerance for geometric contact.  The previous 0.25 mm display
+# tolerance incorrectly marked nearby drive wheels as touching even though a
+# positive gap remained at the rigid first-contact cylinder position.
+CONTACT_TOLERANCE_MM = 0.02
+
+
 def load_geometry(
     asset_dir: Path,
 ) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray]]:
@@ -217,7 +223,7 @@ def main() -> None:
             drive_clearances = [
                 clearance_mm(wheel, pose, estimation, slider) for wheel in drive
             ]
-            drive_contact = [gap <= 0.25 for gap in drive_clearances]
+            drive_contact = [gap <= CONTACT_TOLERANCE_MM for gap in drive_clearances]
         cases.append({
             "case": case_index,
             "passive_wheels_on_ridge": [index + 1 for index in selected_indices],
@@ -227,19 +233,21 @@ def main() -> None:
             ],
             "body_pose_m": {"x": body_x, "y": NORMAL_PASSIVE_SEAT_Y_M, "z": body_z},
             "passive_clearance_mm": passive_clearances,
-            "passive_contact_0p25mm": [gap <= 0.25 for gap in passive_clearances],
+            "passive_contact": [
+                gap <= CONTACT_TOLERANCE_MM for gap in passive_clearances
+            ],
             "drilling_wheel_clearance_mm": drilling_clearances,
-            "drilling_contact_0p25mm": [
-                gap <= 0.25 for gap in drilling_clearances
+            "drilling_contact": [
+                gap <= CONTACT_TOLERANCE_MM for gap in drilling_clearances
             ],
             "drive_required_stroke_mm": strokes,
             "cylinder_first_contact_stroke_mm": stop_stroke,
             "drive_clearance_at_first_contact_mm": drive_clearances,
-            "drive_contact_0p25mm": drive_contact,
+            "drive_contact": drive_contact,
         })
     result = {
         "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
-        "contact_tolerance_mm": 0.25,
+        "contact_tolerance_mm": CONTACT_TOLERANCE_MM,
         "maximum_cylinder_stroke_mm": SLIDER6_MAX_MM - SLIDER6_MIN_MM,
         "passive_wheel_order_cad_centers_mm": PASSIVE_WHEELS_CAD_MM.tolist(),
         "drive_wheel_order_cad_centers_mm": DRIVE_WHEELS_MODULE_CAD_MM.tolist(),
