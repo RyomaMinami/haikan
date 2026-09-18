@@ -37,6 +37,8 @@ from panda3d.core import (
 
 
 MM_TO_M = 0.001
+PIPE_NOMINAL_INNER_RADIUS_M = 0.120
+RIDGE_DISPLAY_MIN_HEIGHT_MM = 0.70
 ROBOT_MODULE_POSITION_MM = np.array([42.0, 0.0, -47.0])
 DRILLING1_MODULE_POSITION_MM = np.array([-59.0, 50.0, -373.0])
 DRILLING2_MODULE_POSITION_MM = np.array([-100.0, 0.0, -335.0])
@@ -98,6 +100,26 @@ def load_pipe_geom(stl_path: Path) -> tuple[Geom, np.ndarray]:
     geom = Geom(data)
     geom.addPrimitive(triangles)
     return geom, np.vstack((vertices.min(axis=0), vertices.max(axis=0)))
+
+
+def load_pipe_ridge_geom(stl_path: Path) -> Geom:
+    """Extract inner-wall triangles raised at least 0.7 mm as a dark overlay."""
+    mesh = trimesh.load_mesh(stl_path, process=True)
+    if not isinstance(mesh, trimesh.Trimesh):
+        raise TypeError(f"Expected one triangular mesh: {stl_path}")
+    vertices = np.asarray(mesh.vertices, dtype=float) * MM_TO_M
+    normals = np.asarray(mesh.vertex_normals, dtype=float)
+    faces = np.asarray(mesh.faces, dtype=np.int32)
+    radial = np.linalg.norm(vertices[:, 1:3], axis=1)
+    ridge_radius = (
+        PIPE_NOMINAL_INNER_RADIUS_M - RIDGE_DISPLAY_MIN_HEIGHT_MM * MM_TO_M
+    )
+    # At least one inward vertex selects the crest and its side faces.  The
+    # outer 125 mm wall cannot pass this radial threshold.
+    ridge_faces = faces[np.any(radial[faces] <= ridge_radius, axis=1)]
+    if len(ridge_faces) == 0:
+        raise RuntimeError("No ridge triangles were found in the pipe mesh")
+    return make_geom("pipe_ridge_overlay", vertices, normals, ridge_faces)
 
 
 def make_geom(name: str, vertices: np.ndarray, normals: np.ndarray,
@@ -311,6 +333,16 @@ class MeasuredPipeApp:
         visual_np.setColor(0.10, 0.52, 0.82, 0.18)
         visual_np.setDepthWrite(False)
         visual_np.setBin("transparent", 20)
+
+        ridge_node = GeomNode("measured_pipe_ridge_overlay")
+        ridge_node.addGeom(load_pipe_ridge_geom(stl_path))
+        ridge_np = self.base.render.attachNewNode(ridge_node)
+        ridge_np.setTwoSided(True)
+        ridge_np.setTransparency(TransparencyAttrib.MAlpha)
+        ridge_np.setColor(0.015, 0.10, 0.48, 0.78)
+        ridge_np.setDepthWrite(False)
+        ridge_np.setDepthOffset(3)
+        ridge_np.setBin("transparent", 35)
         pipe_physics_np.reparentTo(self.base.render)
 
         sphere_visual = self.base.loader.loadModel("models/misc/sphere")
@@ -414,7 +446,8 @@ class MeasuredPipeApp:
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
                   "1-3: moving-platform ridge cases  4+: drilling-wheel ridge cases\n"
                   "C: cylinder press/retract\n"
-                  "Red filled/wire: wheel contact/proxy  Yellow/magenta: module clearance/contact\n"
+                  "Dark blue: ridge >=0.7 mm  Red filled/wire: wheel contact/proxy\n"
+                  "Yellow/magenta: module clearance/contact\n"
                   "R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
