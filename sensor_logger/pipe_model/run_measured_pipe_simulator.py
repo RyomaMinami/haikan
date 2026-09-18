@@ -352,6 +352,14 @@ class MeasuredPipeApp:
         self.drilling_contact_markers: list[NodePath] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
+        self.drilling_module_contact_marker = self.base.loader.loadModel(
+            "models/misc/sphere"
+        )
+        self.drilling_module_contact_marker.reparentTo(self.robot_root)
+        self.drilling_module_contact_marker.setScale(0.010)
+        self.drilling_module_contact_marker.setDepthTest(False)
+        self.drilling_module_contact_marker.setBin("fixed", 110)
+        self.drilling_module_contact_marker.hide()
         self.contact_case = 1
         self.contact_case_label = "passive wheel 1 on ridge / full robot"
 
@@ -401,7 +409,8 @@ class MeasuredPipeApp:
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
                   "1: wheel 1  2: wheels 2+3  3: wheel 4 on ridge  C: cylinder press/retract\n"
-                  "Red filled: contact  Red wireframe: non-contact proxy  R: reset case  Esc: exit"),
+                  "Red filled/wire: wheel contact/proxy  Yellow/magenta: module clearance/contact\n"
+                  "R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
         )
@@ -649,13 +658,44 @@ class MeasuredPipeApp:
             case["drilling_contact"]
         ) if contact]
         drilling_gap = min(case["drilling_wheel_clearance_mm"])
+        module_check = case["drilling_module_after_press"]
+        if self.cylinder_pressed:
+            module_state = "CONTACT" if module_check["contact"] else "clear"
+            module_line = (
+                f"Drilling module after press: {module_state} / "
+                f"gap {module_check['minimum_clearance_mm']:.2f} mm / "
+                f"{module_check['closest_component']}"
+            )
+        else:
+            module_line = "Drilling module after press: pending (press C)"
         state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
         self.robot_status.setText(
             f"Case {self.contact_case}: {self.contact_case_label}\n"
             f"Cylinder: {state} / slider {self.slider6_mm:.2f} mm\n"
             f"Passive: {passive or 'none'} / Drive: {drive or 'none'}"
-            f" / Drilling: {drilling or 'none'} (gap {drilling_gap:.2f} mm)"
+            f" / Drill wheel: {drilling or 'none'} (gap {drilling_gap:.2f} mm)\n"
+            f"{module_line}"
         )
+
+    def update_drilling_module_contact_marker(self, case: dict) -> None:
+        if not self.cylinder_pressed:
+            self.drilling_module_contact_marker.hide()
+            return
+        check = case["drilling_module_after_press"]
+        world_point = np.asarray(check["closest_point_world_m"], dtype=float)
+        body_pose = np.array([
+            case["body_pose_m"]["x"],
+            case["body_pose_m"]["y"],
+            case["body_pose_m"]["z"],
+        ])
+        local_point = world_point - body_pose
+        self.drilling_module_contact_marker.setPos(*local_point.tolist())
+        self.drilling_module_contact_marker.setColor(
+            1.0, 0.05, 0.85, 1.0
+        ) if check["contact"] else self.drilling_module_contact_marker.setColor(
+            1.0, 0.72, 0.05, 1.0
+        )
+        self.drilling_module_contact_marker.show()
 
     @staticmethod
     def set_contact_marker(marker: NodePath, contact: bool) -> None:
@@ -710,6 +750,8 @@ class MeasuredPipeApp:
         self.robot_body.clearForces()
         self.robot_body.setActive(False)
         self.update_contact_marker_colors(case)
+        if hasattr(self, "drilling_module_contact_marker"):
+            self.update_drilling_module_contact_marker(case)
         if hasattr(self, "robot_status"):
             self.update_robot_status()
 
@@ -728,6 +770,7 @@ class MeasuredPipeApp:
         self.rebuild_drive_contact_shapes()
         self.robot_body.setActive(False)
         self.update_contact_marker_colors(case)
+        self.update_drilling_module_contact_marker(case)
         self.update_robot_status()
 
     def change_slider6(self, delta_mm: float) -> None:

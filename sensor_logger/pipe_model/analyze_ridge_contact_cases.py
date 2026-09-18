@@ -10,14 +10,17 @@ import numpy as np
 from scipy.optimize import brentq
 
 from run_measured_pipe_simulator import (
+    BIT_MODULE_POSITION_MM,
     DRIVE_WHEELS_MODULE_CAD_MM,
     DRILLING1_MODULE_POSITION_MM,
+    DRILLING2_MODULE_POSITION_MM,
     DRILLING_WHEELS_MODULE_CAD_MM,
     NORMAL_PASSIVE_SEAT_Y_M,
     PASSIVE_WHEELS_CAD_MM,
     ROBOT_MODULE_POSITION_MM,
     SLIDER6_MAX_MM,
     SLIDER6_MIN_MM,
+    SLIDER11_MIN_MM,
     cad_to_sim,
     drive_wheel_components,
     drilling_wheel_components,
@@ -34,10 +37,14 @@ CONTACT_TOLERANCE_MM = 0.02
 
 def load_geometry(
     asset_dir: Path,
-) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray]]:
+) -> tuple[
+    list[np.ndarray], list[np.ndarray], list[np.ndarray], dict[str, np.ndarray]
+]:
     base = load_robot_mesh(asset_dir / "01_move_module.stl")
     motor = load_robot_mesh(asset_dir / "02_motor_module.stl")
     drilling1 = load_robot_mesh(asset_dir / "03_drilling_module1.stl")
+    drilling2 = load_robot_mesh(asset_dir / "03_drilling_module2.stl")
+    bit = load_robot_mesh(asset_dir / "04_bit.stl")
     motor_offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, SLIDER6_MIN_MM, 0.0])
     minimum = np.minimum(base.bounds[0], motor.bounds[0] + motor_offset)
     maximum = np.maximum(base.bounds[1], motor.bounds[1] + motor_offset)
@@ -57,7 +64,28 @@ def load_geometry(
         )
         for wheel in drilling_wheel_components(drilling1)
     ]
-    return passive, drive, drilling
+    bit_rotation = np.array([
+        [1.0, 0.0, 0.0],
+        [0.0, 0.0, -1.0],
+        [0.0, 1.0, 0.0],
+    ])
+    drilling_modules = {
+        "drilling_module1": cad_to_sim(
+            np.asarray(drilling1.vertices)
+            + DRILLING1_MODULE_POSITION_MM - cad_center
+        ),
+        "drilling_module2": cad_to_sim(
+            np.asarray(drilling2.vertices)
+            + DRILLING2_MODULE_POSITION_MM
+            + np.array([0.0, SLIDER11_MIN_MM, 0.0]) - cad_center
+        ),
+        "bit": cad_to_sim(
+            np.asarray(bit.vertices) @ bit_rotation.T
+            + BIT_MODULE_POSITION_MM
+            + np.array([0.0, SLIDER11_MIN_MM, 0.0]) - cad_center
+        ),
+    }
+    return passive, drive, drilling, drilling_modules
 
 
 def pipe_radius_m(points: np.ndarray, estimation: dict) -> np.ndarray:
@@ -96,6 +124,18 @@ def clearance_mm(vertices: np.ndarray, pose: tuple[float, float, float],
     points = placed(vertices, *pose, slider_mm)
     radial = np.linalg.norm(points[:, 1:3], axis=1)
     return float(np.min(pipe_radius_m(points, estimation) - radial) * 1000.0)
+
+
+def clearance_details(
+    vertices: np.ndarray,
+    pose: tuple[float, float, float],
+    estimation: dict,
+) -> tuple[float, np.ndarray]:
+    points = placed(vertices, *pose)
+    radial = np.linalg.norm(points[:, 1:3], axis=1)
+    gaps = pipe_radius_m(points, estimation) - radial
+    index = int(np.argmin(gaps))
+    return float(gaps[index] * 1000.0), points[index]
 
 
 def solve_zero(function, lower: float, upper: float) -> float:
@@ -181,7 +221,7 @@ def main() -> None:
     estimation_path = here / "output" / "helical_ridge_estimation.json"
     estimation = json.loads(estimation_path.read_text(encoding="utf-8"))
     assets = here.parent.parent / "raspi_tools" / "camera_stream" / "assets"
-    passive, drive, drilling = load_geometry(assets)
+    passive, drive, drilling, drilling_modules = load_geometry(assets)
     pipe_metadata_path = here / "output" / "pipe_full360_helix_estimated.json"
     if pipe_metadata_path.exists():
         pipe_metadata = json.loads(pipe_metadata_path.read_text(encoding="utf-8"))
@@ -209,6 +249,13 @@ def main() -> None:
         drilling_clearances = [
             clearance_mm(wheel, pose, estimation) for wheel in drilling
         ]
+        module_details = {
+            name: clearance_details(vertices, pose, estimation)
+            for name, vertices in drilling_modules.items()
+        }
+        closest_module, (module_gap, module_point) = min(
+            module_details.items(), key=lambda item: item[1][0]
+        )
         strokes = [drive_contact_stroke(wheel, pose, estimation) for wheel in drive]
         reachable = [value for value in strokes if value is not None]
         stop_stroke = min(reachable) if reachable else None
@@ -240,6 +287,16 @@ def main() -> None:
             "drilling_contact": [
                 gap <= CONTACT_TOLERANCE_MM for gap in drilling_clearances
             ],
+            "drilling_module_after_press": {
+                "sequence": "checked after drive-wheel first contact",
+                "contact": module_gap <= CONTACT_TOLERANCE_MM,
+                "minimum_clearance_mm": module_gap,
+                "closest_component": closest_module,
+                "closest_point_world_m": module_point.tolist(),
+                "component_clearance_mm": {
+                    name: detail[0] for name, detail in module_details.items()
+                },
+            },
             "drive_required_stroke_mm": strokes,
             "cylinder_first_contact_stroke_mm": stop_stroke,
             "drive_clearance_at_first_contact_mm": drive_clearances,

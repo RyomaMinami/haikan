@@ -89,6 +89,22 @@
       "drilling_contact": [
         false
       ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": false,
+        "minimum_clearance_mm": 0.31732159700265106,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7536686836051751,
+          0.0008446257855972295,
+          -0.11850430255556721
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.31732159700265106,
+          "drilling_module2": 13.091806121409533,
+          "bit": 2.7659444724411895
+        }
+      },
       "drive_required_stroke_mm": [
         7.399425170078275,
         6.855623846864862,
@@ -150,6 +166,22 @@
       "drilling_contact": [
         false
       ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": false,
+        "minimum_clearance_mm": 0.8347225723565471,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7851544598057336,
+          0.0008446257855972295,
+          -0.11851624512027992
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.8347225723565471,
+          "drilling_module2": 12.878948720982205,
+          "bit": 2.534103354649292
+        }
+      },
       "drive_required_stroke_mm": [
         6.82389149428091,
         6.314739895978235,
@@ -205,6 +237,22 @@
       "drilling_contact": [
         false
       ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": false,
+        "minimum_clearance_mm": 1.1109076075060953,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.6870191346268975,
+          -0.08448024205898438,
+          -0.08182230797121635
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.1109076075060953,
+          "drilling_module2": 12.950844634331036,
+          "bit": 1.9934697859027573
+        }
+      },
       "drive_required_stroke_mm": [
         6.2789508717793,
         6.569670394542347,
