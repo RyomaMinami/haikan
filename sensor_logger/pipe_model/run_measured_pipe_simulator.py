@@ -409,6 +409,18 @@ class MeasuredPipeApp:
         self.ridge_contact_result = json.loads(
             contact_result_path.read_text(encoding="utf-8")
         )
+        gravity_representatives_path = (
+            Path(__file__).resolve().parent
+            / "output"
+            / "gravity_passive_contact_representatives.json"
+        )
+        if gravity_representatives_path.exists():
+            gravity_representatives = json.loads(
+                gravity_representatives_path.read_text(encoding="utf-8")
+            )
+            self.ridge_contact_result["cases"].extend(
+                gravity_representatives.get("simulator_cases", [])
+            )
         estimation_path = Path(__file__).resolve().parent / "output" / "helical_ridge_estimation.json"
         self.ridge_estimation = json.loads(
             estimation_path.read_text(encoding="utf-8")
@@ -480,6 +492,8 @@ class MeasuredPipeApp:
             1, min(9, len(self.ridge_contact_result["cases"])) + 1
         ):
             self.base.accept(str(case_number), self.apply_contact_case, [case_number])
+        self.base.accept("n", self.cycle_contact_case, [1])
+        self.base.accept("p", self.cycle_contact_case, [-1])
         self.base.accept("c", self.toggle_cylinder_press)
         self.base.accept("r", self.reset_robot)
         self.base.accept("mouse1", self.begin_camera_drag, ["orbit"])
@@ -497,7 +511,7 @@ class MeasuredPipeApp:
         OnscreenText(
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
-                  "1-3: moving-platform ridge cases  4+: drilling-wheel ridge cases\n"
+                  "1-9: contact cases  N/P: next/previous case\n"
                   "C: cylinder press/retract\n"
                   "Dark blue: ridge >=0.7 mm  Red filled/wire: wheel contact/proxy\n"
                   "Yellow/magenta: module clearance/contact\n"
@@ -922,7 +936,9 @@ class MeasuredPipeApp:
         wheels = case["passive_wheels_on_ridge"]
         wheel_text = "+".join(str(number) for number in wheels)
         rotation9_deg = float(case.get("rotation9_deg", 0.0))
-        if case_number <= 3:
+        if case.get("case_label"):
+            self.contact_case_label = str(case["case_label"])
+        elif case_number <= 3:
             self.contact_case_label = (
                 f"initial ridge phase {wheel_text} / gravity-settled full robot"
             )
@@ -955,6 +971,12 @@ class MeasuredPipeApp:
             self.update_drilling_penetration_overlay(case)
         if hasattr(self, "robot_status"):
             self.update_robot_status()
+
+    def cycle_contact_case(self, delta: int) -> None:
+        """Select all cases, including gravity-sweep cases beyond key 9."""
+        maximum = len(self.ridge_contact_result["cases"])
+        current = self.contact_case if 1 <= self.contact_case <= maximum else 1
+        self.apply_contact_case(((current - 1 + delta) % maximum) + 1)
 
     def toggle_cylinder_press(self) -> None:
         case = self.ridge_contact_result["cases"][self.contact_case - 1]

@@ -1,0 +1,5960 @@
+{
+  "method": "gravity settlement sweep over one inferred helical lead and rotation9",
+  "wheel_ids": {
+    "1": "platform_1",
+    "2": "platform_2",
+    "3": "platform_3",
+    "4": "platform_4",
+    "5": "drilling_1"
+  },
+  "ridge_min_height_mm": 0.7,
+  "axial_step_requested_mm": 20.0,
+  "axial_samples": 10,
+  "actual_axial_step_mm": 18.95,
+  "rotation9_step_deg": 30.0,
+  "rotation9_samples": 12,
+  "total_states": 120,
+  "com_method": "user-approved provisional STL enclosed-volume ratio",
+  "com_model_at_rotation9_zero": [
+    -0.14585016141460502,
+    0.008198099670679315,
+    -0.006013241081078567
+  ],
+  "combinations": [
+    {
+      "ridge_support_combination": "none",
+      "count": 28,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 113.69999999999999,
+      "support_combinations": [
+        "none",
+        "platform_1+platform_2",
+        "platform_1+platform_2+drilling_1",
+        "platform_1+platform_2+platform_3+platform_4+drilling_1",
+        "platform_3+platform_4"
+      ],
+      "minimum_body_clearance_mm": -2.5845491872218407,
+      "best_body_clearance_mm": 0.1699674973158205,
+      "fraction": 0.23333333333333334
+    },
+    {
+      "ridge_support_combination": "platform_1",
+      "count": 15,
+      "sample_rotation9_deg": 0.0,
+      "sample_axial_phase_mm": 0.0,
+      "support_combinations": [
+        "platform_1",
+        "platform_1+platform_2",
+        "platform_1+platform_2+platform_3+platform_4",
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -2.5562780152935116,
+      "best_body_clearance_mm": -0.31411575394951763,
+      "fraction": 0.125
+    },
+    {
+      "ridge_support_combination": "platform_1+platform_2",
+      "count": 11,
+      "sample_rotation9_deg": 60.0,
+      "sample_axial_phase_mm": 18.95,
+      "support_combinations": [
+        "platform_1+platform_2"
+      ],
+      "minimum_body_clearance_mm": -1.804923377202644,
+      "best_body_clearance_mm": -0.1026409316045307,
+      "fraction": 0.09166666666666666
+    },
+    {
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "count": 8,
+      "sample_rotation9_deg": 120.0,
+      "sample_axial_phase_mm": 0.0,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -2.776967239891209,
+      "best_body_clearance_mm": -0.995740483385188,
+      "fraction": 0.06666666666666667
+    },
+    {
+      "ridge_support_combination": "platform_3",
+      "count": 8,
+      "sample_rotation9_deg": -30.0,
+      "sample_axial_phase_mm": 0.0,
+      "support_combinations": [
+        "platform_3",
+        "platform_3+platform_4"
+      ],
+      "minimum_body_clearance_mm": -0.6021164939927631,
+      "best_body_clearance_mm": -0.042331043138194024,
+      "fraction": 0.06666666666666667
+    },
+    {
+      "ridge_support_combination": "platform_4+drilling_1",
+      "count": 7,
+      "sample_rotation9_deg": -150.0,
+      "sample_axial_phase_mm": 75.8,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -2.180318177998561,
+      "best_body_clearance_mm": -1.5104562030150148,
+      "fraction": 0.058333333333333334
+    },
+    {
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "count": 6,
+      "sample_rotation9_deg": -150.0,
+      "sample_axial_phase_mm": 56.849999999999994,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -2.4905445703944373,
+      "best_body_clearance_mm": -1.4758732844109557,
+      "fraction": 0.05
+    },
+    {
+      "ridge_support_combination": "platform_4",
+      "count": 6,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 75.8,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1",
+        "platform_1+platform_2+platform_4+drilling_1",
+        "platform_3+platform_4",
+        "platform_4"
+      ],
+      "minimum_body_clearance_mm": -2.405100416429426,
+      "best_body_clearance_mm": 0.2396489692551157,
+      "fraction": 0.05
+    },
+    {
+      "ridge_support_combination": "platform_1+drilling_1",
+      "count": 5,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 151.6,
+      "support_combinations": [
+        "platform_1+drilling_1",
+        "platform_1+platform_2+drilling_1",
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -0.8757842729837928,
+      "best_body_clearance_mm": 0.1569773196683083,
+      "fraction": 0.041666666666666664
+    },
+    {
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "count": 5,
+      "sample_rotation9_deg": -120.0,
+      "sample_axial_phase_mm": 0.0,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -2.6016035295312463,
+      "best_body_clearance_mm": -1.2818303043296564,
+      "fraction": 0.041666666666666664
+    },
+    {
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "count": 5,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 37.9,
+      "support_combinations": [
+        "platform_1+platform_2+platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -3.0474244433414817,
+      "best_body_clearance_mm": -0.4478768843338976,
+      "fraction": 0.041666666666666664
+    },
+    {
+      "ridge_support_combination": "drilling_1",
+      "count": 4,
+      "sample_rotation9_deg": -30.0,
+      "sample_axial_phase_mm": 170.54999999999998,
+      "support_combinations": [
+        "platform_1+drilling_1",
+        "platform_1+platform_2+platform_3+platform_4+drilling_1",
+        "platform_3+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -1.990385106109882,
+      "best_body_clearance_mm": -0.04431543311504693,
+      "fraction": 0.03333333333333333
+    },
+    {
+      "ridge_support_combination": "platform_2",
+      "count": 4,
+      "sample_rotation9_deg": 0.0,
+      "sample_axial_phase_mm": 75.8,
+      "support_combinations": [
+        "platform_1+platform_2",
+        "platform_2"
+      ],
+      "minimum_body_clearance_mm": -0.8191469291012748,
+      "best_body_clearance_mm": -0.34884297910535433,
+      "fraction": 0.03333333333333333
+    },
+    {
+      "ridge_support_combination": "platform_3+platform_4",
+      "count": 4,
+      "sample_rotation9_deg": -30.0,
+      "sample_axial_phase_mm": 56.849999999999994,
+      "support_combinations": [
+        "platform_3+platform_4"
+      ],
+      "minimum_body_clearance_mm": -0.32718809949495997,
+      "best_body_clearance_mm": -0.1469575106370774,
+      "fraction": 0.03333333333333333
+    },
+    {
+      "ridge_support_combination": "platform_1+platform_2+drilling_1",
+      "count": 3,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 170.54999999999998,
+      "support_combinations": [
+        "platform_1+platform_2+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -0.4625943503410862,
+      "best_body_clearance_mm": 0.14420978085090408,
+      "fraction": 0.025
+    },
+    {
+      "ridge_support_combination": "platform_2+platform_4",
+      "count": 1,
+      "sample_rotation9_deg": 30.0,
+      "sample_axial_phase_mm": 56.849999999999994,
+      "support_combinations": [
+        "platform_1+platform_2+platform_4+drilling_1"
+      ],
+      "minimum_body_clearance_mm": -0.07206253352766423,
+      "best_body_clearance_mm": -0.07206253352766423,
+      "fraction": 0.008333333333333333
+    }
+  ],
+  "states": [
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.014988170807510188,
+      "body_z_m": -0.012386514982689995,
+      "body_roll_deg": 1.0100902104130831,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -9.12627923583957,
+        -8.95557599879615,
+        -7.167756962420266,
+        -6.6555091266375515,
+        -4.609733179603212
+      ],
+      "wheel_normal_force_n": [
+        1825.255847167914,
+        1791.1151997592299,
+        1433.5513924840532,
+        1331.1018253275104,
+        921.9466359206424
+      ],
+      "wheel_ridge_height_mm": [
+        1.4140817498691365,
+        1.2433785128257158,
+        1.2680862542383404,
+        0.755838418455626,
+        0.6180461610924004
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.8707408841888995,
+        "drilling_module2": 8.330189946763475,
+        "bit": 6.049979730466518
+      },
+      "vertical_support_force_n": -5427.292407600353,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.014575184334704847,
+      "body_z_m": -0.01247202434057082,
+      "body_roll_deg": 0.9980982129535877,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.72655700898202,
+        -9.097315418183177,
+        -7.682071672196922,
+        -7.246296943918471,
+        -4.823227089731416
+      ],
+      "wheel_normal_force_n": [
+        1745.311401796404,
+        1819.4630836366355,
+        1536.4143344393844,
+        1449.259388783694,
+        964.6454179462833
+      ],
+      "wheel_ridge_height_mm": [
+        1.1256219402670382,
+        1.496380349468196,
+        1.510100941278819,
+        1.0743262130003677,
+        0.9372258674106432
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.776967239891209,
+        "drilling_module2": 8.39889826745964,
+        "bit": 6.442365007848047
+      },
+      "vertical_support_force_n": -5007.431560916929,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.014117109856201647,
+      "body_z_m": -0.012497222612657998,
+      "body_roll_deg": 0.9959394413895428,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.223012733309275,
+        -8.73329424059277,
+        -7.702543716291838,
+        -7.788396723949237,
+        -5.099970176872581
+      ],
+      "wheel_normal_force_n": [
+        1644.602546661855,
+        1746.658848118554,
+        1540.5087432583675,
+        1557.6793447898474,
+        1019.9940353745162
+      ],
+      "wheel_ridge_height_mm": [
+        0.8075764507755323,
+        1.3178579580590266,
+        1.2927546578456461,
+        1.3786076655030455,
+        1.2569580742363695
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.398437640119655,
+        "drilling_module2": 8.50770186051053,
+        "bit": 6.908321925061522
+      },
+      "vertical_support_force_n": -3756.684889647846,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.013657278229052657,
+      "body_z_m": -0.012554759152725466,
+      "body_roll_deg": 0.9892905598212394,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.7538618692891,
+        -8.264019435371987,
+        -7.657328886650341,
+        -8.127172092891433,
+        -5.276804149585049
+      ],
+      "wheel_normal_force_n": [
+        1550.77237385782,
+        1652.8038870743974,
+        1531.4657773300682,
+        1625.4344185782866,
+        1055.3608299170098
+      ],
+      "wheel_ridge_height_mm": [
+        0.4939695465735333,
+        1.0041271126564193,
+        0.977801736464598,
+        1.4476449427056892,
+        1.5085371029550931
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.132579467828952,
+        "drilling_module2": 8.99960551946355,
+        "bit": 7.339242546746977
+      },
+      "vertical_support_force_n": -3268.258323188289,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.013203513751861979,
+      "body_z_m": -0.012598520272881036,
+      "body_roll_deg": 0.9846126114797322,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.277123471218394,
+        -7.783183502469856,
+        -7.5958726211861896,
+        -8.108839032067841,
+        -5.007153673570006
+      ],
+      "wheel_normal_force_n": [
+        1455.4246942436787,
+        1556.6367004939711,
+        1519.1745242372378,
+        1621.7678064135682,
+        1001.4307347140011
+      ],
+      "wheel_ridge_height_mm": [
+        0.18118621305282523,
+        0.6872462443042876,
+        0.6611734513771728,
+        1.1741398622588246,
+        1.2974147513374057
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.1438379081129555,
+        "drilling_module2": 9.70867775243199,
+        "bit": 7.6527557656127785
+      },
+      "vertical_support_force_n": -3418.397873965023,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.01297138793475435,
+      "body_z_m": -0.012564602075490516,
+      "body_roll_deg": 0.9851262580031438,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.12528144016572,
+        -7.335474453638108,
+        -7.362901021384872,
+        -7.870600155241478,
+        -4.71765787173814
+      ],
+      "wheel_normal_force_n": [
+        1425.056288033144,
+        1467.0948907276215,
+        1472.5802042769742,
+        1574.1200310482957,
+        943.5315743476281
+      ],
+      "wheel_ridge_height_mm": [
+        0.16339471390247606,
+        0.37358772737486334,
+        0.34762487558634425,
+        0.855324009442951,
+        0.9802290375484912
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.00614330489772,
+        "drilling_module2": 9.882249576556992,
+        "bit": 7.579538917886152
+      },
+      "vertical_support_force_n": -3037.2966484678636,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.01339596252227104,
+      "body_z_m": -0.012571211844051073,
+      "body_roll_deg": 0.9818224832605965,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.637339858382622,
+        -7.215673014276003,
+        -6.851815337688139,
+        -7.357875368939601,
+        -4.405738494230954
+      ],
+      "wheel_normal_force_n": [
+        1527.4679716765243,
+        1443.1346028552007,
+        1370.3630675376278,
+        1471.57507378792,
+        881.1476988461909
+      ],
+      "wheel_ridge_height_mm": [
+        0.4793246426919723,
+        0.05765779858535325,
+        0.03169128511029684,
+        0.5377513163617592,
+        0.6637907798426046
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.7355019799084186,
+        "drilling_module2": 9.231245076799205,
+        "bit": 7.099585868685018
+      },
+      "vertical_support_force_n": -1923.5611398347992,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.013850402298435878,
+      "body_z_m": -0.0125617986470839,
+      "body_roll_deg": 0.9818606062137006,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.150103854069155,
+        -7.6433845377284895,
+        -6.912076560006142,
+        -6.8186281233096055,
+        -4.116913169211298
+      ],
+      "wheel_normal_force_n": [
+        1630.020770813831,
+        1528.676907545698,
+        1382.4153120012284,
+        1363.725624661921,
+        823.3826338422596
+      ],
+      "wheel_ridge_height_mm": [
+        0.7960171285542189,
+        0.2892978122135542,
+        0.3152154389869377,
+        0.2217670022904017,
+        0.3512056689496529
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.7474953474920647,
+        "drilling_module2": 8.758666686628322,
+        "bit": 6.618626101115216
+      },
+      "vertical_support_force_n": -1809.1739645243197,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.014305526318464733,
+      "body_z_m": -0.012505517395061849,
+      "body_roll_deg": 0.9843403792376444,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.627157813891284,
+        -8.11512842967671,
+        -6.963433816528738,
+        -6.457373771431713,
+        -3.877261525207301
+      ],
+      "wheel_normal_force_n": [
+        1725.4315627782566,
+        1623.0256859353422,
+        1392.6867633057477,
+        1291.4747542863427,
+        775.4523050414602
+      ],
+      "wheel_ridge_height_mm": [
+        1.117423010508739,
+        0.605393626294165,
+        0.6311000167548847,
+        0.12503997165785874,
+        0.0386389591900127
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.790330735028947,
+        "drilling_module2": 8.628718590180288,
+        "bit": 6.181036765001938
+      },
+      "vertical_support_force_n": -1785.4401135638627,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -180.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.014757337793393503,
+      "body_z_m": -0.012500566436248023,
+      "body_roll_deg": 0.9864231025650555,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        -9.121568785233459,
+        -8.635154901217302,
+        -7.066258497959832,
+        -6.556990456401262,
+        -4.166470857116203
+      ],
+      "wheel_normal_force_n": [
+        1824.3137570466918,
+        1727.0309802434604,
+        1413.2516995919664,
+        1311.3980912802524,
+        833.2941714232406
+      ],
+      "wheel_ridge_height_mm": [
+        1.4105750607130707,
+        0.9241611766969138,
+        0.9502854535493599,
+        0.4410174119907906,
+        0.3047635942130117
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.3002283286961136,
+        "drilling_module2": 8.576854070276571,
+        "bit": 5.8041238755101725
+      },
+      "vertical_support_force_n": -3418.7406907675568,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.013826447391570513,
+      "body_z_m": -0.0115114438659183,
+      "body_roll_deg": -5.282405485545155,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -8.476615296046958,
+        -8.381807963907542,
+        -8.901437651954364,
+        -8.391017154705139,
+        -3.9396174367821586
+      ],
+      "wheel_normal_force_n": [
+        1695.3230592093917,
+        1676.3615927815085,
+        1780.2875303908727,
+        1678.2034309410278,
+        787.9234873564317
+      ],
+      "wheel_ridge_height_mm": [
+        1.3823512789783998,
+        1.2875439468389844,
+        1.314348408158944,
+        0.8039279109097186,
+        0.415536017539464
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.8308330058939282,
+        "drilling_module2": 9.60015930965881,
+        "bit": 5.917848460167837
+      },
+      "vertical_support_force_n": -3316.9704389121353,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.013780252407840926,
+      "body_z_m": -0.01151129486106053,
+      "body_roll_deg": -5.28238501919946,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.147677122857521,
+        -8.576672078454417,
+        -9.10238086369916,
+        -8.727966461784892,
+        -4.234355341433391
+      ],
+      "wheel_normal_force_n": [
+        1629.5354245715043,
+        1715.3344156908834,
+        1820.476172739832,
+        1745.5932923569783,
+        846.8710682866781
+      ],
+      "wheel_ridge_height_mm": [
+        1.0783353576759858,
+        1.507330313272881,
+        1.497874413843192,
+        1.1234600119289229,
+        0.7301257706019415
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.8294894422113683,
+        "drilling_module2": 9.439604654567516,
+        "bit": 6.190359390423033
+      },
+      "vertical_support_force_n": 1984.0411085210121,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.013581055474461168,
+      "body_z_m": -0.01151982737364128,
+      "body_roll_deg": -5.718298283980414,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.7656517647823335,
+        -8.277896605406593,
+        -9.058202284258146,
+        -9.232787902392653,
+        -4.333729378674891
+      ],
+      "wheel_normal_force_n": [
+        1553.1303529564666,
+        1655.5793210813185,
+        1811.640456851629,
+        1846.5575804785306,
+        866.7458757349783
+      ],
+      "wheel_ridge_height_mm": [
+        0.7559743670630392,
+        1.268219207687299,
+        1.2411192730668734,
+        1.4157048912013803,
+        1.0541329788208154
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.7793577785757686,
+        "drilling_module2": 9.423063670608773,
+        "bit": 6.392013431433349
+      },
+      "vertical_support_force_n": -3070.937132478937,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.013801519113867934,
+      "body_z_m": -0.011522201001006876,
+      "body_roll_deg": -7.364223935755789,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.70699424720625,
+        -8.216050321773306,
+        -9.133828087025675,
+        -9.625271012079551,
+        -4.249156787961242
+      ],
+      "wheel_normal_force_n": [
+        1541.39884944125,
+        1643.2100643546612,
+        1826.765617405135,
+        1925.0542024159104,
+        849.8313575922484
+      ],
+      "wheel_ridge_height_mm": [
+        0.4284003550547588,
+        0.9374564296218135,
+        0.9078817426097507,
+        1.3993246676636262,
+        1.3756573874462164
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.4758732844109557,
+        "drilling_module2": 9.401693048973966,
+        "bit": 6.325023190534212
+      },
+      "vertical_support_force_n": -1497.4393273279447,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.014013271353190571,
+      "body_z_m": -0.011522898724746817,
+      "body_roll_deg": -7.733759167853933,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.541396202755083,
+        -8.04745623400653,
+        -8.850614518874325,
+        -9.362336591891909,
+        -4.292653050187625
+      ],
+      "wheel_normal_force_n": [
+        1508.2792405510165,
+        1609.491246801306,
+        1770.122903774865,
+        1872.4673183783818,
+        858.5306100375251
+      ],
+      "wheel_ridge_height_mm": [
+        0.11050759777876673,
+        0.6165676290302152,
+        0.5871009537233157,
+        1.0988230267409,
+        1.4477105554404206
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.5104562030150148,
+        "drilling_module2": 9.548058774728405,
+        "bit": 6.552054800057855
+      },
+      "vertical_support_force_n": 2176.1942875621257,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.014024484609873534,
+      "body_z_m": -0.011436470611427796,
+      "body_roll_deg": -7.3504939596418755,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.564409826673294,
+        -7.637043716795425,
+        -8.339989513792542,
+        -8.846484528628823,
+        -4.221469468336764
+      ],
+      "wheel_normal_force_n": [
+        1512.8819653346588,
+        1527.408743359085,
+        1667.9979027585084,
+        1769.2969057257646,
+        844.2938936673528
+      ],
+      "wheel_ridge_height_mm": [
+        0.23217427557760406,
+        0.30480816569973535,
+        0.27594651082431254,
+        0.7824415256605932,
+        1.1761970302916758
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.6220266562289587,
+        "drilling_module2": 9.734724945999835,
+        "bit": 6.78631273320103
+      },
+      "vertical_support_force_n": 1754.5648181068445,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.014038811838608225,
+      "body_z_m": -0.01122903691163041,
+      "body_roll_deg": -6.542856607709145,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.634837697445648,
+        -7.128777652348636,
+        -7.685881424020671,
+        -8.098023512885133,
+        -4.3499020963393145
+      ],
+      "wheel_normal_force_n": [
+        1526.9675394891296,
+        1425.755530469727,
+        1537.1762848041342,
+        1619.6047025770265,
+        869.9804192678629
+      ],
+      "wheel_ridge_height_mm": [
+        0.5410009299674917,
+        0.03494088487047964,
+        0.06242017620643192,
+        0.4745622650708936,
+        0.8636431999623079
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.990385106109882,
+        "drilling_module2": 9.23647144767918,
+        "bit": 6.8837971292218665
+      },
+      "vertical_support_force_n": 738.8623367972109,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.014055541886249587,
+      "body_z_m": -0.011068923414893711,
+      "body_roll_deg": -5.891581928314862,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.758598341005077,
+        -7.250945978152568,
+        -7.644598202139571,
+        -7.439142453562628,
+        -4.389850572748516
+      ],
+      "wheel_normal_force_n": [
+        1551.7196682010153,
+        1450.1891956305135,
+        1528.9196404279141,
+        1487.8284907125255,
+        877.9701145497032
+      ],
+      "wheel_ridge_height_mm": [
+        0.8524922328590617,
+        0.3448398700065525,
+        0.37121909492714156,
+        0.16576334635019785,
+        0.5531203698688758
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.9921083686406105,
+        "drilling_module2": 8.747038883481787,
+        "bit": 6.895951679272136
+      },
+      "vertical_support_force_n": 731.4546085485395,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.014071137488441287,
+      "body_z_m": -0.010892155906547848,
+      "body_roll_deg": -4.9110284808922655,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.830496502420736,
+        -7.317679740974928,
+        -7.487181793366368,
+        -6.981121748269342,
+        -4.548396944599964
+      ],
+      "wheel_normal_force_n": [
+        1566.0993004841473,
+        1463.5359481949856,
+        1497.4363586732736,
+        1396.2243496538686,
+        909.6793889199928
+      ],
+      "wheel_ridge_height_mm": [
+        1.165081096891396,
+        0.6522643354455876,
+        0.6771965322315693,
+        0.17113648713454332,
+        0.2472787649641095
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.051680853830229,
+        "drilling_module2": 8.514707343905304,
+        "bit": 7.006753000069629
+      },
+      "vertical_support_force_n": -5334.3179473106175,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -150.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.012301403151881624,
+      "body_z_m": -0.012849858264387155,
+      "body_roll_deg": 3.682582378568828,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        -8.040854340443465,
+        -7.545123256393532,
+        -7.701735101182397,
+        -7.1929795753373496,
+        -4.351599351575336
+      ],
+      "wheel_normal_force_n": [
+        1608.170868088693,
+        1509.0246512787064,
+        1540.3470202364795,
+        1438.5959150674698,
+        870.3198703150672
+      ],
+      "wheel_ridge_height_mm": [
+        1.3897317491793626,
+        0.8940006651294297,
+        0.9192640864352369,
+        0.41050856059018925,
+        0.022910538229795052
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.3039610842592455,
+        "drilling_module2": 8.72834144266936,
+        "bit": 6.792768812879296
+      },
+      "vertical_support_force_n": -6676.948942031858,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": 0.001756665899999733,
+      "body_z_m": -0.014083446613991092,
+      "body_roll_deg": 43.00782715977435,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        -5.390083561140694,
+        -4.881345234123841,
+        -9.472169486298283,
+        -8.96419501722602,
+        -1.4589895338728565
+      ],
+      "wheel_normal_force_n": [
+        1078.0167122281387,
+        976.2690468247681,
+        1894.4338972596565,
+        1792.839003445204,
+        291.7979067745713
+      ],
+      "wheel_ridge_height_mm": [
+        1.3568281539174802,
+        0.8480898269006276,
+        0.8719885624921264,
+        0.3640140934198649,
+        0.28184496517839885
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.2818303043296564,
+        "drilling_module2": 10.777235913130664,
+        "bit": 4.510477634269927
+      },
+      "vertical_support_force_n": -304.4389694143915,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.005362103105904799,
+      "body_z_m": -0.016945733768859154,
+      "body_roll_deg": 31.204163154011926,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -7.874852105708207,
+        -7.779890021663627,
+        -7.689568206667246,
+        -7.179000039813574,
+        -5.589341524044486
+      ],
+      "wheel_normal_force_n": [
+        1574.9704211416415,
+        1555.9780043327255,
+        1537.9136413334493,
+        1435.8000079627147,
+        1117.8683048088972
+      ],
+      "wheel_ridge_height_mm": [
+        1.382415977473378,
+        1.2874538934287971,
+        1.3106193163386348,
+        0.8000511494849621,
+        0.14724024585351103
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -3.0474244433414817,
+        "drilling_module2": 7.75326847763165,
+        "bit": 7.483858844440555
+      },
+      "vertical_support_force_n": 15378.152922689467,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": 5.354618094680154e-05,
+      "body_z_m": -0.013836376165308585,
+      "body_roll_deg": 31.832081054209993,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -4.9399254227548015,
+        -5.343380252466612,
+        -10.905711186001088,
+        -10.485036745511419,
+        -0.5900532066306363
+      ],
+      "wheel_normal_force_n": [
+        987.9850845509603,
+        1068.6760504933225,
+        2181.1422372002176,
+        2097.0073491022836,
+        118.01064132612726
+      ],
+      "wheel_ridge_height_mm": [
+        1.1160877641563234,
+        1.509779171721376,
+        1.5039300312667259,
+        1.0832555907770574,
+        0.4767035984653556
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.0948392860605782,
+        "drilling_module2": 11.016476835030764,
+        "bit": 2.681598056519005
+      },
+      "vertical_support_force_n": 191.31734189754843,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.004485208100380967,
+      "body_z_m": -0.012547112332632194,
+      "body_roll_deg": 12.1944530954086,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -3.9328213533150747,
+        -4.4451675653430085,
+        -10.227620904790195,
+        -10.61999882670324,
+        -1.138075865816504
+      ],
+      "wheel_normal_force_n": [
+        786.5642706630149,
+        889.0335130686017,
+        2045.5241809580389,
+        2123.999765340648,
+        227.6151731633008
+      ],
+      "wheel_ridge_height_mm": [
+        0.6242432230012529,
+        1.1365894350291867,
+        1.1128374954238045,
+        1.5052154173368497,
+        0.9682767658805852
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.5418824093138133,
+        "drilling_module2": 11.0089066710536,
+        "bit": 2.5219113468007706
+      },
+      "vertical_support_force_n": -2321.8754550770764,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": 0.003429846278369517,
+      "body_z_m": -0.013459155327802952,
+      "body_roll_deg": 48.04004299229061,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.4304560232633765,
+        -4.942580759724508,
+        -10.071393314437405,
+        -10.470779780064083,
+        -1.5979486660366442
+      ],
+      "wheel_normal_force_n": [
+        886.0912046526753,
+        988.5161519449016,
+        2014.278662887481,
+        2094.1559560128167,
+        319.58973320732883
+      ],
+      "wheel_ridge_height_mm": [
+        0.6110705586348242,
+        1.1231952950959552,
+        1.1086930754393154,
+        1.508079541065993,
+        0.9673127032209933
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.4845479116237654,
+        "drilling_module2": 11.174314467991733,
+        "bit": 3.170273564734552
+      },
+      "vertical_support_force_n": -826.613457862737,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.003576814783469622,
+      "body_z_m": -0.01607860362871229,
+      "body_roll_deg": 28.98453568246292,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -6.045950229713243,
+        -6.552010260964705,
+        -8.670188984921973,
+        -9.182128344462582,
+        -4.414674174427632
+      ],
+      "wheel_normal_force_n": [
+        1209.1900459426486,
+        1310.402052192941,
+        1734.0377969843946,
+        1836.4256688925163,
+        882.9348348855265
+      ],
+      "wheel_ridge_height_mm": [
+        0.1200455874609263,
+        0.6261056187123887,
+        0.6000355078603914,
+        1.111974867401,
+        1.4102025498588522
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.5212919039908346,
+        "drilling_module2": 9.318721356970302,
+        "bit": 6.475465414398515
+      },
+      "vertical_support_force_n": -919.376406493504,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.008270099191953999,
+      "body_z_m": -0.010616274640349284,
+      "body_roll_deg": -6.466614641428837,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -3.983361202850075,
+        -3.4773083573500783,
+        -9.291641185536811,
+        -9.76759860251461,
+        -1.1843536006352489
+      ],
+      "wheel_normal_force_n": [
+        796.672240570015,
+        695.4616714700156,
+        1858.3282371073622,
+        1953.5197205029222,
+        236.87072012704976
+      ],
+      "wheel_ridge_height_mm": [
+        0.5223317299043462,
+        0.024372287016044547,
+        0.03051251214976347,
+        0.5064699291275621,
+        1.1104240561978507
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.8915442254573552,
+        "drilling_module2": 10.892680132794903,
+        "bit": 3.5999232885118584
+      },
+      "vertical_support_force_n": 176.54654748026041,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.00822980753309852,
+      "body_z_m": -0.01027466433380615,
+      "body_roll_deg": -6.637621514849557,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -3.993810680979537,
+        -3.486363681899668,
+        -9.348657194266169,
+        -9.194315301124217,
+        -1.0006480147607133
+      ],
+      "wheel_normal_force_n": [
+        798.7621361959074,
+        697.2727363799336,
+        1869.7314388532338,
+        1838.8630602248434,
+        200.12960295214265
+      ],
+      "wheel_ridge_height_mm": [
+        0.8400620481542886,
+        0.3326150490744195,
+        0.3456621672096316,
+        0.19132027406768004,
+        0.7879581269302077
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.8757842729837928,
+        "drilling_module2": 10.885889111679287,
+        "bit": 3.7413510591770835
+      },
+      "vertical_support_force_n": 175.70705271138195,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.005147063495434744,
+      "body_z_m": -0.012467437319180558,
+      "body_roll_deg": 12.563135990872055,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.368860885207479,
+        -3.858899801304591,
+        -9.018069284710995,
+        -8.565734695797481,
+        -1.5496310071197033
+      ],
+      "wheel_normal_force_n": [
+        873.7721770414958,
+        771.7799602609182,
+        1803.613856942199,
+        1713.1469391594962,
+        309.92620142394065
+      ],
+      "wheel_ridge_height_mm": [
+        0.9922336717641811,
+        0.48227258786129323,
+        0.4946585150954197,
+        0.042323926181905835,
+        0.641947920356975
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.2025010264801876,
+        "drilling_module2": 10.762399438894857,
+        "bit": 4.350953344100267
+      },
+      "vertical_support_force_n": -1310.9526249349092,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -120.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": 0.003470966884327882,
+      "body_z_m": -0.012889617875961653,
+      "body_roll_deg": 48.78738505392141,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.274490865537286,
+        -3.764584341795385,
+        -9.22986155328731,
+        -8.783399348468974,
+        -1.2445283449049882
+      ],
+      "wheel_normal_force_n": [
+        854.8981731074573,
+        752.9168683590771,
+        1845.9723106574622,
+        1756.6798696937947,
+        248.90566898099763
+      ],
+      "wheel_ridge_height_mm": [
+        0.9889312739271988,
+        0.47902475018529733,
+        0.49172232304783847,
+        0.045260118229500934,
+        0.6433941482933553
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.0689834489145538,
+        "drilling_module2": 10.884959223982928,
+        "bit": 4.0225767152683725
+      },
+      "vertical_support_force_n": -248.8217005495494,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": 0.001600290062309472,
+      "body_z_m": -0.006970903286779216,
+      "body_roll_deg": 49.99999999253968,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        1.6245305493619022,
+        2.1358177287634783,
+        -6.61352614169157,
+        -6.107167270142752,
+        2.0789775815460847
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1322.7052283383139,
+        1221.4334540285504,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.2924621348333747,
+        0.7811749554317987,
+        0.7742002555943123,
+        0.2678413840454946,
+        0.5908495782425693
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6021164939927631,
+        "drilling_module2": 10.891136585207962,
+        "bit": -0.05973588810816166
+      },
+      "vertical_support_force_n": 113.67606873836417,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": 0.0064024887187229835,
+      "body_z_m": -0.003626077603376744,
+      "body_roll_deg": 98.76839046176315,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        1.566524963565824,
+        2.079640993459822,
+        -6.4222039879462125,
+        -5.916143942849173,
+        1.722187155974511
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1284.4407975892425,
+        1183.2287885698345,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1831951100862714,
+        0.6700790801922735,
+        0.6633564535968584,
+        0.15729640849981852,
+        0.7027063892067614
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6055843875596018,
+        "drilling_module2": 10.697245159907483,
+        "bit": 0.3069685899576846
+      },
+      "vertical_support_force_n": 696.6217791997396,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": 0.006882229468277629,
+      "body_z_m": 0.0008732508949566029,
+      "body_roll_deg": 135.19305425903482,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        1.9714788494524655,
+        2.484522899794006,
+        -6.324338251285727,
+        -5.818278206188715,
+        1.9974572941917068
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1264.8676502571454,
+        1163.655641237743,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1788383575763866,
+        0.665794307234846,
+        0.6580059352518652,
+        0.15194589015485316,
+        0.7050575041527146
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6331915312092901,
+        "drilling_module2": 10.600398820411833,
+        "bit": -0.07798745591540424
+      },
+      "vertical_support_force_n": 637.1723328155463,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": 0.0050190049298793615,
+      "body_z_m": 0.004725441347111195,
+      "body_roll_deg": 171.2366211337317,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.014743521461554,
+        2.527780481934541,
+        -6.309925584070148,
+        -5.8038655389731355,
+        2.0224922066223727
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1261.9851168140294,
+        1160.773107794627,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1784092245569617,
+        0.6653722640839743,
+        0.6574594706364456,
+        0.15139942553943353,
+        0.7052847257522643
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6406062688220637,
+        "drilling_module2": 10.585926813842308,
+        "bit": -0.11603956618760902
+      },
+      "vertical_support_force_n": 625.567981370949,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": 0.0012569643551063557,
+      "body_z_m": 0.006748138081736608,
+      "body_roll_deg": 207.2686497414832,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.039918573499361,
+        2.552949171433297,
+        -6.316467187767835,
+        -5.810407142670823,
+        2.0530694315862714
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1263.2934375535672,
+        1162.0814285341646,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1780241150775446,
+        0.6649935171436083,
+        0.6570476406114606,
+        0.1509875955144485,
+        0.705504087187267
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6287433138548182,
+        "drilling_module2": 10.59240019027445,
+        "bit": -0.14964199368598663
+      },
+      "vertical_support_force_n": 510.58799062401704,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.002974297768393644,
+      "body_z_m": 0.00620887454031315,
+      "body_roll_deg": 243.25201170581678,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.0157056739053547,
+        2.528737647236712,
+        -6.341818973850458,
+        -5.835758928753446,
+        2.057623004622075
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1268.3637947700915,
+        1167.1517857506892,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.178107364639844,
+        0.6650753913084867,
+        0.6572446776765967,
+        0.1511846325795846,
+        0.7054780551592199
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6058255582576944,
+        "drilling_module2": 10.617781360100539,
+        "bit": -0.14163108479450792
+      },
+      "vertical_support_force_n": 200.37757585536656,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.006712719452391872,
+      "body_z_m": 0.001625512660791352,
+      "body_roll_deg": 293.252001081597,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.0986284832074373,
+        2.6096000112380278,
+        -6.316785496397776,
+        -5.810725451300749,
+        1.9997382350988717
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1263.357099279555,
+        1162.1450902601498,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.0533934711755983,
+        0.5424219431450078,
+        0.5349300621324549,
+        0.028870017035428908,
+        0.8292699193555714
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.5604882520972854,
+        "drilling_module2": 10.590672357867536,
+        "bit": -0.04709510071550238
+      },
+      "vertical_support_force_n": -351.7565690735859,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.006137765540369619,
+      "body_z_m": -0.003169609418189474,
+      "body_roll_deg": 333.1727300200295,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.1090833385103562,
+        2.619471094841383,
+        -6.396577445985777,
+        -5.9325054877715635,
+        2.064760108584543
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1279.3154891971553,
+        1186.5010975543128,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.0180591473187977,
+        0.5076713909877711,
+        0.5005271997457622,
+        0.03645524153154944,
+        0.8643838730906794
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.47602716519937194,
+        "drilling_module2": 10.669787264385652,
+        "bit": -0.07339289060326326
+      },
+      "vertical_support_force_n": 174.34976660904422,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.0015070955268362929,
+      "body_z_m": -0.0069526384379255445,
+      "body_roll_deg": 383.17272235606384,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.020466972583443,
+        2.528799427717554,
+        -6.400086853773606,
+        -6.179187803350278,
+        1.8742218868293277
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1280.0173707547212,
+        1235.8375606700556,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.893656614325819,
+        0.3853241591917078,
+        0.3789407458503202,
+        0.15804169542699142,
+        0.989596761424516
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.5028382765970008,
+        "drilling_module2": 10.671480454045742,
+        "bit": -0.04732750791086593
+      },
+      "vertical_support_force_n": 156.61046145074891,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -90.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": 0.0007461893661394206,
+      "body_z_m": -0.006883405899126429,
+      "body_roll_deg": 402.78975250662467,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.089364341364017,
+        2.600108273501156,
+        -6.338814354146447,
+        -5.832754339320304,
+        2.0026064065072626
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1267.7628708292893,
+        1166.5508678640608,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.0396176286442682,
+        0.5288736965071289,
+        0.5215212280517273,
+        0.015461213225584358,
+        0.8430640193848316
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.5397016622547268,
+        "drilling_module2": 10.612486888729524,
+        "bit": -0.0348238693089753
+      },
+      "vertical_support_force_n": 168.74618616206698,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.0033489215089236154,
+      "body_z_m": -0.0067512972069761965,
+      "body_roll_deg": 49.999990448354495,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        3.8042746515016406,
+        4.314819874716061,
+        -1.6723968172115828,
+        -1.1660148959414807,
+        2.2019886887544304
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        334.4793634423166,
+        233.20297918829613,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3111987107093244,
+        0.800653487494904,
+        0.7755954008471927,
+        0.26921347957709063,
+        0.8546613832763755
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.2629061522326087,
+        "drilling_module2": 10.88392725670763,
+        "bit": -0.12955946828097087
+      },
+      "vertical_support_force_n": 132.71767291575645,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": 0.000628591635001348,
+      "body_z_m": -0.007552997070415486,
+      "body_roll_deg": 80.14960393914288,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        3.628129548846226,
+        4.136704907471741,
+        -1.8338812723479174,
+        -1.3266351624513089,
+        2.181690386378485
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        366.7762544695835,
+        265.3270324902618,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3609435851012903,
+        0.8523682264757748,
+        0.8279026997895095,
+        0.3206565898929009,
+        0.8032168284697883
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.17945946722866535,
+        "drilling_module2": 10.988708464734486,
+        "bit": -0.06529867739302198
+      },
+      "vertical_support_force_n": 304.30303743478316,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": 0.004072599207619044,
+      "body_z_m": -0.0064792433478532835,
+      "body_roll_deg": 107.59700561221901,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        3.5314454540454343,
+        4.016492869952759,
+        -1.8796433187279886,
+        -1.3711376749149933,
+        2.1868990260599244
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        375.9286637455977,
+        274.22753498299863,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.413631957676631,
+        0.9285845417693062,
+        0.9041393165067357,
+        0.3956336726937404,
+        0.7276414899420186
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.19850961503062314,
+        "drilling_module2": 11.004473280892741,
+        "bit": -0.08651780441640278
+      },
+      "vertical_support_force_n": 345.0234006204209,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": 0.005366846825852333,
+      "body_z_m": -0.00544615524492165,
+      "body_roll_deg": 117.60308469803128,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        3.2395454400024057,
+        3.5548211280222173,
+        -2.4210724524240943,
+        -1.908746630044214,
+        2.3534357185238663
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        484.21449048481884,
+        381.7493260088428,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.4737066836132684,
+        1.1584309955934569,
+        1.135365713356401,
+        0.6230398909765206,
+        0.501971255131517
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.24251473848095617,
+        "drilling_module2": 11.456868451275358,
+        "bit": -0.1237588739549933
+      },
+      "vertical_support_force_n": 337.10624696961753,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": 0.0065077256650054646,
+      "body_z_m": -0.004021664522966249,
+      "body_roll_deg": 129.00167291144544,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3+platform_4",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        3.185137428168519,
+        3.126575311341362,
+        -2.9304251143554563,
+        -2.4213647279201918,
+        2.512203846398789
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        586.0850228710913,
+        484.2729455840383,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3086358050518192,
+        1.3671979218789765,
+        1.3486952064014068,
+        0.8396348199661424,
+        0.288398403134979
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.2832837787260234,
+        "drilling_module2": 11.478992849418335,
+        "bit": -0.16037809114670398
+      },
+      "vertical_support_force_n": 325.9431672690002,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": 0.004320194486022658,
+      "body_z_m": -0.006569275930749141,
+      "body_roll_deg": 98.5737567615835,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3+platform_4",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        3.1226764664813027,
+        2.6097521899123564,
+        -3.522727166414233,
+        -3.672321223557401,
+        2.1941610877041775
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        704.5454332828466,
+        734.4642447114802,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.7249950746533868,
+        1.237919351222333,
+        1.2556623915559033,
+        1.4052564486990715,
+        0.31955274721148785
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.32718809949495997,
+        "drilling_module2": 11.347638212614086,
+        "bit": -0.1884183837654041
+      },
+      "vertical_support_force_n": 206.89528355641875,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.00151436854384071,
+      "body_z_m": -0.007809961409052266,
+      "body_roll_deg": 53.126056602254195,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        3.660503984557667,
+        3.1575073317015727,
+        -2.9482662774892727,
+        -3.4591530035206763,
+        1.3784199185887664
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        589.6532554978545,
+        691.8306007041352,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.016992894210615672,
+        0.5199895470667099,
+        0.5373747182196992,
+        1.048261444251103,
+        1.0348632096868482
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.2907180606364357,
+        "drilling_module2": 11.890058529214404,
+        "bit": -0.13738115024150566
+      },
+      "vertical_support_force_n": 277.76321541151606,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.0029411189168925414,
+      "body_z_m": -0.007125909221195469,
+      "body_roll_deg": 43.36580469715702,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        3.5974702594881727,
+        3.8940659475870665,
+        -2.3552402375983936,
+        -2.861300268849856,
+        1.2586318404003705
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        471.04804751967873,
+        572.2600537699713,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.4167890646881167,
+        0.12019337658922269,
+        0.13884008159791017,
+        0.6449001128493725,
+        1.4129702650531595
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.26406787758058436,
+        "drilling_module2": 11.623700058303655,
+        "bit": -0.06050706517371496
+      },
+      "vertical_support_force_n": 521.4292657966398,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.0019223719171516979,
+      "body_z_m": -0.007280993401354221,
+      "body_roll_deg": 52.66398634817446,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        3.6424608424453635,
+        4.148520887542389,
+        -2.153949742999553,
+        -2.442096721606793,
+        1.3986196628103797
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        430.7899485999106,
+        488.41934432135855,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.6502407631578389,
+        0.1441807180608129,
+        0.12441773133503586,
+        0.4125647099422758,
+        1.4686497773184066
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.21617944792273747,
+        "drilling_module2": 11.361500951315287,
+        "bit": -0.08925293767976517
+      },
+      "vertical_support_force_n": 257.68261484045206,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -60.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.0018606228118753618,
+      "body_z_m": -0.007256032106232138,
+      "body_roll_deg": 56.33817989754932,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        3.6725126219728232,
+        4.1815581412421725,
+        -2.0262420952126963,
+        -1.7508034261728145,
+        1.7253254468256318
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        405.24841904253924,
+        350.1606852345629,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.9368167043137671,
+        0.4277711850444177,
+        0.4062105551586037,
+        0.13077188611872181,
+        1.232940402973004
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.18665338425732925,
+        "drilling_module2": 11.075469801378981,
+        "bit": -0.06836366619505929
+      },
+      "vertical_support_force_n": 264.89311807821235,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.0052098846028754515,
+      "body_z_m": -0.010221074127852378,
+      "body_roll_deg": 48.951046553241426,
+      "support_combination": "platform_3",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        1.105245131085092,
+        1.6149543038507241,
+        -0.4991177240827871,
+        0.007680147179944807,
+        0.19109243317119717
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        99.82354481655742,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3323114434293375,
+        0.8226022706637054,
+        0.8007718726753682,
+        0.2939740014126363,
+        1.1222439813858425
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.042331043138194024,
+        "drilling_module2": 11.562433356439236,
+        "bit": 2.2484783274224625
+      },
+      "vertical_support_force_n": 203.956100718809,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.005127444417685467,
+      "body_z_m": -0.010613863366179442,
+      "body_roll_deg": 51.32061626132553,
+      "support_combination": "platform_3",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        0.8992809261932494,
+        1.2745614585477765,
+        -0.4796040778475841,
+        0.032144027526284646,
+        0.4328719329687175
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        95.92081556951682,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.4982283682234143,
+        1.1229478358688871,
+        1.1003978658175317,
+        0.588649760443663,
+        0.8219245717880769
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.058301084108786094,
+        "drilling_module2": 11.509875279647016,
+        "bit": 2.3226537250010395
+      },
+      "vertical_support_force_n": 275.49569882809135,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.004319630709691765,
+      "body_z_m": -0.010968613743136433,
+      "body_roll_deg": 57.54130599409774,
+      "support_combination": "platform_3",
+      "ridge_support_combination": "platform_3",
+      "support_ids": [
+        "platform_3"
+      ],
+      "ridge_support_ids": [
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        1.400604481575446,
+        1.3212439030481637,
+        -0.3631082694622867,
+        0.1455676217737012,
+        0.9820743272703908
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        72.62165389245735,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.296532739821138,
+        1.37589331834842,
+        1.3584048410127114,
+        0.8497289497767235,
+        0.5595872546197284
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.14896125312900688,
+        "drilling_module2": 11.72303457656454,
+        "bit": 1.6882620247269664
+      },
+      "vertical_support_force_n": 704.2810912122922,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.004563570316212125,
+      "body_z_m": -0.010526196903440371,
+      "body_roll_deg": 56.902637212073124,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3+platform_4",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        2.127133343370169,
+        1.6564014125496074,
+        -0.3367328437227368,
+        -0.04682638646984205,
+        1.709933704265032
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        67.34656874454737,
+        9.365277293968411,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.9749248648870668,
+        1.4456567957076283,
+        1.4633392494074748,
+        1.1734327921545802,
+        0.23982887371680472
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.1469575106370774,
+        "drilling_module2": 11.819056570776976,
+        "bit": 1.0193577654385444
+      },
+      "vertical_support_force_n": 692.2193255501124,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.004563197012933016,
+      "body_z_m": -0.01022741392637911,
+      "body_roll_deg": 56.892938395054266,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "platform_3+platform_4",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        2.706942833032841,
+        2.194039636516237,
+        -0.06580260174257613,
+        -0.31660015570139644,
+        2.1135757771960777
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        13.160520348515226,
+        63.32003114027928,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.6574104493491384,
+        1.170313645865742,
+        1.1965593826427645,
+        1.4473569366015848,
+        0.10495528833649737
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.14713516493113088,
+        "drilling_module2": 11.772987435963596,
+        "bit": 0.5082203403537072
+      },
+      "vertical_support_force_n": 692.6156017193126,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.005525974999994835,
+      "body_z_m": -0.009581428085020513,
+      "body_roll_deg": 49.562443305706424,
+      "support_combination": "platform_4",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        2.9578766224754998,
+        2.4513108522371816,
+        0.014425998528272421,
+        -0.49569215307875003,
+        1.623496137493588
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        0.0,
+        99.13843061575001,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.28015841299557087,
+        0.7867241832338889,
+        0.8118650177247333,
+        1.3219831693317556,
+        0.482194502397712
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.043060462682043,
+        "drilling_module2": 11.732261066172574,
+        "bit": 0.3472816999472855
+      },
+      "vertical_support_force_n": 206.00023062575664,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.005403169544375338,
+      "body_z_m": -0.009600326470640769,
+      "body_roll_deg": 48.32009573067413,
+      "support_combination": "platform_4",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        2.9199298785656245,
+        2.5327671403996415,
+        -0.007351025305066261,
+        -0.5173633379771392,
+        1.0682165757614215
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        1.4702050610132522,
+        103.47266759542784,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.0749098515556712,
+        0.4620725897216543,
+        0.485322953681408,
+        0.9953352663534809,
+        0.8071461372399502
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.042781293423693745,
+        "drilling_module2": 12.095238438906474,
+        "bit": 0.5594845068691151
+      },
+      "vertical_support_force_n": 206.07043069317544,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.00552940400083725,
+      "body_z_m": -0.009648597893717506,
+      "body_roll_deg": 45.7858328591141,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        2.2143607902111313,
+        2.4986650172533347,
+        -0.01939520873284195,
+        -0.5254552399843043,
+        0.3666883502718571
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        3.87904174656839,
+        105.09104799686087,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.4106433341597715,
+        0.1263391071175679,
+        0.14781823468941468,
+        0.6538782659408771,
+        1.1484524002307317
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.17238575944254764,
+        "drilling_module2": 12.339113999597112,
+        "bit": 1.262293874969858
+      },
+      "vertical_support_force_n": 764.8566585486448,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.0046721049866457875,
+      "body_z_m": -0.010019952587706691,
+      "body_roll_deg": 50.16168195678579,
+      "support_combination": "platform_3+platform_4",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        1.9207573388841381,
+        2.426817383981178,
+        -0.13159513645609466,
+        -0.350271043048217,
+        0.0986167675001981
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        26.319027291218934,
+        70.0542086096434,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.6863946422631662,
+        0.18033459716612632,
+        0.1591532673426016,
+        0.3778291739347239,
+        1.4037435309475628
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.04312138976829416,
+        "drilling_module2": 12.137480672310645,
+        "bit": 1.597903657598515
+      },
+      "vertical_support_force_n": 206.79040583122384,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": -30.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.004872761315088589,
+      "body_z_m": -0.010042114004620687,
+      "body_roll_deg": 49.0238740725803,
+      "support_combination": "platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "drilling_1",
+      "support_ids": [
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        1.4833342049175302,
+        1.9936750333422877,
+        -0.47246434761934186,
+        -0.041457036856651364,
+        -0.022516263259400593
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        94.49286952386838,
+        8.291407371330273,
+        4.503252651880119
+      ],
+      "wheel_ridge_height_mm": [
+        1.0152187118550176,
+        0.5048778834302603,
+        0.483994876020008,
+        0.052987565257317515,
+        1.4143325367481503
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.04431543311504693,
+        "drilling_module2": 11.76514204019763,
+        "bit": 2.0103444361922045
+      },
+      "vertical_support_force_n": 217.50173352636264,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.010906507842207733,
+      "body_z_m": -0.012546324947300215,
+      "body_roll_deg": 44.73078961569699,
+      "support_combination": "platform_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.4284122997367662,
+        0.06723429202269704,
+        3.513399722061883,
+        4.021274847866962,
+        1.4818168419905853
+      ],
+      "wheel_normal_force_n": [
+        85.68245994735324,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3899207650989593,
+        0.894274173339496,
+        0.8659755488797383,
+        0.3581004230746587,
+        1.3392631006737403
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.31411575394951763,
+        "drilling_module2": 11.008443417360056,
+        "bit": -0.005423241294322256
+      },
+      "vertical_support_force_n": 1642.1528946097137,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.011250409441506747,
+      "body_z_m": -0.012912043100548687,
+      "body_roll_deg": 45.21064614475891,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -0.6461537735528433,
+        -0.4211248653855637,
+        3.5502124333779,
+        4.063327490575586,
+        1.8986796568526003
+      ],
+      "wheel_normal_force_n": [
+        129.23075471056868,
+        84.22497307711274,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.4367941627245613,
+        1.2117652545572817,
+        1.1831362350729484,
+        0.6700211778752629,
+        1.0267061343742778
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.2917622478767756,
+        "drilling_module2": 10.905417665700314,
+        "bit": -0.012131387617173028
+      },
+      "vertical_support_force_n": 1643.4505464911938,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.009535189367620267,
+      "body_z_m": -0.014398872769256233,
+      "body_roll_deg": 52.8380278217455,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -0.5007024497225565,
+        -0.7053991458126213,
+        3.405334189267778,
+        3.8927003029821106,
+        2.1580150270400638
+      ],
+      "wheel_normal_force_n": [
+        100.1404899445113,
+        141.07982916252425,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.2235969992604456,
+        1.4282936953505105,
+        1.4084448477543616,
+        0.9210787340400289,
+        0.7741063087161049
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.13931717109222364,
+        "drilling_module2": 11.042620433612205,
+        "bit": -0.017044474094549122
+      },
+      "vertical_support_force_n": 899.9675673022068,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.00919093800587167,
+      "body_z_m": -0.01429003980433386,
+      "body_roll_deg": 52.79776058619509,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -0.20807907445449803,
+        -0.7002105121442642,
+        3.0623456406739527,
+        3.2400833375168943,
+        2.2641853614873977
+      ],
+      "wheel_normal_force_n": [
+        41.61581489089961,
+        140.04210242885284,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.905652972888818,
+        1.3977844105785842,
+        1.4170227085701788,
+        1.239285011727237,
+        0.460338180889433
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.3208085601375116,
+        "drilling_module2": 11.427357705371538,
+        "bit": -0.01375963717052675
+      },
+      "vertical_support_force_n": 1751.2555193332128,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.008838685066943443,
+      "body_z_m": -0.013914902869880173,
+      "body_roll_deg": 52.511053407476965,
+      "support_combination": "platform_2",
+      "ridge_support_combination": "platform_2",
+      "support_ids": [
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        0.27395885902829764,
+        -0.23778503374870252,
+        2.9849522729872846,
+        2.6174102154509353,
+        2.4635139030478452
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        47.5570067497405,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.5883998325287992,
+        1.1001437253057995,
+        1.1275238920363946,
+        1.4950659495727436,
+        0.1456471957455019
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.34884297910535433,
+        "drilling_module2": 11.465307652729392,
+        "bit": -0.004878625258677993
+      },
+      "vertical_support_force_n": 1775.769207415879,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.008464678578905038,
+      "body_z_m": -0.013616572114093206,
+      "body_roll_deg": 52.36717256211206,
+      "support_combination": "none",
+      "ridge_support_combination": "none",
+      "support_ids": [],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        0.7069385398253414,
+        0.20046389092578942,
+        2.943613626910535,
+        2.433348955150738,
+        2.2716471595929377
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.2747341746541093,
+        0.7812088235536613,
+        0.808018432787147,
+        1.318283104546944,
+        0.1988380222902597
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.3619063479806395,
+        "drilling_module2": 11.455451698353519,
+        "bit": -0.0028909456611103668
+      },
+      "vertical_support_force_n": 1798.4035199618343,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.00811569527587853,
+      "body_z_m": -0.013434802937591406,
+      "body_roll_deg": 52.302082491486416,
+      "support_combination": "none",
+      "ridge_support_combination": "none",
+      "support_ids": [],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        0.9480453391591676,
+        0.550041856712466,
+        2.925065927315243,
+        2.4149222143744624,
+        1.7865615338071157
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.06948947941531891,
+        0.4674929618620205,
+        0.4931449017037126,
+        1.003288614644493,
+        0.5122758633610003
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.18394982621666722,
+        "drilling_module2": 11.559423614675962,
+        "bit": -0.003389033675846309
+      },
+      "vertical_support_force_n": 911.3896860724519,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.010212141654976163,
+      "body_z_m": -0.010128129290042316,
+      "body_roll_deg": 30.86173550233281,
+      "support_combination": "platform_1+drilling_1",
+      "ridge_support_combination": "drilling_1",
+      "support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.1092607198849016,
+        0.3967993252121105,
+        1.1370760557878197,
+        0.6737258332406432,
+        -0.3359846364317659
+      ],
+      "wheel_normal_force_n": [
+        21.852143976980322,
+        0.0,
+        0.0,
+        0.0,
+        67.19692728635319
+      ],
+      "wheel_ridge_height_mm": [
+        0.5616898147633442,
+        0.05562976966633215,
+        0.03681610936506763,
+        0.500166331912244,
+        1.0111196528693052
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.16151966194657974,
+        "drilling_module2": 12.413156028361309,
+        "bit": 2.224645400841427
+      },
+      "vertical_support_force_n": 860.1010135101161,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.01054368498792627,
+      "body_z_m": -0.010067462138105793,
+      "body_roll_deg": 31.501230789627993,
+      "support_combination": "platform_1+drilling_1",
+      "ridge_support_combination": "platform_1+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.24437599035052882,
+        0.26363729340961317,
+        1.3013120634485786,
+        1.4561954540633082,
+        -0.27085824294798
+      ],
+      "wheel_normal_force_n": [
+        48.87519807010576,
+        0.0,
+        0.0,
+        0.0,
+        54.171648589596
+      ],
+      "wheel_ridge_height_mm": [
+        0.8743379239849469,
+        0.36632464022480493,
+        0.3459329159460345,
+        0.19104952533130493,
+        1.3219619362902502
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.13420455392733344,
+        "drilling_module2": 12.302934173048245,
+        "bit": 2.072511553718584
+      },
+      "vertical_support_force_n": 744.9164765735328,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.010177782797405123,
+      "body_z_m": -0.011211036088572709,
+      "body_roll_deg": 37.68319464124055,
+      "support_combination": "platform_1+drilling_1",
+      "ridge_support_combination": "platform_1+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.49271106963345856,
+        0.019732211864909033,
+        1.7290009695129782,
+        2.2350610146099905,
+        -0.04578357064537186
+      ],
+      "wheel_normal_force_n": [
+        98.54221392669172,
+        0.0,
+        0.0,
+        0.0,
+        9.156714129074373
+      ],
+      "wheel_ridge_height_mm": [
+        1.142475236712931,
+        0.6300319552145633,
+        0.6079276433488962,
+        0.10186759825188407,
+        1.5065238018888567
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.27314023214054794,
+        "drilling_module2": 11.74153346098733,
+        "bit": 1.6934217467052814
+      },
+      "vertical_support_force_n": 1455.0121363383928,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.013972104272302647,
+      "body_z_m": -0.00211049054203848,
+      "body_roll_deg": -3.0619156151375804,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.34114772017673767,
+        -0.2702864177360764,
+        0.35864477522240534,
+        0.8704023865360039,
+        -0.5836927950697568
+      ],
+      "wheel_normal_force_n": [
+        68.22954403534753,
+        54.057283547215285,
+        0.0,
+        0.0,
+        116.73855901395136
+      ],
+      "wheel_ridge_height_mm": [
+        1.3723399509724121,
+        1.3014786485317509,
+        1.2805823454785648,
+        0.7688247341649662,
+        1.2225049895661089
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.4231510242452552,
+        "drilling_module2": 10.22806776424151,
+        "bit": 2.6086078745747585
+      },
+      "vertical_support_force_n": 824.0575124982572,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.013990724440582265,
+      "body_z_m": -0.0022591220326576406,
+      "body_roll_deg": -3.0163725751814354,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.15848558624557973,
+        -0.601590843469807,
+        0.021242352593153768,
+        0.4364863944443659,
+        -0.37516537481779855
+      ],
+      "wheel_normal_force_n": [
+        31.697117249115948,
+        120.3181686939614,
+        0.0,
+        0.0,
+        75.03307496355971
+      ],
+      "wheel_ridge_height_mm": [
+        1.064354586858357,
+        1.5074598440825842,
+        1.5076716475781042,
+        1.088463305843168,
+        0.9033517098432781
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.4625943503410862,
+        "drilling_module2": 10.10635160340273,
+        "bit": 2.4305229156879187
+      },
+      "vertical_support_force_n": 870.892193424804,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.013861148547927046,
+      "body_z_m": -0.002568570161642066,
+      "body_roll_deg": -2.972620140832483,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.0170868642691141,
+        -0.5295423774507313,
+        -0.08325608152788544,
+        -0.18876701751723013,
+        -0.3819085770026681
+      ],
+      "wheel_normal_force_n": [
+        3.41737285382282,
+        105.90847549014626,
+        16.651216305577087,
+        37.75340350344602,
+        76.38171540053362
+      ],
+      "wheel_ridge_height_mm": [
+        0.746368624522778,
+        1.2588241377043952,
+        1.2881409148237237,
+        1.3892429126596135,
+        0.5867447539431303
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.4478768843338976,
+        "drilling_module2": 9.64341032546888,
+        "bit": 2.4228968843736376
+      },
+      "vertical_support_force_n": 866.6808001046104,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.014012068148013474,
+      "body_z_m": -0.0028348412358190278,
+      "body_roll_deg": -3.043317048793893,
+      "support_combination": "platform_1+platform_2+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.019806716137257818,
+        -0.5289145071437767,
+        0.051448581705138,
+        -0.42336911651526254,
+        -0.24314334991522302
+      ],
+      "wheel_normal_force_n": [
+        3.9613432274515636,
+        105.78290142875535,
+        0.0,
+        84.67382330305252,
+        48.6286699830446
+      ],
+      "wheel_ridge_height_mm": [
+        0.431478912697264,
+        0.940586703703783,
+        0.9697937801582401,
+        1.434801796483462,
+        0.27059667737744375
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.07206253352766423,
+        "drilling_module2": 9.749938721753157,
+        "bit": 2.3761792207397936
+      },
+      "vertical_support_force_n": 317.35135492785196,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.01411411433837411,
+      "body_z_m": -0.003151939444781657,
+      "body_roll_deg": -2.999005299831528,
+      "support_combination": "platform_1+platform_2+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.018867185097221073,
+        -0.5249272163486834,
+        0.14148498145727384,
+        -0.37114032384991114,
+        -0.2664974554118654
+      ],
+      "wheel_normal_force_n": [
+        3.7734370194442146,
+        104.98544326973669,
+        0.0,
+        74.22806476998223,
+        53.29949108237309
+      ],
+      "wheel_ridge_height_mm": [
+        0.12811824811763406,
+        0.6341782793690964,
+        0.6408682411979533,
+        1.1534935465051381,
+        0.0752556774657187
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.2396489692551157,
+        "drilling_module2": 10.107851950299466,
+        "bit": 2.3661613051887547
+      },
+      "vertical_support_force_n": 205.0499572525202,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.013926585304420513,
+      "body_z_m": -0.004507270039769615,
+      "body_roll_deg": 2.267494484428406,
+      "support_combination": "platform_1+platform_2+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.2241612842275309,
+        -0.3971528686291387,
+        0.4319737416199343,
+        -0.07612993180533545,
+        -0.5065271252631259
+      ],
+      "wheel_normal_force_n": [
+        44.83225684550618,
+        79.43057372582774,
+        0.0,
+        15.22598636106709,
+        101.30542505262518
+      ],
+      "wheel_ridge_height_mm": [
+        0.18199542843785887,
+        0.35498701283946665,
+        0.3717061618000034,
+        0.8798098352252731,
+        0.3444071293932649
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.1101570460190493,
+        "drilling_module2": 10.53890923345968,
+        "bit": 2.286320633682379
+      },
+      "vertical_support_force_n": 206.29644302292732,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.013955459183891407,
+      "body_z_m": -0.00524615341825158,
+      "body_roll_deg": 5.812742748271447,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -0.5482057941641749,
+        -0.1513584636281401,
+        1.0002037796094516,
+        0.49414374835798913,
+        -0.4978544313789107
+      ],
+      "wheel_normal_force_n": [
+        109.64115883283499,
+        30.271692725628018,
+        0.0,
+        0.0,
+        99.57088627578214
+      ],
+      "wheel_ridge_height_mm": [
+        0.4669148859066802,
+        0.07006755537064535,
+        0.08736699429832961,
+        0.593427025549792,
+        0.6286856731296114
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.1699674973158205,
+        "drilling_module2": 10.863885777132154,
+        "bit": 2.32300910422957
+      },
+      "vertical_support_force_n": 205.82704964186556,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.014031553240347877,
+      "body_z_m": -0.0049666668348989215,
+      "body_roll_deg": 6.014964486219116,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "platform_1+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.604632041896952,
+        -0.0981621748444711,
+        1.155553030254608,
+        1.130059360770902,
+        -0.4946191621622298
+      ],
+      "wheel_normal_force_n": [
+        120.9264083793904,
+        19.63243496889422,
+        0.0,
+        0.0,
+        98.92383243244596
+      ],
+      "wheel_ridge_height_mm": [
+        0.7809185515920553,
+        0.2744486845395744,
+        0.2557443858968167,
+        0.2812380553805227,
+        0.9439212924023666
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.051592388417731616,
+        "drilling_module2": 10.635436505881682,
+        "bit": 2.296616026744469
+      },
+      "vertical_support_force_n": 205.72059761996593,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.014062924406027964,
+      "body_z_m": -0.004624475461751758,
+      "body_roll_deg": 6.119566821317168,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "platform_1+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.6082365370523729,
+        -0.09648656053906635,
+        1.1669878322743825,
+        1.6730478773713946,
+        -0.4947040463731539
+      ],
+      "wheel_normal_force_n": [
+        121.64730741047458,
+        19.29731210781327,
+        0.0,
+        0.0,
+        98.94080927463078
+      ],
+      "wheel_ridge_height_mm": [
+        1.1005111214736214,
+        0.5887611449603147,
+        0.5684980425058328,
+        0.06243799740882072,
+        1.2598897399460351
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.1569773196683083,
+        "drilling_module2": 10.388145063566888,
+        "bit": 2.246500964662626
+      },
+      "vertical_support_force_n": 205.88860177349227,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.014040642051586371,
+      "body_z_m": -0.004307073090365159,
+      "body_roll_deg": 6.169264138774499,
+      "support_combination": "platform_1+platform_2+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.5993475030453832,
+        -0.10724198693388975,
+        1.110418119394399,
+        1.6185864818100137,
+        -0.4939679208178088
+      ],
+      "wheel_normal_force_n": [
+        119.86950060907664,
+        21.448397386777952,
+        0.0,
+        0.0,
+        98.79358416356176
+      ],
+      "wheel_ridge_height_mm": [
+        1.3978424306881065,
+        0.9057369145766131,
+        0.8837244691709406,
+        0.3755561067553259,
+        1.5083547019972694
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.14420978085090408,
+        "drilling_module2": 10.42372795638284,
+        "bit": 2.244511069683097
+      },
+      "vertical_support_force_n": 205.93764433608752,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.018384695186503555,
+      "body_z_m": 0.0009649542801825965,
+      "body_roll_deg": -7.487871852630421,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -1.492600526883367,
+        -1.5303699959487576,
+        3.706960752993954,
+        4.216674620523234,
+        1.3759783629421625
+      ],
+      "wheel_normal_force_n": [
+        298.5201053766734,
+        306.07399918975153,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.3202459267739193,
+        1.3580153958393097,
+        1.3321928868398754,
+        0.8224790193105957,
+        1.4243918854455888
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.29388801830494693,
+        "drilling_module2": 9.643267906337252,
+        "bit": -0.2393583365009888
+      },
+      "vertical_support_force_n": -841.7070661470267,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.018090482298313476,
+      "body_z_m": -0.004129439556435425,
+      "body_roll_deg": 7.7010077303225986,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -1.5733179956671228,
+        -1.9199556824259085,
+        3.426743139490762,
+        3.887176296313563,
+        1.5384054532092266
+      ],
+      "wheel_normal_force_n": [
+        314.66359913342455,
+        383.9911364851817,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1398854460986652,
+        1.4865231328574509,
+        1.468695997131536,
+        1.0082628403087353,
+        1.2703645470788922
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.1026409316045307,
+        "drilling_module2": 10.045733491006917,
+        "bit": -0.057682521151139476
+      },
+      "vertical_support_force_n": 207.00028919952135,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.018011763679433197,
+      "body_z_m": -0.00277964668204182,
+      "body_roll_deg": 2.8431495427877493,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -1.199092673002375,
+        -1.71047077977049,
+        3.2269508558700757,
+        3.177957768875528,
+        1.486608997887856
+      ],
+      "wheel_normal_force_n": [
+        239.818534600475,
+        342.09415595409797,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.7787874891211632,
+        1.2901655958892784,
+        1.3142042261171938,
+        1.3631973131117414,
+        0.9097933773320882
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.3680481638664995,
+        "drilling_module2": 9.770340413961728,
+        "bit": -0.0321465855312314
+      },
+      "vertical_support_force_n": -251.47484262405575,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.017560414082555098,
+      "body_z_m": -0.001539618781895393,
+      "body_roll_deg": -4.903612374011686,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -1.378757669838332,
+        -1.8873631253515932,
+        2.235727651598643,
+        1.751255420335024,
+        0.6661489321078268
+      ],
+      "wheel_normal_force_n": [
+        275.7515339676664,
+        377.47262507031866,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.40157606579345473,
+        0.910181521306716,
+        0.9304464283449165,
+        1.4149186596085355,
+        0.5223319494018358
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.4843554663292171,
+        "drilling_module2": 9.250398106965708,
+        "bit": 0.9650306814773524
+      },
+      "vertical_support_force_n": 30.55451328329366,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.017261204347341286,
+      "body_z_m": 0.000974718822813738,
+      "body_roll_deg": -12.97351797969364,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -0.7279886852122192,
+        -1.2340487164636815,
+        2.5670180793134074,
+        2.0560181457509596,
+        0.8124242685807748
+      ],
+      "wheel_normal_force_n": [
+        145.59773704244384,
+        246.8097432927363,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.0175669747691648,
+        0.5236270060206272,
+        0.5441136954863063,
+        1.055113629048754,
+        0.1384708382338451
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.43618554474547655,
+        "drilling_module2": 9.064646567142148,
+        "bit": 0.6775337112091551
+      },
+      "vertical_support_force_n": 139.77561632936997,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.015940199761153104,
+      "body_z_m": 0.00539609107542245,
+      "body_roll_deg": -28.858066245721858,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -0.957864107087078,
+        -0.5653414411475183,
+        2.758190556482784,
+        2.2521305252313355,
+        0.16574288291996975
+      ],
+      "wheel_normal_force_n": [
+        191.5728214174156,
+        113.06828822950365,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.4647525536084357,
+        0.07222988766887595,
+        0.09266371175310761,
+        0.5987237430045561,
+        0.3447494243166427
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.9814402053541366,
+        "drilling_module2": 9.115831782629618,
+        "bit": 0.7171062549571755
+      },
+      "vertical_support_force_n": 1200.3947383102159,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.016945572432103685,
+      "body_z_m": -0.0010997604544279985,
+      "body_roll_deg": -5.739214264861927,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -1.0190973041781097,
+        -0.5130372590810978,
+        3.044749496193197,
+        2.6099692272058967,
+        0.3004356097282834
+      ],
+      "wheel_normal_force_n": [
+        203.81946083562195,
+        102.60745181621955,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.578302927166166,
+        0.07224288206915397,
+        0.051101086145019514,
+        0.4858813551323199,
+        0.45694495228300325
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.9677832550319954,
+        "drilling_module2": 9.316663797655792,
+        "bit": 0.5422622886298023
+      },
+      "vertical_support_force_n": -668.463735818863,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.01738217742535988,
+      "body_z_m": -0.0006488908634973069,
+      "body_roll_deg": -4.912668027655085,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -1.0545957929152805,
+        -0.5463074021862385,
+        3.5547852661787225,
+        3.7356463446562986,
+        0.7492703237910597
+      ],
+      "wheel_normal_force_n": [
+        210.9191585830561,
+        109.2614804372477,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.8909894998345852,
+        0.3827011091055432,
+        0.3589217598774508,
+        0.17806068139987474,
+        0.762798513981533
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.9697466209350469,
+        "drilling_module2": 9.228712115520496,
+        "bit": -0.0015380685751548162
+      },
+      "vertical_support_force_n": -763.735885481064,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.016475511421092742,
+      "body_z_m": -0.006083307908258512,
+      "body_roll_deg": 13.543569890219366,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -1.2412322318834101,
+        -0.7303562688211335,
+        3.5551830098668886,
+        4.043539416071801,
+        0.7890517949356024
+      ],
+      "wheel_normal_force_n": [
+        248.24644637668203,
+        146.0712537642267,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.047609149081058,
+        0.5367331860187813,
+        0.5126694237411189,
+        0.024313017536206627,
+        0.9186472429454501
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.9334300349627123,
+        "drilling_module2": 9.198397831210736,
+        "bit": -0.016156978921086362
+      },
+      "vertical_support_force_n": -2052.1067022441175,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 60.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.017162419809903542,
+      "body_z_m": -0.005118774138865113,
+      "body_roll_deg": 10.565704763633953,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -1.6301332434391358,
+        -1.1303541710892817,
+        3.535335278326626,
+        4.043042383802805,
+        0.8503541991347757
+      ],
+      "wheel_normal_force_n": [
+        326.02664868782716,
+        226.07083421785634,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.380676079996146,
+        0.8808970076462919,
+        0.8558056747313691,
+        0.34809856925518967,
+        1.2627672842197013
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.634922895359713,
+        "drilling_module2": 9.144963649749135,
+        "bit": -0.028962156675763073
+      },
+      "vertical_support_force_n": -1064.062601193726,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.015224541746448385,
+      "body_z_m": -0.014719767633771814,
+      "body_roll_deg": 32.37656104586658,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.3274957127957405,
+        -4.868115112474869,
+        2.58718695946418,
+        3.0972437949389473,
+        0.3895280480686325
+      ],
+      "wheel_normal_force_n": [
+        1065.4991425591481,
+        973.6230224949738,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.471050649065303,
+        1.0116700487444312,
+        0.998029288532043,
+        0.48797245305727543,
+        1.1199462012795451
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.804923377202644,
+        "drilling_module2": 8.049822653805466,
+        "bit": -0.09771910912627357
+      },
+      "vertical_support_force_n": -6769.719914897174,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.010151078181959186,
+      "body_z_m": -0.018774917924304066,
+      "body_roll_deg": 49.909328280107815,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.4449403589206105,
+        -5.159572302525256,
+        2.4514250546443517,
+        2.9642032923466037,
+        0.3911786249622684
+      ],
+      "wheel_normal_force_n": [
+        1088.988071784122,
+        1031.9144605050512,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.461484578577199,
+        1.1761165221818444,
+        1.1627493455722422,
+        0.6499711078699899,
+        1.2812739239329296
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.6453295855561045,
+        "drilling_module2": 8.054155207489602,
+        "bit": -0.06461335753926711
+      },
+      "vertical_support_force_n": -5985.807056016522,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.013862050368558818,
+      "body_z_m": -0.01637779135815568,
+      "body_roll_deg": 36.36544368806445,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.5798941667171,
+        -6.016301222457707,
+        1.520197391337505,
+        1.9338711751286235,
+        0.2441245593126362
+      ],
+      "wheel_normal_force_n": [
+        1115.97883334342,
+        1203.2602444915415,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.0739522993377797,
+        1.510359355078386,
+        1.5029624529672576,
+        1.0892886691761388,
+        1.4364134688293477
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.2367815413155543,
+        "drilling_module2": 8.797381833257026,
+        "bit": 0.6518869084725515
+      },
+      "vertical_support_force_n": -3828.0528536629927,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.014554720409430837,
+      "body_z_m": -0.016572104820317082,
+      "body_roll_deg": 36.24854637021738,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1+platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.44687449121567,
+        -5.959237834630468,
+        2.2266616567727384,
+        2.108126230528473,
+        1.175336670600463
+      ],
+      "wheel_normal_force_n": [
+        1089.374898243134,
+        1191.8475669260936,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.7505711607300042,
+        1.2629345041448026,
+        1.273736066482678,
+        1.392271492726943,
+        1.1564273361915207
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.9011551151004438,
+        "drilling_module2": 9.300131902670358,
+        "bit": -0.07415076383525399
+      },
+      "vertical_support_force_n": -2119.42542104197,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.007445914068665853,
+      "body_z_m": -0.020755683435532916,
+      "body_roll_deg": 57.31438661058609,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.443723581170929,
+        -5.956010083300544,
+        2.1715232452317186,
+        1.8309688532094082,
+        1.271854487800289
+      ],
+      "wheel_normal_force_n": [
+        1088.7447162341857,
+        1191.202016660109,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.6207000872734819,
+        1.1329865894030982,
+        1.1434827309708961,
+        1.4840371229932066,
+        1.0230009518815142
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.8191469291012748,
+        "drilling_module2": 9.362999084530616,
+        "bit": -0.0874362540204815
+      },
+      "vertical_support_force_n": -1633.6490289621588,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.007294411859907076,
+      "body_z_m": -0.019992882194620785,
+      "body_roll_deg": 53.77285850782275,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_2",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_2"
+      ],
+      "wheel_clearance_mm": [
+        -5.355683840025299,
+        -5.862264434103342,
+        1.173050762073663,
+        0.6622740425902551,
+        0.6236992990883844
+      ],
+      "wheel_normal_force_n": [
+        1071.1367680050598,
+        1172.4528868206685,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.2810408412043386,
+        0.7876214352823818,
+        0.7945756740709714,
+        1.3053523935543794,
+        0.6688410115472387
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6948742869320318,
+        "drilling_module2": 9.258479261530866,
+        "bit": 0.9285358625901602
+      },
+      "vertical_support_force_n": -1320.593985019333,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.018545708859722898,
+      "body_z_m": -0.009992882194621619,
+      "body_roll_deg": 14.375021944776192,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -4.771416614282028,
+        -4.487810227134458,
+        2.603353977177175,
+        2.097293945925713,
+        1.242308416474616
+      ],
+      "wheel_normal_force_n": [
+        954.2833228564057,
+        897.5620454268917,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.4102944142124476,
+        0.12668802706487792,
+        0.13698458314603812,
+        0.6430446143975005,
+        0.016898651198679615
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.6533959401550798,
+        "drilling_module2": 8.717121138070702,
+        "bit": -0.08785659986457195
+      },
+      "vertical_support_force_n": -1184.6387092911716,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.01826659280099992,
+      "body_z_m": -0.009828925077143627,
+      "body_roll_deg": 14.581626364169166,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.787458471903122,
+        -4.281398426806082,
+        2.5519409976754863,
+        2.425210513547882,
+        0.6291016131287908
+      ],
+      "wheel_normal_force_n": [
+        957.4916943806244,
+        856.2796853612165,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.7222777133548963,
+        0.2162176682578565,
+        0.20512597857486048,
+        0.33185646270246505,
+        0.3288971541721697
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.1838757139067402,
+        "drilling_module2": 8.73856719048649,
+        "bit": -0.04074051686658864
+      },
+      "vertical_support_force_n": -3513.4297517377795,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.01837863220063586,
+      "body_z_m": -0.009523205730901789,
+      "body_roll_deg": 15.00133447968602,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.744051770290484,
+        -4.233318598778569,
+        2.69387860389525,
+        3.1873713220557653,
+        0.3592071687281151
+      ],
+      "wheel_normal_force_n": [
+        948.8103540580968,
+        846.6637197557137,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.0389663133834466,
+        0.5282331418715314,
+        0.5152375797189274,
+        0.021744861558412043,
+        0.6376559185951314
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.7987733075707641,
+        "drilling_module2": 8.376880136889934,
+        "bit": -0.03798606846180941
+      },
+      "vertical_support_force_n": -6270.437620869366,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 90.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.012153220486961198,
+      "body_z_m": -0.016680193325238117,
+      "body_roll_deg": 41.700705878671755,
+      "support_combination": "platform_1+platform_2",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -4.740354874601352,
+        -4.228257092357898,
+        2.657075808698978,
+        3.1631358537960037,
+        0.22725404327486598
+      ],
+      "wheel_normal_force_n": [
+        948.0709749202705,
+        845.6514184715796,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        1.1215629818450146,
+        0.609465199601561,
+        0.5961506320793647,
+        0.09009058698233874,
+        0.7185942120438438
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.9631636110712114,
+        "drilling_module2": 8.207995432983727,
+        "bit": 0.05708105518498208
+      },
+      "vertical_support_force_n": -8039.580624386282,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.020501994969520626,
+      "body_z_m": -0.007824616235121148,
+      "body_roll_deg": -7.89040157384841,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -9.692043339622092,
+        -9.704157003668486,
+        -4.087557675751766,
+        -3.578773837328117,
+        -1.6778791159488966
+      ],
+      "wheel_normal_force_n": [
+        1938.4086679244185,
+        1940.8314007336974,
+        817.5115351503532,
+        715.7547674656234,
+        335.5758231897793
+      ],
+      "wheel_ridge_height_mm": [
+        1.33307382928341,
+        1.3451874933298051,
+        1.3556788570433658,
+        0.8468950186197172,
+        1.2243164718888921
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.995740483385188,
+        "drilling_module2": 9.393089537114651,
+        "bit": 3.171326871301408
+      },
+      "vertical_support_force_n": -272.5911942834882,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.022604305604905606,
+      "body_z_m": 0.0021753837648786044,
+      "body_roll_deg": -31.76741903000886,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -9.314464733610862,
+        -9.824984103609587,
+        -3.08875357689449,
+        -3.1606652974431326,
+        -1.1870483161928318
+      ],
+      "wheel_normal_force_n": [
+        1862.8929467221724,
+        1964.9968207219174,
+        617.750715378898,
+        632.1330594886265,
+        237.40966323856637
+      ],
+      "wheel_ridge_height_mm": [
+        0.801331854928089,
+        1.3118512249268162,
+        1.3028367161267984,
+        1.3782920980099367,
+        1.4188610978656813
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.2433743424236365,
+        "drilling_module2": 9.18043443150543,
+        "bit": 2.6350849614983076
+      },
+      "vertical_support_force_n": -1409.188450010257,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.016454320218232107,
+      "body_z_m": 0.012175383764876428,
+      "body_roll_deg": -66.51112681771188,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.491958689033809,
+        -7.9980187202852715,
+        -3.7816136020314,
+        -4.295046774086181,
+        -2.725687628366627
+      ],
+      "wheel_normal_force_n": [
+        1498.3917378067617,
+        1599.6037440570542,
+        756.32272040628,
+        859.0093548172363,
+        545.1375256733254
+      ],
+      "wheel_ridge_height_mm": [
+        0.19191196107966324,
+        0.6979719923311256,
+        0.688958642924023,
+        1.2023918149788038,
+        0.8159252856371063
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.6725430239378087,
+        "drilling_module2": 9.140868780015992,
+        "bit": 4.868106223699084
+      },
+      "vertical_support_force_n": -31.637372477769077,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.007670340023743128,
+      "body_z_m": 0.019084288746029673,
+      "body_roll_deg": -96.03818376290266,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.427269368712616,
+        -7.136157670485615,
+        -2.470913581279266,
+        -2.9769736125307285,
+        -2.092003700318132
+      ],
+      "wheel_normal_force_n": [
+        1485.4538737425232,
+        1427.2315340971231,
+        494.18271625585317,
+        595.3947225061457,
+        418.4007400636264
+      ],
+      "wheel_ridge_height_mm": [
+        0.4140470697521631,
+        0.12293537152516243,
+        0.11609361521437711,
+        0.6221536464658395,
+        0.24569929066114993
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.6074627301334714,
+        "drilling_module2": 8.403691045451398,
+        "bit": 3.912957677820017
+      },
+      "vertical_support_force_n": 1853.669237116417,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.01744673125818715,
+      "body_z_m": 0.010891613379561108,
+      "body_roll_deg": -60.024641744377334,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.447545427001059,
+        -7.156951485477056,
+        -2.51216259518737,
+        -3.018222626438832,
+        -2.089865819961567
+      ],
+      "wheel_normal_force_n": [
+        1489.509085400212,
+        1431.3902970954111,
+        502.43251903747404,
+        603.6445252877664,
+        417.97316399231346
+      ],
+      "wheel_ridge_height_mm": [
+        0.4137881914006575,
+        0.12319424987665417,
+        0.11622050934100014,
+        0.6222805405924625,
+        0.24564867332550755
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.5777464930571834,
+        "drilling_module2": 8.437646929499124,
+        "bit": 3.9289996677053933
+      },
+      "vertical_support_force_n": -1001.6818512289431,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.020811909597140063,
+      "body_z_m": -0.001155837339239689,
+      "body_roll_deg": -24.199304564138902,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.562166643123424,
+        -7.265761761221401,
+        -2.2756169023184087,
+        -2.7816769335698712,
+        -1.8312886247959792
+      ],
+      "wheel_normal_force_n": [
+        1512.433328624685,
+        1453.15235224428,
+        455.12338046368177,
+        556.3353867139742,
+        366.25772495919585
+      ],
+      "wheel_ridge_height_mm": [
+        0.4166936615896677,
+        0.12028877968764395,
+        0.11353303125873071,
+        0.6195930625101931,
+        0.2452006389143252
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.569726283422973,
+        "drilling_module2": 8.385476304477487,
+        "bit": 3.5811458010770183
+      },
+      "vertical_support_force_n": -3467.6618208886025,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.016291595523992383,
+      "body_z_m": -0.01320829951219311,
+      "body_roll_deg": 11.744682458030194,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.656348333798412,
+        -7.358216083499972,
+        -2.2452328519293188,
+        -2.751292883180781,
+        -1.7048323903220557
+      ],
+      "wheel_normal_force_n": [
+        1531.2696667596824,
+        1471.6432166999944,
+        449.04657038586373,
+        550.2585766361561,
+        340.96647806441115
+      ],
+      "wheel_ridge_height_mm": [
+        0.4175573457878834,
+        0.11942509548944213,
+        0.11251114602429946,
+        0.6185711772757618,
+        0.24488878918639545
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.5075854583448123,
+        "drilling_module2": 8.427460733598762,
+        "bit": 3.4483379880720646
+      },
+      "vertical_support_force_n": -4142.799919000044,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.005868269778939828,
+      "body_z_m": -0.020381599890248993,
+      "body_roll_deg": 47.55569386873498,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.685026656165009,
+        -7.380383558422244,
+        -1.9133947401086815,
+        -2.4194547713601438,
+        -1.49975794712863
+      ],
+      "wheel_normal_force_n": [
+        1537.005331233002,
+        1476.0767116844488,
+        382.6789480217363,
+        483.89095427202875,
+        299.951589425726
+      ],
+      "wheel_ridge_height_mm": [
+        0.42081276951004554,
+        0.11616967176727999,
+        0.10986551310322723,
+        0.6159255443546896,
+        0.2446972577812706
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.6017712720145654,
+        "drilling_module2": 8.269450327653832,
+        "bit": 3.1075069902063435
+      },
+      "vertical_support_force_n": -3857.771872489871,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.009259522403787723,
+      "body_z_m": -0.021132294783495875,
+      "body_roll_deg": 43.251255279482315,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.902904390257746,
+        -8.396426217580078,
+        -0.8075245447339563,
+        -0.7690984241748855,
+        0.28497371059355014
+      ],
+      "wheel_normal_force_n": [
+        1780.580878051549,
+        1679.2852435160157,
+        161.50490894679126,
+        153.8196848349771,
+        0.0
+      ],
+      "wheel_ridge_height_mm": [
+        0.7814212714915697,
+        0.2749430988139012,
+        0.2906772487123871,
+        0.2562713396866423,
+        0.13185315583590096
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.2190741909535312,
+        "drilling_module2": 8.398685032099202,
+        "bit": 0.6113586572324275
+      },
+      "vertical_support_force_n": -1765.759341445455,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 120.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": 0.005740477596211257,
+      "body_z_m": -0.021171954311688036,
+      "body_roll_deg": 80.50016465278776,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.292319447037094,
+        -7.786100123933728,
+        -1.423855560246476,
+        -1.4305232772318377,
+        -0.7341193744099389
+      ],
+      "wheel_normal_force_n": [
+        1658.463889407419,
+        1557.2200247867456,
+        284.7711120492952,
+        286.10465544636753,
+        146.8238748819878
+      ],
+      "wheel_ridge_height_mm": [
+        0.7657537173845763,
+        0.2595343942812106,
+        0.26515736214598185,
+        0.2718250791313437,
+        0.12423024903868152
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -1.4125845371135566,
+        "drilling_module2": 8.407778169702215,
+        "bit": 1.8909338405899008
+      },
+      "vertical_support_force_n": -977.1829213728834,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 0.0,
+      "body_x_m": 1.0,
+      "body_y_m": -0.009108756516596381,
+      "body_z_m": -0.01635162175622468,
+      "body_roll_deg": 22.695425192530507,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        -8.494010779007327,
+        -8.046915492838536,
+        -6.707251596086302,
+        -6.195922506288031,
+        -4.583600248080341
+      ],
+      "wheel_normal_force_n": [
+        1698.8021558014655,
+        1609.3830985677073,
+        1341.4503192172606,
+        1239.1845012576064,
+        916.7200496160682
+      ],
+      "wheel_ridge_height_mm": [
+        1.4985338660437886,
+        1.051438579874997,
+        1.075035841484398,
+        0.5637067516861272,
+        0.6964844784908136
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.263246568588978,
+        "drilling_module2": 9.453248822081733,
+        "bit": 6.614777048856671
+      },
+      "vertical_support_force_n": -3056.0744133508915,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 18.95,
+      "body_x_m": 1.01895,
+      "body_y_m": -0.008862038131161347,
+      "body_z_m": -0.016503572203980618,
+      "body_roll_deg": 22.692488297949872,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.437796640275607,
+        -8.48671711620269,
+        -7.299717787447604,
+        -6.799669989034099,
+        -4.781700862279886
+      ],
+      "wheel_normal_force_n": [
+        1687.5593280551216,
+        1697.3434232405382,
+        1459.9435574895208,
+        1359.9339978068197,
+        956.3401724559773
+      ],
+      "wheel_ridge_height_mm": [
+        1.314246480034753,
+        1.3631669559618365,
+        1.3800749185912538,
+        0.8800271201777482,
+        1.0246688093940999
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.3784957809868947,
+        "drilling_module2": 9.417987156212462,
+        "bit": 6.855689610609117
+      },
+      "vertical_support_force_n": -3202.6446162773927,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 37.9,
+      "body_x_m": 1.0379,
+      "body_y_m": -0.008652929560636947,
+      "body_z_m": -0.016719589414826846,
+      "body_roll_deg": 22.71724493806676,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -8.315774371153758,
+        -8.778826921892053,
+        -7.6561108603565025,
+        -7.410519048783051,
+        -4.913394132675649
+      ],
+      "wheel_normal_force_n": [
+        1663.1548742307516,
+        1755.7653843784105,
+        1531.2221720713005,
+        1482.1038097566102,
+        982.6788265351299
+      ],
+      "wheel_ridge_height_mm": [
+        0.9997836240595442,
+        1.462836174797838,
+        1.4452295488156242,
+        1.1996377372421736,
+        1.3399370673849997
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.439048009566125,
+        "drilling_module2": 9.45605422581669,
+        "bit": 6.913811633767058
+      },
+      "vertical_support_force_n": -3240.1705404213217,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 56.849999999999994,
+      "body_x_m": 1.05685,
+      "body_y_m": -0.008485317184380428,
+      "body_z_m": -0.0167241582280607,
+      "body_roll_deg": 22.71742453336986,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.987146668996345,
+        -8.500462875354762,
+        -7.511380570383877,
+        -7.807788090910248,
+        -5.076577379174774
+      ],
+      "wheel_normal_force_n": [
+        1597.429333799269,
+        1700.0925750709523,
+        1502.2761140767755,
+        1561.5576181820495,
+        1015.3154758349548
+      ],
+      "wheel_ridge_height_mm": [
+        0.6819959509410806,
+        1.195312157299497,
+        1.169588464766183,
+        1.4659959852925537,
+        1.4846262852644538
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.4905445703944373,
+        "drilling_module2": 9.786923999996242,
+        "bit": 7.182850351448847
+      },
+      "vertical_support_force_n": -3561.244131379549,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 75.8,
+      "body_x_m": 1.0758,
+      "body_y_m": -0.008360979329545402,
+      "body_z_m": -0.01677732964936911,
+      "body_roll_deg": 22.715834388494535,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_2+platform_3+platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.7151056854579405,
+        -8.22314825172976,
+        -7.3216392505299766,
+        -7.830303613698589,
+        -4.778776880588281
+      ],
+      "wheel_normal_force_n": [
+        1543.0211370915881,
+        1644.629650345952,
+        1464.3278501059954,
+        1566.0607227397177,
+        955.7553761176562
+      ],
+      "wheel_ridge_height_mm": [
+        0.3680685971065578,
+        0.8761111633783791,
+        0.8500312399354892,
+        1.3586956031041013,
+        1.225018658956717
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.268096730820318,
+        "drilling_module2": 9.981573438245656,
+        "bit": 7.412445938448697
+      },
+      "vertical_support_force_n": -2926.479068236764,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 94.75,
+      "body_x_m": 1.09475,
+      "body_y_m": -0.008357953099058832,
+      "body_z_m": -0.01644083164671548,
+      "body_roll_deg": 22.573688818615445,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4+drilling_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.081026130898657,
+        -7.5870861621501335,
+        -6.835604943767073,
+        -7.346433053561877,
+        -4.777179818630891
+      ],
+      "wheel_normal_force_n": [
+        1416.2052261797314,
+        1517.4172324300266,
+        1367.1209887534146,
+        1469.2866107123755,
+        955.4359637261782
+      ],
+      "wheel_ridge_height_mm": [
+        0.052466128455594396,
+        0.5585261597070706,
+        0.5338854319304615,
+        1.0447135417252644,
+        0.9046329328930569
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.180318177998561,
+        "drilling_module2": 9.739176998579998,
+        "bit": 7.716536032325472
+      },
+      "vertical_support_force_n": -3023.042710340941,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 113.69999999999999,
+      "body_x_m": 1.1137,
+      "body_y_m": -0.008436569856468592,
+      "body_z_m": -0.0160360612990464,
+      "body_roll_deg": 22.145287594369133,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_4",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -6.980629212349044,
+        -6.924450803513352,
+        -6.329887457222863,
+        -6.835947488474325,
+        -4.801214070981621
+      ],
+      "wheel_normal_force_n": [
+        1396.1258424698087,
+        1384.8901607026705,
+        1265.9774914445727,
+        1367.189497694865,
+        960.2428141963243
+      ],
+      "wheel_ridge_height_mm": [
+        0.2965804250565085,
+        0.24040201622081703,
+        0.21686638281813442,
+        0.7229264140695968,
+        0.5840186113943852
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.405100416429426,
+        "drilling_module2": 9.388337319285913,
+        "bit": 7.714835704422191
+      },
+      "vertical_support_force_n": -3953.6159600468295,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 132.65,
+      "body_x_m": 1.13265,
+      "body_y_m": -0.008729037566468645,
+      "body_z_m": -0.015899235794812228,
+      "body_roll_deg": 22.110660646642273,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "none",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -7.194182409285404,
+        -6.688122364188379,
+        -5.941605839309042,
+        -6.220364789962407,
+        -4.581914061010356
+      ],
+      "wheel_normal_force_n": [
+        1438.8364818570808,
+        1337.6244728376757,
+        1188.3211678618084,
+        1244.0729579924814,
+        916.3828122020712
+      ],
+      "wheel_ridge_height_mm": [
+        0.6124683367938477,
+        0.10640829169682176,
+        0.12911174531198,
+        0.40787069596534553,
+        0.27049279566346285
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.5845491872218407,
+        "drilling_module2": 9.113386544405175,
+        "bit": 7.363429262655624
+      },
+      "vertical_support_force_n": -4618.73113446981,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 151.6,
+      "body_x_m": 1.1516,
+      "body_y_m": -0.00920073020262102,
+      "body_z_m": -0.015824944452512597,
+      "body_roll_deg": 22.095551523635,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1"
+      ],
+      "wheel_clearance_mm": [
+        -7.490907189600604,
+        -6.981944690407555,
+        -5.855446380236884,
+        -5.503109648123394,
+        -4.396951699540172
+      ],
+      "wheel_normal_force_n": [
+        1498.1814379201207,
+        1396.388938081511,
+        1171.0892760473769,
+        1100.6219296246788,
+        879.3903399080344
+      ],
+      "wheel_ridge_height_mm": [
+        0.9317916949391214,
+        0.4228291957460717,
+        0.4446595866954006,
+        0.09232285458191103,
+        0.07298170167621687
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.5562780152935116,
+        "drilling_module2": 9.031158478566795,
+        "bit": 6.8718087188433525
+      },
+      "vertical_support_force_n": -4504.664552779277,
+      "weight_n": 205.93965,
+      "solver_success": true
+    },
+    {
+      "rotation9_deg": 150.0,
+      "axial_phase_mm": 170.54999999999998,
+      "body_x_m": 1.17055,
+      "body_y_m": -0.009240896346928387,
+      "body_z_m": -0.015826105791614045,
+      "body_roll_deg": 22.095467820265526,
+      "support_combination": "platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "ridge_support_combination": "platform_1+platform_2+platform_3",
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3"
+      ],
+      "wheel_clearance_mm": [
+        -7.814631618869819,
+        -7.301979572644238,
+        -6.140353572061621,
+        -5.634241848997829,
+        -4.705075169636877
+      ],
+      "wheel_normal_force_n": [
+        1562.9263237739638,
+        1460.3959145288477,
+        1228.0707144123244,
+        1126.8483697995657,
+        941.0150339273754
+      ],
+      "wheel_ridge_height_mm": [
+        1.2500602453160843,
+        0.7374081990905029,
+        0.7592409408184314,
+        0.2531292177546385,
+        0.38724363316954
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -2.6016035295312463,
+        "drilling_module2": 9.323236799016685,
+        "bit": 6.744348915434434
+      },
+      "vertical_support_force_n": -4480.098659952291,
+      "weight_n": 205.93965,
+      "solver_success": true
+    }
+  ]
+}

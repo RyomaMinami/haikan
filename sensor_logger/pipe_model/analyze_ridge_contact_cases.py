@@ -252,6 +252,7 @@ def settle_under_gravity(
     initial_roll_deg: float,
     com_local: np.ndarray,
     estimation: dict,
+    fast: bool = False,
 ) -> tuple[tuple[float, float, float], float, dict]:
     """Find quasi-static Y/Z/roll equilibrium under gravity and compliance."""
     body_x, initial_y, initial_z = initial_pose
@@ -265,7 +266,12 @@ def settle_under_gravity(
         else:
             radial = np.linalg.norm(vertices[:, 1:3], axis=1)
             exposed = np.flatnonzero(radial >= 0.104)
-            background = np.linspace(0, len(vertices) - 1, 500, dtype=int)
+            if fast and len(exposed) > 800:
+                exposed = exposed[np.linspace(0, len(exposed) - 1, 800, dtype=int)]
+            background_count = 200 if fast else 500
+            background = np.linspace(
+                0, len(vertices) - 1, background_count, dtype=int
+            )
             collision_samples.append(vertices[np.unique(np.r_[exposed, background])])
 
     def potential(q: np.ndarray) -> float:
@@ -304,7 +310,11 @@ def settle_under_gravity(
         np.array([initial_y, initial_z, initial_roll_deg]),
         method="Powell",
         bounds=bounds,
-        options={"maxiter": 240, "xtol": 1e-7, "ftol": 1e-7},
+        options={
+            "maxiter": 100 if fast else 240,
+            "xtol": 2e-6 if fast else 1e-7,
+            "ftol": 2e-5 if fast else 1e-7,
+        },
     )
     body_y, body_z, roll_deg = (float(value) for value in result.x)
     pose = (body_x, body_y, body_z)
