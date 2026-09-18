@@ -515,7 +515,169 @@
         true,
         false,
         false
-      ]
+      ],
+      "valid_configuration": true,
+      "diagnostic_reason": "accepted"
+    },
+    {
+      "case": 5,
+      "base_passive_case": 1,
+      "rotation9_deg": -18.754798062305152,
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -112.29,
+          -119.04,
+          -2.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 0.987853368358593,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "passive_clearance_mm": [
+        3.951006188884776e-11,
+        0.4409747488761384,
+        0.47422867241771194,
+        0.9849511172210917
+      ],
+      "passive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -2.7755575615628914e-14
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": true,
+        "minimum_clearance_mm": -0.5439948342704642,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.5460475822257805,
+          -0.1087093572539623,
+          -0.04997569348938956
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": -0.5439948342704642,
+          "drilling_module2": 11.036113431396169,
+          "bit": 2.4338819894744734
+        }
+      },
+      "drive_required_stroke_mm": [
+        7.399425170078275,
+        6.855623846864862,
+        7.903882849484496,
+        7.855947326359595
+      ],
+      "cylinder_first_contact_stroke_mm": 6.855623846864862,
+      "drive_clearance_at_first_contact_mm": [
+        0.4872167366189034,
+        0.0,
+        0.8824368196534843,
+        0.8420050625677494
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "valid_configuration": false,
+      "diagnostic_reason": "drilling module body penetrates the pipe before/at wheel contact"
+    },
+    {
+      "case": 6,
+      "base_passive_case": 2,
+      "rotation9_deg": 23.633267920116094,
+      "passive_wheels_on_ridge": [
+        2,
+        3
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -112.29,
+          -119.04,
+          -222.64
+        ],
+        [
+          -5.37,
+          -119.04,
+          -2.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 1.0193391445591515,
+        "y": -0.0132433341,
+        "z": -0.002662238353006967
+      },
+      "passive_clearance_mm": [
+        0.41575112367131517,
+        -1.3877787807814457e-14,
+        0.0012188862044959503,
+        0.44719311088553537
+      ],
+      "passive_contact": [
+        false,
+        true,
+        true,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        1.3877787807814457e-14
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": true,
+        "minimum_clearance_mm": -0.18505363739720893,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.577533358426339,
+          0.11129539189072289,
+          -0.041230934447292616
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": -0.18505363739720893,
+          "drilling_module2": 10.306468195979399,
+          "bit": 2.1065320254873567
+        }
+      },
+      "drive_required_stroke_mm": [
+        6.82389149428091,
+        6.314739895978235,
+        8.538522016687528,
+        8.48763670220021
+      ],
+      "cylinder_first_contact_stroke_mm": 6.314739895978235,
+      "drive_clearance_at_first_contact_mm": [
+        0.45570549095706736,
+        0.0,
+        1.8714367545597521,
+        1.829075728365076
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "valid_configuration": false,
+      "diagnostic_reason": "drilling module body penetrates the pipe before/at wheel contact"
     }
   ]
 }

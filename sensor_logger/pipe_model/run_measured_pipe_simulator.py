@@ -661,7 +661,10 @@ class MeasuredPipeApp:
         drilling_gap = min(case["drilling_wheel_clearance_mm"])
         module_check = case["drilling_module_after_press"]
         if self.cylinder_pressed:
-            module_state = "CONTACT" if module_check["contact"] else "clear"
+            if module_check.get("forbidden_penetration", False):
+                module_state = "FORBIDDEN BODY PENETRATION"
+            else:
+                module_state = "CONTACT" if module_check["contact"] else "clear"
             module_line = (
                 f"Drilling module after press: {module_state} / "
                 f"gap {module_check['minimum_clearance_mm']:.2f} mm / "
@@ -744,8 +747,10 @@ class MeasuredPipeApp:
                 f"platform passive wheel {wheel_text} on ridge / full robot"
             )
         else:
+            validity = "VALID" if case.get("valid_configuration", True) else "INVALID"
             self.contact_case_label = (
-                f"base case {case['base_passive_case']} + drilling passive wheel on ridge"
+                f"[{validity}] base case {case['base_passive_case']} + "
+                "drilling passive wheel on ridge"
             )
         self.robot_inverted = False
         self.cylinder_pressed = False

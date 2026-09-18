@@ -420,11 +420,18 @@ def main() -> None:
             candidate["base_passive_case"] = case_index
         rotation9_sweep_candidates.extend(sweep)
 
-    # Preserve the three base cases, then append every geometrically valid
-    # drilling-wheel-on-ridge orientation found within the full ±180° sweep.
+    # Preserve the three base cases, then append all drilling-wheel-on-ridge
+    # orientations.  Valid cases come first; rejected orientations remain
+    # selectable as diagnostics so the body interference can be inspected.
     base_cases = list(cases)
-    for candidate in rotation9_sweep_candidates:
-        if not candidate["accepted"]:
+    ordered_candidates = sorted(
+        rotation9_sweep_candidates,
+        key=lambda item: (
+            not item["accepted"], item["base_passive_case"], item["rotation9_deg"]
+        ),
+    )
+    for candidate in ordered_candidates:
+        if not candidate["on_ridge"]:
             continue
         base_case = base_cases[candidate["base_passive_case"] - 1]
         angle = float(candidate["rotation9_deg"])
@@ -439,6 +446,11 @@ def main() -> None:
         expanded = json.loads(json.dumps(base_case))
         expanded["case"] = len(cases) + 1
         expanded["rotation9_deg"] = angle
+        expanded["valid_configuration"] = candidate["accepted"]
+        expanded["diagnostic_reason"] = (
+            "accepted" if candidate["accepted"]
+            else "drilling module body penetrates the pipe before/at wheel contact"
+        )
         expanded["drilling_wheel_clearance_mm"] = [drilling_gap]
         expanded["drilling_contact"] = [drilling_gap <= CONTACT_TOLERANCE_MM]
         expanded["drilling_module_after_press"] = {
