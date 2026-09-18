@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 import numpy as np
@@ -37,8 +38,12 @@ from panda3d.core import (
 
 MM_TO_M = 0.001
 ROBOT_MODULE_POSITION_MM = np.array([42.0, 0.0, -47.0])
+DRILLING1_MODULE_POSITION_MM = np.array([-59.0, 50.0, -373.0])
+DRILLING2_MODULE_POSITION_MM = np.array([-100.0, 0.0, -335.0])
+BIT_MODULE_POSITION_MM = np.array([-59.0, 116.0, -369.0])
 SLIDER6_MIN_MM = 43.0
 SLIDER6_MAX_MM = 73.0
+SLIDER11_MIN_MM = -121.764
 # Deterministic seating poses obtained from the fitted wheel hulls.  The
 # support-wheel envelope is placed against a conservative 118.5 mm inner
 # radius (120 mm nominal minus the 1.5 mm inferred ridge height).
@@ -177,6 +182,20 @@ def robot_geom(mesh: trimesh.Trimesh, cad_offset_mm: np.ndarray,
     return make_geom(name, vertices, normals, np.asarray(mesh.faces, dtype=np.int32))
 
 
+def transformed_robot_geom(mesh: trimesh.Trimesh, cad_offset_mm: np.ndarray,
+                           cad_center_mm: np.ndarray, name: str,
+                           rpy_deg: tuple[float, float, float] = (0, 0, 0)) -> Geom:
+    """Apply the validated Fusion module pose before CAD-to-simulator mapping."""
+    rotation = trimesh.transformations.euler_matrix(
+        *np.radians(rpy_deg), axes="sxyz"
+    )[:3, :3]
+    vertices_cad = np.asarray(mesh.vertices) @ rotation.T + cad_offset_mm
+    normals_cad = np.asarray(mesh.vertex_normals) @ rotation.T
+    vertices = cad_to_sim(vertices_cad - cad_center_mm)
+    normals = normals_cad[..., [2, 0, 1]]
+    return make_geom(name, vertices, normals, np.asarray(mesh.faces, dtype=np.int32))
+
+
 def create_world(stl_path: Path) -> tuple[BulletWorld, NodePath, NodePath, np.ndarray]:
     world = BulletWorld()
     world.setGravity(Vec3(0.0, 0.0, -9.80665))
@@ -257,6 +276,16 @@ class MeasuredPipeApp:
 
         self.slider6_mm = SLIDER6_MIN_MM
         self.robot_inverted = False
+        contact_result_path = Path(__file__).resolve().parent / "output" / "ridge_contact_cases.json"
+        if not contact_result_path.exists():
+            raise FileNotFoundError(
+                f"Ridge contact cases not found: {contact_result_path}. "
+                "Run analyze_ridge_contact_cases.py first."
+            )
+        self.ridge_contact_result = json.loads(
+            contact_result_path.read_text(encoding="utf-8")
+        )
+        self.cylinder_pressed = False
         self.robot_body = BulletRigidBodyNode("moving_platform_contact_body")
         self.robot_body.setMass(21.0)
         self.robot_body.setFriction(0.55)
@@ -271,10 +300,12 @@ class MeasuredPipeApp:
         self.world.attachRigidBody(self.robot_body)
         self.drive_contact_shapes: list[BulletConvexHullShape] = []
         self.drive_wheel_meshes: list[trimesh.Trimesh] = []
+        self.passive_contact_markers: list[NodePath] = []
+        self.drive_contact_markers: list[NodePath] = []
         self.motor_visual: NodePath | None = None
         self.load_robot(robot_assets)
         self.contact_case = 1
-        self.contact_case_label = "normal / passive wheels seated"
+        self.contact_case_label = "passive wheel 1 on ridge / full robot"
 
         ambient = AmbientLight("ambient")
         ambient.setColor(LColor(0.55, 0.55, 0.55, 1.0))
@@ -286,10 +317,10 @@ class MeasuredPipeApp:
         self.base.render.setLight(sun_np)
 
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
-        self.camera_target = Vec3(center_x, 0.0, 0.0)
+        self.camera_target = Vec3(center_x - 0.16, 0.0, 0.0)
         self.camera_heading_deg = -90.0
         self.camera_pitch_deg = 22.0
-        self.camera_distance_m = 0.81
+        self.camera_distance_m = 1.08
         self.camera_drag_mode: str | None = None
         self.camera_last_mouse: tuple[float, float] | None = None
         # The model is less than one metre from the camera.  Panda3D's default
@@ -304,16 +335,7 @@ class MeasuredPipeApp:
         self.base.accept("1", self.apply_contact_case, [1])
         self.base.accept("2", self.apply_contact_case, [2])
         self.base.accept("3", self.apply_contact_case, [3])
-        self.base.accept("4", self.apply_contact_case, [4])
-        self.base.accept("[", self.change_slider6, [-1.0])
-        self.base.accept("[-repeat", self.change_slider6, [-1.0])
-        self.base.accept("]", self.change_slider6, [1.0])
-        self.base.accept("]-repeat", self.change_slider6, [1.0])
-        self.base.accept("arrow_left", self.move_robot, [-0.005])
-        self.base.accept("arrow_left-repeat", self.move_robot, [-0.005])
-        self.base.accept("arrow_right", self.move_robot, [0.005])
-        self.base.accept("arrow_right-repeat", self.move_robot, [0.005])
-        self.base.accept("i", self.toggle_robot_inversion)
+        self.base.accept("c", self.toggle_cylinder_press)
         self.base.accept("r", self.reset_robot)
         self.base.accept("mouse1", self.begin_camera_drag, ["orbit"])
         self.base.accept("mouse1-up", self.end_camera_drag)
@@ -330,8 +352,8 @@ class MeasuredPipeApp:
         OnscreenText(
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
-                  "1: normal passive-seat  2: normal clamp  3: inverted drive-seat  4: inverted clamp\n"
-                  "Left/Right: travel  [ / ]: cylinder  I: invert  R: reset case  Esc: exit"),
+                  "1: wheel 1  2: wheels 2+3  3: wheel 4 on ridge  C: cylinder press/retract\n"
+                  "Red proxy: predicted contact  Gray proxy: clearance  R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
         )
@@ -402,12 +424,18 @@ class MeasuredPipeApp:
     def load_robot(self, robot_assets: Path) -> None:
         base_path = robot_assets / "01_move_module.stl"
         motor_path = robot_assets / "02_motor_module.stl"
-        for path in (base_path, motor_path):
+        drilling1_path = robot_assets / "03_drilling_module1.stl"
+        drilling2_path = robot_assets / "03_drilling_module2.stl"
+        bit_path = robot_assets / "04_bit.stl"
+        for path in (base_path, motor_path, drilling1_path, drilling2_path, bit_path):
             if not path.exists():
                 raise FileNotFoundError(f"Robot module not found: {path}")
 
         base_mesh = load_robot_mesh(base_path)
         motor_mesh = load_robot_mesh(motor_path)
+        drilling1_mesh = load_robot_mesh(drilling1_path)
+        drilling2_mesh = load_robot_mesh(drilling2_path)
+        bit_mesh = load_robot_mesh(bit_path)
         passive_wheels = passive_wheel_components(base_mesh)
         self.drive_wheel_meshes = drive_wheel_components(motor_mesh)
         base_offset = np.zeros(3)
@@ -438,20 +466,55 @@ class MeasuredPipeApp:
         self.motor_visual.setTwoSided(True)
         self.motor_visual.setColor(0.94, 0.62, 0.16, 1.0)
 
+        # Add the complete drilling assembly at the validated Fusion default
+        # joint state: rotation9=0 deg, slider11=min, rotation12=0 deg.
+        drilling1_node = GeomNode("03_drilling_module1_visual")
+        drilling1_node.addGeom(transformed_robot_geom(
+            drilling1_mesh, DRILLING1_MODULE_POSITION_MM, cad_center,
+            "drilling_module1",
+        ))
+        drilling1_visual = self.robot_visual_root.attachNewNode(drilling1_node)
+        drilling1_visual.setTwoSided(True)
+        drilling1_visual.setColor(0.72, 0.75, 0.79, 1.0)
+
+        drilling2_offset = DRILLING2_MODULE_POSITION_MM + np.array(
+            [0.0, SLIDER11_MIN_MM, 0.0]
+        )
+        drilling2_node = GeomNode("03_drilling_module2_visual")
+        drilling2_node.addGeom(transformed_robot_geom(
+            drilling2_mesh, drilling2_offset, cad_center, "drilling_module2",
+        ))
+        drilling2_visual = self.robot_visual_root.attachNewNode(drilling2_node)
+        drilling2_visual.setTwoSided(True)
+        drilling2_visual.setColor(0.32, 0.64, 0.82, 1.0)
+
+        bit_offset = BIT_MODULE_POSITION_MM + np.array(
+            [0.0, SLIDER11_MIN_MM, 0.0]
+        )
+        bit_node = GeomNode("04_bit_visual")
+        bit_node.addGeom(transformed_robot_geom(
+            bit_mesh, bit_offset, cad_center, "bit", (90.0, 0.0, 0.0)
+        ))
+        bit_visual = self.robot_visual_root.attachNewNode(bit_node)
+        bit_visual.setTwoSided(True)
+        bit_visual.setColor(0.86, 0.24, 0.18, 1.0)
+
         # Draw the exact proxy volumes used by Bullet in translucent red so
         # contact judgement can be checked against the CAD wheels visually.
         for wheel_index, wheel_mesh in enumerate(passive_wheels, start=1):
-            self.add_mesh_contact_marker(
+            marker = self.add_mesh_contact_marker(
                 self.robot_visual_root, wheel_mesh, np.zeros(3), cad_center,
                 f"passive_wheel_{wheel_index}_contact_proxy",
             )
+            self.passive_contact_markers.append(marker)
         for wheel_index, wheel_mesh in enumerate(
             self.drive_wheel_meshes, start=1
         ):
-            self.add_mesh_contact_marker(
+            marker = self.add_mesh_contact_marker(
                 self.motor_visual, wheel_mesh, motor_at_min_offset, cad_center,
                 f"drive_wheel_{wheel_index}_contact_proxy",
             )
+            self.drive_contact_markers.append(marker)
 
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
         self.robot_root.setPos(center_x, 0.0, 0.0)
@@ -471,7 +534,7 @@ class MeasuredPipeApp:
     def add_mesh_contact_marker(self, parent: NodePath,
                                 wheel_mesh: trimesh.Trimesh,
                                 cad_offset_mm: np.ndarray,
-                                cad_center: np.ndarray, name: str) -> None:
+                                cad_center: np.ndarray, name: str) -> NodePath:
         """Overlay an exact wheel mesh as a red wireframe."""
         marker_node = GeomNode(name)
         marker_node.addGeom(robot_geom(
@@ -480,10 +543,11 @@ class MeasuredPipeApp:
         marker = parent.attachNewNode(marker_node)
         marker.setTwoSided(True)
         marker.setTransparency(TransparencyAttrib.MAlpha)
-        marker.setColor(1.0, 0.02, 0.02, 0.92, 10)
+        marker.setColor(0.42, 0.46, 0.52, 0.38)
         marker.setRenderModeWireframe()
         marker.setRenderModeThickness(2.0)
         marker.setDepthOffset(2)
+        return marker
 
     def rebuild_drive_contact_shapes(self) -> None:
         for shape in self.drive_contact_shapes:
@@ -507,46 +571,80 @@ class MeasuredPipeApp:
         self.robot_body.setActive(True)
 
     def update_robot_status(self) -> None:
-        orientation = "inverted (drive wheels down)" if self.robot_inverted else "normal"
+        case = self.ridge_contact_result["cases"][self.contact_case - 1]
+        passive = [index + 1 for index, contact in enumerate(
+            case["passive_contact_0p25mm"]
+        ) if contact]
+        drive = [index + 1 for index, contact in enumerate(
+            case["drive_contact_0p25mm"]
+        ) if contact] if self.cylinder_pressed else []
+        state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
         self.robot_status.setText(
             f"Case {self.contact_case}: {self.contact_case_label}\n"
-            f"Robot: {orientation} / cylinder {self.slider6_mm:.0f} mm"
-            f" / roll {self.robot_root.getP():+.1f} deg / 8 wheel contact proxies"
+            f"Cylinder: {state} / slider {self.slider6_mm:.2f} mm\n"
+            f"Passive contact: {passive or 'none'} / Drive contact: {drive or 'none'}"
         )
 
+    @staticmethod
+    def set_contact_marker(marker: NodePath, contact: bool) -> None:
+        if contact:
+            marker.setColor(1.0, 0.02, 0.02, 0.96)
+            marker.setRenderModeThickness(3.0)
+        else:
+            marker.setColor(0.42, 0.46, 0.52, 0.34)
+            marker.setRenderModeThickness(1.0)
+
+    def update_contact_marker_colors(self, case: dict) -> None:
+        for marker, contact in zip(
+            self.passive_contact_markers, case["passive_contact_0p25mm"]
+        ):
+            self.set_contact_marker(marker, bool(contact))
+        drive_contacts = case["drive_contact_0p25mm"] if self.cylinder_pressed else [False] * 4
+        for marker, contact in zip(self.drive_contact_markers, drive_contacts):
+            self.set_contact_marker(marker, bool(contact))
+
     def apply_contact_case(self, case_number: int) -> None:
-        """Place the robot in one of four fixed contact-inspection cases."""
-        center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
-        cases = {
-            1: ("normal / passive wheels seated", False, SLIDER6_MIN_MM,
-                NORMAL_PASSIVE_SEAT_Y_M, NORMAL_PASSIVE_SEAT_Z_M),
-            2: ("normal / cylinder extended", False, SLIDER6_MAX_MM,
-                NORMAL_PASSIVE_SEAT_Y_M, NORMAL_PASSIVE_SEAT_Z_M),
-            3: ("inverted / drive wheels seated", True, SLIDER6_MIN_MM,
-                INVERTED_DRIVE_SEAT_Y_M, INVERTED_DRIVE_SEAT_Z_M),
-            4: ("inverted / cylinder extended", True, SLIDER6_MAX_MM,
-                INVERTED_DRIVE_SEAT_Y_M,
-                INVERTED_DRIVE_SEAT_Z_M
-                + (SLIDER6_MAX_MM - SLIDER6_MIN_MM) * MM_TO_M),
-        }
-        if case_number not in cases:
+        """Place one selected passive wheel on the inferred helical ridge."""
+        if not 1 <= case_number <= len(self.ridge_contact_result["cases"]):
             raise ValueError(f"Unknown contact case: {case_number}")
-        label, inverted, slider_mm, y_m, z_m = cases[case_number]
+        case = self.ridge_contact_result["cases"][case_number - 1]
+        pose = case["body_pose_m"]
         self.contact_case = case_number
-        self.contact_case_label = label
-        self.robot_inverted = inverted
-        self.slider6_mm = slider_mm
+        wheels = case["passive_wheels_on_ridge"]
+        wheel_text = "+".join(str(number) for number in wheels)
+        self.contact_case_label = f"passive wheel {wheel_text} on ridge / full robot"
+        self.robot_inverted = False
+        self.cylinder_pressed = False
+        self.slider6_mm = SLIDER6_MIN_MM
         if self.motor_visual is not None:
-            self.motor_visual.setZ((slider_mm - SLIDER6_MIN_MM) * MM_TO_M)
+            self.motor_visual.setZ(0.0)
         self.rebuild_drive_contact_shapes()
-        self.robot_root.setPos(center_x, y_m, z_m)
-        self.robot_root.setHpr(0.0, 180.0 if inverted else 0.0, 0.0)
+        self.robot_root.setPos(pose["x"], pose["y"], pose["z"])
+        self.robot_root.setHpr(0.0, 0.0, 0.0)
         self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
         self.robot_body.setAngularVelocity(Vec3(0, 0, 0))
         self.robot_body.clearForces()
         self.robot_body.setActive(False)
+        self.update_contact_marker_colors(case)
         if hasattr(self, "robot_status"):
             self.update_robot_status()
+
+    def toggle_cylinder_press(self) -> None:
+        case = self.ridge_contact_result["cases"][self.contact_case - 1]
+        self.cylinder_pressed = not self.cylinder_pressed
+        stroke = case["cylinder_first_contact_stroke_mm"]
+        if self.cylinder_pressed:
+            self.slider6_mm = (
+                SLIDER6_MAX_MM if stroke is None else SLIDER6_MIN_MM + float(stroke)
+            )
+        else:
+            self.slider6_mm = SLIDER6_MIN_MM
+        if self.motor_visual is not None:
+            self.motor_visual.setZ((self.slider6_mm - SLIDER6_MIN_MM) * MM_TO_M)
+        self.rebuild_drive_contact_shapes()
+        self.robot_body.setActive(False)
+        self.update_contact_marker_colors(case)
+        self.update_robot_status()
 
     def change_slider6(self, delta_mm: float) -> None:
         self.contact_case = 0
@@ -570,14 +668,8 @@ class MeasuredPipeApp:
         self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
         self.robot_body.setActive(True)
 
-    def toggle_robot_inversion(self) -> None:
-        clamped = self.contact_case in (2, 4)
-        self.apply_contact_case(4 if (not self.robot_inverted and clamped) else
-                                3 if not self.robot_inverted else
-                                2 if clamped else 1)
-
     def reset_robot(self) -> None:
-        self.apply_contact_case(self.contact_case if self.contact_case in (1, 2, 3, 4) else 1)
+        self.apply_contact_case(self.contact_case if self.contact_case in (1, 2, 3) else 1)
 
     def reset_sphere(self) -> None:
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
@@ -620,15 +712,20 @@ class MeasuredPipeApp:
             self.capture(output_dir / f"wheel_mesh_fit_{name}.png")
 
     def capture_contact_cases(self, output_dir: Path) -> None:
-        """Capture the four deterministic contact-inspection cases."""
+        """Capture retracted and first-contact state for all four ridge cases."""
         output_dir.mkdir(parents=True, exist_ok=True)
         self.camera_heading_deg = -52.0
         self.camera_pitch_deg = 12.0
-        self.camera_distance_m = 0.86
+        self.camera_distance_m = 1.24
+        self.camera_target.x = float(
+            (self.bounds[0, 0] + self.bounds[1, 0]) * 0.5 - 0.14
+        )
         self.update_camera_pose()
-        for case_number in range(1, 5):
+        for case_number in range(1, 4):
             self.apply_contact_case(case_number)
-            self.capture(output_dir / f"contact_case_{case_number}.png")
+            self.capture(output_dir / f"ridge_case_{case_number}_retracted.png")
+            self.toggle_cylinder_press()
+            self.capture(output_dir / f"ridge_case_{case_number}_pressed.png")
 
 
 def main() -> None:

@@ -1,0 +1,204 @@
+{
+  "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
+  "contact_tolerance_mm": 0.25,
+  "maximum_cylinder_stroke_mm": 30.0,
+  "passive_wheel_order_cad_centers_mm": [
+    [
+      -112.29,
+      -119.04,
+      -2.64
+    ],
+    [
+      -112.29,
+      -119.04,
+      -222.64
+    ],
+    [
+      -5.37,
+      -119.04,
+      -2.64
+    ],
+    [
+      -5.37,
+      -119.04,
+      -222.64
+    ]
+  ],
+  "drive_wheel_order_cad_centers_mm": [
+    [
+      -154.76,
+      2.03,
+      103.15
+    ],
+    [
+      -45.76,
+      2.03,
+      103.15
+    ],
+    [
+      -154.76,
+      2.03,
+      -191.85
+    ],
+    [
+      -45.76,
+      2.03,
+      -191.85
+    ]
+  ],
+  "cases": [
+    {
+      "case": 1,
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -112.29,
+          -119.04,
+          -2.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 0.41935336835859316,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "passive_clearance_mm": [
+        3.951006188884776e-11,
+        0.4409747488761384,
+        0.47422867241771194,
+        0.9849511172210917
+      ],
+      "passive_contact_0p25mm": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        15.881076038159536,
+        14.858047393728398,
+        14.985893057129593,
+        14.20812158478569
+      ],
+      "cylinder_first_contact_stroke_mm": 14.20812158478569,
+      "drive_clearance_at_first_contact_mm": [
+        1.5176216822225115,
+        0.5842906343035692,
+        0.7022453595024042,
+        1.1102230246251565e-13
+      ],
+      "drive_contact_0p25mm": [
+        false,
+        false,
+        false,
+        true
+      ]
+    },
+    {
+      "case": 2,
+      "passive_wheels_on_ridge": [
+        2,
+        3
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -112.29,
+          -119.04,
+          -222.64
+        ],
+        [
+          -5.37,
+          -119.04,
+          -2.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 0.45083914455915164,
+        "y": -0.0132433341,
+        "z": -0.002662238353006967
+      },
+      "passive_clearance_mm": [
+        0.41575112367131517,
+        -2.7755575615628914e-14,
+        0.0012188862044959503,
+        0.44719311088553537
+      ],
+      "passive_contact_0p25mm": [
+        false,
+        true,
+        true,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        15.313246865351314,
+        14.313062376618786,
+        15.581635683258536,
+        14.839132438829107
+      ],
+      "cylinder_first_contact_stroke_mm": 14.313062376618786,
+      "drive_clearance_at_first_contact_mm": [
+        0.9069867622415878,
+        1.3877787807814457e-14,
+        1.1459652173407968,
+        0.443996359257251
+      ],
+      "drive_contact_0p25mm": [
+        false,
+        true,
+        false,
+        false
+      ]
+    },
+    {
+      "case": 3,
+      "passive_wheels_on_ridge": [
+        4
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -5.37,
+          -119.04,
+          -222.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 0.2928249207597101,
+        "y": -0.0132433341,
+        "z": -0.002650292781091839
+      },
+      "passive_clearance_mm": [
+        0.9540338840007268,
+        0.44278931916701125,
+        0.40953287579902076,
+        3.9496184101039944e-11
+      ],
+      "passive_contact_0p25mm": [
+        false,
+        false,
+        false,
+        true
+      ],
+      "drive_required_stroke_mm": [
+        14.777252798075516,
+        14.546594229485526,
+        16.147321113327575,
+        14.6552351587598
+      ],
+      "cylinder_first_contact_stroke_mm": 14.546594229485526,
+      "drive_clearance_at_first_contact_mm": [
+        0.2089873782228635,
+        1.3877787807814457e-14,
+        1.447078312740588,
+        0.09121058387741299
+      ],
+      "drive_contact_0p25mm": [
+        true,
+        true,
+        false,
+        true
+      ]
+    }
+  ]
+}
