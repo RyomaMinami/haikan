@@ -266,6 +266,50 @@ def transformed_robot_geom(mesh: trimesh.Trimesh, cad_offset_mm: np.ndarray,
     return make_geom(name, vertices, normals, np.asarray(mesh.faces, dtype=np.int32))
 
 
+def transformed_robot_arrays(
+    mesh: trimesh.Trimesh,
+    cad_offset_mm: np.ndarray,
+    cad_center_mm: np.ndarray,
+    rpy_deg: tuple[float, float, float] = (0, 0, 0),
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return the same transformed arrays used by transformed_robot_geom."""
+    rotation = trimesh.transformations.euler_matrix(
+        *np.radians(rpy_deg), axes="sxyz"
+    )[:3, :3]
+    vertices_cad = np.asarray(mesh.vertices) @ rotation.T + cad_offset_mm
+    normals_cad = np.asarray(mesh.vertex_normals) @ rotation.T
+    return (
+        cad_to_sim(vertices_cad - cad_center_mm),
+        normals_cad[..., [2, 0, 1]],
+        np.asarray(mesh.faces, dtype=np.int32),
+    )
+
+
+def estimated_pipe_radius_m(points: np.ndarray, estimation: dict) -> np.ndarray:
+    """Evaluate the fitted helical inner radius at simulator-space points."""
+    x_mm = points[:, 0] / MM_TO_M
+    theta_deg = np.degrees(np.arctan2(points[:, 2], points[:, 1]))
+    lead = float(estimation["lead_mm_per_revolution"])
+    profile = estimation["profile"]
+    start = float(profile["crest_phase_at_theta0_mm"])
+    distance = np.abs(
+        np.mod(x_mm - start - lead * theta_deg / 360.0 + 0.5 * lead, lead)
+        - 0.5 * lead
+    )
+    distance_knots = np.array([
+        0.0,
+        0.5 * float(profile["crest_width_90pct_height_mm"]),
+        0.5 * float(profile["crest_width_80pct_height_mm"]),
+        0.5 * float(profile["half_height_width_mm"]),
+        0.5 * lead,
+    ])
+    height = float(profile["peak_to_valley_mm"])
+    depth_mm = np.interp(
+        distance, distance_knots, height * np.array([1.0, 0.9, 0.8, 0.5, 0.0])
+    )
+    return (120.0 - depth_mm) * MM_TO_M
+
+
 def create_world(stl_path: Path) -> tuple[BulletWorld, NodePath, NodePath, np.ndarray]:
     world = BulletWorld()
     world.setGravity(Vec3(0.0, 0.0, -9.80665))
@@ -365,6 +409,10 @@ class MeasuredPipeApp:
         self.ridge_contact_result = json.loads(
             contact_result_path.read_text(encoding="utf-8")
         )
+        estimation_path = Path(__file__).resolve().parent / "output" / "helical_ridge_estimation.json"
+        self.ridge_estimation = json.loads(
+            estimation_path.read_text(encoding="utf-8")
+        )
         self.cylinder_pressed = False
         self.robot_body = BulletRigidBodyNode("moving_platform_contact_body")
         self.robot_body.setMass(21.0)
@@ -386,6 +434,11 @@ class MeasuredPipeApp:
         self.motor_visual: NodePath | None = None
         self.rotation9_root: NodePath | None = None
         self.rotation9_geometry_root: NodePath | None = None
+        self.rotation9_pivot_sim = np.zeros(3)
+        self.drilling_surface_data: list[
+            tuple[str, np.ndarray, np.ndarray, np.ndarray]
+        ] = []
+        self.drilling_penetration_overlays: list[NodePath] = []
         self.load_robot(robot_assets)
         self.drilling_module_contact_marker = self.base.loader.loadModel(
             "models/misc/sphere"
@@ -534,6 +587,19 @@ class MeasuredPipeApp:
         passive_wheels = passive_wheel_components(base_mesh)
         self.drive_wheel_meshes = drive_wheel_components(motor_mesh)
         drilling_wheels = drilling_wheel_components(drilling1_mesh)
+        drilling1_parts = list(drilling1_mesh.split(only_watertight=False))
+        drilling_wheel_centers = [
+            np.asarray(wheel.bounding_box.centroid) for wheel in drilling_wheels
+        ]
+        drilling1_body = trimesh.util.concatenate([
+            part for part in drilling1_parts
+            if all(
+                np.linalg.norm(
+                    np.asarray(part.bounding_box.centroid) - wheel_center
+                ) > 0.01
+                for wheel_center in drilling_wheel_centers
+            )
+        ])
         base_offset = np.zeros(3)
         motor_at_min_offset = ROBOT_MODULE_POSITION_MM + np.array(
             [0.0, SLIDER6_MIN_MM, 0.0]
@@ -548,6 +614,7 @@ class MeasuredPipeApp:
         )
         cad_center = (combined_min + combined_max) * 0.5
         rotation9_pivot = cad_to_sim(ROTATION9_PIVOT_CAD_MM - cad_center)
+        self.rotation9_pivot_sim = rotation9_pivot
         self.rotation9_root = self.robot_visual_root.attachNewNode("rotation9_axis")
         self.rotation9_root.setPos(*rotation9_pivot.tolist())
         self.rotation9_geometry_root = self.rotation9_root.attachNewNode(
@@ -601,6 +668,18 @@ class MeasuredPipeApp:
         bit_visual = self.rotation9_geometry_root.attachNewNode(bit_node)
         bit_visual.setTwoSided(True)
         bit_visual.setColor(0.86, 0.24, 0.18, 1.0)
+
+        self.drilling_surface_data = [
+            ("drilling_module1", *transformed_robot_arrays(
+                drilling1_body, DRILLING1_MODULE_POSITION_MM, cad_center
+            )),
+            ("drilling_module2", *transformed_robot_arrays(
+                drilling2_mesh, drilling2_offset, cad_center
+            )),
+            ("bit", *transformed_robot_arrays(
+                bit_mesh, bit_offset, cad_center, (90.0, 0.0, 0.0)
+            )),
+        ]
 
         # Draw the exact proxy volumes used by Bullet in translucent red so
         # contact judgement can be checked against the CAD wheels visually.
@@ -735,6 +814,49 @@ class MeasuredPipeApp:
         )
         self.drilling_module_contact_marker.show()
 
+    def update_drilling_penetration_overlay(self, case: dict) -> None:
+        """Paint only drilling-module faces that penetrate the pipe purple."""
+        for overlay in self.drilling_penetration_overlays:
+            overlay.removeNode()
+        self.drilling_penetration_overlays.clear()
+        check = case["drilling_module_after_press"]
+        if not self.cylinder_pressed or not check.get("forbidden_penetration", False):
+            return
+
+        angle = np.radians(float(case.get("rotation9_deg", 0.0)))
+        cosine, sine = np.cos(angle), np.sin(angle)
+        body_pose = np.array([
+            case["body_pose_m"]["x"],
+            case["body_pose_m"]["y"],
+            case["body_pose_m"]["z"],
+        ])
+        for name, vertices, normals, faces in self.drilling_surface_data:
+            relative = vertices - self.rotation9_pivot_sim
+            rotated = relative.copy()
+            rotated[:, 1] = cosine * relative[:, 1] - sine * relative[:, 2]
+            rotated[:, 2] = sine * relative[:, 1] + cosine * relative[:, 2]
+            rotated += self.rotation9_pivot_sim
+            world_vertices = rotated + body_pose
+            radial = np.linalg.norm(world_vertices[:, 1:3], axis=1)
+            gap = estimated_pipe_radius_m(
+                world_vertices, self.ridge_estimation
+            ) - radial
+            penetrating_faces = faces[np.any(gap[faces] <= 0.0, axis=1)]
+            if len(penetrating_faces) == 0:
+                continue
+            node = GeomNode(f"{name}_penetration_overlay")
+            node.addGeom(make_geom(
+                f"{name}_penetration_overlay",
+                vertices, normals, penetrating_faces,
+            ))
+            overlay = self.rotation9_geometry_root.attachNewNode(node)
+            overlay.setTwoSided(True)
+            overlay.setColor(0.92, 0.0, 0.92, 1.0)
+            overlay.setDepthTest(False)
+            overlay.setDepthOffset(6)
+            overlay.setBin("fixed", 108)
+            self.drilling_penetration_overlays.append(overlay)
+
     @staticmethod
     def set_contact_marker(marker: NodePath, contact: bool) -> None:
         if contact:
@@ -803,6 +925,7 @@ class MeasuredPipeApp:
         self.update_contact_marker_colors(case)
         if hasattr(self, "drilling_module_contact_marker"):
             self.update_drilling_module_contact_marker(case)
+            self.update_drilling_penetration_overlay(case)
         if hasattr(self, "robot_status"):
             self.update_robot_status()
 
@@ -822,6 +945,7 @@ class MeasuredPipeApp:
         self.robot_body.setActive(False)
         self.update_contact_marker_colors(case)
         self.update_drilling_module_contact_marker(case)
+        self.update_drilling_penetration_overlay(case)
         self.update_robot_status()
 
     def change_slider6(self, delta_mm: float) -> None:
