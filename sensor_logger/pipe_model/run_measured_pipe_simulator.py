@@ -380,7 +380,7 @@ class MeasuredPipeApp:
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
                   "1: wheel 1  2: wheels 2+3  3: wheel 4 on ridge  C: cylinder press/retract\n"
-                  "Red proxy: predicted contact  Gray proxy: clearance  R: reset case  Esc: exit"),
+                  "Red filled: contact  Red wireframe: non-contact proxy  R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
         )
@@ -644,9 +644,12 @@ class MeasuredPipeApp:
             marker.setDepthTest(False)
             marker.setBin("fixed", 100)
         else:
-            marker.setColor(0.42, 0.46, 0.52, 0.22)
+            # Keep every collision proxy visible.  Contact state is encoded by
+            # filled versus wireframe rendering rather than hiding or graying
+            # non-contact wheels, so all fitted wheel locations remain auditable.
+            marker.setColor(1.0, 0.02, 0.02, 0.86)
             marker.setRenderModeWireframe()
-            marker.setRenderModeThickness(2.0)
+            marker.setRenderModeThickness(3.0)
             marker.setDepthTest(False)
             marker.setBin("fixed", 90)
 
