@@ -53,9 +53,174 @@
       34.0
     ]
   ],
+  "rotation9_sweep_deg": [
+    -180.0,
+    180.0
+  ],
+  "ridge_min_height_mm": 0.7,
+  "rotation9_contact_candidates": [
+    {
+      "rotation9_deg": -18.754798062305152,
+      "wheel_clearance_mm": -2.7755575615628914e-14,
+      "ridge_height_mm": 0.9898711761822804,
+      "on_ridge": true,
+      "collision_free": false,
+      "accepted": false,
+      "minimum_module_clearance_mm": -0.5439948342704642,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.7536686836051751,
+        -0.04163773116610736,
+        -0.11148860975902725
+      ],
+      "closest_module_point_world_m": [
+        0.5460475822257805,
+        -0.1087093572539623,
+        -0.04997569348938956
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": -0.5439948342704642,
+        "drilling_module2": 11.036113431396169,
+        "bit": 2.4338819894744734
+      },
+      "base_passive_case": 1
+    },
+    {
+      "rotation9_deg": 13.569446566822702,
+      "wheel_clearance_mm": -1.3877787807814457e-14,
+      "ridge_height_mm": 1.2998228940244299,
+      "on_ridge": true,
+      "collision_free": true,
+      "accepted": true,
+      "minimum_module_clearance_mm": 1.0019504083574189,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.7536686836051751,
+        0.03037010623469925,
+        -0.11474924266540086
+      ],
+      "closest_module_point_world_m": [
+        0.5683333030509758,
+        0.10107411273317639,
+        -0.059948722454016265
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": 1.0019504083574189,
+        "drilling_module2": 11.633363272875286,
+        "bit": 2.6572448142222345
+      },
+      "base_passive_case": 1
+    },
+    {
+      "rotation9_deg": -29.01732986560433,
+      "wheel_clearance_mm": -1.3877787807814457e-14,
+      "ridge_height_mm": 0.36900996870516123,
+      "on_ridge": false,
+      "collision_free": false,
+      "accepted": false,
+      "minimum_module_clearance_mm": -1.934910705471915,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.7851544598057336,
+        -0.06216588495749427,
+        -0.10221045212364221
+      ],
+      "closest_module_point_world_m": [
+        0.655533358426339,
+        -0.11720541706397604,
+        -0.02973223608900156
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": -1.934910705471915,
+        "drilling_module2": 10.000460233243372,
+        "bit": 2.109003940148693
+      },
+      "base_passive_case": 2
+    },
+    {
+      "rotation9_deg": 23.633267920116094,
+      "wheel_clearance_mm": 1.3877787807814457e-14,
+      "ridge_height_mm": 0.8668482796907739,
+      "on_ridge": true,
+      "collision_free": false,
+      "accepted": false,
+      "minimum_module_clearance_mm": -0.18505363739720893,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.7851544598057336,
+        0.05125537636235615,
+        -0.10754345276569575
+      ],
+      "closest_module_point_world_m": [
+        0.577533358426339,
+        0.11129539189072289,
+        -0.041230934447292616
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": -0.18505363739720893,
+        "drilling_module2": 10.306468195979399,
+        "bit": 2.1065320254873567
+      },
+      "base_passive_case": 2
+    },
+    {
+      "rotation9_deg": -31.400489244146584,
+      "wheel_clearance_mm": -1.3877787807814457e-14,
+      "ridge_height_mm": 0.20614812666246152,
+      "on_ridge": false,
+      "collision_free": false,
+      "accepted": false,
+      "minimum_module_clearance_mm": -2.719876321572751,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.8184980393510186,
+        -0.06667203140446745,
+        -0.09952591207847755
+      ],
+      "closest_module_point_world_m": [
+        0.6870191346268975,
+        -0.11865017143128545,
+        -0.024821729776433852
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": -2.719876321572751,
+        "drilling_module2": 9.257858142166246,
+        "bit": 1.5932765268726197
+      },
+      "base_passive_case": 3
+    },
+    {
+      "rotation9_deg": 31.21148284556434,
+      "wheel_clearance_mm": 2.7755575615628914e-14,
+      "ridge_height_mm": 0.41245696013191,
+      "on_ridge": false,
+      "collision_free": false,
+      "accepted": false,
+      "minimum_module_clearance_mm": -0.7243902424699245,
+      "closest_component": "drilling_module1",
+      "wheel_contact_point_world_m": [
+        0.8166402360062921,
+        0.06597102949707141,
+        -0.09974469267790056
+      ],
+      "closest_module_point_world_m": [
+        0.6090191346268975,
+        0.11674137911356391,
+        -0.026093316925684017
+      ],
+      "component_clearance_mm": {
+        "drilling_module1": -0.7243902424699245,
+        "drilling_module2": 8.969510784408829,
+        "bit": 1.6810251434904582
+      },
+      "base_passive_case": 3
+    }
+  ],
   "cases": [
     {
       "case": 1,
+      "base_passive_case": 1,
+      "rotation9_deg": 0.0,
       "passive_wheels_on_ridge": [
         1
       ],
@@ -92,15 +257,15 @@
       "drilling_module_after_press": {
         "sequence": "checked after drive-wheel first contact",
         "contact": false,
-        "minimum_clearance_mm": 0.31732159700265106,
+        "minimum_clearance_mm": 1.3216210374932535,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
-          0.7536686836051751,
-          0.0008446257855972295,
-          -0.11850430255556721
+          0.5460475822257805,
+          -0.08448024205898438,
+          -0.08182231097841877
         ],
         "component_clearance_mm": {
-          "drilling_module1": 0.31732159700265106,
+          "drilling_module1": 1.3216210374932535,
           "drilling_module2": 13.091806121409533,
           "bit": 2.7659444724411895
         }
@@ -127,6 +292,8 @@
     },
     {
       "case": 2,
+      "base_passive_case": 2,
+      "rotation9_deg": 0.0,
       "passive_wheels_on_ridge": [
         2,
         3
@@ -169,15 +336,15 @@
       "drilling_module_after_press": {
         "sequence": "checked after drive-wheel first contact",
         "contact": false,
-        "minimum_clearance_mm": 0.8347225723565471,
+        "minimum_clearance_mm": 1.6309606822692002,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
-          0.7851544598057336,
-          0.0008446257855972295,
-          -0.11851624512027992
+          0.655533358426339,
+          -0.08448024205898438,
+          -0.08183425354313148
         ],
         "component_clearance_mm": {
-          "drilling_module1": 0.8347225723565471,
+          "drilling_module1": 1.6309606822692002,
           "drilling_module2": 12.878948720982205,
           "bit": 2.534103354649292
         }
@@ -204,6 +371,8 @@
     },
     {
       "case": 3,
+      "base_passive_case": 3,
+      "rotation9_deg": 0.0,
       "passive_wheels_on_ridge": [
         4
       ],
@@ -269,6 +438,81 @@
       "drive_contact": [
         true,
         false,
+        false,
+        false
+      ]
+    },
+    {
+      "case": 4,
+      "base_passive_case": 1,
+      "rotation9_deg": 13.569446566822702,
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "passive_wheel_cad_centers_mm": [
+        [
+          -112.29,
+          -119.04,
+          -2.64
+        ]
+      ],
+      "body_pose_m": {
+        "x": 0.987853368358593,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "passive_clearance_mm": [
+        3.951006188884776e-11,
+        0.4409747488761384,
+        0.47422867241771194,
+        0.9849511172210917
+      ],
+      "passive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -1.3877787807814457e-14
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "drilling_module_after_press": {
+        "sequence": "checked after drive-wheel first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 1.0019504083574189,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.5683333030509758,
+          0.10107411273317639,
+          -0.059948722454016265
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.0019504083574189,
+          "drilling_module2": 11.633363272875286,
+          "bit": 2.6572448142222345
+        }
+      },
+      "drive_required_stroke_mm": [
+        7.399425170078275,
+        6.855623846864862,
+        7.903882849484496,
+        7.855947326359595
+      ],
+      "cylinder_first_contact_stroke_mm": 6.855623846864862,
+      "drive_clearance_at_first_contact_mm": [
+        0.4872167366189034,
+        0.0,
+        0.8824368196534843,
+        0.8420050625677494
+      ],
+      "drive_contact": [
+        false,
+        true,
         false,
         false
       ]

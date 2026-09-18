@@ -70,6 +70,7 @@ DRIVE_WHEELS_MODULE_CAD_MM = np.array([
 DRILLING_WHEELS_MODULE_CAD_MM = np.array([
     [0.0, -180.01, 34.0],
 ])
+ROTATION9_PIVOT_CAD_MM = np.array([-59.0, -20.0, -300.0])
 # Values measured from the wheel components contained in the module STLs.
 # Wheel axes are CAD X, which maps to simulator Y.
 
@@ -351,6 +352,8 @@ class MeasuredPipeApp:
         self.drive_contact_markers: list[NodePath] = []
         self.drilling_contact_markers: list[NodePath] = []
         self.motor_visual: NodePath | None = None
+        self.rotation9_root: NodePath | None = None
+        self.rotation9_geometry_root: NodePath | None = None
         self.load_robot(robot_assets)
         self.drilling_module_contact_marker = self.base.loader.loadModel(
             "models/misc/sphere"
@@ -388,9 +391,10 @@ class MeasuredPipeApp:
 
         self.base.accept("escape", self.base.userExit)
         self.base.accept("space", self.reset_sphere)
-        self.base.accept("1", self.apply_contact_case, [1])
-        self.base.accept("2", self.apply_contact_case, [2])
-        self.base.accept("3", self.apply_contact_case, [3])
+        for case_number in range(
+            1, min(9, len(self.ridge_contact_result["cases"])) + 1
+        ):
+            self.base.accept(str(case_number), self.apply_contact_case, [case_number])
         self.base.accept("c", self.toggle_cylinder_press)
         self.base.accept("r", self.reset_robot)
         self.base.accept("mouse1", self.begin_camera_drag, ["orbit"])
@@ -408,7 +412,8 @@ class MeasuredPipeApp:
         OnscreenText(
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
-                  "1: wheel 1  2: wheels 2+3  3: wheel 4 on ridge  C: cylinder press/retract\n"
+                  "1-3: moving-platform ridge cases  4+: drilling-wheel ridge cases\n"
+                  "C: cylinder press/retract\n"
                   "Red filled/wire: wheel contact/proxy  Yellow/magenta: module clearance/contact\n"
                   "R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
@@ -509,6 +514,13 @@ class MeasuredPipeApp:
             np.asarray(motor_mesh.bounds[1]) + motor_at_min_offset,
         )
         cad_center = (combined_min + combined_max) * 0.5
+        rotation9_pivot = cad_to_sim(ROTATION9_PIVOT_CAD_MM - cad_center)
+        self.rotation9_root = self.robot_visual_root.attachNewNode("rotation9_axis")
+        self.rotation9_root.setPos(*rotation9_pivot.tolist())
+        self.rotation9_geometry_root = self.rotation9_root.attachNewNode(
+            "rotation9_geometry"
+        )
+        self.rotation9_geometry_root.setPos(*(-rotation9_pivot).tolist())
 
         base_node = GeomNode("01_move_module_visual")
         base_node.addGeom(robot_geom(base_mesh, base_offset, cad_center, "move_module"))
@@ -531,7 +543,7 @@ class MeasuredPipeApp:
             drilling1_mesh, DRILLING1_MODULE_POSITION_MM, cad_center,
             "drilling_module1",
         ))
-        drilling1_visual = self.robot_visual_root.attachNewNode(drilling1_node)
+        drilling1_visual = self.rotation9_geometry_root.attachNewNode(drilling1_node)
         drilling1_visual.setTwoSided(True)
         drilling1_visual.setColor(0.72, 0.75, 0.79, 1.0)
 
@@ -542,7 +554,7 @@ class MeasuredPipeApp:
         drilling2_node.addGeom(transformed_robot_geom(
             drilling2_mesh, drilling2_offset, cad_center, "drilling_module2",
         ))
-        drilling2_visual = self.robot_visual_root.attachNewNode(drilling2_node)
+        drilling2_visual = self.rotation9_geometry_root.attachNewNode(drilling2_node)
         drilling2_visual.setTwoSided(True)
         drilling2_visual.setColor(0.32, 0.64, 0.82, 1.0)
 
@@ -553,7 +565,7 @@ class MeasuredPipeApp:
         bit_node.addGeom(transformed_robot_geom(
             bit_mesh, bit_offset, cad_center, "bit", (90.0, 0.0, 0.0)
         ))
-        bit_visual = self.robot_visual_root.attachNewNode(bit_node)
+        bit_visual = self.rotation9_geometry_root.attachNewNode(bit_node)
         bit_visual.setTwoSided(True)
         bit_visual.setColor(0.86, 0.24, 0.18, 1.0)
 
@@ -575,7 +587,7 @@ class MeasuredPipeApp:
             self.drive_contact_markers.append(marker)
         for wheel_index, wheel_mesh in enumerate(drilling_wheels, start=1):
             marker = self.add_mesh_contact_marker(
-                self.robot_visual_root, wheel_mesh,
+                self.rotation9_geometry_root, wheel_mesh,
                 DRILLING1_MODULE_POSITION_MM, cad_center,
                 f"drilling_wheel_{wheel_index}_contact_proxy",
             )
@@ -588,17 +600,6 @@ class MeasuredPipeApp:
             wheel_hull = wheel_mesh.convex_hull
             local_vertices = cad_to_sim(
                 np.asarray(wheel_hull.vertices) - cad_center
-            )
-            shape = BulletConvexHullShape()
-            for vertex in local_vertices:
-                shape.addPoint(Vec3(*vertex.tolist()))
-            shape.setMargin(0.0002)
-            self.robot_body.addShape(shape)
-        for wheel_mesh in drilling_wheels:
-            wheel_hull = wheel_mesh.convex_hull
-            local_vertices = cad_to_sim(
-                np.asarray(wheel_hull.vertices)
-                + DRILLING1_MODULE_POSITION_MM - cad_center
             )
             shape = BulletConvexHullShape()
             for vertex in local_vertices:
@@ -671,6 +672,7 @@ class MeasuredPipeApp:
         state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
         self.robot_status.setText(
             f"Case {self.contact_case}: {self.contact_case_label}\n"
+            f"Rotation9: {case.get('rotation9_deg', 0.0):+.2f} deg\n"
             f"Cylinder: {state} / slider {self.slider6_mm:.2f} mm\n"
             f"Passive: {passive or 'none'} / Drive: {drive or 'none'}"
             f" / Drill wheel: {drilling or 'none'} (gap {drilling_gap:.2f} mm)\n"
@@ -736,7 +738,15 @@ class MeasuredPipeApp:
         self.contact_case = case_number
         wheels = case["passive_wheels_on_ridge"]
         wheel_text = "+".join(str(number) for number in wheels)
-        self.contact_case_label = f"passive wheel {wheel_text} on ridge / full robot"
+        rotation9_deg = float(case.get("rotation9_deg", 0.0))
+        if case_number <= 3:
+            self.contact_case_label = (
+                f"platform passive wheel {wheel_text} on ridge / full robot"
+            )
+        else:
+            self.contact_case_label = (
+                f"base case {case['base_passive_case']} + drilling passive wheel on ridge"
+            )
         self.robot_inverted = False
         self.cylinder_pressed = False
         self.slider6_mm = SLIDER6_MIN_MM
@@ -745,6 +755,9 @@ class MeasuredPipeApp:
         self.rebuild_drive_contact_shapes()
         self.robot_root.setPos(pose["x"], pose["y"], pose["z"])
         self.robot_root.setHpr(0.0, 0.0, 0.0)
+        if self.rotation9_root is not None:
+            # CAD +Z is simulator +X; Panda3D pitch rotates about local X.
+            self.rotation9_root.setP(rotation9_deg)
         self.robot_body.setLinearVelocity(Vec3(0, 0, 0))
         self.robot_body.setAngularVelocity(Vec3(0, 0, 0))
         self.robot_body.clearForces()
@@ -796,7 +809,10 @@ class MeasuredPipeApp:
         self.robot_body.setActive(True)
 
     def reset_robot(self) -> None:
-        self.apply_contact_case(self.contact_case if self.contact_case in (1, 2, 3) else 1)
+        maximum = len(self.ridge_contact_result["cases"])
+        self.apply_contact_case(
+            self.contact_case if 1 <= self.contact_case <= maximum else 1
+        )
 
     def reset_sphere(self) -> None:
         center_x = float((self.bounds[0, 0] + self.bounds[1, 0]) * 0.5)
@@ -839,7 +855,7 @@ class MeasuredPipeApp:
             self.capture(output_dir / f"wheel_mesh_fit_{name}.png")
 
     def capture_contact_cases(self, output_dir: Path) -> None:
-        """Capture retracted and first-contact state for all four ridge cases."""
+        """Capture retracted and first-contact state for all ridge cases."""
         output_dir.mkdir(parents=True, exist_ok=True)
         self.camera_heading_deg = -52.0
         self.camera_pitch_deg = 12.0
@@ -848,7 +864,7 @@ class MeasuredPipeApp:
             (self.bounds[0, 0] + self.bounds[1, 0]) * 0.5 - 0.14
         )
         self.update_camera_pose()
-        for case_number in range(1, 4):
+        for case_number in range(1, len(self.ridge_contact_result["cases"]) + 1):
             self.apply_contact_case(case_number)
             self.capture(output_dir / f"ridge_case_{case_number}_retracted.png")
             self.toggle_cylinder_press()

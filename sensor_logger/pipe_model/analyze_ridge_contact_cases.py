@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import trimesh
 from scipy.optimize import brentq
 
 from run_measured_pipe_simulator import (
@@ -33,6 +34,10 @@ from run_measured_pipe_simulator import (
 # tolerance incorrectly marked nearby drive wheels as touching even though a
 # positive gap remained at the rigid first-contact cylinder position.
 CONTACT_TOLERANCE_MM = 0.02
+RIDGE_MIN_HEIGHT_MM = 0.70
+ROTATION9_MIN_DEG = -180.0
+ROTATION9_MAX_DEG = 180.0
+ROTATION9_PIVOT_CAD_MM = np.array([-59.0, -20.0, -300.0])
 
 
 def load_geometry(
@@ -57,13 +62,28 @@ def load_geometry(
         cad_to_sim(wheel.convex_hull.vertices + motor_offset - cad_center)
         for wheel in drive_wheel_components(motor)
     ]
+    drilling_wheel_meshes = drilling_wheel_components(drilling1)
     drilling = [
         cad_to_sim(
             wheel.convex_hull.vertices
             + DRILLING1_MODULE_POSITION_MM - cad_center
         )
-        for wheel in drilling_wheel_components(drilling1)
+        for wheel in drilling_wheel_meshes
     ]
+    drilling1_parts = list(drilling1.split(only_watertight=False))
+    drilling_wheel_centers = [
+        np.asarray(wheel.bounding_box.centroid) for wheel in drilling_wheel_meshes
+    ]
+    drilling1_body_parts = [
+        part for part in drilling1_parts
+        if all(
+            np.linalg.norm(
+                np.asarray(part.bounding_box.centroid) - wheel_center
+            ) > 0.01
+            for wheel_center in drilling_wheel_centers
+        )
+    ]
+    drilling1_body = trimesh.util.concatenate(drilling1_body_parts)
     bit_rotation = np.array([
         [1.0, 0.0, 0.0],
         [0.0, 0.0, -1.0],
@@ -71,7 +91,7 @@ def load_geometry(
     ])
     drilling_modules = {
         "drilling_module1": cad_to_sim(
-            np.asarray(drilling1.vertices)
+            np.asarray(drilling1_body.vertices)
             + DRILLING1_MODULE_POSITION_MM - cad_center
         ),
         "drilling_module2": cad_to_sim(
@@ -136,6 +156,86 @@ def clearance_details(
     gaps = pipe_radius_m(points, estimation) - radial
     index = int(np.argmin(gaps))
     return float(gaps[index] * 1000.0), points[index]
+
+
+def rotate_about_pipe_axis(
+    vertices: np.ndarray, pivot: np.ndarray, angle_deg: float
+) -> np.ndarray:
+    """Rotate local simulator vertices about rotation9 (the pipe/X axis)."""
+    angle = np.radians(angle_deg)
+    cosine, sine = np.cos(angle), np.sin(angle)
+    relative = vertices - pivot
+    rotated = relative.copy()
+    rotated[:, 1] = cosine * relative[:, 1] - sine * relative[:, 2]
+    rotated[:, 2] = sine * relative[:, 1] + cosine * relative[:, 2]
+    return rotated + pivot
+
+
+def local_ridge_height_mm(point: np.ndarray, estimation: dict) -> float:
+    return float((0.120 - pipe_radius_m(point[None, :], estimation)[0]) * 1000.0)
+
+
+def rotation9_contact_candidates(
+    wheel: np.ndarray,
+    drilling_modules: dict[str, np.ndarray],
+    pivot: np.ndarray,
+    pose: tuple[float, float, float],
+    estimation: dict,
+) -> list[dict]:
+    """Find drilling-wheel contacts during one complete rotation9 sweep."""
+    angles = np.linspace(ROTATION9_MIN_DEG, ROTATION9_MAX_DEG, 721)
+
+    def wheel_gap(angle_deg: float) -> float:
+        return clearance_mm(
+            rotate_about_pipe_axis(wheel, pivot, angle_deg), pose, estimation
+        )
+
+    gaps = [wheel_gap(angle) for angle in angles]
+    roots: list[float] = []
+    for index in range(len(angles) - 1):
+        if gaps[index] == 0.0:
+            roots.append(float(angles[index]))
+        elif gaps[index] * gaps[index + 1] < 0.0:
+            roots.append(float(brentq(
+                wheel_gap, float(angles[index]), float(angles[index + 1])
+            )))
+
+    candidates = []
+    for angle in roots:
+        rotated_wheel = rotate_about_pipe_axis(wheel, pivot, angle)
+        wheel_clearance, contact_point = clearance_details(
+            rotated_wheel, pose, estimation
+        )
+        module_details = {
+            name: clearance_details(
+                rotate_about_pipe_axis(vertices, pivot, angle), pose, estimation
+            )
+            for name, vertices in drilling_modules.items()
+        }
+        closest_module, (module_gap, module_point) = min(
+            module_details.items(), key=lambda item: item[1][0]
+        )
+        ridge_height = local_ridge_height_mm(contact_point, estimation)
+        on_ridge = ridge_height >= RIDGE_MIN_HEIGHT_MM
+        # A small zero/tolerance at drilling_module1 is the intended wheel
+        # contact.  A negative value means another surface has entered the pipe.
+        collision_free = module_gap >= -CONTACT_TOLERANCE_MM
+        candidates.append({
+            "rotation9_deg": angle,
+            "wheel_clearance_mm": wheel_clearance,
+            "ridge_height_mm": ridge_height,
+            "on_ridge": on_ridge,
+            "collision_free": collision_free,
+            "accepted": on_ridge and collision_free,
+            "minimum_module_clearance_mm": module_gap,
+            "closest_component": closest_module,
+            "wheel_contact_point_world_m": contact_point.tolist(),
+            "closest_module_point_world_m": module_point.tolist(),
+            "component_clearance_mm": {
+                name: detail[0] for name, detail in module_details.items()
+            },
+        })
+    return candidates
 
 
 def solve_zero(function, lower: float, upper: float) -> float:
@@ -222,6 +322,14 @@ def main() -> None:
     estimation = json.loads(estimation_path.read_text(encoding="utf-8"))
     assets = here.parent.parent / "raspi_tools" / "camera_stream" / "assets"
     passive, drive, drilling, drilling_modules = load_geometry(assets)
+    base = load_robot_mesh(assets / "01_move_module.stl")
+    motor = load_robot_mesh(assets / "02_motor_module.stl")
+    motor_offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, SLIDER6_MIN_MM, 0.0])
+    cad_center = (
+        np.minimum(base.bounds[0], motor.bounds[0] + motor_offset)
+        + np.maximum(base.bounds[1], motor.bounds[1] + motor_offset)
+    ) * 0.5
+    rotation9_pivot = cad_to_sim(ROTATION9_PIVOT_CAD_MM - cad_center)
     pipe_metadata_path = here / "output" / "pipe_full360_helix_estimated.json"
     if pipe_metadata_path.exists():
         pipe_metadata = json.loads(pipe_metadata_path.read_text(encoding="utf-8"))
@@ -239,6 +347,7 @@ def main() -> None:
     # case rather than two duplicate cases.
     wheel_groups = [[0], [1, 2], [3]]
     cases = []
+    rotation9_sweep_candidates = []
     for case_index, selected_indices in enumerate(wheel_groups, start=1):
         selected = [passive[index] for index in selected_indices]
         body_x, body_z = align_wheel_group(selected, estimation, pipe_center_x)
@@ -273,6 +382,8 @@ def main() -> None:
             drive_contact = [gap <= CONTACT_TOLERANCE_MM for gap in drive_clearances]
         cases.append({
             "case": case_index,
+            "base_passive_case": case_index,
+            "rotation9_deg": 0.0,
             "passive_wheels_on_ridge": [index + 1 for index in selected_indices],
             "passive_wheel_cad_centers_mm": [
                 PASSIVE_WHEELS_CAD_MM[index].tolist()
@@ -302,6 +413,45 @@ def main() -> None:
             "drive_clearance_at_first_contact_mm": drive_clearances,
             "drive_contact": drive_contact,
         })
+        sweep = rotation9_contact_candidates(
+            drilling[0], drilling_modules, rotation9_pivot, pose, estimation
+        )
+        for candidate in sweep:
+            candidate["base_passive_case"] = case_index
+        rotation9_sweep_candidates.extend(sweep)
+
+    # Preserve the three base cases, then append every geometrically valid
+    # drilling-wheel-on-ridge orientation found within the full ±180° sweep.
+    base_cases = list(cases)
+    for candidate in rotation9_sweep_candidates:
+        if not candidate["accepted"]:
+            continue
+        base_case = base_cases[candidate["base_passive_case"] - 1]
+        angle = float(candidate["rotation9_deg"])
+        rotated_wheel = rotate_about_pipe_axis(
+            drilling[0], rotation9_pivot, angle
+        )
+        drilling_gap = clearance_mm(
+            rotated_wheel,
+            tuple(base_case["body_pose_m"][key] for key in ("x", "y", "z")),
+            estimation,
+        )
+        expanded = json.loads(json.dumps(base_case))
+        expanded["case"] = len(cases) + 1
+        expanded["rotation9_deg"] = angle
+        expanded["drilling_wheel_clearance_mm"] = [drilling_gap]
+        expanded["drilling_contact"] = [drilling_gap <= CONTACT_TOLERANCE_MM]
+        expanded["drilling_module_after_press"] = {
+            "sequence": "checked after drive-wheel first contact",
+            "contact": candidate["minimum_module_clearance_mm"] <= CONTACT_TOLERANCE_MM,
+            "intended_drilling_wheel_contact": True,
+            "forbidden_penetration": not candidate["collision_free"],
+            "minimum_clearance_mm": candidate["minimum_module_clearance_mm"],
+            "closest_component": candidate["closest_component"],
+            "closest_point_world_m": candidate["closest_module_point_world_m"],
+            "component_clearance_mm": candidate["component_clearance_mm"],
+        }
+        cases.append(expanded)
     result = {
         "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
         "contact_tolerance_mm": CONTACT_TOLERANCE_MM,
@@ -309,6 +459,9 @@ def main() -> None:
         "passive_wheel_order_cad_centers_mm": PASSIVE_WHEELS_CAD_MM.tolist(),
         "drive_wheel_order_cad_centers_mm": DRIVE_WHEELS_MODULE_CAD_MM.tolist(),
         "drilling_wheel_order_cad_centers_mm": DRILLING_WHEELS_MODULE_CAD_MM.tolist(),
+        "rotation9_sweep_deg": [ROTATION9_MIN_DEG, ROTATION9_MAX_DEG],
+        "ridge_min_height_mm": RIDGE_MIN_HEIGHT_MM,
+        "rotation9_contact_candidates": rotation9_sweep_candidates,
         "cases": cases,
     }
     output = here / "output" / "ridge_contact_cases.json"
