@@ -150,25 +150,46 @@ def passive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
 
 
 def drive_wheel_components(mesh: trimesh.Trimesh) -> list[trimesh.Trimesh]:
-    """Extract the four asymmetric half-barrel drive wheels."""
+    """Extract the four asymmetric half-barrel drive-wheel tires.
+
+    The STL contains a roughly 40 mm-diameter metal wheel at each nominal
+    centre and a separate roughly 54 mm-diameter tire.  Some tires are split
+    into several adjacent 1--2 mm rings.  Select and concatenate the outer
+    rings instead of choosing the closest-centred component (the hub).
+    """
     components = mesh.split(only_watertight=False)
     wheels: list[trimesh.Trimesh] = []
     for expected_center in DRIVE_WHEELS_MODULE_CAD_MM:
-        wheel = min(
-            components,
-            key=lambda part: np.linalg.norm(
-                np.asarray(part.bounding_box.centroid) - expected_center
-            ),
-        )
-        center_error = float(np.linalg.norm(
-            np.asarray(wheel.bounding_box.centroid) - expected_center
-        ))
-        if center_error > 0.25:
-            raise RuntimeError(
-                f"Drive wheel component fit error {center_error:.3f} mm "
-                f"at expected center {expected_center.tolist()}"
+        tire_parts: list[trimesh.Trimesh] = []
+        for part in components:
+            center = np.asarray(part.bounding_box.centroid)
+            extent = np.asarray(part.bounding_box.extents)
+            aligned = (
+                abs(center[0] - expected_center[0]) < 20.0
+                and abs(center[1] - expected_center[1]) < 0.20
+                and abs(center[2] - expected_center[2]) < 0.20
             )
-        wheels.append(wheel)
+            # Tire axis is CAD X.  Its individual sections are no wider than
+            # 13 mm and have an outer Y/Z diameter of at least about 39.8 mm.
+            is_outer_tire = (
+                extent[0] <= 15.0
+                and extent[1] >= 39.5
+                and extent[2] >= 39.5
+            )
+            if aligned and is_outer_tire:
+                tire_parts.append(part)
+        if not tire_parts:
+            raise RuntimeError(
+                f"Drive tire components not found at {expected_center.tolist()}"
+            )
+        tire = trimesh.util.concatenate(tire_parts)
+        diameter = max(tire.bounding_box.extents[1:])
+        if not 50.0 <= diameter <= 56.0:
+            raise RuntimeError(
+                f"Unexpected drive tire diameter {diameter:.3f} mm "
+                f"at {expected_center.tolist()}"
+            )
+        wheels.append(tire)
     return wheels
 
 
