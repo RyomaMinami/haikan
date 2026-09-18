@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import trimesh
-from scipy.optimize import brentq
+from scipy.optimize import brentq, minimize
 
 from run_measured_pipe_simulator import (
     BIT_MODULE_POSITION_MM,
@@ -38,6 +38,10 @@ RIDGE_MIN_HEIGHT_MM = 0.70
 ROTATION9_MIN_DEG = -180.0
 ROTATION9_MAX_DEG = 180.0
 ROTATION9_PIVOT_CAD_MM = np.array([-59.0, -20.0, -300.0])
+ROBOT_MASS_KG = 21.0
+GRAVITY_M_S2 = 9.80665
+WHEEL_RADIAL_STIFFNESS_N_PER_MM = 200.0
+BODY_CONTACT_STIFFNESS_N_PER_MM = 5000.0
 
 
 def load_geometry(
@@ -131,17 +135,29 @@ def pipe_radius_m(points: np.ndarray, estimation: dict) -> np.ndarray:
     return (120.0 - depth_mm) * 0.001
 
 
+def roll_about_body_axis(vertices: np.ndarray, roll_deg: float) -> np.ndarray:
+    angle = np.radians(roll_deg)
+    cosine, sine = np.cos(angle), np.sin(angle)
+    points = vertices.copy()
+    points[:, 1] = cosine * vertices[:, 1] - sine * vertices[:, 2]
+    points[:, 2] = sine * vertices[:, 1] + cosine * vertices[:, 2]
+    return points
+
+
 def placed(vertices: np.ndarray, body_x: float, body_y: float,
-           body_z: float, slider_mm: float = SLIDER6_MIN_MM) -> np.ndarray:
+           body_z: float, slider_mm: float = SLIDER6_MIN_MM,
+           body_roll_deg: float = 0.0) -> np.ndarray:
     points = vertices.copy()
     points[:, 2] += (slider_mm - SLIDER6_MIN_MM) * 0.001
+    points = roll_about_body_axis(points, body_roll_deg)
     points += np.array([body_x, body_y, body_z])
     return points
 
 
 def clearance_mm(vertices: np.ndarray, pose: tuple[float, float, float],
-                 estimation: dict, slider_mm: float = SLIDER6_MIN_MM) -> float:
-    points = placed(vertices, *pose, slider_mm)
+                 estimation: dict, slider_mm: float = SLIDER6_MIN_MM,
+                 body_roll_deg: float = 0.0) -> float:
+    points = placed(vertices, *pose, slider_mm, body_roll_deg)
     radial = np.linalg.norm(points[:, 1:3], axis=1)
     return float(np.min(pipe_radius_m(points, estimation) - radial) * 1000.0)
 
@@ -150,8 +166,9 @@ def clearance_details(
     vertices: np.ndarray,
     pose: tuple[float, float, float],
     estimation: dict,
+    body_roll_deg: float = 0.0,
 ) -> tuple[float, np.ndarray]:
-    points = placed(vertices, *pose)
+    points = placed(vertices, *pose, body_roll_deg=body_roll_deg)
     radial = np.linalg.norm(points[:, 1:3], axis=1)
     gaps = pipe_radius_m(points, estimation) - radial
     index = int(np.argmin(gaps))
@@ -173,6 +190,169 @@ def rotate_about_pipe_axis(
 
 def local_ridge_height_mm(point: np.ndarray, estimation: dict) -> float:
     return float((0.120 - pipe_radius_m(point[None, :], estimation)[0]) * 1000.0)
+
+
+def estimate_assembly_com(
+    asset_dir: Path, cad_center: np.ndarray, rotation9_pivot: np.ndarray,
+    rotation9_deg: float,
+) -> tuple[np.ndarray, dict]:
+    """Estimate COM from STL enclosed-volume ratios (provisional)."""
+    base = load_robot_mesh(asset_dir / "01_move_module.stl")
+    motor = load_robot_mesh(asset_dir / "02_motor_module.stl")
+    drilling1 = load_robot_mesh(asset_dir / "03_drilling_module1.stl")
+    drilling2 = load_robot_mesh(asset_dir / "03_drilling_module2.stl")
+    bit = load_robot_mesh(asset_dir / "04_bit.stl")
+    bit_rotation = np.array([
+        [1.0, 0.0, 0.0],
+        [0.0, 0.0, -1.0],
+        [0.0, 1.0, 0.0],
+    ])
+    entries = [
+        ("move_module", base, np.zeros(3), np.eye(3), False),
+        ("motor_module", motor, ROBOT_MODULE_POSITION_MM + np.array(
+            [0.0, SLIDER6_MIN_MM, 0.0]
+        ), np.eye(3), False),
+        ("drilling_module1", drilling1, DRILLING1_MODULE_POSITION_MM, np.eye(3), True),
+        ("drilling_module2", drilling2, DRILLING2_MODULE_POSITION_MM + np.array(
+            [0.0, SLIDER11_MIN_MM, 0.0]
+        ), np.eye(3), True),
+        ("bit", bit, BIT_MODULE_POSITION_MM + np.array(
+            [0.0, SLIDER11_MIN_MM, 0.0]
+        ), bit_rotation, True),
+    ]
+    weighted = np.zeros(3)
+    total = 0.0
+    parts = {}
+    for name, mesh, offset, rotation, follows_rotation9 in entries:
+        weight = max(abs(float(mesh.volume)), 1.0)
+        centroid_cad = np.asarray(mesh.center_mass) @ rotation.T + offset
+        centroid = cad_to_sim(centroid_cad - cad_center)
+        if follows_rotation9:
+            centroid = rotate_about_pipe_axis(
+                centroid[None, :], rotation9_pivot, rotation9_deg
+            )[0]
+        weighted += weight * centroid
+        total += weight
+        parts[name] = {
+            "volume_weight_fraction": weight,
+            "center_sim_m": centroid.tolist(),
+            "stl_watertight": bool(mesh.is_watertight),
+        }
+    com = weighted / total
+    for item in parts.values():
+        item["volume_weight_fraction"] /= total
+    return com, parts
+
+
+def settle_under_gravity(
+    passive: list[np.ndarray],
+    drilling_wheels: list[np.ndarray],
+    drilling_modules: dict[str, np.ndarray],
+    initial_pose: tuple[float, float, float],
+    initial_roll_deg: float,
+    com_local: np.ndarray,
+    estimation: dict,
+) -> tuple[tuple[float, float, float], float, dict]:
+    """Find quasi-static Y/Z/roll equilibrium under gravity and compliance."""
+    body_x, initial_y, initial_z = initial_pose
+    wheel_sets = list(passive) + list(drilling_wheels)
+    # Use a deterministic surface sample during optimization.  Exact full-mesh
+    # clearances are recomputed after settlement for the reported result.
+    collision_samples = []
+    for vertices in drilling_modules.values():
+        if len(vertices) <= 1500:
+            collision_samples.append(vertices)
+        else:
+            radial = np.linalg.norm(vertices[:, 1:3], axis=1)
+            exposed = np.flatnonzero(radial >= 0.104)
+            background = np.linspace(0, len(vertices) - 1, 500, dtype=int)
+            collision_samples.append(vertices[np.unique(np.r_[exposed, background])])
+
+    def potential(q: np.ndarray) -> float:
+        body_y, body_z, roll_deg = (float(value) for value in q)
+        pose = (body_x, body_y, body_z)
+        wheel_penetrations = [
+            max(0.0, -clearance_mm(
+                wheel, pose, estimation, body_roll_deg=roll_deg
+            ))
+            for wheel in wheel_sets
+        ]
+        body_penetrations = [
+            max(0.0, -clearance_mm(
+                vertices, pose, estimation, body_roll_deg=roll_deg
+            ))
+            for vertices in collision_samples
+        ]
+        rolled_com = roll_about_body_axis(com_local[None, :], roll_deg)[0]
+        com_height_mm = (body_z + rolled_com[2]) / 0.001
+        gravity = ROBOT_MASS_KG * GRAVITY_M_S2 * com_height_mm
+        wheel_energy = 0.5 * WHEEL_RADIAL_STIFFNESS_N_PER_MM * sum(
+            value * value for value in wheel_penetrations
+        )
+        body_energy = 0.5 * BODY_CONTACT_STIFFNESS_N_PER_MM * sum(
+            value * value for value in body_penetrations
+        )
+        return gravity + wheel_energy + body_energy
+
+    bounds = [
+        (initial_y - 0.015, initial_y + 0.015),
+        (initial_z - 0.020, initial_z + 0.010),
+        (initial_roll_deg - 50.0, initial_roll_deg + 50.0),
+    ]
+    result = minimize(
+        potential,
+        np.array([initial_y, initial_z, initial_roll_deg]),
+        method="Powell",
+        bounds=bounds,
+        options={"maxiter": 240, "xtol": 1e-7, "ftol": 1e-7},
+    )
+    body_y, body_z, roll_deg = (float(value) for value in result.x)
+    pose = (body_x, body_y, body_z)
+    wheel_details = [
+        clearance_details(wheel, pose, estimation, roll_deg)
+        for wheel in wheel_sets
+    ]
+    wheel_gaps = [detail[0] for detail in wheel_details]
+    wheel_normals = [
+        WHEEL_RADIAL_STIFFNESS_N_PER_MM * max(0.0, -gap)
+        for gap in wheel_gaps
+    ]
+    body_details = {
+        name: clearance_details(
+            vertices, pose, estimation, roll_deg
+        )
+        for name, vertices in drilling_modules.items()
+    }
+    body_gaps = {name: detail[0] for name, detail in body_details.items()}
+    body_normals = {
+        name: BODY_CONTACT_STIFFNESS_N_PER_MM * max(0.0, -gap)
+        for name, gap in body_gaps.items()
+    }
+    vertical_support = 0.0
+    for force, (_, point) in zip(wheel_normals, wheel_details):
+        radial = float(np.linalg.norm(point[1:3]))
+        if radial > 0.0:
+            vertical_support += force * (-point[2] / radial)
+    for name, force in body_normals.items():
+        point = body_details[name][1]
+        radial = float(np.linalg.norm(point[1:3]))
+        if radial > 0.0:
+            vertical_support += force * (-point[2] / radial)
+    return pose, roll_deg, {
+        "success": bool(result.success),
+        "message": str(result.message),
+        "potential_n_mm": float(result.fun),
+        "wheel_clearance_mm": wheel_gaps,
+        "wheel_normal_force_n": wheel_normals,
+        "body_clearance_mm": body_gaps,
+        "body_normal_force_n": body_normals,
+        "total_support_force_n": float(sum(wheel_normals) + sum(body_normals.values())),
+        "vertical_support_force_n": float(vertical_support),
+        "weight_n": ROBOT_MASS_KG * GRAVITY_M_S2,
+        "contact_wheels": [
+            index + 1 for index, force in enumerate(wheel_normals) if force >= 2.0
+        ],
+    }
 
 
 def rotation9_contact_candidates(
@@ -300,16 +480,21 @@ def align_wheel_group(selected: list[np.ndarray], estimation: dict,
 
 def drive_contact_stroke(vertices: np.ndarray,
                          pose: tuple[float, float, float],
-                         estimation: dict) -> float | None:
-    minimum = clearance_mm(vertices, pose, estimation, SLIDER6_MIN_MM)
-    maximum = clearance_mm(vertices, pose, estimation, SLIDER6_MAX_MM)
+                         estimation: dict,
+                         body_roll_deg: float = 0.0) -> float | None:
+    minimum = clearance_mm(
+        vertices, pose, estimation, SLIDER6_MIN_MM, body_roll_deg
+    )
+    maximum = clearance_mm(
+        vertices, pose, estimation, SLIDER6_MAX_MM, body_roll_deg
+    )
     if minimum <= 0.0:
         return 0.0
     if maximum > 0.0:
         return None
     return brentq(
         lambda stroke: clearance_mm(
-            vertices, pose, estimation, SLIDER6_MIN_MM + stroke
+            vertices, pose, estimation, SLIDER6_MIN_MM + stroke, body_roll_deg
         ),
         0.0,
         SLIDER6_MAX_MM - SLIDER6_MIN_MM,
@@ -464,8 +649,123 @@ def main() -> None:
             "component_clearance_mm": candidate["component_clearance_mm"],
         }
         cases.append(expanded)
+
+    # Re-seat every enumerated configuration under gravity using all four
+    # moving-platform passive wheels plus the drilling-module passive wheel.
+    # This replaces the alignment-only pose used to seed each case.
+    for case in cases:
+        angle = float(case.get("rotation9_deg", 0.0))
+        rotated_drilling = [
+            rotate_about_pipe_axis(wheel, rotation9_pivot, angle)
+            for wheel in drilling
+        ]
+        rotated_modules = {
+            name: rotate_about_pipe_axis(vertices, rotation9_pivot, angle)
+            for name, vertices in drilling_modules.items()
+        }
+        initial_pose = tuple(
+            case["body_pose_m"][key] for key in ("x", "y", "z")
+        )
+        com_local, com_parts = estimate_assembly_com(
+            assets, cad_center, rotation9_pivot, angle
+        )
+        pose, body_roll_deg, settled = settle_under_gravity(
+            passive, rotated_drilling, rotated_modules,
+            initial_pose, 0.0, com_local, estimation,
+        )
+        passive_clearances = [
+            clearance_mm(
+                wheel, pose, estimation, body_roll_deg=body_roll_deg
+            )
+            for wheel in passive
+        ]
+        drilling_clearances = [
+            clearance_mm(
+                wheel, pose, estimation, body_roll_deg=body_roll_deg
+            )
+            for wheel in rotated_drilling
+        ]
+        module_details = {
+            name: clearance_details(
+                vertices, pose, estimation, body_roll_deg
+            )
+            for name, vertices in rotated_modules.items()
+        }
+        closest_module, (module_gap, module_point) = min(
+            module_details.items(), key=lambda item: item[1][0]
+        )
+        strokes = [
+            drive_contact_stroke(
+                wheel, pose, estimation, body_roll_deg
+            )
+            for wheel in drive
+        ]
+        reachable = [value for value in strokes if value is not None]
+        stop_stroke = min(reachable) if reachable else None
+        slider = (
+            SLIDER6_MAX_MM if stop_stroke is None
+            else SLIDER6_MIN_MM + stop_stroke
+        )
+        drive_clearances = [
+            clearance_mm(
+                wheel, pose, estimation, slider, body_roll_deg
+            )
+            for wheel in drive
+        ]
+        case["initial_alignment_pose_m"] = case["body_pose_m"]
+        case["body_pose_m"] = {
+            "x": pose[0], "y": pose[1], "z": pose[2]
+        }
+        case["body_roll_deg"] = body_roll_deg
+        case["gravity_settled"] = {
+            **settled,
+            "sequence": "all passive wheels enabled before cylinder press",
+            "mass_kg": ROBOT_MASS_KG,
+            "gravity_m_s2": GRAVITY_M_S2,
+            "wheel_radial_stiffness_n_per_mm": WHEEL_RADIAL_STIFFNESS_N_PER_MM,
+            "body_contact_stiffness_n_per_mm": BODY_CONTACT_STIFFNESS_N_PER_MM,
+            "com_local_sim_m": com_local.tolist(),
+            "com_method": "provisional STL enclosed-volume ratio",
+            "component_com_estimates": com_parts,
+        }
+        case["passive_clearance_mm"] = passive_clearances
+        case["passive_contact"] = [
+            gap <= CONTACT_TOLERANCE_MM for gap in passive_clearances
+        ]
+        case["drilling_wheel_clearance_mm"] = drilling_clearances
+        case["drilling_contact"] = [
+            gap <= CONTACT_TOLERANCE_MM for gap in drilling_clearances
+        ]
+        case["drilling_module_after_press"] = {
+            "sequence": "gravity settlement, then drive-wheel first contact",
+            "contact": module_gap <= CONTACT_TOLERANCE_MM,
+            "intended_drilling_wheel_contact": any(case["drilling_contact"]),
+            "forbidden_penetration": module_gap < -CONTACT_TOLERANCE_MM,
+            "minimum_clearance_mm": module_gap,
+            "closest_component": closest_module,
+            "closest_point_world_m": module_point.tolist(),
+            "component_clearance_mm": {
+                name: detail[0] for name, detail in module_details.items()
+            },
+        }
+        case["drive_required_stroke_mm"] = strokes
+        case["cylinder_first_contact_stroke_mm"] = stop_stroke
+        case["drive_clearance_at_first_contact_mm"] = drive_clearances
+        case["drive_contact"] = [
+            gap <= CONTACT_TOLERANCE_MM for gap in drive_clearances
+        ]
+        if "valid_configuration" in case:
+            case["valid_configuration"] = (
+                any(case["drilling_contact"])
+                and not case["drilling_module_after_press"]["forbidden_penetration"]
+            )
+            case["diagnostic_reason"] = (
+                "accepted after gravity settlement"
+                if case["valid_configuration"] else
+                "rejected after gravity settlement: no drilling-wheel support or body penetration"
+            )
     result = {
-        "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
+        "method": "initial ridge alignment; full passive-wheel gravity settlement; rigid first drive-wheel contact analysis",
         "contact_tolerance_mm": CONTACT_TOLERANCE_MM,
         "maximum_cylinder_stroke_mm": SLIDER6_MAX_MM - SLIDER6_MIN_MM,
         "passive_wheel_order_cad_centers_mm": PASSIVE_WHEELS_CAD_MM.tolist(),

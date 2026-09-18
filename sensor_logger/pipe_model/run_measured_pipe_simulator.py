@@ -501,12 +501,13 @@ class MeasuredPipeApp:
                   "C: cylinder press/retract\n"
                   "Dark blue: ridge >=0.7 mm  Red filled/wire: wheel contact/proxy\n"
                   "Yellow/magenta: module clearance/contact\n"
+                  "Gravity supports: 1-4=platform passive, 5=drilling passive\n"
                   "R: reset case  Esc: exit"),
             pos=(-1.28, 0.92), align=TextNode.ALeft, scale=0.045,
             fg=(1, 1, 1, 1), shadow=(0, 0, 0, 0.8), mayChange=False,
         )
         self.robot_status = OnscreenText(
-            text="", pos=(-1.28, 0.69), align=TextNode.ALeft, scale=0.040,
+            text="", pos=(-1.28, 0.53), align=TextNode.ALeft, scale=0.040,
             fg=(1.0, 0.85, 0.35, 1.0), shadow=(0, 0, 0, 0.8), mayChange=True,
         )
         self.apply_contact_case(1)
@@ -771,6 +772,9 @@ class MeasuredPipeApp:
             case["drilling_contact"]
         ) if contact]
         drilling_gap = min(case["drilling_wheel_clearance_mm"])
+        settled = case.get("gravity_settled", {})
+        support_wheels = settled.get("contact_wheels", [])
+        support_force = settled.get("vertical_support_force_n")
         module_check = case["drilling_module_after_press"]
         if self.cylinder_pressed:
             if module_check.get("forbidden_penetration", False):
@@ -785,12 +789,19 @@ class MeasuredPipeApp:
         else:
             module_line = "Drilling module after press: pending (press C)"
         state = "pressed to first drive contact" if self.cylinder_pressed else "retracted"
+        support_line = (
+            f"Gravity supports: {support_wheels or 'none'}"
+            f" / vertical {support_force:.1f} N\n"
+            if support_force is not None else "Gravity supports: unavailable\n"
+        )
         self.robot_status.setText(
             f"Case {self.contact_case}: {self.contact_case_label}\n"
-            f"Rotation9: {case.get('rotation9_deg', 0.0):+.2f} deg\n"
+            f"Rotation9: {case.get('rotation9_deg', 0.0):+.2f} deg"
+            f" / gravity roll: {case.get('body_roll_deg', 0.0):+.2f} deg\n"
             f"Cylinder: {state} / slider {self.slider6_mm:.2f} mm\n"
             f"Passive: {passive or 'none'} / Drive: {drive or 'none'}"
             f" / Drill wheel: {drilling or 'none'} (gap {drilling_gap:.2f} mm)\n"
+            f"{support_line}"
             f"{module_line}"
         )
 
@@ -806,6 +817,11 @@ class MeasuredPipeApp:
             case["body_pose_m"]["z"],
         ])
         local_point = world_point - body_pose
+        roll = np.radians(float(case.get("body_roll_deg", 0.0)))
+        cosine, sine = np.cos(-roll), np.sin(-roll)
+        local_y = cosine * local_point[1] - sine * local_point[2]
+        local_z = sine * local_point[1] + cosine * local_point[2]
+        local_point[1], local_point[2] = local_y, local_z
         self.drilling_module_contact_marker.setPos(*local_point.tolist())
         self.drilling_module_contact_marker.setColor(
             1.0, 0.05, 0.85, 1.0
@@ -820,7 +836,7 @@ class MeasuredPipeApp:
             overlay.removeNode()
         self.drilling_penetration_overlays.clear()
         check = case["drilling_module_after_press"]
-        if not self.cylinder_pressed or not check.get("forbidden_penetration", False):
+        if not self.cylinder_pressed or check["minimum_clearance_mm"] >= 0.0:
             return
 
         angle = np.radians(float(case.get("rotation9_deg", 0.0)))
@@ -836,7 +852,16 @@ class MeasuredPipeApp:
             rotated[:, 1] = cosine * relative[:, 1] - sine * relative[:, 2]
             rotated[:, 2] = sine * relative[:, 1] + cosine * relative[:, 2]
             rotated += self.rotation9_pivot_sim
-            world_vertices = rotated + body_pose
+            body_roll = np.radians(float(case.get("body_roll_deg", 0.0)))
+            body_cosine, body_sine = np.cos(body_roll), np.sin(body_roll)
+            body_rotated = rotated.copy()
+            body_rotated[:, 1] = (
+                body_cosine * rotated[:, 1] - body_sine * rotated[:, 2]
+            )
+            body_rotated[:, 2] = (
+                body_sine * rotated[:, 1] + body_cosine * rotated[:, 2]
+            )
+            world_vertices = body_rotated + body_pose
             radial = np.linalg.norm(world_vertices[:, 1:3], axis=1)
             gap = estimated_pipe_radius_m(
                 world_vertices, self.ridge_estimation
@@ -899,7 +924,7 @@ class MeasuredPipeApp:
         rotation9_deg = float(case.get("rotation9_deg", 0.0))
         if case_number <= 3:
             self.contact_case_label = (
-                f"platform passive wheel {wheel_text} on ridge / full robot"
+                f"initial ridge phase {wheel_text} / gravity-settled full robot"
             )
         else:
             validity = "VALID" if case.get("valid_configuration", True) else "INVALID"
@@ -914,7 +939,9 @@ class MeasuredPipeApp:
             self.motor_visual.setZ(0.0)
         self.rebuild_drive_contact_shapes()
         self.robot_root.setPos(pose["x"], pose["y"], pose["z"])
-        self.robot_root.setHpr(0.0, 0.0, 0.0)
+        self.robot_root.setHpr(
+            0.0, float(case.get("body_roll_deg", 0.0)), 0.0
+        )
         if self.rotation9_root is not None:
             # CAD +Z is simulator +X; Panda3D pitch rotates about local X.
             self.rotation9_root.setP(rotation9_deg)

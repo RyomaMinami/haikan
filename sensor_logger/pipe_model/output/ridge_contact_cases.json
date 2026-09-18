@@ -1,5 +1,5 @@
 {
-  "method": "fixed normal pose; distinct passive-wheel groups aligned to inferred helix crest; rigid first-contact analysis",
+  "method": "initial ridge alignment; full passive-wheel gravity settlement; rigid first drive-wheel contact analysis",
   "contact_tolerance_mm": 0.02,
   "maximum_cylinder_stroke_mm": 30.0,
   "passive_wheel_order_cad_centers_mm": [
@@ -233,62 +233,164 @@
       ],
       "body_pose_m": {
         "x": 0.987853368358593,
-        "y": -0.0132433341,
-        "z": -0.002650295788294255
+        "y": -0.010093671809409175,
+        "z": -0.01089459222677024
       },
       "passive_clearance_mm": [
-        3.951006188884776e-11,
-        0.4409747488761384,
-        0.47422867241771194,
-        0.9849511172210917
+        -0.5200625557789801,
+        -0.007712146260607788,
+        1.3881497065061783,
+        1.8942097516031904
       ],
       "passive_contact": [
         true,
-        false,
+        true,
         false,
         false
       ],
       "drilling_wheel_clearance_mm": [
-        0.31732159700265106
+        -0.054694303727065297
       ],
       "drilling_contact": [
-        false
+        true
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
-        "contact": false,
-        "minimum_clearance_mm": 1.3216210374932535,
+        "sequence": "gravity settlement, then drive-wheel first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": -0.01863568161385165,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
           0.5460475822257805,
-          -0.08448024205898438,
-          -0.08182231097841877
+          -0.02009383815287403,
+          -0.11692714250226417
         ],
         "component_clearance_mm": {
-          "drilling_module1": 1.3216210374932535,
-          "drilling_module2": 13.091806121409533,
-          "bit": 2.7659444724411895
+          "drilling_module1": -0.01863568161385165,
+          "drilling_module2": 11.862166510029748,
+          "bit": 2.0079795846062036
         }
       },
       "drive_required_stroke_mm": [
-        7.399425170078275,
-        6.855623846864862,
-        7.903882849484496,
-        7.855947326359595
+        7.157106282691973,
+        7.974295354137738,
+        7.0233865918422484,
+        8.292940921178415
       ],
-      "cylinder_first_contact_stroke_mm": 6.855623846864862,
+      "cylinder_first_contact_stroke_mm": 7.0233865918422484,
       "drive_clearance_at_first_contact_mm": [
-        0.4872167366189034,
-        0.0,
-        0.8824368196534843,
-        0.8420050625677494
+        0.11917114043243082,
+        0.8526723563501287,
+        1.3877787807814457e-14,
+        1.1517300197878
       ],
       "drive_contact": [
         false,
-        true,
         false,
+        true,
         false
-      ]
+      ],
+      "initial_alignment_pose_m": {
+        "x": 0.987853368358593,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "body_roll_deg": 36.59229634134313,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -2203.25640411718,
+        "wheel_clearance_mm": [
+          -0.5200625557789801,
+          -0.007712146260607788,
+          1.3881497065061783,
+          1.8942097516031904,
+          -0.054694303727065297
+        ],
+        "wheel_normal_force_n": [
+          104.01251115579602,
+          1.5424292521215577,
+          0.0,
+          0.0,
+          10.93886074541306
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": -0.01863568161385165,
+          "drilling_module2": 11.862166510029748,
+          "bit": 2.0079795846062036
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 93.17840806925825,
+          "drilling_module2": 0.0,
+          "bit": 0.0
+        },
+        "total_support_force_n": 209.6722092225889,
+        "vertical_support_force_n": 205.8720669194539,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          1,
+          5
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.008198099670679315,
+          -0.006013241081078567
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              0.012479488807701288,
+              -0.06349739128309873
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.012864983470112357,
+              -0.005587214095967781
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              0.013069506797462303,
+              0.07130256448478446
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     },
     {
       "case": 2,
@@ -312,62 +414,164 @@
       ],
       "body_pose_m": {
         "x": 1.0193391445591515,
-        "y": -0.0132433341,
-        "z": -0.002662238353006967
+        "y": -0.01035567449016556,
+        "z": -0.013247846272280999
       },
       "passive_clearance_mm": [
-        0.41575112367131517,
-        -1.3877787807814457e-14,
-        0.0012188862044959503,
-        0.44719311088553537
+        -0.4128036009677649,
+        -0.1475330130414343,
+        3.517921737564697,
+        4.030634078401513
       ],
       "passive_contact": [
+        true,
+        true,
         false,
-        true,
-        true,
         false
       ],
       "drilling_wheel_clearance_mm": [
-        0.8347225723565471
+        1.9878282906734546
       ],
       "drilling_contact": [
         false
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
-        "contact": false,
-        "minimum_clearance_mm": 1.6309606822692002,
+        "sequence": "gravity settlement, then drive-wheel first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": false,
+        "forbidden_penetration": true,
+        "minimum_clearance_mm": -0.021851202496550592,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
-          0.655533358426339,
-          -0.08448024205898438,
-          -0.08183425354313148
+          0.577533358426339,
+          0.001807017421433365,
+          -0.11905415029186976
         ],
         "component_clearance_mm": {
-          "drilling_module1": 1.6309606822692002,
-          "drilling_module2": 12.878948720982205,
-          "bit": 2.534103354649292
+          "drilling_module1": -0.021851202496550592,
+          "drilling_module2": 11.193277603585807,
+          "bit": -0.006895852263003044
         }
       },
       "drive_required_stroke_mm": [
-        6.82389149428091,
-        6.314739895978235,
-        8.538522016687528,
-        8.48763670220021
+        3.8234281607734917,
+        6.835935067189319,
+        4.0305298062766495,
+        8.019010169591024
       ],
-      "cylinder_first_contact_stroke_mm": 6.314739895978235,
+      "cylinder_first_contact_stroke_mm": 3.8234281607734917,
       "drive_clearance_at_first_contact_mm": [
-        0.45570549095706736,
-        0.0,
-        1.8714367545597521,
-        1.829075728365076
+        1.3877787807814457e-14,
+        2.720826341209209,
+        0.170459143905885,
+        3.8352927642059247
       ],
       "drive_contact": [
-        false,
         true,
         false,
+        false,
         false
-      ]
+      ],
+      "initial_alignment_pose_m": {
+        "x": 1.0193391445591515,
+        "y": -0.0132433341,
+        "z": -0.002662238353006967
+      },
+      "body_roll_deg": 48.537558983384244,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -2262.47879259748,
+        "wheel_clearance_mm": [
+          -0.4128036009677649,
+          -0.1475330130414343,
+          3.517921737564697,
+          4.030634078401513,
+          1.9878282906734546
+        ],
+        "wheel_normal_force_n": [
+          82.56072019355298,
+          29.506602608286858,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": -0.021851202496550592,
+          "drilling_module2": 11.193277603585807,
+          "bit": -0.006895852263003044
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 109.25601248275296,
+          "drilling_module2": 0.0,
+          "bit": 34.47926131501522
+        },
+        "total_support_force_n": 255.80259659960802,
+        "vertical_support_force_n": 206.10936833334162,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          1,
+          2
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.008198099670679315,
+          -0.006013241081078567
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              0.012479488807701288,
+              -0.06349739128309873
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.012864983470112357,
+              -0.005587214095967781
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              0.013069506797462303,
+              0.07130256448478446
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     },
     {
       "case": 3,
@@ -385,62 +589,166 @@
       ],
       "body_pose_m": {
         "x": 1.05082492075971,
-        "y": -0.0132433341,
-        "z": -0.002650292781091839
+        "y": -0.010584766380868171,
+        "z": -0.009741931089104008
       },
       "passive_clearance_mm": [
-        0.9540338840007268,
-        0.44278931916701125,
-        0.40953287579902076,
-        3.9496184101039944e-11
+        -0.2525641783900773,
+        -0.7625962012119958,
+        -0.01885115922233005,
+        -0.01045052678984304
       ],
       "passive_contact": [
-        false,
-        false,
-        false,
+        true,
+        true,
+        true,
         true
       ],
       "drilling_wheel_clearance_mm": [
-        1.3690837233613362
+        0.45711113741091214
       ],
       "drilling_contact": [
         false
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
+        "sequence": "gravity settlement, then drive-wheel first contact",
         "contact": false,
-        "minimum_clearance_mm": 1.1109076075060953,
+        "intended_drilling_wheel_contact": false,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.36904657624574344,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
           0.6870191346268975,
-          -0.08448024205898438,
-          -0.08182230797121635
+          -0.03388233276589389,
+          -0.11366559752441333
         ],
         "component_clearance_mm": {
-          "drilling_module1": 1.1109076075060953,
-          "drilling_module2": 12.950844634331036,
-          "bit": 1.9934697859027573
+          "drilling_module1": 0.36904657624574344,
+          "drilling_module2": 12.361232668987892,
+          "bit": 2.8349326145591798
         }
       },
       "drive_required_stroke_mm": [
-        6.2789508717793,
-        6.569670394542347,
-        9.14151584386653,
-        8.476385724463794
+        6.785276801536826,
+        7.34407777681533,
+        9.014428761741991,
+        9.819631331036835
       ],
-      "cylinder_first_contact_stroke_mm": 6.2789508717793,
+      "cylinder_first_contact_stroke_mm": 6.785276801536826,
       "drive_clearance_at_first_contact_mm": [
-        0.0,
-        0.2599872444410123,
-        2.415206437936468,
-        1.8396089898983363
+        -1.3877787807814457e-14,
+        0.5008080889312705,
+        1.8685987749514772,
+        2.6357350752828497
       ],
       "drive_contact": [
         true,
         false,
         false,
         false
-      ]
+      ],
+      "initial_alignment_pose_m": {
+        "x": 1.05082492075971,
+        "y": -0.0132433341,
+        "z": -0.002650292781091839
+      },
+      "body_roll_deg": 29.344417115054068,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -2193.7667078498084,
+        "wheel_clearance_mm": [
+          -0.2525641783900773,
+          -0.7625962012119958,
+          -0.01885115922233005,
+          -0.01045052678984304,
+          0.45711113741091214
+        ],
+        "wheel_normal_force_n": [
+          50.512835678015456,
+          152.51924024239915,
+          3.77023184446601,
+          2.090105357968608,
+          0.0
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.36904657624574344,
+          "drilling_module2": 12.361232668987892,
+          "bit": 2.8349326145591798
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0
+        },
+        "total_support_force_n": 208.8924131228492,
+        "vertical_support_force_n": 205.9408805107676,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.008198099670679315,
+          -0.006013241081078567
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              0.012479488807701288,
+              -0.06349739128309873
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.012864983470112357,
+              -0.005587214095967781
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              0.013069506797462303,
+              0.07130256448478446
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     },
     {
       "case": 4,
@@ -458,66 +766,167 @@
       ],
       "body_pose_m": {
         "x": 0.987853368358593,
-        "y": -0.0132433341,
-        "z": -0.002650295788294255
+        "y": -0.012028662635005564,
+        "z": -0.008250047882681539
       },
       "passive_clearance_mm": [
-        3.951006188884776e-11,
-        0.4409747488761384,
-        0.47422867241771194,
-        0.9849511172210917
+        -0.6838280027693378,
+        -0.18171008087582152,
+        0.8851559568026912,
+        1.3928037407658773
       ],
       "passive_contact": [
         true,
-        false,
+        true,
         false,
         false
       ],
       "drilling_wheel_clearance_mm": [
-        -1.3877787807814457e-14
+        -0.21820312344293658
       ],
       "drilling_contact": [
         true
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
+        "sequence": "gravity settlement, then drive-wheel first contact",
         "contact": false,
         "intended_drilling_wheel_contact": true,
         "forbidden_penetration": false,
-        "minimum_clearance_mm": 1.0019504083574189,
+        "minimum_clearance_mm": 1.316992040001033,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
-          0.5683333030509758,
-          0.10107411273317639,
-          -0.059948722454016265
+          0.5460475822257805,
+          -0.01915691504692469,
+          -0.1157285102394626
         ],
         "component_clearance_mm": {
-          "drilling_module1": 1.0019504083574189,
-          "drilling_module2": 11.633363272875286,
-          "bit": 2.6572448142222345
+          "drilling_module1": 1.316992040001033,
+          "drilling_module2": 12.28045262427789,
+          "bit": 2.9322460205486456
         }
       },
       "drive_required_stroke_mm": [
-        7.399425170078275,
-        6.855623846864862,
-        7.903882849484496,
-        7.855947326359595
+        7.439539376054071,
+        7.935620515252144,
+        7.407723386732465,
+        8.536861940380438
       ],
-      "cylinder_first_contact_stroke_mm": 6.855623846864862,
+      "cylinder_first_contact_stroke_mm": 7.407723386732465,
       "drive_clearance_at_first_contact_mm": [
-        0.4872167366189034,
+        0.028393123234965456,
+        0.472721428654968,
         0.0,
-        0.8824368196534843,
-        0.8420050625677494
+        1.0153764952034738
       ],
       "drive_contact": [
         false,
-        true,
         false,
+        true,
         false
       ],
       "valid_configuration": true,
-      "diagnostic_reason": "accepted"
+      "diagnostic_reason": "accepted after gravity settlement",
+      "initial_alignment_pose_m": {
+        "x": 0.987853368358593,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "body_roll_deg": 22.630771556060743,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -1865.692524472136,
+        "wheel_clearance_mm": [
+          -0.6838280027693378,
+          -0.18171008087582152,
+          0.8851559568026912,
+          1.3928037407658773,
+          -0.21820312344293658
+        ],
+        "wheel_normal_force_n": [
+          136.76560055386756,
+          36.342016175164304,
+          0.0,
+          0.0,
+          43.640624688587316
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 1.316992040001033,
+          "drilling_module2": 12.28045262427789,
+          "bit": 2.9322460205486456
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0
+        },
+        "total_support_force_n": 216.74824141761917,
+        "vertical_support_force_n": 206.06523868949267,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          1,
+          2,
+          5
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.010918675290050452,
+          -0.005717197786690468
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              0.029765761006759588,
+              -0.0615811862240783
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.016553390761234,
+              -0.005197052813385563
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              -0.001287964933887064,
+              0.06959443003692772
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     },
     {
       "case": 5,
@@ -535,57 +944,57 @@
       ],
       "body_pose_m": {
         "x": 0.987853368358593,
-        "y": -0.0132433341,
-        "z": -0.002650295788294255
+        "y": -0.0072953339145602385,
+        "z": -0.010105321345243893
       },
       "passive_clearance_mm": [
-        3.951006188884776e-11,
-        0.4409747488761384,
-        0.47422867241771194,
-        0.9849511172210917
+        0.48267791498717016,
+        0.9960784143697027,
+        -0.1675006497449394,
+        0.3385593953520727
       ],
       "passive_contact": [
+        false,
+        false,
         true,
-        false,
-        false,
         false
       ],
       "drilling_wheel_clearance_mm": [
-        -2.7755575615628914e-14
+        -0.37743932753465936
       ],
       "drilling_contact": [
         true
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
+        "sequence": "gravity settlement, then drive-wheel first contact",
         "contact": true,
         "intended_drilling_wheel_contact": true,
         "forbidden_penetration": true,
-        "minimum_clearance_mm": -0.5439948342704642,
+        "minimum_clearance_mm": -0.027333285279360076,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
           0.5460475822257805,
-          -0.1087093572539623,
-          -0.04997569348938956
+          -0.05045653622049293,
+          -0.10752485460170151
         ],
         "component_clearance_mm": {
-          "drilling_module1": -0.5439948342704642,
-          "drilling_module2": 11.036113431396169,
-          "bit": 2.4338819894744734
+          "drilling_module1": -0.027333285279360076,
+          "drilling_module2": 11.746508164978811,
+          "bit": 2.625393175831797
         }
       },
       "drive_required_stroke_mm": [
-        7.399425170078275,
-        6.855623846864862,
-        7.903882849484496,
-        7.855947326359595
+        8.81394240089489,
+        7.10223302227189,
+        8.787379955376764,
+        7.132475579292402
       ],
-      "cylinder_first_contact_stroke_mm": 6.855623846864862,
+      "cylinder_first_contact_stroke_mm": 7.10223302227189,
       "drive_clearance_at_first_contact_mm": [
-        0.4872167366189034,
-        0.0,
-        0.8824368196534843,
-        0.8420050625677494
+        1.5412824132546161,
+        2.7755575615628914e-14,
+        1.532734992585119,
+        0.02526725356215287
       ],
       "drive_contact": [
         false,
@@ -594,7 +1003,107 @@
         false
       ],
       "valid_configuration": false,
-      "diagnostic_reason": "drilling module body penetrates the pipe before/at wheel contact"
+      "diagnostic_reason": "rejected after gravity settlement: no drilling-wheel support or body penetration",
+      "initial_alignment_pose_m": {
+        "x": 0.987853368358593,
+        "y": -0.0132433341,
+        "z": -0.002650295788294255
+      },
+      "body_roll_deg": 39.73551198039589,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -2321.328034013846,
+        "wheel_clearance_mm": [
+          0.48267791498717016,
+          0.9960784143697027,
+          -0.1675006497449394,
+          0.3385593953520727,
+          -0.37743932753465936
+        ],
+        "wheel_normal_force_n": [
+          0.0,
+          0.0,
+          33.500129948987876,
+          0.0,
+          75.48786550693187
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": -0.027333285279360076,
+          "drilling_module2": 11.746508164978811,
+          "bit": 2.625393175831797
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 136.66642639680038,
+          "drilling_module2": 0.0,
+          "bit": 0.0
+        },
+        "total_support_force_n": 245.65442185272013,
+        "vertical_support_force_n": 205.65326537948954,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          3,
+          5
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.0044805421870057465,
+          -0.005360957139693223
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              -0.011155012803817083,
+              -0.059399438282505816
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.007829221804279321,
+              -0.0046880494834230235
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              0.03274439201765372,
+              0.06805337044516455
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     },
     {
       "case": 6,
@@ -618,57 +1127,57 @@
       ],
       "body_pose_m": {
         "x": 1.0193391445591515,
-        "y": -0.0132433341,
-        "z": -0.002662238353006967
+        "y": -0.013238985777985499,
+        "z": -0.004360854228099835
       },
       "passive_clearance_mm": [
-        0.41575112367131517,
-        -1.3877787807814457e-14,
-        0.0012188862044959503,
-        0.44719311088553537
+        -0.17542173686246887,
+        -0.5319548227437354,
+        -0.16076267997790217,
+        0.2963010794854032
       ],
       "passive_contact": [
-        false,
+        true,
         true,
         true,
         false
       ],
       "drilling_wheel_clearance_mm": [
-        1.3877787807814457e-14
+        -0.2798441198866297
       ],
       "drilling_contact": [
         true
       ],
       "drilling_module_after_press": {
-        "sequence": "checked after drive-wheel first contact",
+        "sequence": "gravity settlement, then drive-wheel first contact",
         "contact": true,
         "intended_drilling_wheel_contact": true,
-        "forbidden_penetration": true,
-        "minimum_clearance_mm": -0.18505363739720893,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": -0.0028766172920913213,
         "closest_component": "drilling_module1",
         "closest_point_world_m": [
           0.577533358426339,
-          0.11129539189072289,
-          -0.041230934447292616
+          0.11439460418177726,
+          -0.03095230593327889
         ],
         "component_clearance_mm": {
-          "drilling_module1": -0.18505363739720893,
-          "drilling_module2": 10.306468195979399,
-          "bit": 2.1065320254873567
+          "drilling_module1": -0.0028766172920913213,
+          "drilling_module2": 10.615917551204598,
+          "bit": 2.575075823372935
         }
       },
       "drive_required_stroke_mm": [
-        6.82389149428091,
-        6.314739895978235,
-        8.538522016687528,
-        8.48763670220021
+        7.127720393720311,
+        6.953860767790082,
+        8.682771975563345,
+        9.065352646659925
       ],
-      "cylinder_first_contact_stroke_mm": 6.314739895978235,
+      "cylinder_first_contact_stroke_mm": 6.953860767790082,
       "drive_clearance_at_first_contact_mm": [
-        0.45570549095706736,
+        0.15541894828340064,
         0.0,
-        1.8714367545597521,
-        1.829075728365076
+        1.4525196179518418,
+        1.7905996120513996
       ],
       "drive_contact": [
         false,
@@ -676,8 +1185,110 @@
         false,
         false
       ],
-      "valid_configuration": false,
-      "diagnostic_reason": "drilling module body penetrates the pipe before/at wheel contact"
+      "valid_configuration": true,
+      "diagnostic_reason": "accepted after gravity settlement",
+      "initial_alignment_pose_m": {
+        "x": 1.0193391445591515,
+        "y": -0.0132433341,
+        "z": -0.002662238353006967
+      },
+      "body_roll_deg": 5.438584450999555,
+      "gravity_settled": {
+        "success": true,
+        "message": "Optimization terminated successfully.",
+        "potential_n_mm": -1648.6262533967456,
+        "wheel_clearance_mm": [
+          -0.17542173686246887,
+          -0.5319548227437354,
+          -0.16076267997790217,
+          0.2963010794854032,
+          -0.2798441198866297
+        ],
+        "wheel_normal_force_n": [
+          35.084347372493774,
+          106.39096454874708,
+          32.152535995580436,
+          0.0,
+          55.96882397732594
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": -0.0028766172920913213,
+          "drilling_module2": 10.615917551204598,
+          "bit": 2.575075823372935
+        },
+        "body_normal_force_n": {
+          "drilling_module1": 14.383086460456607,
+          "drilling_module2": 0.0,
+          "bit": 0.0
+        },
+        "total_support_force_n": 243.97975835460383,
+        "vertical_support_force_n": 206.03635455748534,
+        "weight_n": 205.93965,
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "sequence": "all passive wheels enabled before cylinder press",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "wheel_radial_stiffness_n_per_mm": 200.0,
+        "body_contact_stiffness_n_per_mm": 5000.0,
+        "com_local_sim_m": [
+          -0.14585016141460502,
+          0.012850709059555383,
+          -0.005088438208660798
+        ],
+        "com_method": "provisional STL enclosed-volume ratio",
+        "component_com_estimates": {
+          "move_module": {
+            "volume_weight_fraction": 0.5049321294575777,
+            "center_sim_m": [
+              -0.02376569334886477,
+              0.0034995359143905917,
+              -0.013971424985236774
+            ],
+            "stl_watertight": false
+          },
+          "motor_module": {
+            "volume_weight_fraction": 0.13205873027016227,
+            "center_sim_m": [
+              0.022061875393545094,
+              0.0136519018960325,
+              0.06779859420384206
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module1": {
+            "volume_weight_fraction": 0.11335712925775739,
+            "center_sim_m": [
+              -0.3674003509853531,
+              0.04203636734993053,
+              -0.05756054761618467
+            ],
+            "stl_watertight": false
+          },
+          "drilling_module2": {
+            "volume_weight_fraction": 0.2407987503807356,
+            "center_sim_m": [
+              -0.3853236004347605,
+              0.019174438732600392,
+              -0.004352752624513102
+            ],
+            "stl_watertight": false
+          },
+          "bit": {
+            "volume_weight_fraction": 0.008853260633766907,
+            "center_sim_m": [
+              -0.26325577200330474,
+              -0.011461845465361003,
+              0.06617027886542129
+            ],
+            "stl_watertight": true
+          }
+        }
+      }
     }
   ]
 }
