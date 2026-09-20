@@ -513,7 +513,8 @@ class MeasuredPipeApp:
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
                   "1-9: contact cases  N/P: next/previous case\n"
                   "C: cylinder press/retract\n"
-                  "Dark blue: ridge >=0.7 mm  Red: contact  Pink: no contact\n"
+                  "Dark blue: ridge >=0.7 mm  Red: contact\n"
+                  "Cyan: passive no contact  Pink: drive no contact\n"
                   "Yellow/magenta: module clearance/contact\n"
                   "Gravity supports: 1-4=platform passive, 5=drilling passive\n"
                   "R: reset case  Esc: exit"),
@@ -897,16 +898,16 @@ class MeasuredPipeApp:
             self.drilling_penetration_overlays.append(overlay)
 
     @staticmethod
-    def set_contact_marker(marker: NodePath, contact: bool) -> None:
+    def set_contact_marker(
+        marker: NodePath, contact: bool, noncontact_color: tuple[float, ...]
+    ) -> None:
         if contact:
             marker.setColor(1.0, 0.02, 0.02, 0.96)
             marker.setRenderModeFilled()
             marker.setDepthTest(False)
             marker.setBin("fixed", 100)
         else:
-            # Distinguish the full non-contact tire envelope from a red tire
-            # even when transparent pipe and robot surfaces overlap it.
-            marker.setColor(1.0, 0.18, 0.72, 0.94)
+            marker.setColor(*noncontact_color)
             marker.setRenderModeWireframe()
             marker.setRenderModeThickness(3.0)
             marker.setDepthTest(False)
@@ -916,14 +917,14 @@ class MeasuredPipeApp:
         for marker, contact in zip(
             self.passive_contact_markers, case["passive_contact"]
         ):
-            self.set_contact_marker(marker, bool(contact))
+            self.set_contact_marker(marker, bool(contact), (0.20, 0.95, 1.0, 0.94))
         drive_contacts = case["drive_contact"] if self.cylinder_pressed else [False] * 4
         for marker, contact in zip(self.drive_contact_markers, drive_contacts):
-            self.set_contact_marker(marker, bool(contact))
+            self.set_contact_marker(marker, bool(contact), (1.0, 0.18, 0.72, 0.94))
         for marker, contact in zip(
             self.drilling_contact_markers, case["drilling_contact"]
         ):
-            self.set_contact_marker(marker, bool(contact))
+            self.set_contact_marker(marker, bool(contact), (0.20, 0.95, 1.0, 0.94))
 
     def apply_contact_case(self, case_number: int) -> None:
         """Place one selected passive wheel on the inferred helical ridge."""
