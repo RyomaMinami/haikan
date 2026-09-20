@@ -513,7 +513,7 @@ class MeasuredPipeApp:
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
                   "1-9: contact cases  N/P: next/previous case\n"
                   "C: cylinder press/retract\n"
-                  "Dark blue: ridge >=0.7 mm  Red filled/wire: wheel contact/proxy\n"
+                  "Dark blue: ridge >=0.7 mm  Red: contact  Pink: no contact\n"
                   "Yellow/magenta: module clearance/contact\n"
                   "Gravity supports: 1-4=platform passive, 5=drilling passive\n"
                   "R: reset case  Esc: exit"),
@@ -904,10 +904,9 @@ class MeasuredPipeApp:
             marker.setDepthTest(False)
             marker.setBin("fixed", 100)
         else:
-            # Keep every collision proxy visible.  Contact state is encoded by
-            # filled versus wireframe rendering rather than hiding or graying
-            # non-contact wheels, so all fitted wheel locations remain auditable.
-            marker.setColor(1.0, 0.02, 0.02, 0.86)
+            # Distinguish the full non-contact tire envelope from a red tire
+            # even when transparent pipe and robot surfaces overlap it.
+            marker.setColor(1.0, 0.18, 0.72, 0.94)
             marker.setRenderModeWireframe()
             marker.setRenderModeThickness(3.0)
             marker.setDepthTest(False)

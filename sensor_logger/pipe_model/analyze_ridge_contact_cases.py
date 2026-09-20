@@ -167,8 +167,9 @@ def clearance_details(
     pose: tuple[float, float, float],
     estimation: dict,
     body_roll_deg: float = 0.0,
+    slider_mm: float = SLIDER6_MIN_MM,
 ) -> tuple[float, np.ndarray]:
-    points = placed(vertices, *pose, body_roll_deg=body_roll_deg)
+    points = placed(vertices, *pose, slider_mm, body_roll_deg)
     radial = np.linalg.norm(points[:, 1:3], axis=1)
     gaps = pipe_radius_m(points, estimation) - radial
     index = int(np.argmin(gaps))
