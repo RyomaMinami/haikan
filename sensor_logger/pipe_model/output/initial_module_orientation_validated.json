@@ -1,0 +1,2616 @@
+{
+  "method": "full-mesh re-settlement of straight/pre-rotated insertion representatives",
+  "body_roll_constraint_deg": 0.0,
+  "maximum_allowed_body_penetration_mm": 0.005,
+  "validated_representatives": [
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": -30.0,
+      "axial_phase_mm": 144.61842105263156,
+      "body_pose_m": {
+        "x": 1.1446184210526316,
+        "y": -0.010697458264603225,
+        "z": -0.0031048087330774947
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        1.3495523038950656,
+        1.8598462561107003,
+        -0.6811954436492795,
+        -0.2540590028493883,
+        -0.15311353757802015
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        136.2390887298559,
+        50.81180056987766,
+        30.62270751560403
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.0123814054979614,
+        0.5020874532823266,
+        0.48205944103860143,
+        0.05492300023871022,
+        1.416307500104269
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.016991870109159257,
+        "drilling_module2": 11.830090927370861,
+        "bit": 2.1948577637267705
+      },
+      "minimum_body_clearance_mm": -0.016991870109159257,
+      "vertical_force_balance_error_n": 0.56428757298562,
+      "valid_without_body_penetration": false,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        9.53568263290324,
+        6.595464629565887,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 6.595464629565887,
+      "drive_clearance_at_first_contact_mm": [
+        2.650492357218676,
+        -2.636779683484747e-13,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 79.78947368421052,
+      "body_pose_m": {
+        "x": 1.0797894736842104,
+        "y": -0.014012509044343252,
+        "z": -0.003913173223765105
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.04395365275834673,
+        -0.550013684009823,
+        0.198254333975717,
+        -0.31369297813237107,
+        -0.2866614987125371
+      ],
+      "wheel_normal_force_n": [
+        8.790730551669345,
+        110.0027368019646,
+        0.0,
+        62.738595626474215,
+        57.332299742507416
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.07755705527448531,
+        0.5836170865259616,
+        0.6005089054415963,
+        1.1124562175496844,
+        0.11560872685538459
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.2726608519300622,
+        "drilling_module2": 10.228665631280984,
+        "bit": 2.3550614388129913
+      },
+      "minimum_body_clearance_mm": 0.2726608519300622,
+      "vertical_force_balance_error_n": 0.2498817582057029,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.493460730898364,
+        8.756517009545302,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.493460730898364,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        1.1336704773336759,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 109.71052631578947,
+      "body_pose_m": {
+        "x": 1.1097105263157894,
+        "y": -0.01425396462389701,
+        "z": -0.0038462810148380223
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [],
+      "wheel_clearance_mm": [
+        -0.48385458419011873,
+        -0.11918362799358262,
+        0.8709722888445431,
+        0.3649122575930669,
+        -0.6005347890211121
+      ],
+      "wheel_normal_force_n": [
+        96.77091683802375,
+        23.836725598716523,
+        0.0,
+        0.0,
+        120.10695780422242
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.4508266987369308,
+        0.08615574254039471,
+        0.10330358302491904,
+        0.6093636142763953,
+        0.6127747325523625
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.01943001771061159,
+        "drilling_module2": 10.71550816409443,
+        "bit": 2.369019131728267
+      },
+      "minimum_body_clearance_mm": 0.01943001771061159,
+      "vertical_force_balance_error_n": 0.10414834501804648,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.86816873465241,
+        9.358804799686043,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.86816873465241,
+      "drive_clearance_at_first_contact_mm": [
+        2.7755575615628914e-14,
+        1.3404725584275357,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 69.8157894736842,
+      "body_pose_m": {
+        "x": 1.0698157894736842,
+        "y": -0.013913131214625932,
+        "z": -0.003778929399274799
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.043298156636353835,
+        -0.5493581878878162,
+        0.10102092480900049,
+        -0.4108134564066862,
+        -0.19016091140997005
+      ],
+      "wheel_normal_force_n": [
+        8.659631327270766,
+        109.87163757756323,
+        0.0,
+        82.16269128133725,
+        38.03218228199401
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.24311059936385493,
+        0.7491706306153173,
+        0.7668089429349184,
+        1.2786433241506052,
+        0.0813465107527972
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.1389547287872911,
+        "drilling_module2": 9.973146558262355,
+        "bit": 2.3805206931493266
+      },
+      "minimum_body_clearance_mm": 0.1389547287872911,
+      "vertical_force_balance_error_n": 0.0019902232905621986,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.2264018965059345,
+        8.387326826699566,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.2264018965059345,
+      "drive_clearance_at_first_contact_mm": [
+        0.0,
+        1.0413025951494237,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 159.57894736842104,
+      "body_pose_m": {
+        "x": 1.159578947368421,
+        "y": -0.014298256828203935,
+        "z": -0.002930760814227465
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.5580311212080163,
+        -0.046494709183594884,
+        1.042881840225038,
+        1.54894188532205,
+        -0.6029973172492209
+      ],
+      "wheel_normal_force_n": [
+        111.60622424160327,
+        9.298941836718978,
+        0.0,
+        0.0,
+        120.59946344984418
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.2861682780946349,
+        0.7746318660702134,
+        0.753330971502042,
+        0.2472709264050299,
+        1.418237202906708
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.02596097535118025,
+        "drilling_module2": 10.198457956712815,
+        "bit": 2.2885979782608783
+      },
+      "minimum_body_clearance_mm": 0.02596097535118025,
+      "vertical_force_balance_error_n": 0.07097237027849701,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.482253037435511,
+        7.999131901312251,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.482253037435511,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        0.46299846741393313,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "pre_rotated",
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.014322321690375266,
+        "z": -0.003109282233910079
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.5576614930459523,
+        -0.0455792555899559,
+        1.0636453915926354,
+        1.5697054366896612,
+        -0.6033303392759676
+      ],
+      "wheel_normal_force_n": [
+        111.53229860919045,
+        9.11585111799118,
+        0.0,
+        0.0,
+        120.66606785519352
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.120622092530832,
+        0.6085398550748355,
+        0.5883026637618916,
+        0.0822426186648656,
+        1.2792802449152207
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.01886213230889444,
+        "drilling_module2": 10.220063640902138,
+        "bit": 2.297032236382765
+      },
+      "minimum_body_clearance_mm": 0.01886213230889444,
+      "vertical_force_balance_error_n": 0.006137042453730146,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.834008664280139,
+        8.374166946642308,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.834008664280139,
+      "drive_clearance_at_first_contact_mm": [
+        6.938893903907228e-14,
+        0.4840598295251797,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 9.973684210526315,
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.01305272247008097,
+        "z": -0.003311920072941684
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.213904099113163,
+        -0.37220087005168656,
+        -0.5459229838853802,
+        -0.05449435556088844,
+        0.026605758848816108
+      ],
+      "wheel_normal_force_n": [
+        42.7808198226326,
+        74.44017401033732,
+        109.18459677707604,
+        10.898871112177687,
+        0.0
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.2550041413196544,
+        1.4130399348564886,
+        1.3993566820690306,
+        0.9079280537445389,
+        0.8029707452439638
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 1.3662957188185498,
+        "drilling_module2": 12.499755107472254,
+        "bit": 3.221604296579958
+      },
+      "minimum_body_clearance_mm": 1.3662957188185498,
+      "vertical_force_balance_error_n": 0.15638254316064604,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.744388415939524,
+        7.005194564286496,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.005194564286496,
+      "drive_clearance_at_first_contact_mm": [
+        0.6622644395245653,
+        0.0,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 154.5921052631579,
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.012733585360511737,
+        "z": -0.003468489761850463
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_3",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.1301350840691995,
+        0.3832279096696728,
+        -0.1071994047213004,
+        0.39886064037572555,
+        -0.8256183762673786
+      ],
+      "wheel_normal_force_n": [
+        26.0270168138399,
+        0.0,
+        21.439880944260082,
+        0.0,
+        165.1236752534757
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.1981432490294763,
+        0.684780255290604,
+        0.6555982799055782,
+        0.14953823480855222,
+        1.4954356549756465
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.7607413793309925,
+        "drilling_module2": 12.02949683288386,
+        "bit": 3.3374495372007624
+      },
+      "minimum_body_clearance_mm": 0.7607413793309925,
+      "vertical_force_balance_error_n": 0.020921441214113656,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.888355902061587,
+        7.840849189536918,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.840849189536918,
+      "drive_clearance_at_first_contact_mm": [
+        0.9409987556030508,
+        2.7755575615628914e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 179.52631578947367,
+      "body_pose_m": {
+        "x": 1.1795263157894738,
+        "y": -0.01282921078283682,
+        "z": -0.0033578716253017515
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_3",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_3",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.39587172699449835,
+        0.010036814640276837,
+        -0.38227931207689136,
+        0.12904389231772895,
+        -0.3589760293858102
+      ],
+      "wheel_normal_force_n": [
+        79.17434539889967,
+        0.0,
+        76.45586241537828,
+        0.0,
+        71.79520587716203
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.5107448640519494,
+        1.1048363224171742,
+        1.0746796118848296,
+        0.5633564074902092,
+        1.1404523042963244
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 1.157348353953952,
+        "drilling_module2": 12.58763284756996,
+        "bit": 3.5114360584118236
+      },
+      "minimum_body_clearance_mm": 1.157348353953952,
+      "vertical_force_balance_error_n": 0.2827511141179855,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.270648845435211,
+        7.310105799657701,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.310105799657701,
+      "drive_clearance_at_first_contact_mm": [
+        0.8618486312169799,
+        0.0,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 44.88157894736842,
+      "body_pose_m": {
+        "x": 1.0448815789473684,
+        "y": -0.013651326040703647,
+        "z": -0.0034483835503089783
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "ridge_support_ids": [
+        "platform_2",
+        "platform_3",
+        "platform_4"
+      ],
+      "wheel_clearance_mm": [
+        -0.04001378304659131,
+        -0.5530851533032538,
+        -0.16595189292792356,
+        -0.4237927219717941,
+        0.474935922596495
+      ],
+      "wheel_normal_force_n": [
+        8.002756609318261,
+        110.61703066065076,
+        33.19037858558471,
+        84.75854439435881,
+        0.0
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.667421435372989,
+        1.1804928056296515,
+        1.1997141332232286,
+        1.4524867218356081,
+        0.21194065142923768
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.3609572835433922,
+        "drilling_module2": 12.430562097267478,
+        "bit": 2.940371915744394
+      },
+      "minimum_body_clearance_mm": 0.3609572835433922,
+      "vertical_force_balance_error_n": 0.3002944263947427,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        6.949186517084461,
+        7.462103200912472,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 6.949186517084461,
+      "drive_clearance_at_first_contact_mm": [
+        0.0,
+        0.45934813832194943,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 0.0,
+      "body_pose_m": {
+        "x": 1.0,
+        "y": -0.012907840130637007,
+        "z": -0.003339320778255039
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.3132514005591974,
+        -0.18007868552169515,
+        -0.4940187573999194,
+        0.01858822160562268,
+        -0.17102235785823594
+      ],
+      "wheel_normal_force_n": [
+        62.650280111839486,
+        36.01573710433903,
+        98.80375147998389,
+        0.0,
+        34.20447157164719
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.4015459555602598,
+        1.2710066924649515,
+        1.2520700452231108,
+        0.7394630662175689,
+        0.9718528388906467
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 1.2827744715504381,
+        "drilling_module2": 12.534148017382979,
+        "bit": 3.3582610604129814
+      },
+      "minimum_body_clearance_mm": 1.2827744715504381,
+      "vertical_force_balance_error_n": 0.2144994488562304,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.029170756398933,
+        7.142781768892786,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.142781768892786,
+      "drive_clearance_at_first_contact_mm": [
+        0.7948111397704516,
+        1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 104.7236842105263,
+      "body_pose_m": {
+        "x": 1.1047236842105264,
+        "y": -0.013252733328152277,
+        "z": -0.003949424425073728
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        0.025934986284184558,
+        0.2043967388109108,
+        0.1998997579504419,
+        -0.30616027330102047,
+        -0.6204651075671364
+      ],
+      "wheel_normal_force_n": [
+        0.0,
+        0.0,
+        0.0,
+        61.23205466020409,
+        124.09302151342727
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.36427038575338744,
+        0.18305903098460308,
+        0.19985095370789185,
+        0.7059109849593542,
+        0.8110067140681965
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": -0.008313739281576304,
+        "drilling_module2": 12.479456739391715,
+        "bit": 2.798370954381485
+      },
+      "minimum_body_clearance_mm": -0.008313739281576304,
+      "vertical_force_balance_error_n": 0.047795339602686226,
+      "valid_without_body_penetration": false,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.39121372286005,
+        8.880218024259335,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 8.39121372286005,
+      "drive_clearance_at_first_contact_mm": [
+        0.0,
+        0.4380559072679896,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 124.67105263157893,
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.012911759771494386,
+        "z": -0.0038831258021841046
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.07391628384409432,
+        0.43214376125291776,
+        0.11594603847546459,
+        -0.09305794691791269,
+        -0.8863165516564686
+      ],
+      "wheel_normal_force_n": [
+        14.783256768818864,
+        0.0,
+        0.0,
+        18.61158938358254,
+        177.26331033129372
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.6941498189852735,
+        0.18808977388826142,
+        0.17101037106891093,
+        0.3763100943239839,
+        1.146090034722977
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.2553393002826254,
+        "drilling_module2": 11.910321667603474,
+        "bit": 3.152474402377439
+      },
+      "minimum_body_clearance_mm": 0.2553393002826254,
+      "vertical_force_balance_error_n": 0.07631620034226216,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.86721352995671,
+        8.903909752693817,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 8.86721352995671,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        0.032712115206237624,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.012969654837581158,
+        "z": -0.003325418623775498
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.2661507672748892,
+        -0.2807011539497639,
+        -0.5325076435200166,
+        -0.022833265911181844,
+        -0.07212921428913222
+      ],
+      "wheel_normal_force_n": [
+        53.23015345497784,
+        56.14023078995278,
+        106.5015287040033,
+        4.566653182236369,
+        14.425842857826442
+      ],
+      "wheel_local_ridge_height_mm": [
+        1.336256874829314,
+        1.3521825311249707,
+        1.333190123473632,
+        0.8235157458647974,
+        0.8874572018155447
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 1.3327220657197159,
+        "drilling_module2": 12.508421004349124,
+        "bit": 3.285789608071937
+      },
+      "minimum_body_clearance_mm": 1.3327220657197159,
+      "vertical_force_balance_error_n": 0.21485720835977418,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.892620197161579,
+        7.06701089015888,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.06701089015888,
+      "drive_clearance_at_first_contact_mm": [
+        0.740014864101024,
+        -1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "coarse_group": "straight",
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 129.65789473684208,
+      "body_pose_m": {
+        "x": 1.129657894736842,
+        "y": -0.012759826290248511,
+        "z": -0.003846500435592138
+      },
+      "body_roll_deg": 0.0,
+      "support_ids": [
+        "platform_1",
+        "platform_4",
+        "drilling_1"
+      ],
+      "ridge_support_ids": [
+        "platform_1",
+        "drilling_1"
+      ],
+      "wheel_clearance_mm": [
+        -0.04810019992597392,
+        0.45813571403620357,
+        -0.0091848510727216,
+        -0.05705014022364119,
+        -0.9314295779422332
+      ],
+      "wheel_normal_force_n": [
+        9.620039985194783,
+        0.0,
+        1.83697021454432,
+        11.410028044728238,
+        186.28591558844664
+      ],
+      "wheel_local_ridge_height_mm": [
+        0.776761289984898,
+        0.25998419563839914,
+        0.25312477895994556,
+        0.29419181198291067,
+        1.228823598531159
+      ],
+      "body_clearance_mm": {
+        "drilling_module1": 0.4449937882825411,
+        "drilling_module2": 11.74464428922986,
+        "bit": 3.2594011223250066
+      },
+      "minimum_body_clearance_mm": 0.4449937882825411,
+      "vertical_force_balance_error_n": 0.048433606283765585,
+      "valid_without_body_penetration": true,
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.998998560004948,
+        8.697030983457045,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 8.697030983457045,
+      "drive_clearance_at_first_contact_mm": [
+        0.2701701333554102,
+        1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    }
+  ],
+  "simulator_cases": [
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 0.0,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1,
+        2,
+        3
+      ],
+      "body_pose_m": {
+        "x": 1.0,
+        "y": -0.012907840130637007,
+        "z": -0.003339320778255039
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.3132514005591974,
+        -0.18007868552169515,
+        -0.4940187573999194,
+        0.01858822160562268
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.17102235785823594
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.3132514005591974,
+          -0.18007868552169515,
+          -0.4940187573999194,
+          0.01858822160562268,
+          -0.17102235785823594
+        ],
+        "wheel_normal_force_n": [
+          62.650280111839486,
+          36.01573710433903,
+          98.80375147998389,
+          0.0,
+          34.20447157164719
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 1.2827744715504381,
+          "drilling_module2": 12.534148017382979,
+          "bit": 3.3582610604129814
+        },
+        "vertical_support_force_n": 205.72515055114377,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 1.2827744715504381,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.5581942138671875,
+          -0.08414474808962139,
+          -0.08251133596837955
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.2827744715504381,
+          "drilling_module2": 12.534148017382979,
+          "bit": 3.3582610604129814
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.029170756398933,
+        7.142781768892786,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.142781768892786,
+      "drive_clearance_at_first_contact_mm": [
+        0.7948111397704516,
+        1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.012969654837581158,
+        "z": -0.003325418623775498
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.2661507672748892,
+        -0.2807011539497639,
+        -0.5325076435200166,
+        -0.022833265911181844
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.07212921428913222
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.2661507672748892,
+          -0.2807011539497639,
+          -0.5325076435200166,
+          -0.022833265911181844,
+          -0.07212921428913222
+        ],
+        "wheel_normal_force_n": [
+          53.23015345497784,
+          56.14023078995278,
+          106.5015287040033,
+          4.566653182236369,
+          14.425842857826442
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 1.3327220657197159,
+          "drilling_module2": 12.508421004349124,
+          "bit": 3.285789608071937
+        },
+        "vertical_support_force_n": 205.72479279164023,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 1.3327220657197159,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.5631810559724507,
+          -0.08420656279656553,
+          -0.08249743381390001
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.3327220657197159,
+          "drilling_module2": 12.508421004349124,
+          "bit": 3.285789608071937
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.892620197161579,
+        7.06701089015888,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.06701089015888,
+      "drive_clearance_at_first_contact_mm": [
+        0.740014864101024,
+        -1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 9.973684210526315,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.01305272247008097,
+        "z": -0.003311920072941684
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.213904099113163,
+        -0.37220087005168656,
+        -0.5459229838853802,
+        -0.05449435556088844
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        0.026605758848816108
+      ],
+      "drilling_contact": [
+        false
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "wheel_clearance_mm": [
+          -0.213904099113163,
+          -0.37220087005168656,
+          -0.5459229838853802,
+          -0.05449435556088844,
+          0.026605758848816108
+        ],
+        "wheel_normal_force_n": [
+          42.7808198226326,
+          74.44017401033732,
+          109.18459677707604,
+          10.898871112177687,
+          0.0
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 1.3662957188185498,
+          "drilling_module2": 12.499755107472254,
+          "bit": 3.221604296579958
+        },
+        "vertical_support_force_n": 205.78326745683935,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": false,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 1.3662957188185498,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.5681678980777137,
+          -0.08428963042906534,
+          -0.0824839352630662
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.3662957188185498,
+          "drilling_module2": 12.499755107472254,
+          "bit": 3.221604296579958
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.744388415939524,
+        7.005194564286496,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.005194564286496,
+      "drive_clearance_at_first_contact_mm": [
+        0.6622644395245653,
+        0.0,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_2+platform_3+platform_4",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 44.88157894736842,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        2,
+        3,
+        4
+      ],
+      "body_pose_m": {
+        "x": 1.0448815789473684,
+        "y": -0.013651326040703647,
+        "z": -0.0034483835503089783
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.04001378304659131,
+        -0.5530851533032538,
+        -0.16595189292792356,
+        -0.4237927219717941
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        0.474935922596495
+      ],
+      "drilling_contact": [
+        false
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "wheel_clearance_mm": [
+          -0.04001378304659131,
+          -0.5530851533032538,
+          -0.16595189292792356,
+          -0.4237927219717941,
+          0.474935922596495
+        ],
+        "wheel_normal_force_n": [
+          8.002756609318261,
+          110.61703066065076,
+          33.19037858558471,
+          84.75854439435881,
+          0.0
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.3609572835433922,
+          "drilling_module2": 12.430562097267478,
+          "bit": 2.940371915744394
+        },
+        "vertical_support_force_n": 205.63935557360526,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": false,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.3609572835433922,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.6810757928145559,
+          -0.08488823399968803,
+          -0.08262039874043349
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.3609572835433922,
+          "drilling_module2": 12.430562097267478,
+          "bit": 2.940371915744394
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        6.949186517084461,
+        7.462103200912472,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 6.949186517084461,
+      "drive_clearance_at_first_contact_mm": [
+        0.0,
+        0.45934813832194943,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 124.67105263157893,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [],
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.012911759771494386,
+        "z": -0.0038831258021841046
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.07391628384409432,
+        0.43214376125291776,
+        0.11594603847546459,
+        -0.09305794691791269
+      ],
+      "passive_contact": [
+        true,
+        false,
+        false,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.8863165516564686
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          4,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.07391628384409432,
+          0.43214376125291776,
+          0.11594603847546459,
+          -0.09305794691791269,
+          -0.8863165516564686
+        ],
+        "wheel_normal_force_n": [
+          14.783256768818864,
+          0.0,
+          0.0,
+          18.61158938358254,
+          177.26331033129372
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.2553393002826254,
+          "drilling_module2": 11.910321667603474,
+          "bit": 3.152474402377439
+        },
+        "vertical_support_force_n": 206.01596620034226,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.2553393002826254,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7051509873239616,
+          -0.08414866773047877,
+          -0.08305514099230861
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.2553393002826254,
+          "drilling_module2": 11.910321667603474,
+          "bit": 3.152474402377439
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.86721352995671,
+        8.903909752693817,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 8.86721352995671,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        0.032712115206237624,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 129.65789473684208,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "body_pose_m": {
+        "x": 1.129657894736842,
+        "y": -0.012759826290248511,
+        "z": -0.003846500435592138
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.04810019992597392,
+        0.45813571403620357,
+        -0.0091848510727216,
+        -0.05705014022364119
+      ],
+      "passive_contact": [
+        true,
+        false,
+        false,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.9314295779422332
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          4,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.04810019992597392,
+          0.45813571403620357,
+          -0.0091848510727216,
+          -0.05705014022364119,
+          -0.9314295779422332
+        ],
+        "wheel_normal_force_n": [
+          9.620039985194783,
+          0.0,
+          1.83697021454432,
+          11.410028044728238,
+          186.28591558844664
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.4449937882825411,
+          "drilling_module2": 11.74464428922986,
+          "bit": 3.2594011223250066
+        },
+        "vertical_support_force_n": 205.98808360628377,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.4449937882825411,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7101378294292249,
+          -0.08399673424923289,
+          -0.08301851562571665
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.4449937882825411,
+          "drilling_module2": 11.74464428922986,
+          "bit": 3.2594011223250066
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.998998560004948,
+        8.697030983457045,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 8.697030983457045,
+      "drive_clearance_at_first_contact_mm": [
+        0.2701701333554102,
+        1.3877787807814457e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 154.5921052631579,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.012733585360511737,
+        "z": -0.003468489761850463
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.1301350840691995,
+        0.3832279096696728,
+        -0.1071994047213004,
+        0.39886064037572555
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.8256183762673786
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          3,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.1301350840691995,
+          0.3832279096696728,
+          -0.1071994047213004,
+          0.39886064037572555,
+          -0.8256183762673786
+        ],
+        "wheel_normal_force_n": [
+          26.0270168138399,
+          0.0,
+          21.439880944260082,
+          0.0,
+          165.1236752534757
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.7607413793309925,
+          "drilling_module2": 12.02949683288386,
+          "bit": 3.3374495372007624
+        },
+        "vertical_support_force_n": 205.9605714412141,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.7607413793309925,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7127863191303453,
+          -0.08397049331949612,
+          -0.08264050495197497
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.7607413793309925,
+          "drilling_module2": 12.02949683288386,
+          "bit": 3.3374495372007624
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.888355902061587,
+        7.840849189536918,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.840849189536918,
+      "drive_clearance_at_first_contact_mm": [
+        0.9409987556030508,
+        2.7755575615628914e-14,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_3+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 179.52631578947367,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1,
+        3
+      ],
+      "body_pose_m": {
+        "x": 1.1795263157894738,
+        "y": -0.01282921078283682,
+        "z": -0.0033578716253017515
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.39587172699449835,
+        0.010036814640276837,
+        -0.38227931207689136,
+        0.12904389231772895
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.3589760293858102
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          3,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.39587172699449835,
+          0.010036814640276837,
+          -0.38227931207689136,
+          0.12904389231772895,
+          -0.3589760293858102
+        ],
+        "wheel_normal_force_n": [
+          79.17434539889967,
+          0.0,
+          76.45586241537828,
+          0.0,
+          71.79520587716203
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 1.157348353953952,
+          "drilling_module2": 12.58763284756996,
+          "bit": 3.5114360584118236
+        },
+        "vertical_support_force_n": 205.65689888588201,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 1.157348353953952,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7377205296566612,
+          -0.0840661187418212,
+          -0.08252988681542626
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 1.157348353953952,
+          "drilling_module2": 12.58763284756996,
+          "bit": 3.5114360584118236
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        8.270648845435211,
+        7.310105799657701,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.310105799657701,
+      "drive_clearance_at_first_contact_mm": [
+        0.8618486312169799,
+        0.0,
+        null,
+        null
+      ],
+      "drive_contact": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge platform_2+platform_4",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 69.8157894736842,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        2,
+        4
+      ],
+      "body_pose_m": {
+        "x": 1.0698157894736842,
+        "y": -0.013913131214625932,
+        "z": -0.003778929399274799
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.043298156636353835,
+        -0.5493581878878162,
+        0.10102092480900049,
+        -0.4108134564066862
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.19016091140997005
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.043298156636353835,
+          -0.5493581878878162,
+          0.10102092480900049,
+          -0.4108134564066862,
+          -0.19016091140997005
+        ],
+        "wheel_normal_force_n": [
+          8.659631327270766,
+          109.87163757756323,
+          0.0,
+          82.16269128133725,
+          38.03218228199401
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.1389547287872911,
+          "drilling_module2": 9.973146558262355,
+          "bit": 2.3805206931493266
+        },
+        "vertical_support_force_n": 205.93765977670944,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.1389547287872911,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.6280100033408716,
+          0.11533606465122771,
+          -0.029686367785288614
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.1389547287872911,
+          "drilling_module2": 9.973146558262355,
+          "bit": 2.3805206931493266
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.2264018965059345,
+        8.387326826699566,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.2264018965059345,
+      "drive_clearance_at_first_contact_mm": [
+        0.0,
+        1.0413025951494237,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge platform_4",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 79.78947368421052,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        4
+      ],
+      "body_pose_m": {
+        "x": 1.0797894736842104,
+        "y": -0.014012509044343252,
+        "z": -0.003913173223765105
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.04395365275834673,
+        -0.550013684009823,
+        0.198254333975717,
+        -0.31369297813237107
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.2866614987125371
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.04395365275834673,
+          -0.550013684009823,
+          0.198254333975717,
+          -0.31369297813237107,
+          -0.2866614987125371
+        ],
+        "wheel_normal_force_n": [
+          8.790730551669345,
+          110.0027368019646,
+          0.0,
+          62.738595626474215,
+          57.332299742507416
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.2726608519300622,
+          "drilling_module2": 10.228665631280984,
+          "bit": 2.3550614388129913
+        },
+        "vertical_support_force_n": 205.6897682417943,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.2726608519300622,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7159836875513979,
+          0.11523668682151039,
+          -0.029820611609778922
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.2726608519300622,
+          "drilling_module2": 10.228665631280984,
+          "bit": 2.3550614388129913
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.493460730898364,
+        8.756517009545302,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.493460730898364,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        1.1336704773336759,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge none",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 109.71052631578947,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [],
+      "body_pose_m": {
+        "x": 1.1097105263157894,
+        "y": -0.01425396462389701,
+        "z": -0.0038462810148380223
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.48385458419011873,
+        -0.11918362799358262,
+        0.8709722888445431,
+        0.3649122575930669
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.6005347890211121
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.48385458419011873,
+          -0.11918362799358262,
+          0.8709722888445431,
+          0.3649122575930669,
+          -0.6005347890211121
+        ],
+        "wheel_normal_force_n": [
+          96.77091683802375,
+          23.836725598716523,
+          0.0,
+          0.0,
+          120.10695780422242
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.01943001771061159,
+          "drilling_module2": 10.71550816409443,
+          "bit": 2.369019131728267
+        },
+        "vertical_support_force_n": 205.83550165498195,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.01943001771061159,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7459047401829768,
+          0.11499523124195664,
+          -0.02975371940085184
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.01943001771061159,
+          "drilling_module2": 10.71550816409443,
+          "bit": 2.369019131728267
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.86816873465241,
+        9.358804799686043,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.86816873465241,
+      "drive_clearance_at_first_contact_mm": [
+        2.7755575615628914e-14,
+        1.3404725584275357,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge platform_1+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 149.60526315789474,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1
+      ],
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.014322321690375266,
+        "z": -0.003109282233910079
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.5576614930459523,
+        -0.0455792555899559,
+        1.0636453915926354,
+        1.5697054366896612
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.6033303392759676
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.5576614930459523,
+          -0.0455792555899559,
+          1.0636453915926354,
+          1.5697054366896612,
+          -0.6033303392759676
+        ],
+        "wheel_normal_force_n": [
+          111.53229860919045,
+          9.11585111799118,
+          0.0,
+          0.0,
+          120.66606785519352
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.01886213230889444,
+          "drilling_module2": 10.220063640902138,
+          "bit": 2.297032236382765
+        },
+        "vertical_support_force_n": 205.94578704245373,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": true,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.01886213230889444,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7635137638292815,
+          0.11492687417547838,
+          -0.029016720619923896
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.01886213230889444,
+          "drilling_module2": 10.220063640902138,
+          "bit": 2.297032236382765
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.834008664280139,
+        8.374166946642308,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.834008664280139,
+      "drive_clearance_at_first_contact_mm": [
+        6.938893903907228e-14,
+        0.4840598295251797,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge platform_1+platform_2+drilling_1",
+      "source": "initial_module_orientation_contacts",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 159.57894736842104,
+      "valid_configuration": true,
+      "diagnostic_reason": "full-mesh validation at body roll zero",
+      "passive_wheels_on_ridge": [
+        1,
+        2
+      ],
+      "body_pose_m": {
+        "x": 1.159578947368421,
+        "y": -0.014298256828203935,
+        "z": -0.002930760814227465
+      },
+      "body_roll_deg": 0.0,
+      "passive_clearance_mm": [
+        -0.5580311212080163,
+        -0.046494709183594884,
+        1.042881840225038,
+        1.54894188532205
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drilling_wheel_clearance_mm": [
+        -0.6029973172492209
+      ],
+      "drilling_contact": [
+        true
+      ],
+      "gravity_settled": {
+        "success": true,
+        "sequence": "platform passive first, drilling passive next, drive pair last",
+        "mass_kg": 21.0,
+        "gravity_m_s2": 9.80665,
+        "com_method": "user-approved provisional STL enclosed-volume ratio",
+        "contact_wheels": [
+          1,
+          2,
+          5
+        ],
+        "wheel_clearance_mm": [
+          -0.5580311212080163,
+          -0.046494709183594884,
+          1.042881840225038,
+          1.54894188532205,
+          -0.6029973172492209
+        ],
+        "wheel_normal_force_n": [
+          111.60622424160327,
+          9.298941836718978,
+          0.0,
+          0.0,
+          120.59946344984418
+        ],
+        "body_clearance_mm": {
+          "drilling_module1": 0.02596097535118025,
+          "drilling_module2": 10.198457956712815,
+          "bit": 2.2885979782608783
+        },
+        "vertical_support_force_n": 206.0106223702785,
+        "weight_n": 205.93965
+      },
+      "drilling_module_after_press": {
+        "sequence": "platform passive, drilling passive, drive first contact",
+        "contact": false,
+        "intended_drilling_wheel_contact": true,
+        "forbidden_penetration": false,
+        "minimum_clearance_mm": 0.02596097535118025,
+        "closest_component": "drilling_module1",
+        "closest_point_world_m": [
+          0.7734874480398077,
+          0.11495093903764972,
+          -0.02883819920024128
+        ],
+        "component_clearance_mm": {
+          "drilling_module1": 0.02596097535118025,
+          "drilling_module2": 10.198457956712815,
+          "bit": 2.2885979782608783
+        }
+      },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "drive_required_stroke_mm": [
+        7.482253037435511,
+        7.999131901312251,
+        null,
+        null
+      ],
+      "cylinder_first_contact_stroke_mm": 7.482253037435511,
+      "drive_clearance_at_first_contact_mm": [
+        1.3877787807814457e-14,
+        0.46299846741393313,
+        null,
+        null
+      ],
+      "drive_contact": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
+    }
+  ]
+}

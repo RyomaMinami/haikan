@@ -255,6 +255,7 @@ def settle_under_gravity(
     com_local: np.ndarray,
     estimation: dict,
     fast: bool = False,
+    fixed_body_roll_deg: float | None = None,
 ) -> tuple[tuple[float, float, float], float, dict]:
     """Find quasi-static Y/Z/roll equilibrium under gravity and compliance."""
     body_x, initial_y, initial_z = initial_pose
@@ -277,7 +278,11 @@ def settle_under_gravity(
             collision_samples.append(vertices[np.unique(np.r_[exposed, background])])
 
     def potential(q: np.ndarray) -> float:
-        body_y, body_z, roll_deg = (float(value) for value in q)
+        body_y, body_z = float(q[0]), float(q[1])
+        roll_deg = (
+            float(q[2]) if fixed_body_roll_deg is None
+            else float(fixed_body_roll_deg)
+        )
         pose = (body_x, body_y, body_z)
         wheel_penetrations = [
             max(0.0, -clearance_mm(
@@ -307,9 +312,14 @@ def settle_under_gravity(
         (initial_z - 0.020, initial_z + 0.010),
         (initial_roll_deg - 50.0, initial_roll_deg + 50.0),
     ]
+    if fixed_body_roll_deg is not None:
+        bounds = bounds[:2]
+        initial_q = np.array([initial_y, initial_z])
+    else:
+        initial_q = np.array([initial_y, initial_z, initial_roll_deg])
     result = minimize(
         potential,
-        np.array([initial_y, initial_z, initial_roll_deg]),
+        initial_q,
         method="Powell",
         bounds=bounds,
         options={
@@ -318,7 +328,11 @@ def settle_under_gravity(
             "ftol": 2e-5 if fast else 1e-7,
         },
     )
-    body_y, body_z, roll_deg = (float(value) for value in result.x)
+    body_y, body_z = float(result.x[0]), float(result.x[1])
+    roll_deg = (
+        float(result.x[2]) if fixed_body_roll_deg is None
+        else float(fixed_body_roll_deg)
+    )
     pose = (body_x, body_y, body_z)
     wheel_details = [
         clearance_details(wheel, pose, estimation, roll_deg)

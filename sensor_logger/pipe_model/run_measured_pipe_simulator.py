@@ -424,6 +424,32 @@ class MeasuredPipeApp:
             self.ridge_contact_result["cases"].extend(
                 gravity_representatives.get("simulator_cases", [])
             )
+        insertion_cases_path = (
+            Path(__file__).resolve().parent
+            / "output"
+            / "initial_module_orientation_validated.json"
+        )
+        self.insertion_case_start = len(self.ridge_contact_result["cases"]) + 1
+        if insertion_cases_path.exists():
+            insertion_cases = json.loads(
+                insertion_cases_path.read_text(encoding="utf-8")
+            )
+            self.ridge_contact_result["cases"].extend(
+                insertion_cases.get("simulator_cases", [])
+            )
+        self.insertion_case_count = (
+            len(self.ridge_contact_result["cases"]) - self.insertion_case_start + 1
+        )
+        self.pre_rotated_case_start = next(
+            (
+                index for index, case in enumerate(
+                    self.ridge_contact_result["cases"], start=1
+                )
+                if case.get("source") == "initial_module_orientation_contacts"
+                and float(case.get("rotation9_deg", 0.0)) != 0.0
+            ),
+            None,
+        )
         estimation_path = Path(__file__).resolve().parent / "output" / "helical_ridge_estimation.json"
         self.ridge_estimation = json.loads(
             estimation_path.read_text(encoding="utf-8")
@@ -497,6 +523,10 @@ class MeasuredPipeApp:
             self.base.accept(str(case_number), self.apply_contact_case, [case_number])
         self.base.accept("n", self.cycle_contact_case, [1])
         self.base.accept("p", self.cycle_contact_case, [-1])
+        if self.insertion_case_count:
+            self.base.accept("i", self.apply_contact_case, [self.insertion_case_start])
+        if self.pre_rotated_case_start is not None:
+            self.base.accept("o", self.apply_contact_case, [self.pre_rotated_case_start])
         self.base.accept("c", self.toggle_cylinder_press)
         self.base.accept("r", self.reset_robot)
         self.base.accept("mouse1", self.begin_camera_drag, ["orbit"])
@@ -514,7 +544,7 @@ class MeasuredPipeApp:
         OnscreenText(
             text=("Estimated full pipe + moving platform / X: pipe axis\n"
                   "Mouse L-drag: orbit  R-drag: pan  Wheel: zoom  A/D/W/S/Q/E: camera\n"
-                  "1-9: contact cases  N/P: next/previous case\n"
+                  "1-9: legacy  N/P: cycle  I: straight  O: pre-rotated\n"
                   "C: cylinder press/retract\n"
                   "Dark blue: ridge >=0.7 mm  Red: contact\n"
                   "Cyan: passive free  Pink: drive free  Gray: wheels 3/4 unloaded\n"
@@ -528,7 +558,9 @@ class MeasuredPipeApp:
             text="", pos=(-1.28, 0.53), align=TextNode.ALeft, scale=0.040,
             fg=(1.0, 0.85, 0.35, 1.0), shadow=(0, 0, 0, 0.8), mayChange=True,
         )
-        self.apply_contact_case(1)
+        self.apply_contact_case(
+            self.insertion_case_start if self.insertion_case_count else 1
+        )
         self.base.taskMgr.add(self.update, "bullet_update")
 
     def update_camera_pose(self) -> None:
