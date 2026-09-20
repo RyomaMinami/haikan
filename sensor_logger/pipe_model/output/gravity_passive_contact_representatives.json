@@ -1016,25 +1016,32 @@
           "bit": 2.323003149832567
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.761484564632978,
         9.41310541397181,
-        9.120260561425713,
-        9.196935225692577
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 7.761484564632978,
       "drive_clearance_at_first_contact_mm": [
         0.0,
         1.486154507840967,
-        1.1432060594675635,
-        1.2080694023974132
+        null,
+        null
       ],
       "drive_contact": [
         true,
         false,
         false,
         false
-      ]
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
     },
     {
       "case_label": "gravity sweep: ridge supports platform_4",
@@ -1122,25 +1129,32 @@
           "bit": 2.36739836892709
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.458834381705282,
         8.642424884841867,
-        10.108224621388512,
-        9.634076380262917
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 7.458834381705282,
       "drive_clearance_at_first_contact_mm": [
         -1.3877787807814457e-14,
         1.0619373386283326,
-        2.280999120265734,
-        1.8264410846100394
+        null,
+        null
       ],
       "drive_contact": [
         true,
         false,
         false,
         false
-      ]
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
     },
     {
       "case_label": "gravity sweep: ridge supports platform_1+drilling_1",
@@ -1227,25 +1241,32 @@
           "bit": 2.2296370071307745
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.688605886025836,
         8.518830575982193,
-        7.6212521325303335,
-        8.443405810941787
+        null,
+        null
       ],
-      "cylinder_first_contact_stroke_mm": 7.6212521325303335,
+      "cylinder_first_contact_stroke_mm": 7.688605886025836,
       "drive_clearance_at_first_contact_mm": [
-        0.05980658128083849,
-        0.8049295525375533,
         0.0,
-        0.7456066759933405
+        0.7445741867959654,
+        null,
+        null
       ],
       "drive_contact": [
-        false,
-        false,
         true,
+        false,
+        false,
         false
-      ]
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
     },
     {
       "case_label": "gravity sweep: ridge supports platform_1+platform_2+drilling_1",
@@ -1333,25 +1354,32 @@
           "bit": 2.280468812955863
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.137535890682823,
         7.704058188460218,
-        7.197395485002178,
-        8.420077281416626
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 7.137535890682823,
       "drive_clearance_at_first_contact_mm": [
         -1.3877787807814457e-14,
         0.5073853378610299,
-        0.05010788358060514,
-        1.1587416787173233
+        null,
+        null
       ],
       "drive_contact": [
         true,
         false,
         false,
         false
-      ]
+      ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact."
     }
   ]
 }

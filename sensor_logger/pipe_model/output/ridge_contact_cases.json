@@ -272,25 +272,32 @@
           "bit": 2.0079795846062036
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.157106282691973,
         7.974295354137738,
-        7.0233865918422484,
-        8.292940921178415
+        null,
+        null
       ],
-      "cylinder_first_contact_stroke_mm": 7.0233865918422484,
+      "cylinder_first_contact_stroke_mm": 7.157106282691973,
       "drive_clearance_at_first_contact_mm": [
-        0.11917114043243082,
-        0.8526723563501287,
-        1.3877787807814457e-14,
-        1.1517300197878
+        -1.3877787807814457e-14,
+        0.7328571964157204,
+        null,
+        null
       ],
       "drive_contact": [
-        false,
-        false,
         true,
+        false,
+        false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "initial_alignment_pose_m": {
         "x": 0.987853368358593,
         "y": -0.0132433341,
@@ -453,18 +460,24 @@
           "bit": -0.006895852263003044
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         3.8234281607734917,
         6.835935067189319,
-        4.0305298062766495,
-        8.019010169591024
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 3.8234281607734917,
       "drive_clearance_at_first_contact_mm": [
         1.3877787807814457e-14,
         2.720826341209209,
-        0.170459143905885,
-        3.8352927642059247
+        null,
+        null
       ],
       "drive_contact": [
         true,
@@ -472,6 +485,7 @@
         false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "initial_alignment_pose_m": {
         "x": 1.0193391445591515,
         "y": -0.0132433341,
@@ -628,18 +642,24 @@
           "bit": 2.8349326145591798
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         6.785276801536826,
         7.34407777681533,
-        9.014428761741991,
-        9.819631331036835
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 6.785276801536826,
       "drive_clearance_at_first_contact_mm": [
         -1.3877787807814457e-14,
         0.5008080889312705,
-        1.8685987749514772,
-        2.6357350752828497
+        null,
+        null
       ],
       "drive_contact": [
         true,
@@ -647,6 +667,7 @@
         false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "initial_alignment_pose_m": {
         "x": 1.05082492075971,
         "y": -0.0132433341,
@@ -805,25 +826,32 @@
           "bit": 2.9322460205486456
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.439539376054071,
         7.935620515252144,
-        7.407723386732465,
-        8.536861940380438
+        null,
+        null
       ],
-      "cylinder_first_contact_stroke_mm": 7.407723386732465,
+      "cylinder_first_contact_stroke_mm": 7.439539376054071,
       "drive_clearance_at_first_contact_mm": [
-        0.028393123234965456,
-        0.472721428654968,
-        0.0,
-        1.0153764952034738
+        2.7755575615628914e-14,
+        0.44424399843827345,
+        null,
+        null
       ],
       "drive_contact": [
-        false,
-        false,
         true,
+        false,
+        false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "valid_configuration": true,
       "diagnostic_reason": "accepted after gravity settlement",
       "initial_alignment_pose_m": {
@@ -983,18 +1011,24 @@
           "bit": 2.625393175831797
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         8.81394240089489,
         7.10223302227189,
-        8.787379955376764,
-        7.132475579292402
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 7.10223302227189,
       "drive_clearance_at_first_contact_mm": [
         1.5412824132546161,
         2.7755575615628914e-14,
-        1.532734992585119,
-        0.02526725356215287
+        null,
+        null
       ],
       "drive_contact": [
         false,
@@ -1002,6 +1036,7 @@
         false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "valid_configuration": false,
       "diagnostic_reason": "rejected after gravity settlement: no drilling-wheel support or body penetration",
       "initial_alignment_pose_m": {
@@ -1166,18 +1201,24 @@
           "bit": 2.575075823372935
         }
       },
+      "drive_contact_enabled": [
+        true,
+        true,
+        false,
+        false
+      ],
       "drive_required_stroke_mm": [
         7.127720393720311,
         6.953860767790082,
-        8.682771975563345,
-        9.065352646659925
+        null,
+        null
       ],
       "cylinder_first_contact_stroke_mm": 6.953860767790082,
       "drive_clearance_at_first_contact_mm": [
         0.15541894828340064,
         0.0,
-        1.4525196179518418,
-        1.7905996120513996
+        null,
+        null
       ],
       "drive_contact": [
         false,
@@ -1185,6 +1226,7 @@
         false,
         false
       ],
+      "inactive_drive_position_note": "Module-side wheels 3/4 are lower from mechanical play; offset not measured, hence excluded from contact.",
       "valid_configuration": true,
       "diagnostic_reason": "accepted after gravity settlement",
       "initial_alignment_pose_m": {

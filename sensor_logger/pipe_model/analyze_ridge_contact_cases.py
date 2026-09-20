@@ -11,6 +11,7 @@ import trimesh
 from scipy.optimize import brentq, minimize
 
 from run_measured_pipe_simulator import (
+    ACTIVE_DRIVE_WHEEL_INDICES,
     BIT_MODULE_POSITION_MM,
     DRIVE_WHEELS_MODULE_CAD_MM,
     DRILLING1_MODULE_POSITION_MM,
@@ -512,6 +513,44 @@ def drive_contact_stroke(vertices: np.ndarray,
     )
 
 
+def drive_first_contact(
+    drive: list[np.ndarray], pose: tuple[float, float, float],
+    estimation: dict, body_roll_deg: float = 0.0,
+) -> dict:
+    """First cylinder contact among the two active, drill-opposite wheels."""
+    strokes = [None] * len(drive)
+    for index in ACTIVE_DRIVE_WHEEL_INDICES:
+        strokes[index] = drive_contact_stroke(
+            drive[index], pose, estimation, body_roll_deg
+        )
+    reachable = [value for value in strokes if value is not None]
+    stop_stroke = min(reachable) if reachable else None
+    slider = (
+        SLIDER6_MAX_MM if stop_stroke is None
+        else SLIDER6_MIN_MM + stop_stroke
+    )
+    gaps = [None] * len(drive)
+    for index in ACTIVE_DRIVE_WHEEL_INDICES:
+        gaps[index] = clearance_mm(
+            drive[index], pose, estimation, slider, body_roll_deg
+        )
+    return {
+        "drive_contact_enabled": [
+            index in ACTIVE_DRIVE_WHEEL_INDICES for index in range(len(drive))
+        ],
+        "drive_required_stroke_mm": strokes,
+        "cylinder_first_contact_stroke_mm": stop_stroke,
+        "drive_clearance_at_first_contact_mm": gaps,
+        "drive_contact": [
+            gap is not None and gap <= CONTACT_TOLERANCE_MM for gap in gaps
+        ],
+        "inactive_drive_position_note": (
+            "Module-side wheels 3/4 are lower from mechanical play; "
+            "offset not measured, hence excluded from contact."
+        ),
+    }
+
+
 def main() -> None:
     here = Path(__file__).resolve().parent
     estimation_path = here / "output" / "helical_ridge_estimation.json"
@@ -561,21 +600,7 @@ def main() -> None:
         closest_module, (module_gap, module_point) = min(
             module_details.items(), key=lambda item: item[1][0]
         )
-        strokes = [drive_contact_stroke(wheel, pose, estimation) for wheel in drive]
-        reachable = [value for value in strokes if value is not None]
-        stop_stroke = min(reachable) if reachable else None
-        if stop_stroke is None:
-            drive_clearances = [
-                clearance_mm(wheel, pose, estimation, SLIDER6_MAX_MM)
-                for wheel in drive
-            ]
-            drive_contact = [False] * len(drive)
-        else:
-            slider = SLIDER6_MIN_MM + stop_stroke
-            drive_clearances = [
-                clearance_mm(wheel, pose, estimation, slider) for wheel in drive
-            ]
-            drive_contact = [gap <= CONTACT_TOLERANCE_MM for gap in drive_clearances]
+        drive_state = drive_first_contact(drive, pose, estimation)
         cases.append({
             "case": case_index,
             "base_passive_case": case_index,
@@ -604,10 +629,7 @@ def main() -> None:
                     name: detail[0] for name, detail in module_details.items()
                 },
             },
-            "drive_required_stroke_mm": strokes,
-            "cylinder_first_contact_stroke_mm": stop_stroke,
-            "drive_clearance_at_first_contact_mm": drive_clearances,
-            "drive_contact": drive_contact,
+            **drive_state,
         })
         sweep = rotation9_contact_candidates(
             drilling[0], drilling_modules, rotation9_pivot, pose, estimation
@@ -705,24 +727,7 @@ def main() -> None:
         closest_module, (module_gap, module_point) = min(
             module_details.items(), key=lambda item: item[1][0]
         )
-        strokes = [
-            drive_contact_stroke(
-                wheel, pose, estimation, body_roll_deg
-            )
-            for wheel in drive
-        ]
-        reachable = [value for value in strokes if value is not None]
-        stop_stroke = min(reachable) if reachable else None
-        slider = (
-            SLIDER6_MAX_MM if stop_stroke is None
-            else SLIDER6_MIN_MM + stop_stroke
-        )
-        drive_clearances = [
-            clearance_mm(
-                wheel, pose, estimation, slider, body_roll_deg
-            )
-            for wheel in drive
-        ]
+        drive_state = drive_first_contact(drive, pose, estimation, body_roll_deg)
         case["initial_alignment_pose_m"] = case["body_pose_m"]
         case["body_pose_m"] = {
             "x": pose[0], "y": pose[1], "z": pose[2]
@@ -759,12 +764,7 @@ def main() -> None:
                 name: detail[0] for name, detail in module_details.items()
             },
         }
-        case["drive_required_stroke_mm"] = strokes
-        case["cylinder_first_contact_stroke_mm"] = stop_stroke
-        case["drive_clearance_at_first_contact_mm"] = drive_clearances
-        case["drive_contact"] = [
-            gap <= CONTACT_TOLERANCE_MM for gap in drive_clearances
-        ]
+        case.update(drive_state)
         if "valid_configuration" in case:
             case["valid_configuration"] = (
                 any(case["drilling_contact"])

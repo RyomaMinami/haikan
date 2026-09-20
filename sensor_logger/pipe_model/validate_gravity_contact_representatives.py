@@ -151,20 +151,7 @@ def main() -> None:
         closest_name, (module_gap, module_point) = min(
             module_details.items(), key=lambda item: item[1][0]
         )
-        strokes = [
-            contact.drive_contact_stroke(wheel, pose, estimation, roll)
-            for wheel in drive
-        ]
-        reachable = [value for value in strokes if value is not None]
-        stop_stroke = min(reachable) if reachable else None
-        slider = (
-            contact.SLIDER6_MAX_MM if stop_stroke is None
-            else contact.SLIDER6_MIN_MM + stop_stroke
-        )
-        drive_gaps = [
-            contact.clearance_mm(wheel, pose, estimation, slider, roll)
-            for wheel in drive
-        ]
+        drive_state = contact.drive_first_contact(drive, pose, estimation, roll)
         support_flags = [force >= 2.0 for force in row["wheel_normal_force_n"]]
         ridge_platform = [
             index + 1 for index in range(4)
@@ -213,12 +200,7 @@ def main() -> None:
                     name: detail[0] for name, detail in module_details.items()
                 },
             },
-            "drive_required_stroke_mm": strokes,
-            "cylinder_first_contact_stroke_mm": stop_stroke,
-            "drive_clearance_at_first_contact_mm": drive_gaps,
-            "drive_contact": [
-                gap <= contact.CONTACT_TOLERANCE_MM for gap in drive_gaps
-            ],
+            **drive_state,
         })
 
     result = {

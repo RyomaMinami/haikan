@@ -14,30 +14,28 @@ import analyze_ridge_contact_cases as contact
 def evaluate(state: dict, drive: list[np.ndarray], estimation: dict) -> dict:
     pose = tuple(state["body_pose_m"][axis] for axis in ("x", "y", "z"))
     roll = float(state["body_roll_deg"])
-    strokes = [
-        contact.drive_contact_stroke(wheel, pose, estimation, roll)
-        for wheel in drive
-    ]
+    drive_state = contact.drive_first_contact(drive, pose, estimation, roll)
+    strokes = drive_state["drive_required_stroke_mm"]
     reachable = [stroke for stroke in strokes if stroke is not None]
-    first_stroke = min(reachable) if reachable else None
+    first_stroke = drive_state["cylinder_first_contact_stroke_mm"]
     slider = (
         contact.SLIDER6_MIN_MM + first_stroke
         if first_stroke is not None else contact.SLIDER6_MAX_MM
     )
     details = [
-        contact.clearance_details(
-            wheel, pose, estimation, roll, slider_mm=slider
-        )
-        for wheel in drive
+        contact.clearance_details(wheel, pose, estimation, roll, slider_mm=slider)
+        if index in contact.ACTIVE_DRIVE_WHEEL_INDICES else None
+        for index, wheel in enumerate(drive)
     ]
-    gaps = [float(gap) for gap, _ in details]
+    gaps = [float(detail[0]) if detail is not None else None for detail in details]
     heights = [
-        contact.local_ridge_height_mm(point, estimation)
-        for _, point in details
+        contact.local_ridge_height_mm(detail[1], estimation)
+        if detail is not None else None
+        for detail in details
     ]
     first_ids = [
         i + 1 for i, gap in enumerate(gaps)
-        if gap <= contact.CONTACT_TOLERANCE_MM
+        if gap is not None and gap <= contact.CONTACT_TOLERANCE_MM
     ]
     ridge_ids = [
         i for i in first_ids
@@ -51,6 +49,7 @@ def evaluate(state: dict, drive: list[np.ndarray], estimation: dict) -> dict:
         "first_contact_stroke_mm": first_stroke,
         "first_contact_drive_wheels": first_ids,
         "first_contact_drive_wheels_on_ridge": ridge_ids,
+        "drive_contact_enabled": drive_state["drive_contact_enabled"],
         "other_wheel_clearance_at_first_contact_mm": gaps,
         "drive_required_stroke_mm": strokes,
         "local_ridge_height_at_wheel_mm": heights,

@@ -46,6 +46,9 @@ BIT_MODULE_POSITION_MM = np.array([-59.0, 116.0, -369.0])
 SLIDER6_MIN_MM = 43.0
 SLIDER6_MAX_MM = 73.0
 SLIDER11_MIN_MM = -121.764
+# CAD Z=+103.15 mm wheels are opposite the drilling module. Only these two
+# receive drive and cylinder load; the module-side pair sits lower from play.
+ACTIVE_DRIVE_WHEEL_INDICES = (0, 1)
 # Deterministic seating poses obtained from the fitted wheel hulls.  The
 # support-wheel envelope is placed against a conservative 118.5 mm inner
 # radius (120 mm nominal minus the 1.5 mm inferred ridge height).
@@ -514,7 +517,7 @@ class MeasuredPipeApp:
                   "1-9: contact cases  N/P: next/previous case\n"
                   "C: cylinder press/retract\n"
                   "Dark blue: ridge >=0.7 mm  Red: contact\n"
-                  "Cyan: passive no contact  Pink: drive no contact\n"
+                  "Cyan: passive free  Pink: drive free  Gray: wheels 3/4 unloaded\n"
                   "Yellow/magenta: module clearance/contact\n"
                   "Gravity supports: 1-4=platform passive, 5=drilling passive\n"
                   "R: reset case  Esc: exit"),
@@ -759,7 +762,9 @@ class MeasuredPipeApp:
             self.robot_body.removeShape(shape)
         self.drive_contact_shapes.clear()
         offset = ROBOT_MODULE_POSITION_MM + np.array([0.0, self.slider6_mm, 0.0])
-        for wheel_mesh in self.drive_wheel_meshes:
+        for index, wheel_mesh in enumerate(self.drive_wheel_meshes):
+            if index not in ACTIVE_DRIVE_WHEEL_INDICES:
+                continue
             wheel_hull = wheel_mesh.convex_hull
             local_vertices = cad_to_sim(
                 np.asarray(wheel_hull.vertices) + offset
@@ -919,8 +924,16 @@ class MeasuredPipeApp:
         ):
             self.set_contact_marker(marker, bool(contact), (0.20, 0.95, 1.0, 0.94))
         drive_contacts = case["drive_contact"] if self.cylinder_pressed else [False] * 4
-        for marker, contact in zip(self.drive_contact_markers, drive_contacts):
-            self.set_contact_marker(marker, bool(contact), (1.0, 0.18, 0.72, 0.94))
+        for index, (marker, contact) in enumerate(
+            zip(self.drive_contact_markers, drive_contacts)
+        ):
+            if index not in ACTIVE_DRIVE_WHEEL_INDICES:
+                # The module-side pair is visibly retained at its nominal CAD
+                # position. Its real downward play is unknown, so gray means
+                # excluded from load-bearing, not a measured clearance.
+                self.set_contact_marker(marker, False, (0.67, 0.68, 0.71, 0.90))
+            else:
+                self.set_contact_marker(marker, bool(contact), (1.0, 0.18, 0.72, 0.94))
         for marker, contact in zip(
             self.drilling_contact_markers, case["drilling_contact"]
         ):
