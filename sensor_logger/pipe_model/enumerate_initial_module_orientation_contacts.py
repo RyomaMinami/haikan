@@ -58,9 +58,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--axial-step-mm", type=float, default=20.0)
     parser.add_argument("--angle-step-deg", type=float, default=30.0)
+    parser.add_argument(
+        "--reuse-states", action="store_true",
+        help="Rebuild groups from the existing JSON states without rerunning physics",
+    )
     args = parser.parse_args()
     here = Path(__file__).resolve().parent
     output = here / "output"
+    path = output / "initial_module_orientation_contacts.json"
+    if args.reuse_states:
+        result = json.loads(path.read_text(encoding="utf-8"))
+        result["groups"] = summarize(result["states"])
+        path.write_text(
+            json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        print(f"reused={len(result['states'])} groups={len(result['groups'])}")
+        return
     estimation = json.loads(
         (output / "helical_ridge_estimation.json").read_text(encoding="utf-8")
     )
@@ -69,6 +83,7 @@ def main() -> None:
     )
     assets = here.parent.parent / "raspi_tools" / "camera_stream" / "assets"
     passive, drive, drilling, drilling_modules = contact.load_geometry(assets)
+    fixed_bodies = contact.load_fixed_body_geometry(assets)
     base = contact.load_robot_mesh(assets / "01_move_module.stl")
     motor = contact.load_robot_mesh(assets / "02_motor_module.stl")
     motor_offset = contact.ROBOT_MODULE_POSITION_MM + np.array(
@@ -97,16 +112,17 @@ def main() -> None:
             name: contact.rotate_about_pipe_axis(vertices, pivot, float(angle))
             for name, vertices in drilling_modules.items()
         }
+        collision_bodies = {**fixed_bodies, **rotated_modules}
         com = com_at_angle(com_model, pivot, float(angle))
         for phase in phases:
             x = 1.0 + float(phase) * 0.001
             initial = (x, contact.NORMAL_PASSIVE_SEAT_Y_M, -0.00266)
             base_pose, _, _ = contact.settle_under_gravity(
-                passive, [], rotated_modules, initial, 0.0, com,
+                passive, [], collision_bodies, initial, 0.0, com,
                 estimation, fast=True, fixed_body_roll_deg=0.0,
             )
             pose, roll, settled = contact.settle_under_gravity(
-                passive, rotated_wheels, rotated_modules, base_pose,
+                passive, rotated_wheels, collision_bodies, base_pose,
                 0.0, com, estimation, fast=True, fixed_body_roll_deg=0.0,
             )
             details = [
@@ -145,9 +161,14 @@ def main() -> None:
                 "vertical_force_balance_error_n": abs(
                     settled["vertical_support_force_n"] - settled["weight_n"]
                 ),
+                "lateral_force_residual_n": settled["lateral_force_residual_n"],
+                "required_body_roll_holding_torque_n_m": settled[
+                    "roll_constraint_torque_n_m"
+                ],
                 "valid_without_body_penetration": bool(
                     settled["success"] and body_gap >= -contact.CONTACT_TOLERANCE_MM
                     and abs(settled["vertical_support_force_n"] - settled["weight_n"]) <= 5.0
+                    and abs(settled["lateral_force_residual_n"]) <= 5.0
                 ),
                 **drive_state,
             })
@@ -162,7 +183,6 @@ def main() -> None:
         "groups": summarize(rows),
         "states": rows,
     }
-    path = output / "initial_module_orientation_contacts.json"
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"total={len(rows)} valid={sum(r['valid_without_body_penetration'] for r in rows)} groups={len(result['groups'])}")
     for group in result["groups"]:

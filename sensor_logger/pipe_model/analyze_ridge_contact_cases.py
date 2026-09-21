@@ -113,6 +113,58 @@ def load_geometry(
     return passive, drive, drilling, drilling_modules
 
 
+def load_fixed_body_geometry(asset_dir: Path) -> dict[str, np.ndarray]:
+    """Load non-wheel platform/motor surfaces for pipe interference checks."""
+    base = load_robot_mesh(asset_dir / "01_move_module.stl")
+    motor = load_robot_mesh(asset_dir / "02_motor_module.stl")
+    motor_offset = ROBOT_MODULE_POSITION_MM + np.array(
+        [0.0, SLIDER6_MIN_MM, 0.0]
+    )
+    cad_center = (
+        np.minimum(base.bounds[0], motor.bounds[0] + motor_offset)
+        + np.maximum(base.bounds[1], motor.bounds[1] + motor_offset)
+    ) * 0.5
+
+    base_parts = list(base.split(only_watertight=False))
+    passive_parts = {
+        id(min(
+            base_parts,
+            key=lambda part: np.linalg.norm(
+                np.asarray(part.bounding_box.centroid) - center
+            ),
+        ))
+        for center in PASSIVE_WHEELS_CAD_MM
+    }
+    base_body = trimesh.util.concatenate([
+        part for part in base_parts if id(part) not in passive_parts
+    ])
+
+    motor_body_parts = []
+    for part in motor.split(only_watertight=False):
+        center = np.asarray(part.bounding_box.centroid)
+        extent = np.asarray(part.bounding_box.extents)
+        outer_tire = any(
+            abs(center[0] - wheel_center[0]) < 20.0
+            and abs(center[1] - wheel_center[1]) < 0.20
+            and abs(center[2] - wheel_center[2]) < 0.20
+            and extent[0] <= 15.0
+            and extent[1] >= 39.5
+            and extent[2] >= 39.5
+            for wheel_center in DRIVE_WHEELS_MODULE_CAD_MM
+        )
+        if not outer_tire:
+            motor_body_parts.append(part)
+    motor_body = trimesh.util.concatenate(motor_body_parts)
+    return {
+        "move_module_body": cad_to_sim(
+            np.asarray(base_body.vertices) - cad_center
+        ),
+        "motor_module_body_retracted": cad_to_sim(
+            np.asarray(motor_body.vertices) + motor_offset - cad_center
+        ),
+    }
+
+
 def pipe_radius_m(points: np.ndarray, estimation: dict) -> np.ndarray:
     x_mm = points[:, 0] * 1000.0
     theta_deg = np.degrees(np.arctan2(points[:, 2], points[:, 1]))
@@ -355,15 +407,33 @@ def settle_under_gravity(
         for name, gap in body_gaps.items()
     }
     vertical_support = 0.0
+    lateral_support = 0.0
+    contact_torque_x_n_m = 0.0
+    rolled_com = roll_about_body_axis(com_local[None, :], roll_deg)[0]
+    world_com = rolled_com + np.asarray(pose)
     for force, (_, point) in zip(wheel_normals, wheel_details):
         radial = float(np.linalg.norm(point[1:3]))
         if radial > 0.0:
-            vertical_support += force * (-point[2] / radial)
+            contact_force = np.array([
+                0.0, force * (-point[1] / radial), force * (-point[2] / radial)
+            ])
+            lateral_support += contact_force[1]
+            vertical_support += contact_force[2]
+            contact_torque_x_n_m += float(
+                np.cross(point - world_com, contact_force)[0]
+            )
     for name, force in body_normals.items():
         point = body_details[name][1]
         radial = float(np.linalg.norm(point[1:3]))
         if radial > 0.0:
-            vertical_support += force * (-point[2] / radial)
+            contact_force = np.array([
+                0.0, force * (-point[1] / radial), force * (-point[2] / radial)
+            ])
+            lateral_support += contact_force[1]
+            vertical_support += contact_force[2]
+            contact_torque_x_n_m += float(
+                np.cross(point - world_com, contact_force)[0]
+            )
     return pose, roll_deg, {
         "success": bool(result.success),
         "message": str(result.message),
@@ -374,6 +444,11 @@ def settle_under_gravity(
         "body_normal_force_n": body_normals,
         "total_support_force_n": float(sum(wheel_normals) + sum(body_normals.values())),
         "vertical_support_force_n": float(vertical_support),
+        "lateral_force_residual_n": float(lateral_support),
+        "roll_constraint_torque_n_m": (
+            float(-contact_torque_x_n_m)
+            if fixed_body_roll_deg is not None else 0.0
+        ),
         "weight_n": ROBOT_MASS_KG * GRAVITY_M_S2,
         "contact_wheels": [
             index + 1 for index, force in enumerate(wheel_normals) if force >= 2.0

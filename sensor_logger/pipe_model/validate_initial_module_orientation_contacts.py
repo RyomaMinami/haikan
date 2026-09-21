@@ -32,6 +32,7 @@ def main() -> None:
     )
     assets = here.parent.parent / "raspi_tools" / "camera_stream" / "assets"
     passive, drive, drilling, drilling_modules = contact.load_geometry(assets)
+    fixed_bodies = contact.load_fixed_body_geometry(assets)
     base = contact.load_robot_mesh(assets / "01_move_module.stl")
     motor = contact.load_robot_mesh(assets / "02_motor_module.stl")
     motor_offset = contact.ROBOT_MODULE_POSITION_MM + np.array(
@@ -57,11 +58,12 @@ def main() -> None:
             name: contact.rotate_about_pipe_axis(vertices, pivot, angle)
             for name, vertices in drilling_modules.items()
         }
+        collision_bodies = {**fixed_bodies, **rotated_modules}
         com = com_at_angle(com_model, pivot, angle)
         prior_pose = representative["body_pose_m"]
         initial = tuple(prior_pose[axis] for axis in ("x", "y", "z"))
         pose, roll, settled = contact.settle_under_gravity(
-            passive, rotated_wheels, rotated_modules, initial, 0.0,
+            passive, rotated_wheels, collision_bodies, initial, 0.0,
             com, estimation, fast=False, fixed_body_roll_deg=0.0,
         )
         details = [
@@ -80,7 +82,10 @@ def main() -> None:
         ]
         body_gap = min(settled["body_clearance_mm"].values())
         force_error = abs(settled["vertical_support_force_n"] - settled["weight_n"])
-        valid = bool(settled["success"] and body_gap >= -0.005 and force_error <= 5.0)
+        valid = bool(
+            settled["success"] and body_gap >= -0.005 and force_error <= 5.0
+            and abs(settled["lateral_force_residual_n"]) <= 5.0
+        )
         drive_state = contact.drive_first_contact(drive, pose, estimation, roll)
         row = {
             "coarse_group": group["orientation_group"],
@@ -96,6 +101,10 @@ def main() -> None:
             "body_clearance_mm": settled["body_clearance_mm"],
             "minimum_body_clearance_mm": body_gap,
             "vertical_force_balance_error_n": force_error,
+            "lateral_force_residual_n": settled["lateral_force_residual_n"],
+            "required_body_roll_holding_torque_n_m": settled[
+                "roll_constraint_torque_n_m"
+            ],
             "valid_without_body_penetration": valid,
             **drive_state,
         }
@@ -121,6 +130,9 @@ def main() -> None:
             "passive_wheels_on_ridge": [
                 i + 1 for i in range(4) if WHEEL_NAMES[i] in ridge
             ],
+            "support_ids": supports,
+            "ridge_support_ids": ridge,
+            "minimum_body_clearance_mm": body_gap,
             "body_pose_m": row["body_pose_m"],
             "body_roll_deg": 0.0,
             "passive_clearance_mm": row["wheel_clearance_mm"][:4],
@@ -138,6 +150,10 @@ def main() -> None:
                 "wheel_normal_force_n": forces,
                 "body_clearance_mm": settled["body_clearance_mm"],
                 "vertical_support_force_n": settled["vertical_support_force_n"],
+                "lateral_force_residual_n": settled["lateral_force_residual_n"],
+                "required_body_roll_holding_torque_n_m": settled[
+                    "roll_constraint_torque_n_m"
+                ],
                 "weight_n": settled["weight_n"],
             },
             "drilling_module_after_press": {
@@ -155,6 +171,22 @@ def main() -> None:
             **drive_state,
         })
 
+    deduplicated = {}
+    for case in simulator_cases:
+        key = (
+            case["rotation9_deg"] == 0.0,
+            tuple(case["support_ids"]),
+            tuple(case["ridge_support_ids"]),
+            tuple(case["drive_contact"]),
+        )
+        prior = deduplicated.get(key)
+        if (
+            prior is None
+            or case["minimum_body_clearance_mm"]
+            > prior["minimum_body_clearance_mm"]
+        ):
+            deduplicated[key] = case
+    simulator_cases = list(deduplicated.values())
     simulator_cases.sort(
         key=lambda case: (
             case["rotation9_deg"] != 0.0,

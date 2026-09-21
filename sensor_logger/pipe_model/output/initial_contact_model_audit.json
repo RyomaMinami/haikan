@@ -1,0 +1,579 @@
+{
+  "method": "full-mesh validation of the maximum-clearance coarse state at every 5 degree sample",
+  "validity": "optimizer success, body clearance >= -0.005 mm, vertical and lateral force errors <= 5 N",
+  "angle_step_deg": 5.0,
+  "valid_angle_samples_deg": [
+    -20.0,
+    -15.0,
+    -10.0,
+    -5.0,
+    0.0,
+    5.0,
+    10.0,
+    15.0,
+    20.0,
+    25.0,
+    30.0
+  ],
+  "validated_contiguous_sample_range_deg": [
+    -20.0,
+    30.0
+  ],
+  "angles": [
+    {
+      "initial_rotation9_deg": -90.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.004423863063401946,
+        "z": -0.005894397910043742
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.465042214847583,
+      "vertical_force_balance_error_n": 12.776181380074803,
+      "lateral_force_residual_n": -14.761017125649232,
+      "required_body_roll_holding_torque_n_m": -1.4887778209060745,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -85.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.00484745541168914,
+        "z": -0.005326035993483832
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.4121394280488383,
+      "vertical_force_balance_error_n": 12.65197675995634,
+      "lateral_force_residual_n": -12.240328156163969,
+      "required_body_roll_holding_torque_n_m": -1.5699209302116692,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -80.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.005281368448092734,
+        "z": -0.004766681309080429
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.36090095565077807,
+      "vertical_force_balance_error_n": 11.929230259823242,
+      "lateral_force_residual_n": -9.844789907941049,
+      "required_body_roll_holding_torque_n_m": -1.6391153018961404,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -75.0,
+      "axial_phase_mm": 164.5657894736842,
+      "body_pose_m": {
+        "x": 1.1645657894736843,
+        "y": -0.005962373134317147,
+        "z": -0.004238414677623438
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.3207358860157078,
+      "vertical_force_balance_error_n": 0.5531888642676961,
+      "lateral_force_residual_n": -1.155968472331324,
+      "required_body_roll_holding_torque_n_m": -1.8324062607747607,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -70.0,
+      "axial_phase_mm": 164.5657894736842,
+      "body_pose_m": {
+        "x": 1.1645657894736843,
+        "y": -0.00647172952346042,
+        "z": -0.0036343923402518243
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.2637408160804655,
+      "vertical_force_balance_error_n": 9.271834699718482,
+      "lateral_force_residual_n": -6.252981167216149,
+      "required_body_roll_holding_torque_n_m": -1.7978220329979209,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -65.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.0066828568641874656,
+        "z": -0.003102111199514299
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.20181489242254713,
+      "vertical_force_balance_error_n": 7.815587213294606,
+      "lateral_force_residual_n": -4.016570671335671,
+      "required_body_roll_holding_torque_n_m": -1.7754614457619056,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -60.0,
+      "axial_phase_mm": 139.6315789473684,
+      "body_pose_m": {
+        "x": 1.1396315789473683,
+        "y": -0.007023969192718054,
+        "z": -0.0025611948514725515
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.13715665142155498,
+      "vertical_force_balance_error_n": 2.633016124932084,
+      "lateral_force_residual_n": -1.547267597376532,
+      "required_body_roll_holding_torque_n_m": -1.7928079979197857,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -55.0,
+      "axial_phase_mm": 144.61842105263156,
+      "body_pose_m": {
+        "x": 1.1446184210526316,
+        "y": -0.007675256056979975,
+        "z": -0.00205647885490826
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.06995414693290736,
+      "vertical_force_balance_error_n": 1.3182754228784859,
+      "lateral_force_residual_n": -1.109685778795722,
+      "required_body_roll_holding_torque_n_m": -1.8275246716901474,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -50.0,
+      "axial_phase_mm": 174.53947368421052,
+      "body_pose_m": {
+        "x": 1.1745394736842105,
+        "y": -0.008819190997444082,
+        "z": -0.0016194653304526067
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.02901371517585738,
+      "vertical_force_balance_error_n": 1.219075812912223,
+      "lateral_force_residual_n": -1.0198172857954546,
+      "required_body_roll_holding_torque_n_m": -1.9384281641777412,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -45.0,
+      "axial_phase_mm": 154.5921052631579,
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.009227543618259268,
+        "z": -0.0022219948394798894
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.02664697339854749,
+      "vertical_force_balance_error_n": 1.122719162178953,
+      "lateral_force_residual_n": -0.9266886660175544,
+      "required_body_roll_holding_torque_n_m": -1.8856366138612701,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -40.0,
+      "axial_phase_mm": 179.52631578947367,
+      "body_pose_m": {
+        "x": 1.1795263157894738,
+        "y": -0.010278780703569124,
+        "z": -0.002346800429009005
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.024769451841266665,
+      "vertical_force_balance_error_n": 1.0448940024134572,
+      "lateral_force_residual_n": -0.8440724703776255,
+      "required_body_roll_holding_torque_n_m": -1.9508102826088982,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -35.0,
+      "axial_phase_mm": 184.51315789473682,
+      "body_pose_m": {
+        "x": 1.1845131578947368,
+        "y": -0.010906667957352742,
+        "z": -0.002602504559497594
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.02350756571425916,
+      "vertical_force_balance_error_n": 0.0024514307351068965,
+      "lateral_force_residual_n": -0.9136364249812914,
+      "required_body_roll_holding_torque_n_m": -1.9274022967640916,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -30.0,
+      "axial_phase_mm": 144.61842105263156,
+      "body_pose_m": {
+        "x": 1.1446184210526316,
+        "y": -0.010697459581733546,
+        "z": -0.003104806641118349
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.016992643487284687,
+      "vertical_force_balance_error_n": 0.5644030116594081,
+      "lateral_force_residual_n": -0.10164217123211472,
+      "required_body_roll_holding_torque_n_m": -1.7001685900286838,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -25.0,
+      "axial_phase_mm": 139.6315789473684,
+      "body_pose_m": {
+        "x": 1.1396315789473683,
+        "y": -0.011108209520399965,
+        "z": -0.003217866960319288
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.007743955348568643,
+      "vertical_force_balance_error_n": 0.32949409927067563,
+      "lateral_force_residual_n": 0.07216907135901351,
+      "required_body_roll_holding_torque_n_m": -1.6019112084797955,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": -20.0,
+      "axial_phase_mm": 129.65789473684208,
+      "body_pose_m": {
+        "x": 1.129657894736842,
+        "y": -0.011545045433768069,
+        "z": -0.003404251609156794
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.004048144527951658,
+      "vertical_force_balance_error_n": 0.08654710795306642,
+      "lateral_force_residual_n": -0.48247981386936445,
+      "required_body_roll_holding_torque_n_m": -1.5084067234980298,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": -15.0,
+      "axial_phase_mm": 144.61842105263156,
+      "body_pose_m": {
+        "x": 1.1446184210526316,
+        "y": -0.011838917272092487,
+        "z": -0.0034463160890821102
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 0.1949841068964453,
+      "vertical_force_balance_error_n": 0.28249464420986214,
+      "lateral_force_residual_n": 0.1488167411142669,
+      "required_body_roll_holding_torque_n_m": -1.3630707419080128,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": -10.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.012955819467938081,
+        "z": -0.0033272969524061518
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 0.5291405508845992,
+      "vertical_force_balance_error_n": 0.23141194557095446,
+      "lateral_force_residual_n": -0.3603633631271119,
+      "required_body_roll_holding_torque_n_m": -1.3953416717337854,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": -5.0,
+      "axial_phase_mm": 9.973684210526315,
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.013052724018992988,
+        "z": -0.003311920035897516
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 0.9704596449787994,
+      "vertical_force_balance_error_n": 0.15640116861646902,
+      "lateral_force_residual_n": -0.35650832837151203,
+      "required_body_roll_holding_torque_n_m": -1.2099340287059581,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 0.0,
+      "axial_phase_mm": 9.973684210526315,
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.013052722484042392,
+        "z": -0.003311920072427476
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 1.366295709242682,
+      "vertical_force_balance_error_n": 0.15638281990123915,
+      "lateral_force_residual_n": -0.35681259594295156,
+      "required_body_roll_holding_torque_n_m": -1.0023274784196665,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 5.0,
+      "axial_phase_mm": 19.94736842105263,
+      "body_pose_m": {
+        "x": 1.0199473684210527,
+        "y": -0.0132357245750085,
+        "z": -0.0032529122145503997
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 1.6195492056627208,
+      "vertical_force_balance_error_n": 0.0784683963810835,
+      "lateral_force_residual_n": -0.5198808934507948,
+      "required_body_roll_holding_torque_n_m": -0.8339620205963456,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 10.0,
+      "axial_phase_mm": 34.9078947368421,
+      "body_pose_m": {
+        "x": 1.0349078947368422,
+        "y": -0.013507273273940443,
+        "z": -0.0033431876570878985
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 1.5206798303559892,
+      "vertical_force_balance_error_n": 0.26415300137563236,
+      "lateral_force_residual_n": 0.3894172424711755,
+      "required_body_roll_holding_torque_n_m": -0.6743799487718071,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 15.0,
+      "axial_phase_mm": 49.868421052631575,
+      "body_pose_m": {
+        "x": 1.0498684210526317,
+        "y": -0.013719940951215526,
+        "z": -0.0035037896942410863
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 1.3542792290443806,
+      "vertical_force_balance_error_n": 0.35165527119713147,
+      "lateral_force_residual_n": 0.2497865078201329,
+      "required_body_roll_holding_torque_n_m": -0.5158631759572788,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 20.0,
+      "axial_phase_mm": 69.8157894736842,
+      "body_pose_m": {
+        "x": 1.0698157894736842,
+        "y": -0.013769790067709833,
+        "z": -0.003859240045524592
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 1.0553906391893852,
+      "vertical_force_balance_error_n": 0.011011603910986878,
+      "lateral_force_residual_n": 0.8604552488404877,
+      "required_body_roll_holding_torque_n_m": -0.3222835706278711,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 25.0,
+      "axial_phase_mm": 74.80263157894737,
+      "body_pose_m": {
+        "x": 1.0748026315789474,
+        "y": -0.013848822137223663,
+        "z": -0.0039047911240341717
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 0.6517395678840576,
+      "vertical_force_balance_error_n": 0.09113564357912196,
+      "lateral_force_residual_n": 0.6826133647631671,
+      "required_body_roll_holding_torque_n_m": -0.1473393027150005,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 30.0,
+      "axial_phase_mm": 79.78947368421052,
+      "body_pose_m": {
+        "x": 1.0797894736842104,
+        "y": -0.0140125073593399,
+        "z": -0.003913173227046331
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": 0.2726592216004131,
+      "vertical_force_balance_error_n": 0.24988106791519726,
+      "lateral_force_residual_n": 0.45579606829429764,
+      "required_body_roll_holding_torque_n_m": 0.0021945520954586017,
+      "valid": true
+    },
+    {
+      "initial_rotation9_deg": 35.0,
+      "axial_phase_mm": 74.80263157894737,
+      "body_pose_m": {
+        "x": 1.0748026315789474,
+        "y": -0.014258801852370126,
+        "z": -0.0037897286471198634
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.008216346590941837,
+      "vertical_force_balance_error_n": 0.0005709290677202716,
+      "lateral_force_residual_n": 0.8642450172530971,
+      "required_body_roll_holding_torque_n_m": 0.13095685366164905,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 40.0,
+      "axial_phase_mm": 14.960526315789473,
+      "body_pose_m": {
+        "x": 1.0149605263157895,
+        "y": -0.015448021714695287,
+        "z": -0.002220272851914768
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.024655466812892324,
+      "vertical_force_balance_error_n": 0.3238714942730496,
+      "lateral_force_residual_n": -0.04319165794240121,
+      "required_body_roll_holding_torque_n_m": 0.045363040658874754,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 45.0,
+      "axial_phase_mm": 0.0,
+      "body_pose_m": {
+        "x": 1.0,
+        "y": -0.016107978435518026,
+        "z": -0.0018300591428830817
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.02654863941921326,
+      "vertical_force_balance_error_n": 0.43288229777348874,
+      "lateral_force_residual_n": -0.07477952280041222,
+      "required_body_roll_holding_torque_n_m": 0.0643808259005123,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 50.0,
+      "axial_phase_mm": 169.55263157894734,
+      "body_pose_m": {
+        "x": 1.1695526315789473,
+        "y": -0.016889423563779867,
+        "z": -0.001553878921996645
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.029122053121874436,
+      "vertical_force_balance_error_n": 0.9123999214275216,
+      "lateral_force_residual_n": -0.8085574649441298,
+      "required_body_roll_holding_torque_n_m": 0.04312276230671985,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 55.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.017728635239632834,
+        "z": -0.0012920049786426097
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.05718866971707315,
+      "vertical_force_balance_error_n": 0.5144808471673912,
+      "lateral_force_residual_n": -0.3652481205382969,
+      "required_body_roll_holding_torque_n_m": 0.00036567648734298075,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 60.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.01845188085706001,
+        "z": -0.0017210965001458601
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.2778446949200236,
+      "vertical_force_balance_error_n": 419.76750670085517,
+      "lateral_force_residual_n": 1322.9224566099097,
+      "required_body_roll_holding_torque_n_m": 2.739574047310178,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 65.0,
+      "axial_phase_mm": 94.75,
+      "body_pose_m": {
+        "x": 1.09475,
+        "y": -0.018018944076540696,
+        "z": -0.0028829040285153185
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.15638141499621505,
+      "vertical_force_balance_error_n": 454.4450769076582,
+      "lateral_force_residual_n": 637.4413133649801,
+      "required_body_roll_holding_torque_n_m": 1.9657617966484562,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 70.0,
+      "axial_phase_mm": 94.75,
+      "body_pose_m": {
+        "x": 1.09475,
+        "y": -0.018603606252312926,
+        "z": -0.003243584319023792
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -0.8418061075963906,
+      "vertical_force_balance_error_n": 2340.4063475094385,
+      "lateral_force_residual_n": 3122.0172393603607,
+      "required_body_roll_holding_torque_n_m": 6.860231242990919,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 75.0,
+      "axial_phase_mm": 129.65789473684208,
+      "body_pose_m": {
+        "x": 1.129657894736842,
+        "y": -0.0183646373849109,
+        "z": -0.004933017655602405
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -1.6572012836226362,
+      "vertical_force_balance_error_n": 4105.369971256641,
+      "lateral_force_residual_n": 4463.660412542553,
+      "required_body_roll_holding_torque_n_m": 15.81520081865376,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 80.0,
+      "axial_phase_mm": 134.64473684210526,
+      "body_pose_m": {
+        "x": 1.1346447368421053,
+        "y": -0.01800115371117212,
+        "z": -0.006403022689675164
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -2.216805060583124,
+      "vertical_force_balance_error_n": 5729.094026695636,
+      "lateral_force_residual_n": 6385.47374753385,
+      "required_body_roll_holding_torque_n_m": 28.982910199089872,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 85.0,
+      "axial_phase_mm": 124.67105263157893,
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.017615275750491082,
+        "z": -0.007228682147012738
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -2.359490855354862,
+      "vertical_force_balance_error_n": 6112.932766278371,
+      "lateral_force_residual_n": 6648.121656296878,
+      "required_body_roll_holding_torque_n_m": 32.58574963664145,
+      "valid": false
+    },
+    {
+      "initial_rotation9_deg": 90.0,
+      "axial_phase_mm": 149.60526315789474,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.017778349755790547,
+        "z": -0.008045041657299128
+      },
+      "body_roll_deg": 0.0,
+      "minimum_body_clearance_mm": -2.9812933847727097,
+      "vertical_force_balance_error_n": 7947.093416700032,
+      "lateral_force_residual_n": 8886.111572543014,
+      "required_body_roll_holding_torque_n_m": 40.303680019890834,
+      "valid": false
+    }
+  ]
+}
