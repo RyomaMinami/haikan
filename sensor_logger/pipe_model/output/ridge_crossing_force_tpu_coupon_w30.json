@@ -1,0 +1,625 @@
+{
+  "method": "fixed post-press normal loads projected through a symmetric triangular helical ridge of total width 30 mm",
+  "profile_source_csv": "sensor_logger\\pipe154_auto_scan_m115_115_point_cloud_axis_corrected.csv",
+  "post_press_load_source": "pressurized_contact_distribution_tpu_coupon.json",
+  "profile_phase_step_mm": 0.25,
+  "ridge_height_mm": 1.5122259907957454,
+  "ridge_lead_mm": 189.5,
+  "ridge_profile_shape": "symmetric-triangle",
+  "ridge_total_width_mm": 30.0,
+  "maximum_inferred_surface_slope": 0.1008150660530497,
+  "maximum_inferred_surface_angle_deg": 5.756826866582634,
+  "friction_coefficient": 0.1,
+  "drive_effective_radius_mm": 27.0,
+  "vertical_step_force_to_normal_ratio_reference": 0.3495469513724193,
+  "important_limitations": [
+    "Normal loads are held at each case's 0.7 MPa equilibrium values while crossing.",
+    "The ridge phase is based on a helix fit with R-squared 0.424; local geometry error could change force.",
+    "Coupon-derived stiffness does not determine completed-wheel deformation or rolling hysteresis; a radial compression test of one completed wheel is still required.",
+    "Body contacts are flagged separately because a non-rolling edge can snag even when wheels can climb.",
+    "The traction limit uses mu=0.1 and does not prove that the motor can supply the corresponding torque."
+  ],
+  "cases": [
+    {
+      "case": 11,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 928.9035366119565,
+      "drive_normal_force_n": 95.84061588112505,
+      "maximum_forward_ridge_force_n": 42.300705934353665,
+      "maximum_reverse_ridge_force_n": 42.300705934353665,
+      "simultaneous_absolute_ridge_force_n": 57.84046236210484,
+      "conservative_all_contacts_same_slope_n": 93.64747140044587,
+      "traction_limit_mu_0p1_n": 9.584061588112505,
+      "traction_margin_after_ridge_n": -32.71664434624116,
+      "required_total_drive_wheel_torque_n_m": 1.142119060227549,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.5710595301137745,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 12,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 935.2530929428109,
+      "drive_normal_force_n": 98.60769565661569,
+      "maximum_forward_ridge_force_n": 45.02350368845963,
+      "maximum_reverse_ridge_force_n": 45.02350368845963,
+      "simultaneous_absolute_ridge_force_n": 60.152017140511354,
+      "conservative_all_contacts_same_slope_n": 94.2876023413485,
+      "traction_limit_mu_0p1_n": 9.86076956566157,
+      "traction_margin_after_ridge_n": -35.16273412279806,
+      "required_total_drive_wheel_torque_n_m": 1.21563459958841,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.607817299794205,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 13,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 941.2945693050103,
+      "drive_normal_force_n": 101.36960521608191,
+      "maximum_forward_ridge_force_n": 47.362817151555326,
+      "maximum_reverse_ridge_force_n": 47.362817151555326,
+      "simultaneous_absolute_ridge_force_n": 61.104677697610974,
+      "conservative_all_contacts_same_slope_n": 94.89667417986158,
+      "traction_limit_mu_0p1_n": 10.136960521608191,
+      "traction_margin_after_ridge_n": -37.22585662994713,
+      "required_total_drive_wheel_torque_n_m": 1.278796063091994,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.639398031545997,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 14,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 687.5569700478693,
+      "drive_normal_force_n": 105.8327205898261,
+      "maximum_forward_ridge_force_n": 36.58951350185848,
+      "maximum_reverse_ridge_force_n": 36.58951350185848,
+      "simultaneous_absolute_ridge_force_n": 53.43200602354217,
+      "conservative_all_contacts_same_slope_n": 69.31610135061065,
+      "traction_limit_mu_0p1_n": 10.58327205898261,
+      "traction_margin_after_ridge_n": -26.00624144287587,
+      "required_total_drive_wheel_torque_n_m": 0.9879168645501788,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.4939584322750894,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 15,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 479.6526138459885,
+      "drive_normal_force_n": 46.59031637427108,
+      "maximum_forward_ridge_force_n": 24.85098477728872,
+      "maximum_reverse_ridge_force_n": 24.85098477728872,
+      "simultaneous_absolute_ridge_force_n": 32.6823925603062,
+      "conservative_all_contacts_same_slope_n": 48.356209947401275,
+      "traction_limit_mu_0p1_n": 4.659031637427108,
+      "traction_margin_after_ridge_n": -20.19195313986161,
+      "required_total_drive_wheel_torque_n_m": 0.6709765889867954,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3354882944933977,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 16,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 505.19394867058753,
+      "drive_normal_force_n": 47.069246233563646,
+      "maximum_forward_ridge_force_n": 26.518831538116096,
+      "maximum_reverse_ridge_force_n": 26.518831538116096,
+      "simultaneous_absolute_ridge_force_n": 36.77994282740341,
+      "conservative_all_contacts_same_slope_n": 50.93116130482628,
+      "traction_limit_mu_0p1_n": 4.706924623356365,
+      "traction_margin_after_ridge_n": -21.81190691475973,
+      "required_total_drive_wheel_torque_n_m": 0.7160084515291346,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3580042257645673,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 17,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 639.7564708456821,
+      "drive_normal_force_n": 67.53001326939051,
+      "maximum_forward_ridge_force_n": 27.130950763402705,
+      "maximum_reverse_ridge_force_n": 27.130950763402705,
+      "simultaneous_absolute_ridge_force_n": 44.62703769446403,
+      "conservative_all_contacts_same_slope_n": 64.49709086617341,
+      "traction_limit_mu_0p1_n": 6.753001326939051,
+      "traction_margin_after_ridge_n": -20.377949436463652,
+      "required_total_drive_wheel_torque_n_m": 0.732535670611873,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3662678353059365,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 18,
+      "rotation9_deg": 0.0,
+      "wheel_contact_normal_force_n": 915.9366947801676,
+      "drive_normal_force_n": 90.48235238241264,
+      "maximum_forward_ridge_force_n": 36.88101138123674,
+      "maximum_reverse_ridge_force_n": 36.88101138123674,
+      "simultaneous_absolute_ridge_force_n": 50.37330213102891,
+      "conservative_all_contacts_same_slope_n": 92.34021838467461,
+      "traction_limit_mu_0p1_n": 9.048235238241265,
+      "traction_margin_after_ridge_n": -27.832776142995474,
+      "required_total_drive_wheel_torque_n_m": 0.9957873072933919,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.49789365364669597,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 19,
+      "rotation9_deg": -5.0,
+      "wheel_contact_normal_force_n": 487.68905292512693,
+      "drive_normal_force_n": 38.672748909920195,
+      "maximum_forward_ridge_force_n": 24.423718276969108,
+      "maximum_reverse_ridge_force_n": 24.423718276969108,
+      "simultaneous_absolute_ridge_force_n": 24.423718276969108,
+      "conservative_all_contacts_same_slope_n": 49.16640408399592,
+      "traction_limit_mu_0p1_n": 3.86727489099202,
+      "traction_margin_after_ridge_n": -20.55644338597709,
+      "required_total_drive_wheel_torque_n_m": 0.6594403934781659,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3297201967390829,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 20,
+      "rotation9_deg": -5.0,
+      "wheel_contact_normal_force_n": 515.407075986664,
+      "drive_normal_force_n": 40.286394113291244,
+      "maximum_forward_ridge_force_n": 26.699251158439886,
+      "maximum_reverse_ridge_force_n": 26.699251158439886,
+      "simultaneous_absolute_ridge_force_n": 26.699251158439886,
+      "conservative_all_contacts_same_slope_n": 51.96079840980474,
+      "traction_limit_mu_0p1_n": 4.028639411329125,
+      "traction_margin_after_ridge_n": -22.67061174711076,
+      "required_total_drive_wheel_torque_n_m": 0.7208797812778769,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.36043989063893844,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 21,
+      "rotation9_deg": -5.0,
+      "wheel_contact_normal_force_n": 539.4159766465076,
+      "drive_normal_force_n": 43.359990287096046,
+      "maximum_forward_ridge_force_n": 27.92888688591848,
+      "maximum_reverse_ridge_force_n": 27.92888688591848,
+      "simultaneous_absolute_ridge_force_n": 27.92888688591848,
+      "conservative_all_contacts_same_slope_n": 54.381257315687975,
+      "traction_limit_mu_0p1_n": 4.335999028709605,
+      "traction_margin_after_ridge_n": -23.592887857208876,
+      "required_total_drive_wheel_torque_n_m": 0.754079945919799,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3770399729598995,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 22,
+      "rotation9_deg": 5.0,
+      "wheel_contact_normal_force_n": 936.3713943452017,
+      "drive_normal_force_n": 98.60769365437162,
+      "maximum_forward_ridge_force_n": 45.20165135751421,
+      "maximum_reverse_ridge_force_n": 45.20165135751421,
+      "simultaneous_absolute_ridge_force_n": 60.472956163776885,
+      "conservative_all_contacts_same_slope_n": 94.40034397109775,
+      "traction_limit_mu_0p1_n": 9.860769365437163,
+      "traction_margin_after_ridge_n": -35.340881992077044,
+      "required_total_drive_wheel_torque_n_m": 1.2204445866528835,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.6102222933264417,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 23,
+      "rotation9_deg": 5.0,
+      "wheel_contact_normal_force_n": 942.4435030314211,
+      "drive_normal_force_n": 101.36958401407486,
+      "maximum_forward_ridge_force_n": 47.665292875321114,
+      "maximum_reverse_ridge_force_n": 47.665292875321114,
+      "simultaneous_absolute_ridge_force_n": 61.64719436370718,
+      "conservative_all_contacts_same_slope_n": 95.01250400938027,
+      "traction_limit_mu_0p1_n": 10.136958401407487,
+      "traction_margin_after_ridge_n": -37.52833447391363,
+      "required_total_drive_wheel_torque_n_m": 1.2869629076336702,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.6434814538168351,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 24,
+      "rotation9_deg": 5.0,
+      "wheel_contact_normal_force_n": 951.7090937974294,
+      "drive_normal_force_n": 104.78473703653182,
+      "maximum_forward_ridge_force_n": 51.75823932541892,
+      "maximum_reverse_ridge_force_n": 51.75823932541892,
+      "simultaneous_absolute_ridge_force_n": 51.75823932541892,
+      "conservative_all_contacts_same_slope_n": 95.94661515447592,
+      "traction_limit_mu_0p1_n": 10.478473703653183,
+      "traction_margin_after_ridge_n": -41.27976562176573,
+      "required_total_drive_wheel_torque_n_m": 1.3974724617863108,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.6987362308931554,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 25,
+      "rotation9_deg": 5.0,
+      "wheel_contact_normal_force_n": 825.201025966263,
+      "drive_normal_force_n": 72.68017059262893,
+      "maximum_forward_ridge_force_n": 31.237285498318045,
+      "maximum_reverse_ridge_force_n": 31.237285498318045,
+      "simultaneous_absolute_ridge_force_n": 55.252817741018525,
+      "conservative_all_contacts_same_slope_n": 83.19269593983319,
+      "traction_limit_mu_0p1_n": 7.268017059262893,
+      "traction_margin_after_ridge_n": -23.969268439055153,
+      "required_total_drive_wheel_torque_n_m": 0.8434067084545872,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.4217033542272936,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 26,
+      "rotation9_deg": 5.0,
+      "wheel_contact_normal_force_n": 916.4017615337802,
+      "drive_normal_force_n": 90.48232789846665,
+      "maximum_forward_ridge_force_n": 36.65095223839221,
+      "maximum_reverse_ridge_force_n": 36.65095223839221,
+      "simultaneous_absolute_ridge_force_n": 50.06991597502173,
+      "conservative_all_contacts_same_slope_n": 92.38710412015915,
+      "traction_limit_mu_0p1_n": 9.048232789846665,
+      "traction_margin_after_ridge_n": -27.602719448545542,
+      "required_total_drive_wheel_torque_n_m": 0.9895757104365895,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.49478785521829477,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 27,
+      "rotation9_deg": 10.0,
+      "wheel_contact_normal_force_n": 941.2321058017261,
+      "drive_normal_force_n": 104.42668244511083,
+      "maximum_forward_ridge_force_n": 39.60687914629868,
+      "maximum_reverse_ridge_force_n": 39.60687914629868,
+      "simultaneous_absolute_ridge_force_n": 39.60687914629868,
+      "conservative_all_contacts_same_slope_n": 94.89037691765208,
+      "traction_limit_mu_0p1_n": 10.442668244511083,
+      "traction_margin_after_ridge_n": -29.164210901787598,
+      "required_total_drive_wheel_torque_n_m": 1.0693857369500646,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.5346928684750323,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 28,
+      "rotation9_deg": 10.0,
+      "wheel_contact_normal_force_n": 549.5619516733033,
+      "drive_normal_force_n": 74.25357791609277,
+      "maximum_forward_ridge_force_n": 20.897288906176566,
+      "maximum_reverse_ridge_force_n": 20.897288906176566,
+      "simultaneous_absolute_ridge_force_n": 38.07983046179391,
+      "conservative_all_contacts_same_slope_n": 55.40412445818698,
+      "traction_limit_mu_0p1_n": 7.425357791609277,
+      "traction_margin_after_ridge_n": -13.47193111456729,
+      "required_total_drive_wheel_torque_n_m": 0.5642268004667672,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.2821134002333836,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 29,
+      "rotation9_deg": 10.0,
+      "wheel_contact_normal_force_n": 608.1167500484655,
+      "drive_normal_force_n": 67.23286509106055,
+      "maximum_forward_ridge_force_n": 23.432476164552533,
+      "maximum_reverse_ridge_force_n": 23.432476164552533,
+      "simultaneous_absolute_ridge_force_n": 44.08270806410818,
+      "conservative_all_contacts_same_slope_n": 61.30733032410196,
+      "traction_limit_mu_0p1_n": 6.723286509106055,
+      "traction_margin_after_ridge_n": -16.70918965544648,
+      "required_total_drive_wheel_torque_n_m": 0.6326768564429184,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.3163384282214592,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 30,
+      "rotation9_deg": 10.0,
+      "wheel_contact_normal_force_n": 884.6278659075209,
+      "drive_normal_force_n": 69.55031023111297,
+      "maximum_forward_ridge_force_n": 32.94805815979658,
+      "maximum_reverse_ridge_force_n": 32.94805815979658,
+      "simultaneous_absolute_ridge_force_n": 59.34661464123392,
+      "conservative_all_contacts_same_slope_n": 89.18381673383512,
+      "traction_limit_mu_0p1_n": 6.955031023111298,
+      "traction_margin_after_ridge_n": -25.993027136685285,
+      "required_total_drive_wheel_torque_n_m": 0.8895975703145077,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.44479878515725385,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 31,
+      "rotation9_deg": 15.0,
+      "wheel_contact_normal_force_n": 945.9374337792686,
+      "drive_normal_force_n": 105.82263666307605,
+      "maximum_forward_ridge_force_n": 43.67707288654889,
+      "maximum_reverse_ridge_force_n": 43.67707288654889,
+      "simultaneous_absolute_ridge_force_n": 68.26401719976788,
+      "conservative_all_contacts_same_slope_n": 95.36474486850929,
+      "traction_limit_mu_0p1_n": 10.582263666307606,
+      "traction_margin_after_ridge_n": -33.09480922024129,
+      "required_total_drive_wheel_torque_n_m": 1.1792809679368201,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.5896404839684101,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 32,
+      "rotation9_deg": 15.0,
+      "wheel_contact_normal_force_n": 772.9691705826278,
+      "drive_normal_force_n": 89.00109349116536,
+      "maximum_forward_ridge_force_n": 21.83896138771029,
+      "maximum_reverse_ridge_force_n": 21.83896138771029,
+      "simultaneous_absolute_ridge_force_n": 42.630733538227275,
+      "conservative_all_contacts_same_slope_n": 77.92693798925866,
+      "traction_limit_mu_0p1_n": 8.900109349116537,
+      "traction_margin_after_ridge_n": -12.938852038593755,
+      "required_total_drive_wheel_torque_n_m": 0.5896519574681779,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.29482597873408894,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 33,
+      "rotation9_deg": 15.0,
+      "wheel_contact_normal_force_n": 672.9254906949857,
+      "drive_normal_force_n": 86.3595598302419,
+      "maximum_forward_ridge_force_n": 21.492046250455914,
+      "maximum_reverse_ridge_force_n": 21.492046250455914,
+      "simultaneous_absolute_ridge_force_n": 41.34134936517333,
+      "conservative_all_contacts_same_slope_n": 67.84102779319586,
+      "traction_limit_mu_0p1_n": 8.635955983024191,
+      "traction_margin_after_ridge_n": -12.856090267431723,
+      "required_total_drive_wheel_torque_n_m": 0.5802852487623097,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.29014262438115485,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 34,
+      "rotation9_deg": 20.0,
+      "wheel_contact_normal_force_n": 948.5529884486336,
+      "drive_normal_force_n": 105.96222041461246,
+      "maximum_forward_ridge_force_n": 47.22036286917297,
+      "maximum_reverse_ridge_force_n": 47.22036286917297,
+      "simultaneous_absolute_ridge_force_n": 60.73279213175583,
+      "conservative_all_contacts_same_slope_n": 95.62843218526669,
+      "traction_limit_mu_0p1_n": 10.596222041461246,
+      "traction_margin_after_ridge_n": -36.62414082771173,
+      "required_total_drive_wheel_torque_n_m": 1.2749497974676705,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.6374748987338352,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 35,
+      "rotation9_deg": 20.0,
+      "wheel_contact_normal_force_n": 947.883086599613,
+      "drive_normal_force_n": 104.42666389803559,
+      "maximum_forward_ridge_force_n": 38.74215552766313,
+      "maximum_reverse_ridge_force_n": 38.74215552766313,
+      "simultaneous_absolute_ridge_force_n": 38.74215552766313,
+      "conservative_all_contacts_same_slope_n": 95.5608959861086,
+      "traction_limit_mu_0p1_n": 10.44266638980356,
+      "traction_margin_after_ridge_n": -28.29948913785957,
+      "required_total_drive_wheel_torque_n_m": 1.0460381992469046,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.5230190996234523,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 36,
+      "rotation9_deg": 20.0,
+      "wheel_contact_normal_force_n": 939.0972082427951,
+      "drive_normal_force_n": 102.4564601442901,
+      "maximum_forward_ridge_force_n": 37.25415292650018,
+      "maximum_reverse_ridge_force_n": 37.25415292650018,
+      "simultaneous_absolute_ridge_force_n": 37.25415292650018,
+      "conservative_all_contacts_same_slope_n": 94.67514707923195,
+      "traction_limit_mu_0p1_n": 10.245646014429012,
+      "traction_margin_after_ridge_n": -27.00850691207117,
+      "required_total_drive_wheel_torque_n_m": 1.005862129015505,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.5029310645077525,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 37,
+      "rotation9_deg": 20.0,
+      "wheel_contact_normal_force_n": 921.8859188393396,
+      "drive_normal_force_n": 86.3591559791059,
+      "maximum_forward_ridge_force_n": 27.564333886152294,
+      "maximum_reverse_ridge_force_n": 27.564333886152294,
+      "simultaneous_absolute_ridge_force_n": 54.06769583363445,
+      "conservative_all_contacts_same_slope_n": 92.93998980116444,
+      "traction_limit_mu_0p1_n": 8.635915597910591,
+      "traction_margin_after_ridge_n": -18.9284182882417,
+      "required_total_drive_wheel_torque_n_m": 0.7442370149261119,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.37211850746305597,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 38,
+      "rotation9_deg": 25.0,
+      "wheel_contact_normal_force_n": 887.3704589755835,
+      "drive_normal_force_n": 101.85238787764041,
+      "maximum_forward_ridge_force_n": 36.64250775433239,
+      "maximum_reverse_ridge_force_n": 36.64250775433239,
+      "simultaneous_absolute_ridge_force_n": 36.64250775433239,
+      "conservative_all_contacts_same_slope_n": 89.46031143514847,
+      "traction_limit_mu_0p1_n": 10.185238787764042,
+      "traction_margin_after_ridge_n": -26.45726896656835,
+      "required_total_drive_wheel_torque_n_m": 0.9893477093669747,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.49467385468348735,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 39,
+      "rotation9_deg": 25.0,
+      "wheel_contact_normal_force_n": 932.3516754169191,
+      "drive_normal_force_n": 86.36031374001246,
+      "maximum_forward_ridge_force_n": 54.97729640284548,
+      "maximum_reverse_ridge_force_n": 54.97729640284548,
+      "simultaneous_absolute_ridge_force_n": 54.97729640284548,
+      "conservative_all_contacts_same_slope_n": 93.99509574182825,
+      "traction_limit_mu_0p1_n": 8.636031374001247,
+      "traction_margin_after_ridge_n": -46.341265028844234,
+      "required_total_drive_wheel_torque_n_m": 1.484387002876828,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.742193501438414,
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 40,
+      "rotation9_deg": 25.0,
+      "wheel_contact_normal_force_n": 753.9249668785709,
+      "drive_normal_force_n": 63.453152316705015,
+      "maximum_forward_ridge_force_n": 54.40652569391088,
+      "maximum_reverse_ridge_force_n": 54.40652569391088,
+      "simultaneous_absolute_ridge_force_n": 54.40652569391088,
+      "conservative_all_contacts_same_slope_n": 76.00699533490643,
+      "traction_limit_mu_0p1_n": 6.345315231670502,
+      "traction_margin_after_ridge_n": -48.061210462240375,
+      "required_total_drive_wheel_torque_n_m": 1.4689761937355938,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.7344880968677969,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 41,
+      "rotation9_deg": 25.0,
+      "wheel_contact_normal_force_n": 754.3596564509511,
+      "drive_normal_force_n": 64.9853265943359,
+      "maximum_forward_ridge_force_n": 54.42566175176137,
+      "maximum_reverse_ridge_force_n": 54.42566175176137,
+      "simultaneous_absolute_ridge_force_n": 54.42566175176137,
+      "conservative_all_contacts_same_slope_n": 76.05081859285852,
+      "traction_limit_mu_0p1_n": 6.49853265943359,
+      "traction_margin_after_ridge_n": -47.927129092327775,
+      "required_total_drive_wheel_torque_n_m": 1.4694928672975571,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.7347464336487786,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    },
+    {
+      "case": 42,
+      "rotation9_deg": 30.0,
+      "wheel_contact_normal_force_n": 870.1291299054178,
+      "drive_normal_force_n": 92.10160180970283,
+      "maximum_forward_ridge_force_n": 35.58325963081338,
+      "maximum_reverse_ridge_force_n": 35.58325963081338,
+      "simultaneous_absolute_ridge_force_n": 35.58325963081338,
+      "conservative_all_contacts_same_slope_n": 87.72212570609736,
+      "traction_limit_mu_0p1_n": 9.210160180970282,
+      "traction_margin_after_ridge_n": -26.373099449843096,
+      "required_total_drive_wheel_torque_n_m": 0.9607480100319613,
+      "required_torque_per_drive_wheel_if_equal_n_m": 0.48037400501598065,
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "wheel_only_ridge_stack_unlikely": false
+    }
+  ],
+  "summary": {
+    "maximum_forward_ridge_force_n": 54.97729640284548,
+    "minimum_forward_ridge_force_n": 20.897288906176566,
+    "maximum_conservative_same_slope_force_n": 95.94661515447592,
+    "minimum_traction_margin_n": -48.061210462240375,
+    "traction_pass_cases": 0,
+    "wheel_only_clear_cases": 0,
+    "body_contact_risk_cases": 32
+  }
+}

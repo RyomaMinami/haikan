@@ -330,6 +330,11 @@ def main() -> None:
     parser.add_argument("--efficiency", type=float, default=DEFAULT_EFFICIENCY)
     parser.add_argument("--stiffness", type=float, nargs="+")
     parser.add_argument("--max-cases", type=int)
+    parser.add_argument(
+        "--output-stem",
+        default="pressurized_contact_distribution_0p7mpa",
+        help="Output filename stem (without .json/.csv).",
+    )
     args = parser.parse_args()
 
     here = Path(__file__).resolve().parent
@@ -382,11 +387,11 @@ def main() -> None:
                 f"valid={row['valid']}",
                 flush=True,
             )
-        all_scenarios[f"{stiffness:.0f}"] = rows
+        all_scenarios[f"{stiffness:g}"] = rows
 
     primary_key = (
-        f"{DEFAULT_DRIVE_STIFFNESS_N_PER_MM:.0f}"
-        if f"{DEFAULT_DRIVE_STIFFNESS_N_PER_MM:.0f}" in all_scenarios
+        f"{DEFAULT_DRIVE_STIFFNESS_N_PER_MM:g}"
+        if f"{DEFAULT_DRIVE_STIFFNESS_N_PER_MM:g}" in all_scenarios
         else next(iter(all_scenarios))
     )
     primary = all_scenarios[primary_key]
@@ -412,12 +417,12 @@ def main() -> None:
         "primary_cases": primary,
         "stiffness_sensitivity": all_scenarios,
     }
-    json_path = output / "pressurized_contact_distribution_0p7mpa.json"
+    json_path = output / f"{args.output_stem}.json"
     json_path.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
-    csv_path = output / "pressurized_contact_distribution_0p7mpa.csv"
+    csv_path = output / f"{args.output_stem}.csv"
     with csv_path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.writer(handle)
         writer.writerow([

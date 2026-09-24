@@ -1,0 +1,6142 @@
+{
+  "method": "quasi-static constant-force cylinder plus linear radial wheel springs",
+  "pressure_mpa": 0.7,
+  "cylinder_bore_mm": 32.0,
+  "cylinder_efficiency": 1.0,
+  "theoretical_cylinder_force_n": 562.9734035232909,
+  "passive_stiffness_n_per_mm": 200.0,
+  "body_penalty_stiffness_n_per_mm": 50000.0,
+  "primary_drive_stiffness_n_per_mm": 16.3444,
+  "contact_force_threshold_n": 2.0,
+  "important_limitations": [
+    "Wheel stiffness is assumed, not measured.",
+    "Body roll is constrained to zero and its holding torque is reported.",
+    "Contact is concentrated at the minimum-clearance STL vertex.",
+    "Reported radial force components approximate the helical surface normal; generalized residuals from the potential gradient are used for convergence.",
+    "Cylinder friction, guide friction, tire hysteresis and distributed contact are omitted."
+  ],
+  "primary_cases": [
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 0.0,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0,
+        "y": -0.01385184488181413,
+        "z": -0.0040098623753425326
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.53373101489586,
+      "cylinder_stroke_from_min_mm": 11.533731014895857,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.76606502877786,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        272.00256324711177,
+        248.019837129812,
+        124.11359237762265,
+        21.61338261482959,
+        167.31354536145548
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        48.38689844273816,
+        47.45371743838688
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.360012816235559,
+        -1.24009918564906,
+        -0.6205679618881133,
+        -0.10806691307414795,
+        -0.8365677268072774
+      ],
+      "drive_clearance_mm": [
+        -2.9604542842289474,
+        -2.903359496358587
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.532266941272121,
+        "drilling_module1": 0.13991703374409414,
+        "drilling_module2": 11.962461234255152,
+        "bit": 3.9970549334111953,
+        "motor_module_body": -0.010704942840514264
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 535.2471420257132
+      },
+      "minimum_body_clearance_mm": -0.010704942840514264,
+      "whole_robot_force_residual_n": {
+        "y": -89.72489031586494,
+        "z": -1.6215885626824615
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -198.21708912346375,
+        "body_z_n": 0.10597734944893503,
+        "slider_n": 0.09966997822299349
+      },
+      "required_roll_holding_torque_n_m": -1.9178214588503906,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.01400432624846901,
+        "z": -0.0039905723553351116
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.51597631733293,
+      "cylinder_stroke_from_min_mm": 11.515976317332928,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.976990549364757,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        270.49658862123573,
+        276.6188223316812,
+        122.22376538673363,
+        20.328806179240043,
+        146.97741476730474
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        50.85529067058791,
+        47.75240498602778
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3524829431061787,
+        -1.3830941116584061,
+        -0.6111188269336681,
+        -0.10164403089620022,
+        -0.7348870738365237
+      ],
+      "drive_clearance_mm": [
+        -3.1114778584045713,
+        -2.9216340884179597
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.419389617862269,
+        "drilling_module1": 0.12895210332813933,
+        "drilling_module2": 11.921558334253138,
+        "bit": 3.9739973223029965,
+        "motor_module_body": -0.01065298091504352
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 532.649045752176
+      },
+      "minimum_body_clearance_mm": -0.01065298091504352,
+      "whole_robot_force_residual_n": {
+        "y": 502.9643179616843,
+        "z": -1.4974088780601846
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -215.6948528747073,
+        "body_z_n": 0.4601818636728538,
+        "slider_n": 0.43382381589632624
+      },
+      "required_roll_holding_torque_n_m": 3.0796225319778,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 9.973684210526315,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.014155875204168038,
+        "z": -0.003981945848539157
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.50932464615419,
+      "cylinder_stroke_from_min_mm": 11.509324646154191,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 24.687524973305187,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        268.26735518035997,
+        302.76181602710005,
+        119.0154988254588,
+        21.070052085053746,
+        128.81024197095581
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        53.347920714391165,
+        48.02168450169074
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3413367759017998,
+        -1.5138090801355002,
+        -0.595077494127294,
+        -0.10535026042526874,
+        -0.644051209854779
+      ],
+      "drive_clearance_mm": [
+        -3.2639843742108683,
+        -2.9381094096610214
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.358220917394682,
+        "drilling_module1": 0.11009627290592405,
+        "drilling_module2": 11.886955480361935,
+        "bit": 3.826404014412019,
+        "motor_module_body": -0.010598206152748202
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 529.9103076374101
+      },
+      "minimum_body_clearance_mm": -0.010598206152748202,
+      "whole_robot_force_residual_n": {
+        "y": -53.76921598416854,
+        "z": -2.8318668880263544
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -231.29033462754415,
+        "body_z_n": 0.8430473221777692,
+        "slider_n": 0.7845285790348178
+      },
+      "required_roll_holding_torque_n_m": -1.6657797487531099,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_2+platform_3+platform_4",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 44.88157894736842,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0448815789473684,
+        "y": -0.013688581425675512,
+        "z": -0.003939832124783796
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.30617306590977,
+      "cylinder_stroke_from_min_mm": 11.306173065909768,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.672151250673608,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        97.33757725881864,
+        199.95480609637517,
+        113.99981588030018,
+        167.06324938398632,
+        3.3688008385629464
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        56.85038349527712,
+        48.98233709454897
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.4866878862940932,
+        -0.9997740304818759,
+        -0.5699990794015009,
+        -0.8353162469199316,
+        -0.016844004192814732
+      ],
+      "drive_clearance_mm": [
+        -3.4782754587551064,
+        -2.996884990979762
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.679829307520559,
+        "drilling_module1": -0.007561850352846844,
+        "drilling_module2": 12.070246132986364,
+        "bit": 3.3828734418195063,
+        "motor_module_body": -0.01043614084783595
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 378.0925176423422,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 521.8070423917975
+      },
+      "minimum_body_clearance_mm": -0.01043614084783595,
+      "whole_robot_force_residual_n": {
+        "y": 1.8401807945503492,
+        "z": 31.709352661228763
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -283.1963406249349,
+        "body_z_n": -29.572393986650862,
+        "slider_n": 0.1067366247262763
+      },
+      "required_roll_holding_torque_n_m": -1.2892395940859664,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 124.67105263157893,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.012943169751375772,
+        "z": -0.004228969877731646
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.82546835646264,
+      "cylinder_stroke_from_min_mm": 10.825468356462643,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.150779914457985,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        77.68092696479046,
+        0.0,
+        34.12051210694156,
+        74.76015418766136,
+        246.50070421232408
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_2"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        23.82703793162873,
+        22.763278442642356
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.38840463482395227,
+        0.11765541027307369,
+        -0.1706025605347078,
+        -0.37380077093830677,
+        -1.2325035210616204
+      ],
+      "drive_clearance_mm": [
+        -1.457809010194211,
+        -1.392725042469234
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 3.1765458220611857,
+        "drilling_module1": -0.009506741438458644,
+        "drilling_module2": 11.733569333941984,
+        "bit": 3.46132398658551,
+        "motor_module_body": -0.011828322434043193
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 475.3370719229322,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 591.4161217021597
+      },
+      "minimum_body_clearance_mm": -0.011828322434043193,
+      "whole_robot_force_residual_n": {
+        "y": -0.7127552573428488,
+        "z": 0.2112435412461764
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.00041757584767796043,
+        "body_z_n": 0.0005646643330691564,
+        "slider_n": 0.00046557488529561537
+      },
+      "required_roll_holding_torque_n_m": -0.9844816735497521,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 129.65789473684208,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.129657894736842,
+        "y": -0.013020964463143457,
+        "z": -0.00422741864054998
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.84047431032798,
+      "cylinder_stroke_from_min_mm": 10.840474310327977,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.064058181540418,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        101.78152622434267,
+        0.5008278105234076,
+        42.820538885970926,
+        49.97747917609985,
+        263.044330340087
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_2"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        23.280400754174632,
+        23.78884547938901
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.5089076311217133,
+        -0.002504139052617038,
+        -0.21410269442985463,
+        -0.24988739588049924,
+        -1.3152216517004351
+      ],
+      "drive_clearance_mm": [
+        -1.4243641227144332,
+        -1.455472282433243
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 3.057349927868991,
+        "drilling_module1": -0.008796058833943077,
+        "drilling_module2": 11.734499448052354,
+        "bit": 3.514782317387291,
+        "motor_module_body": -0.011767536655271638
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 439.8029416971538,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 588.3768327635819
+      },
+      "minimum_body_clearance_mm": -0.011767536655271638,
+      "whole_robot_force_residual_n": {
+        "y": -1.9663120895144175,
+        "z": 0.18748363304553095
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.000541353529115838,
+        "body_z_n": 0.0006884556569274532,
+        "slider_n": 0.0006493610271502788
+      },
+      "required_roll_holding_torque_n_m": -1.0114446969541149,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 154.5921052631579,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.013291128502591643,
+        "z": -0.003995142095780434
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.201975640052474,
+      "cylinder_stroke_from_min_mm": 11.201975640052474,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.49446383252797,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        173.54635190988955,
+        70.87074670623639,
+        58.693324764183544,
+        0.0,
+        269.11603419598197
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        30.255143594361016,
+        37.2748696750295
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.8677317595494477,
+        -0.35435373353118194,
+        -0.2934666238209177,
+        0.21259342127610825,
+        -1.3455801709799098
+      ],
+      "drive_clearance_mm": [
+        -1.8510996231735217,
+        -2.2805873320049104
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.982574932692106,
+        "drilling_module1": -0.006004947077406508,
+        "drilling_module2": 12.182245032460584,
+        "bit": 3.6169950221053155,
+        "motor_module_body": -0.011283191582667218
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 300.2473538703254,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 564.1595791333609
+      },
+      "minimum_body_clearance_mm": -0.011283191582667218,
+      "whole_robot_force_residual_n": {
+        "y": -1.6441016209078043,
+        "z": 0.9735721978776724
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.17421436677990706,
+        "body_z_n": 0.10033403395935726,
+        "slider_n": -0.00025793269741423996
+      },
+      "required_roll_holding_torque_n_m": -1.067837655122541,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion straight +0 deg / ridge platform_1+platform_3+drilling_1",
+      "rotation9_deg": 0.0,
+      "axial_phase_mm": 179.52631578947367,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1795263157894738,
+        "y": -0.013546088854316463,
+        "z": -0.0040533652785469595
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.58010751174474,
+      "cylinder_stroke_from_min_mm": 11.580107511744743,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 24.84202281266812,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        271.69531221023504,
+        190.89374111368463,
+        127.99162236441231,
+        25.67852744201904,
+        209.19513926740407
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        43.539344912166854,
+        46.94300747024579
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.358476561051175,
+        -0.9544687055684231,
+        -0.6399581118220615,
+        -0.1283926372100952,
+        -1.0459756963370204
+      ],
+      "drive_clearance_mm": [
+        -2.663866549129701,
+        -2.872112742343738
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.744603515706628,
+        "drilling_module1": 0.15857892903008153,
+        "drilling_module2": 12.062344736200103,
+        "bit": 3.988131989265259,
+        "motor_module_body": -0.010830656697616292
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 541.5328348808146
+      },
+      "minimum_body_clearance_mm": -0.010830656697616292,
+      "whole_robot_force_residual_n": {
+        "y": 449.23335350712375,
+        "z": -2.650640996594973
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -156.8432401924171,
+        "body_z_n": 0.6210851083778011,
+        "slider_n": 0.5927727033653025
+      },
+      "required_roll_holding_torque_n_m": 2.7480758770328695,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+      "rotation9_deg": -5.0,
+      "axial_phase_mm": 124.67105263157893,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.012530784734788013,
+        "z": -0.004186502975218609
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.510660880169915,
+      "cylinder_stroke_from_min_mm": 10.510660880169915,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.142636466494366,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        29.90205486942399,
+        0.0,
+        67.01210976216288,
+        109.83955668474876,
+        242.26258269887114
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_2"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        16.85633655864944,
+        21.816412351270756
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.14951027434711994,
+        0.35654977074989214,
+        -0.3350605488108144,
+        -0.5491977834237438,
+        -1.2113129134943557
+      ],
+      "drive_clearance_mm": [
+        -1.0313207787127354,
+        -1.3347929602939428
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 3.530567284203423,
+        "drilling_module1": -0.010050986655088523,
+        "drilling_module2": 11.822922035370151,
+        "bit": 3.4039715690510617,
+        "motor_module_body": -0.012031922372437998
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 502.54933275442613,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 601.5961186218999
+      },
+      "minimum_body_clearance_mm": -0.012031922372437998,
+      "whole_robot_force_residual_n": {
+        "y": 1.470215921720694,
+        "z": -1.9509648752485873
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.007252230716408902,
+        "body_z_n": 0.004706633262684876,
+        "slider_n": -8.51969161857508e-05
+      },
+      "required_roll_holding_torque_n_m": -1.0767610987109646,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+      "rotation9_deg": -5.0,
+      "axial_phase_mm": 134.64473684210526,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1346447368421053,
+        "y": -0.012555729686683845,
+        "z": -0.004134046070464888
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.5134994313871,
+      "cylinder_stroke_from_min_mm": 10.513499431387103,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.112143158568585,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        56.5878128872821,
+        0.0,
+        88.51880787018318,
+        65.18012107374626,
+        264.8339400421612
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_2"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        15.142544647397576,
+        25.143849465893666
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.2829390644364105,
+        0.2246553902457843,
+        -0.4425940393509159,
+        -0.32590060536873133,
+        -1.3241697002108062
+      ],
+      "drive_clearance_mm": [
+        -0.9264658950721427,
+        -1.5383754542854788
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 3.491330674360804,
+        "drilling_module1": -0.009238708827519204,
+        "drilling_module2": 11.75979323387158,
+        "bit": 3.5147636502027986,
+        "motor_module_body": -0.011946857329206417
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 461.9354413759602,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 597.3428664603209
+      },
+      "minimum_body_clearance_mm": -0.011946857329206417,
+      "whole_robot_force_residual_n": {
+        "y": -1.9315416373576682,
+        "z": 0.03860536637120049
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -0.010398502126925812,
+        "body_z_n": -0.015816949144207403,
+        "slider_n": -0.014969714356496848
+      },
+      "required_roll_holding_torque_n_m": -1.1222157460772166,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+      "rotation9_deg": -5.0,
+      "axial_phase_mm": 139.6315789473684,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1396315789473683,
+        "y": -0.012610666628166775,
+        "z": -0.004129396068918555
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.6141845162637,
+      "cylinder_stroke_from_min_mm": 10.614184516263698,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.08406479120157,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        77.97421259731763,
+        0.0,
+        98.87389843214467,
+        42.176991164064034,
+        277.03088416588525
+      ],
+      "passive_contact": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_2"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        15.731337630231206,
+        27.62865265686484
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.38987106298658813,
+        0.11911691353096165,
+        -0.49436949216072335,
+        -0.21088495582032019,
+        -1.3851544208294264
+      ],
+      "drive_clearance_mm": [
+        -0.9624900000396591,
+        -1.6904030999689845
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 3.4495671472332123,
+        "drilling_module1": -0.008675180263220672,
+        "drilling_module2": 11.82900842062079,
+        "bit": 3.578288906711011,
+        "motor_module_body": -0.011874533017861011
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 433.7590131610336,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 593.7266508930505
+      },
+      "minimum_body_clearance_mm": -0.011874533017861011,
+      "whole_robot_force_residual_n": {
+        "y": -3.553270971522295,
+        "z": 2.004859524930964
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -0.00021282085072031978,
+        "body_z_n": -0.0003030395419045415,
+        "slider_n": -6.598838808494422e-05
+      },
+      "required_roll_holding_torque_n_m": -1.1582445667551484,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+drilling_1",
+      "rotation9_deg": 5.0,
+      "axial_phase_mm": 4.9868421052631575,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0049868421052632,
+        "y": -0.014004326248366884,
+        "z": -0.003995670235465709
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.52107412931506,
+      "cylinder_stroke_from_min_mm": 11.52107412931506,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.97940269192742,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        271.37424844411726,
+        277.4922212076897,
+        123.11744138287506,
+        21.222562524139676,
+        144.55722713200836
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        50.85528966920514,
+        47.75240398516648
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3568712422205864,
+        -1.3874611060384483,
+        -0.6155872069143753,
+        -0.10611281262069838,
+        -0.7227861356600418
+      ],
+      "drive_clearance_mm": [
+        -3.1114777971369967,
+        -2.9216340271822903
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.4163131382357594,
+        "drilling_module1": 0.5036425730783195,
+        "drilling_module2": 12.320944992502843,
+        "bit": 4.083324241822034,
+        "motor_module_body": -0.010652923650281143
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 532.6461825140572
+      },
+      "minimum_body_clearance_mm": -0.010652923650281143,
+      "whole_robot_force_residual_n": {
+        "y": 487.2461879590811,
+        "z": -1.4385061277020554
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -199.99724455207027,
+        "body_z_n": 0.4645150961550209,
+        "slider_n": 0.4314159696007239
+      },
+      "required_roll_holding_torque_n_m": 3.1380720787275673,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+platform_4+drilling_1",
+      "rotation9_deg": 5.0,
+      "axial_phase_mm": 9.973684210526315,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0099736842105262,
+        "y": -0.014155875201896742,
+        "z": -0.003990601636768955
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.517979712770206,
+      "cylinder_stroke_from_min_mm": 11.517979712770206,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 24.713140683414792,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        269.7565668599966,
+        304.24480358551557,
+        120.53282465049608,
+        22.588482904017937,
+        123.95124101731992
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        53.34791010769389,
+        48.02167390638096
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.348782834299983,
+        -1.5212240179275778,
+        -0.6026641232524804,
+        -0.11294241452008968,
+        -0.6197562050865996
+      ],
+      "drive_clearance_mm": [
+        -3.263983725261599,
+        -2.938108761408473
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.3530449519930525,
+        "drilling_module1": 0.49335684980747474,
+        "drilling_module2": 12.28152524569491,
+        "bit": 4.012645857334948,
+        "motor_module_body": -0.010597599552186754
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 529.8799776093377
+      },
+      "minimum_body_clearance_mm": -0.010597599552186754,
+      "whole_robot_force_residual_n": {
+        "y": -65.15866534034848,
+        "z": -2.7659425452067694
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -219.91431123631412,
+        "body_z_n": 0.8196985004359525,
+        "slider_n": 0.7590124550663823
+      },
+      "required_roll_holding_torque_n_m": -1.5558034982433544,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+platform_4",
+      "rotation9_deg": 5.0,
+      "axial_phase_mm": 19.94736842105263,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0199473684210527,
+        "y": -0.014290818962983919,
+        "z": -0.003990764158174242
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.46626320906873,
+      "cylinder_stroke_from_min_mm": 11.466263209068728,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.410838837186247,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        250.1584054113465,
+        337.1182974526987,
+        127.80379562178923,
+        43.31961369768156,
+        88.52424457738151
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        56.30896854355011,
+        48.47576849298172
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.2507920270567325,
+        -1.6855914872634936,
+        -0.6390189781089461,
+        -0.2165980684884078,
+        -0.44262122288690753
+      ],
+      "drive_clearance_mm": [
+        -3.4451500825691816,
+        -2.96589161808275
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.1960676701605344,
+        "drilling_module1": 0.4330742946530436,
+        "drilling_module2": 12.353121031494926,
+        "bit": 3.7863793880142382,
+        "motor_module_body": -0.010480239601332042
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 524.0119800666021
+      },
+      "minimum_body_clearance_mm": -0.010480239601332042,
+      "whole_robot_force_residual_n": {
+        "y": -63.85610044944656,
+        "z": -0.7031001064644897
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -215.8872324600219,
+        "body_z_n": 0.08294456756628996,
+        "slider_n": 0.0766652556169008
+      },
+      "required_roll_holding_torque_n_m": -1.583147005770805,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +5 deg / ridge platform_1+drilling_1",
+      "rotation9_deg": 5.0,
+      "axial_phase_mm": 154.5921052631579,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.013567556678357108,
+        "z": -0.004206762589758409
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.58988159489373,
+      "cylinder_stroke_from_min_mm": 11.589881594893733,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.48092319404236,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        238.21372323520885,
+        135.5362882919431,
+        68.92344978852717,
+        0.0,
+        309.84739405795494
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        34.81863505834779,
+        37.86153553428114
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.1910686161760442,
+        -0.6776814414597154,
+        -0.3446172489426358,
+        0.16144279615439017,
+        -1.5492369702897746
+      ],
+      "drive_clearance_mm": [
+        -2.1303075966209173,
+        -2.3164812932284784
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.634452249844224,
+        "drilling_module1": -0.0013412893985487173,
+        "drilling_module2": 11.833561100704006,
+        "bit": 3.8403196665538624,
+        "motor_module_body": -0.011152953995452464
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 67.06446992743587,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 557.6476997726231
+      },
+      "minimum_body_clearance_mm": -0.011152953995452464,
+      "whole_robot_force_residual_n": {
+        "y": -127.22816152940078,
+        "z": 1.7034270808781002
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -175.52772022158186,
+        "body_z_n": 0.15443646316268994,
+        "slider_n": 0.000242716851054084
+      },
+      "required_roll_holding_torque_n_m": -2.0064663767904265,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_3+drilling_1",
+      "rotation9_deg": 5.0,
+      "axial_phase_mm": 179.52631578947367,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1795263157894738,
+        "y": -0.01354608885590336,
+        "z": -0.004046783063063902
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.5735244628935,
+      "cylinder_stroke_from_min_mm": 11.573524462893502,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.938121504050116,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        270.56051772643974,
+        189.76376147403772,
+        126.83962255368164,
+        24.526572778343912,
+        214.22895910281073
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        43.53933266669929,
+        46.94299523176736
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3528025886321986,
+        -0.9488188073701886,
+        -0.6341981127684082,
+        -0.12263286389171957,
+        -1.0711447955140536
+      ],
+      "drive_clearance_mm": [
+        -2.6638657999155937,
+        -2.872111993557247
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.7485584545010324,
+        "drilling_module1": 0.507066904986142,
+        "drilling_module2": 12.310605047250608,
+        "bit": 4.1213481084120955,
+        "motor_module_body": -0.010829956419516895
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 541.4978209758448
+      },
+      "minimum_body_clearance_mm": -0.010829956419516895,
+      "whole_robot_force_residual_n": {
+        "y": -153.74561301003644,
+        "z": -1.4781185665307817
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -137.16016648469193,
+        "body_z_n": 0.6025106181367956,
+        "slider_n": 0.5633273803863982
+      },
+      "required_roll_holding_torque_n_m": -2.193464698732069,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +10 deg / ridge platform_4",
+      "rotation9_deg": 10.0,
+      "axial_phase_mm": 74.80263157894737,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0748026315789474,
+        "y": -0.0132628513060141,
+        "z": -0.004602668883095173
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.29444879357481,
+      "cylinder_stroke_from_min_mm": 12.294448793574809,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.995059899742046,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        72.41695858811181,
+        173.6289648384043,
+        170.6429581533553,
+        273.34951112727157,
+        146.76703064947228
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        55.83193682349847,
+        48.59474562161237
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.36208479294055906,
+        -0.8681448241920214,
+        -0.8532147907667764,
+        -1.366747555636358,
+        -0.7338351532473614
+      ],
+      "drive_clearance_mm": [
+        -3.4159638638862204,
+        -2.973170992490198
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.6179847824583242,
+        "drilling_module1": 0.1405502532807884,
+        "drilling_module2": 11.344956251715429,
+        "bit": 3.2285034308258407,
+        "motor_module_body": -0.010485636390500375
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 524.2818195250187
+      },
+      "minimum_body_clearance_mm": -0.010485636390500375,
+      "whole_robot_force_residual_n": {
+        "y": 151.37763280190558,
+        "z": -0.8726699867332286
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 130.29849862378364,
+        "body_z_n": 0.10214193707723561,
+        "slider_n": 0.09637141829123942
+      },
+      "required_roll_holding_torque_n_m": 0.7118193357383036,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +10 deg / ridge drilling_1",
+      "rotation9_deg": 10.0,
+      "axial_phase_mm": 114.69736842105263,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1146973684210526,
+        "y": -0.013959702042968513,
+        "z": -0.004357111691310208
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.758185629050736,
+      "cylinder_stroke_from_min_mm": 11.758185629050736,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 25.92586916172661,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        170.43624756021836,
+        69.22423854081595,
+        0.0,
+        28.364495160254634,
+        207.28339249592165
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        45.698622390907666,
+        28.554955525185104
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.8521812378010918,
+        -0.3461211927040797,
+        0.3642375554501892,
+        -0.14182247580127316,
+        -1.0364169624796082
+      ],
+      "drive_clearance_mm": [
+        -2.795977564063676,
+        -1.7470770630306498
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.235303721652551,
+        "drilling_module1": -0.007531371795266306,
+        "drilling_module2": 11.95302956691767,
+        "bit": 3.2834479615117402,
+        "motor_module_body": -0.011160451772199154
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 376.5685897633153,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 558.0225886099577
+      },
+      "minimum_body_clearance_mm": -0.011160451772199154,
+      "whole_robot_force_residual_n": {
+        "y": -0.8645997395291829,
+        "z": -0.2051351168149722
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.00014944907889013914,
+        "body_z_n": 0.00017249931261173953,
+        "slider_n": 4.7525645639566675e-05
+      },
+      "required_roll_holding_torque_n_m": -0.7787265744591523,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +10 deg / ridge drilling_1",
+      "rotation9_deg": 10.0,
+      "axial_phase_mm": 124.67105263157893,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1246710526315788,
+        "y": -0.014026005650309387,
+        "z": -0.004324889633081583
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.62485307502037,
+      "cylinder_stroke_from_min_mm": 11.624853075020368,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.172518670418754,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        204.8327964065344,
+        103.62078738713198,
+        0.0,
+        0.0,
+        232.43030116373853
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3",
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        42.00012606440665,
+        25.2327390266539
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.024163982032672,
+        -0.5181039369356599,
+        0.2691402185642233,
+        0.08411831928517577,
+        -1.1621515058186926
+      ],
+      "drive_clearance_mm": [
+        -2.5696925644588253,
+        -1.543813981850689
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.2544162085424424,
+        "drilling_module1": -0.00608695257252323,
+        "drilling_module2": 11.860405937342305,
+        "bit": 3.3667409623155535,
+        "motor_module_body": -0.011304532557834812
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 304.3476286261615,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 565.2266278917406
+      },
+      "minimum_body_clearance_mm": -0.011304532557834812,
+      "whole_robot_force_residual_n": {
+        "y": -1.4573624072074836,
+        "z": -0.009009755335569025
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -0.00030431692721344535,
+        "body_z_n": -0.0004922253538097067,
+        "slider_n": 5.9526428229062085e-06
+      },
+      "required_roll_holding_torque_n_m": -0.7982288243084146,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +10 deg / ridge platform_1+drilling_1",
+      "rotation9_deg": 10.0,
+      "axial_phase_mm": 149.60526315789474,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1496052631578948,
+        "y": -0.013700272522222947,
+        "z": -0.004363154888359044
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.73204103762966,
+      "cylinder_stroke_from_min_mm": 11.732041037629664,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.441535478523974,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        261.85130372821664,
+        159.45138066276454,
+        66.95806255111458,
+        0.0,
+        326.8168087343121
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        34.20559398202702,
+        35.34471624908595
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3092565186410832,
+        -0.7972569033138227,
+        -0.3347903127555729,
+        0.17126973234143916,
+        -1.6340840436715602
+      ],
+      "drive_clearance_mm": [
+        -2.0927999212126682,
+        -2.16249480772758
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.4924846445888993,
+        "drilling_module1": 0.12044643100038444,
+        "drilling_module2": 11.361558572535833,
+        "bit": 3.9907401237950504,
+        "motor_module_body": -0.011214503256390396
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 560.7251628195198
+      },
+      "minimum_body_clearance_mm": -0.011214503256390396,
+      "whole_robot_force_residual_n": {
+        "y": -181.42979608016566,
+        "z": 1.8207858484011012
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -122.922000758171,
+        "body_z_n": 0.014508111689790788,
+        "slider_n": 0.00011798874765708516
+      },
+      "required_roll_holding_torque_n_m": -2.2981633398397916,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +15 deg / ridge platform_2+platform_3+platform_4",
+      "rotation9_deg": 15.0,
+      "axial_phase_mm": 49.868421052631575,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0498684210526317,
+        "y": -0.013554547220573206,
+        "z": -0.004238199604629678
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.61723005881775,
+      "cylinder_stroke_from_min_mm": 11.617230058817754,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 29.245236822036816,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        119.7782508252837,
+        222.12117714426603,
+        162.32262139344033,
+        243.88164662096366,
+        92.01110113223888
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        57.02689475783252,
+        48.79574190524353
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.5988912541264185,
+        -1.1106058857213301,
+        -0.8116131069672017,
+        -1.2194082331048184,
+        -0.46005550566119435
+      ],
+      "drive_clearance_mm": [
+        -3.4890749425051384,
+        -2.9854685426151386
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.5529802039641334,
+        "drilling_module1": 0.8481088364462597,
+        "drilling_module2": 10.869126744233709,
+        "bit": 3.2199175283201957,
+        "motor_module_body": -0.010428580377891405
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 521.4290188945703
+      },
+      "minimum_body_clearance_mm": -0.010428580377891405,
+      "whole_robot_force_residual_n": {
+        "y": -333.44347090037803,
+        "z": 1.4309593263416787
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 53.66850447766715,
+        "body_z_n": -0.3112786234850815,
+        "slider_n": -0.33949126190019213
+      },
+      "required_roll_holding_torque_n_m": -3.2734983458759213,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +15 deg / ridge none",
+      "rotation9_deg": 15.0,
+      "axial_phase_mm": 104.7236842105263,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1047236842105264,
+        "y": -0.01415071413680064,
+        "z": -0.004644239269711905
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.36132073280995,
+      "cylinder_stroke_from_min_mm": 12.36132073280995,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.493272349999415,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        206.236755720382,
+        168.06015463038116,
+        0.0,
+        93.04718143062219,
+        216.6239853100771
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        54.41907493514394,
+        34.58201855602142
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.03118377860191,
+        -0.8403007731519058,
+        0.040824124098351455,
+        -0.4652359071531109,
+        -1.0831199265503855
+      ],
+      "drive_clearance_mm": [
+        -3.3295207736072916,
+        -2.1158306956296222
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 1.9039041610083296,
+        "drilling_module1": -0.002921960779084243,
+        "drilling_module2": 11.812011988494547,
+        "bit": 3.495731561304727,
+        "motor_module_body": -0.010845863820552193
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 146.09803895421214,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 542.2931910276096
+      },
+      "minimum_body_clearance_mm": -0.010845863820552193,
+      "whole_robot_force_residual_n": {
+        "y": 463.5995118597866,
+        "z": -1.432232337510186
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -172.66310383742118,
+        "body_z_n": 0.7244293938128015,
+        "slider_n": 0.005777710611973011
+      },
+      "required_roll_holding_torque_n_m": 3.4114712586853537,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +15 deg / ridge drilling_1",
+      "rotation9_deg": 15.0,
+      "axial_phase_mm": 109.71052631578947,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1097105263157894,
+        "y": -0.01430374495872605,
+        "z": -0.0044962138747500135
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.213798108525594,
+      "cylinder_stroke_from_min_mm": 12.213798108525594,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.917208091474663,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        213.18288120891205,
+        140.73280232948792,
+        0.0,
+        35.761985563240174,
+        196.8882617631035
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        54.19312534915555,
+        32.166434481086355
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.0659144060445602,
+        -0.7036640116474396,
+        0.3272501034352615,
+        -0.17880992781620086,
+        -0.9844413088155174
+      ],
+      "drive_clearance_mm": [
+        -3.315696506266605,
+        -1.9680380812296812
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 1.8837219635507023,
+        "drilling_module1": -0.004983065814798127,
+        "drilling_module2": 11.92367371438649,
+        "bit": 3.3188163171457425,
+        "motor_module_body": -0.010900155959253643
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 249.15329073990634,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 545.0077979626822
+      },
+      "minimum_body_clearance_mm": -0.010900155959253643,
+      "whole_robot_force_residual_n": {
+        "y": 544.4872448199962,
+        "z": -0.8397295523652701
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -253.43816989534818,
+        "body_z_n": 1.033545877362348,
+        "slider_n": -0.267547793546541
+      },
+      "required_roll_holding_torque_n_m": 4.00887213693075,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +20 deg / ridge platform_1+platform_2+platform_3+platform_4",
+      "rotation9_deg": 20.0,
+      "axial_phase_mm": 34.9078947368421,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0349078947368422,
+        "y": -0.013978654129559502,
+        "z": -0.004054549619688753
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.42956826221462,
+      "cylinder_stroke_from_min_mm": 11.429568262214623,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.566527297621292,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        179.11712173515338,
+        280.9701399637182,
+        138.13607283834074,
+        134.0318445605393,
+        110.33558893626949
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        56.682459593192995,
+        49.27976082141947
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.8955856086757669,
+        -1.4048506998185912,
+        -0.6906803641917036,
+        -0.6701592228026965,
+        -0.5516779446813475
+      ],
+      "drive_clearance_mm": [
+        -3.4680013752459575,
+        -3.0150822587275
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.4575074105571417,
+        "drilling_module1": 0.5788674237179464,
+        "drilling_module2": 10.84617081854898,
+        "bit": 3.2646583001018357,
+        "motor_module_body": -0.010437019315509555
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 521.8509657754778
+      },
+      "minimum_body_clearance_mm": -0.010437019315509555,
+      "whole_robot_force_residual_n": {
+        "y": 341.29137824227195,
+        "z": 0.5998904822317286
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -57.51491049527108,
+        "body_z_n": 0.14132183741819915,
+        "slider_n": 0.12909567430623428
+      },
+      "required_roll_holding_torque_n_m": 2.321759979330001,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +20 deg / ridge platform_4",
+      "rotation9_deg": 20.0,
+      "axial_phase_mm": 74.80263157894737,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0748026315789474,
+        "y": -0.013262851305875149,
+        "z": -0.004577960610555696
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.269739889961826,
+      "cylinder_stroke_from_min_mm": 12.269739889961826,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.017559629361074,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        68.0931686510261,
+        169.3051749013158,
+        166.3894320601267,
+        269.09615979727744,
+        170.57248729183127
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        55.831927565523486,
+        48.5947363325121
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.3404658432551305,
+        -0.846525874506579,
+        -0.8319471603006334,
+        -1.345480798986387,
+        -0.8528624364591564
+      ],
+      "drive_clearance_mm": [
+        -3.4159632974557903,
+        -2.9731704241554304
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.632723786763269,
+        "drilling_module1": 0.26370636355578514,
+        "drilling_module2": 10.37357930764303,
+        "bit": 3.1031336680231862,
+        "motor_module_body": -0.010485104358887165
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 524.2552179443583
+      },
+      "minimum_body_clearance_mm": -0.010485104358887165,
+      "whole_robot_force_residual_n": {
+        "y": 117.10241432444815,
+        "z": -0.9919520394487904
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 164.4373095647396,
+        "body_z_n": 0.07907378585513329,
+        "slider_n": 0.07394361091182969
+      },
+      "required_roll_holding_torque_n_m": 0.7486278876616121,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +20 deg / ridge platform_4",
+      "rotation9_deg": 20.0,
+      "axial_phase_mm": 79.78947368421052,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.0797894736842104,
+        "y": -0.013374155136695558,
+        "z": -0.004636309820231256
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.35312757796935,
+      "cylinder_stroke_from_min_mm": 12.353127577969353,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 24.19458322121386,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        72.53872816667672,
+        173.75073441697197,
+        148.96644861638052,
+        251.35881205387287,
+        190.02602484460286
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        55.644024391331946,
+        46.812435752958166
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.3626936408333836,
+        -0.8687536720848599,
+        -0.7448322430819027,
+        -1.2567940602693644,
+        -0.9501301242230142
+      ],
+      "drive_clearance_mm": [
+        -3.404466822687649,
+        -2.864123976535557
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.4504389934494606,
+        "drilling_module1": 0.255884976020318,
+        "drilling_module2": 10.549921349760446,
+        "bit": 3.1089184271540367,
+        "motor_module_body": -0.010574679220692884
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 528.7339610346442
+      },
+      "minimum_body_clearance_mm": -0.010574679220692884,
+      "whole_robot_force_residual_n": {
+        "y": 143.4441000029517,
+        "z": -2.966999724762445
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 142.22479196552274,
+        "body_z_n": 0.9812818875615055,
+        "slider_n": 0.9163206868529908
+      },
+      "required_roll_holding_torque_n_m": 0.9539478299419537,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +20 deg / ridge drilling_1",
+      "rotation9_deg": 20.0,
+      "axial_phase_mm": 109.71052631578947,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1097105263157894,
+        "y": -0.014303744804486282,
+        "z": -0.004847632587461146
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.56520308131707,
+      "cylinder_stroke_from_min_mm": 12.565203081317073,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 27.40598858131341,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        273.4148274192244,
+        201.96769707025996,
+        0.0,
+        97.25335325705132,
+        262.89088511369795
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        54.19292343424864,
+        32.16623254485727
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3670741370961221,
+        -1.0098384853512998,
+        0.019793264966205815,
+        -0.48626676628525656,
+        -1.3144544255684898
+      ],
+      "drive_clearance_mm": [
+        -3.315684152512377,
+        -1.9680257261708993
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 1.6707828930502544,
+        "drilling_module1": 0.030807162249069098,
+        "drilling_module2": 11.44114499972114,
+        "bit": 3.611590430705136,
+        "motor_module_body": -0.010888544602336014
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 544.4272301168007
+      },
+      "minimum_body_clearance_mm": -0.010888544602336014,
+      "whole_robot_force_residual_n": {
+        "y": 403.9933334800857,
+        "z": 0.24440878646021247
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -112.56034939023348,
+        "body_z_n": -0.43008585998899185,
+        "slider_n": -0.4413132228218202
+      },
+      "required_roll_holding_torque_n_m": 3.010513749385245,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +25 deg / ridge platform_2+platform_3+platform_4",
+      "rotation9_deg": 25.0,
+      "axial_phase_mm": 69.8157894736842,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.0698157894736842,
+        "y": -0.013407467872267606,
+        "z": -0.004430774191839929
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.94253202333111,
+      "cylinder_stroke_from_min_mm": 11.942532023331111,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.3250014733469,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        72.92412783226065,
+        174.15818551977657,
+        143.0115554355571,
+        245.37439758429977,
+        150.04980472604902
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        55.559511697447874,
+        46.29287618019253
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.3646206391613033,
+        -0.8707909275988829,
+        -0.7150577771777855,
+        -1.2268719879214989,
+        -0.750249023630245
+      ],
+      "drive_clearance_mm": [
+        -3.3992960848488325,
+        -2.8323357774029665
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.63132521037418,
+        "drilling_module1": -0.0031908390380475105,
+        "drilling_module2": 9.945793608764172,
+        "bit": 3.0372011494063655,
+        "motor_module_body": -0.010545673369055653
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 159.54195190237553,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 527.2836684527826
+      },
+      "minimum_body_clearance_mm": -0.010545673369055653,
+      "whole_robot_force_residual_n": {
+        "y": 1.416410635238094,
+        "z": 0.30905431601274813
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -0.013991133982937118,
+        "body_z_n": 0.020789786049132966,
+        "slider_n": 0.02002639121134874
+      },
+      "required_roll_holding_torque_n_m": -0.05158003868809091,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +25 deg / ridge none",
+      "rotation9_deg": 25.0,
+      "axial_phase_mm": 109.71052631578947,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": false,
+      "body_pose_m": {
+        "x": 1.1097105263157894,
+        "y": -0.014303744943058291,
+        "z": -0.0048517599111608375
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 55.56936979807455,
+      "cylinder_stroke_from_min_mm": 12.569369798074547,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 23.96698466353024,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        274.1225731138441,
+        202.68735520314883,
+        0.0,
+        97.97582731136956,
+        271.20560604854404
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        54.193500111780004,
+        32.16681362823246
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.3706128655692207,
+        -1.0134367760157441,
+        0.01618089469461459,
+        -0.4898791365568478,
+        -1.3560280302427201
+      ],
+      "drive_clearance_mm": [
+        -3.3157194353580084,
+        -1.968061278579153
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 1.668277892480724,
+        "drilling_module1": 0.16302469406043185,
+        "drilling_module2": 11.063154431866687,
+        "bit": 3.4682672959820553,
+        "motor_module_body": -0.010921669724217598
+      },
+      "body_contact_ids": [
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 0.0,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 546.0834862108799
+      },
+      "minimum_body_clearance_mm": -0.010921669724217598,
+      "whole_robot_force_residual_n": {
+        "y": -207.64984499647312,
+        "z": -3.3558225532088386
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": -87.30010363257908,
+        "body_z_n": 1.020470711864483,
+        "slider_n": 0.952520786054477
+      },
+      "required_roll_holding_torque_n_m": -1.9394351231159215,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +25 deg / ridge platform_1+drilling_1",
+      "rotation9_deg": 25.0,
+      "axial_phase_mm": 154.5921052631579,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.1545921052631578,
+        "y": -0.014060960567608034,
+        "z": -0.003999782148868243
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.06891508630566,
+      "cylinder_stroke_from_min_mm": 11.068915086305658,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.119554286911523,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        253.49005448540848,
+        150.80519702196648,
+        0.0,
+        0.0,
+        286.176563054491
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3",
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        33.74751393435224,
+        29.705638382352777
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.2674502724270424,
+        -0.7540259851098324,
+        0.07460878735258969,
+        0.5806688324496295,
+        -1.430882815272455
+      ],
+      "drive_clearance_mm": [
+        -2.0647732221824864,
+        -1.8174792608140478
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.363935217378002,
+        "drilling_module1": -0.008300726999796448,
+        "drilling_module2": 10.367200848429459,
+        "bit": 3.3799567472120593,
+        "motor_module_body": -0.011370930398282852
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 415.03634998982244,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 568.5465199141427
+      },
+      "minimum_body_clearance_mm": -0.011370930398282852,
+      "whole_robot_force_residual_n": {
+        "y": -0.1492777519999322,
+        "z": 2.584993190347234
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.0014920374269433568,
+        "body_z_n": -0.002146822225767834,
+        "slider_n": -0.0018878836271424846
+      },
+      "required_roll_holding_torque_n_m": -0.20075452194839905,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +25 deg / ridge platform_1+platform_2+drilling_1",
+      "rotation9_deg": 25.0,
+      "axial_phase_mm": 159.57894736842104,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.159578947368421,
+        "y": -0.014015374695043246,
+        "z": -0.003922838540358052
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 53.95208043217676,
+      "cylinder_stroke_from_min_mm": 10.952080432176757,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 28.114420516218786,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        251.8496073277615,
+        149.51789884339595,
+        0.0,
+        0.0,
+        288.00682368545773
+      ],
+      "passive_contact": [
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "floating_passive_wheels": [
+        "platform_3",
+        "platform_4"
+      ],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        34.18612730002731,
+        30.799199294308597
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -1.2592480366388075,
+        -0.7475894942169797,
+        0.037380711743362216,
+        0.5434407568403743,
+        -1.4400341184272887
+      ],
+      "drive_clearance_mm": [
+        -2.091608891740218,
+        -1.8843865681856116
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.4583423779871576,
+        "drilling_module1": -0.008235707159950922,
+        "drilling_module2": 10.393637675081793,
+        "bit": 3.387915313665793,
+        "motor_module_body": -0.011337330488553343
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 411.7853579975461,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 566.8665244276672
+      },
+      "minimum_body_clearance_mm": -0.011337330488553343,
+      "whole_robot_force_residual_n": {
+        "y": -0.9398747964204972,
+        "z": 0.2454478122711521
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.00021234063751778332,
+        "body_z_n": -0.00044587750380736444,
+        "slider_n": -0.0004247658580284188
+      },
+      "required_roll_holding_torque_n_m": -0.19499932212764648,
+      "drive_stiffness_n_per_mm": 16.3444167
+    },
+    {
+      "case_label": "insertion pre_rotated +30 deg / ridge platform_2+platform_4",
+      "rotation9_deg": 30.0,
+      "axial_phase_mm": 69.8157894736842,
+      "solver_success": true,
+      "solver_message": "Optimization terminated successfully.",
+      "valid": true,
+      "body_pose_m": {
+        "x": 1.0698157894736842,
+        "y": -0.013929700962838458,
+        "z": -0.004426019019198453
+      },
+      "body_roll_deg": 0.0,
+      "slider6_mm": 54.60231356327078,
+      "cylinder_stroke_from_min_mm": 11.602313563270783,
+      "at_extension_limit": false,
+      "cylinder_force_n": 562.9734035232909,
+      "cylinder_axis_balance_error_n": 26.30439217308208,
+      "passive_wheel_ids": [
+        "platform_1",
+        "platform_2",
+        "platform_3",
+        "platform_4",
+        "drilling_1"
+      ],
+      "passive_normal_force_n": [
+        122.99557059753108,
+        224.22323376572183,
+        91.07742863200264,
+        193.4549655892015,
+        146.2763295112579
+      ],
+      "passive_contact": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "floating_passive_wheels": [],
+      "drive_wheel_ids": [
+        "drive_1",
+        "drive_2"
+      ],
+      "drive_normal_force_n": [
+        54.44649059230929,
+        37.65511121739354
+      ],
+      "drive_contact": [
+        true,
+        true
+      ],
+      "floating_drive_wheels": [],
+      "passive_clearance_mm": [
+        -0.6149778529876554,
+        -1.121116168828609,
+        -0.45538714316001316,
+        -0.9672748279460075,
+        -0.7313816475562895
+      ],
+      "drive_clearance_mm": [
+        -3.331198145009928,
+        -2.303851639893245
+      ],
+      "body_clearance_mm": {
+        "move_module_body": 2.2192907139012426,
+        "drilling_module1": -0.005272546561449487,
+        "drilling_module2": 9.935540063767915,
+        "bit": 3.0210832973113497,
+        "motor_module_body": -0.010791687839170616
+      },
+      "body_contact_ids": [
+        "drilling_module1",
+        "motor_module_body"
+      ],
+      "body_contact_force_n": {
+        "move_module_body": 0.0,
+        "drilling_module1": 263.62732807247437,
+        "drilling_module2": 0.0,
+        "bit": 0.0,
+        "motor_module_body": 539.5843919585308
+      },
+      "minimum_body_clearance_mm": -0.010791687839170616,
+      "whole_robot_force_residual_n": {
+        "y": 1.4204005062221086,
+        "z": 0.36412130299567025
+      },
+      "generalized_equilibrium_residual_n": {
+        "body_y_n": 0.0007100784387153668,
+        "body_z_n": -0.0007287053449544089,
+        "slider_n": -0.000918025762045083
+      },
+      "required_roll_holding_torque_n_m": 0.025959369210919014,
+      "drive_stiffness_n_per_mm": 16.3444167
+    }
+  ],
+  "stiffness_sensitivity": {
+    "16.3444": [
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 0.0,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0,
+          "y": -0.01385184488181413,
+          "z": -0.0040098623753425326
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.53373101489586,
+        "cylinder_stroke_from_min_mm": 11.533731014895857,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.76606502877786,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          272.00256324711177,
+          248.019837129812,
+          124.11359237762265,
+          21.61338261482959,
+          167.31354536145548
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          48.38689844273816,
+          47.45371743838688
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.360012816235559,
+          -1.24009918564906,
+          -0.6205679618881133,
+          -0.10806691307414795,
+          -0.8365677268072774
+        ],
+        "drive_clearance_mm": [
+          -2.9604542842289474,
+          -2.903359496358587
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.532266941272121,
+          "drilling_module1": 0.13991703374409414,
+          "drilling_module2": 11.962461234255152,
+          "bit": 3.9970549334111953,
+          "motor_module_body": -0.010704942840514264
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 535.2471420257132
+        },
+        "minimum_body_clearance_mm": -0.010704942840514264,
+        "whole_robot_force_residual_n": {
+          "y": -89.72489031586494,
+          "z": -1.6215885626824615
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -198.21708912346375,
+          "body_z_n": 0.10597734944893503,
+          "slider_n": 0.09966997822299349
+        },
+        "required_roll_holding_torque_n_m": -1.9178214588503906,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4+drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 4.9868421052631575,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0049868421052632,
+          "y": -0.01400432624846901,
+          "z": -0.0039905723553351116
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.51597631733293,
+        "cylinder_stroke_from_min_mm": 11.515976317332928,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.976990549364757,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          270.49658862123573,
+          276.6188223316812,
+          122.22376538673363,
+          20.328806179240043,
+          146.97741476730474
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          50.85529067058791,
+          47.75240498602778
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3524829431061787,
+          -1.3830941116584061,
+          -0.6111188269336681,
+          -0.10164403089620022,
+          -0.7348870738365237
+        ],
+        "drive_clearance_mm": [
+          -3.1114778584045713,
+          -2.9216340884179597
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.419389617862269,
+          "drilling_module1": 0.12895210332813933,
+          "drilling_module2": 11.921558334253138,
+          "bit": 3.9739973223029965,
+          "motor_module_body": -0.01065298091504352
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 532.649045752176
+        },
+        "minimum_body_clearance_mm": -0.01065298091504352,
+        "whole_robot_force_residual_n": {
+          "y": 502.9643179616843,
+          "z": -1.4974088780601846
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -215.6948528747073,
+          "body_z_n": 0.4601818636728538,
+          "slider_n": 0.43382381589632624
+        },
+        "required_roll_holding_torque_n_m": 3.0796225319778,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+platform_2+platform_3+platform_4",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 9.973684210526315,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0099736842105262,
+          "y": -0.014155875204168038,
+          "z": -0.003981945848539157
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.50932464615419,
+        "cylinder_stroke_from_min_mm": 11.509324646154191,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 24.687524973305187,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          268.26735518035997,
+          302.76181602710005,
+          119.0154988254588,
+          21.070052085053746,
+          128.81024197095581
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          53.347920714391165,
+          48.02168450169074
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3413367759017998,
+          -1.5138090801355002,
+          -0.595077494127294,
+          -0.10535026042526874,
+          -0.644051209854779
+        ],
+        "drive_clearance_mm": [
+          -3.2639843742108683,
+          -2.9381094096610214
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.358220917394682,
+          "drilling_module1": 0.11009627290592405,
+          "drilling_module2": 11.886955480361935,
+          "bit": 3.826404014412019,
+          "motor_module_body": -0.010598206152748202
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 529.9103076374101
+        },
+        "minimum_body_clearance_mm": -0.010598206152748202,
+        "whole_robot_force_residual_n": {
+          "y": -53.76921598416854,
+          "z": -2.8318668880263544
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -231.29033462754415,
+          "body_z_n": 0.8430473221777692,
+          "slider_n": 0.7845285790348178
+        },
+        "required_roll_holding_torque_n_m": -1.6657797487531099,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_2+platform_3+platform_4",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 44.88157894736842,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0448815789473684,
+          "y": -0.013688581425675512,
+          "z": -0.003939832124783796
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.30617306590977,
+        "cylinder_stroke_from_min_mm": 11.306173065909768,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.672151250673608,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          97.33757725881864,
+          199.95480609637517,
+          113.99981588030018,
+          167.06324938398632,
+          3.3688008385629464
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          56.85038349527712,
+          48.98233709454897
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.4866878862940932,
+          -0.9997740304818759,
+          -0.5699990794015009,
+          -0.8353162469199316,
+          -0.016844004192814732
+        ],
+        "drive_clearance_mm": [
+          -3.4782754587551064,
+          -2.996884990979762
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.679829307520559,
+          "drilling_module1": -0.007561850352846844,
+          "drilling_module2": 12.070246132986364,
+          "bit": 3.3828734418195063,
+          "motor_module_body": -0.01043614084783595
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 378.0925176423422,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 521.8070423917975
+        },
+        "minimum_body_clearance_mm": -0.01043614084783595,
+        "whole_robot_force_residual_n": {
+          "y": 1.8401807945503492,
+          "z": 31.709352661228763
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -283.1963406249349,
+          "body_z_n": -29.572393986650862,
+          "slider_n": 0.1067366247262763
+        },
+        "required_roll_holding_torque_n_m": -1.2892395940859664,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 124.67105263157893,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1246710526315788,
+          "y": -0.012943169751375772,
+          "z": -0.004228969877731646
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.82546835646264,
+        "cylinder_stroke_from_min_mm": 10.825468356462643,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.150779914457985,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          77.68092696479046,
+          0.0,
+          34.12051210694156,
+          74.76015418766136,
+          246.50070421232408
+        ],
+        "passive_contact": [
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_2"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          23.82703793162873,
+          22.763278442642356
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.38840463482395227,
+          0.11765541027307369,
+          -0.1706025605347078,
+          -0.37380077093830677,
+          -1.2325035210616204
+        ],
+        "drive_clearance_mm": [
+          -1.457809010194211,
+          -1.392725042469234
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 3.1765458220611857,
+          "drilling_module1": -0.009506741438458644,
+          "drilling_module2": 11.733569333941984,
+          "bit": 3.46132398658551,
+          "motor_module_body": -0.011828322434043193
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 475.3370719229322,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 591.4161217021597
+        },
+        "minimum_body_clearance_mm": -0.011828322434043193,
+        "whole_robot_force_residual_n": {
+          "y": -0.7127552573428488,
+          "z": 0.2112435412461764
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.00041757584767796043,
+          "body_z_n": 0.0005646643330691564,
+          "slider_n": 0.00046557488529561537
+        },
+        "required_roll_holding_torque_n_m": -0.9844816735497521,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 129.65789473684208,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.129657894736842,
+          "y": -0.013020964463143457,
+          "z": -0.00422741864054998
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.84047431032798,
+        "cylinder_stroke_from_min_mm": 10.840474310327977,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.064058181540418,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          101.78152622434267,
+          0.5008278105234076,
+          42.820538885970926,
+          49.97747917609985,
+          263.044330340087
+        ],
+        "passive_contact": [
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_2"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          23.280400754174632,
+          23.78884547938901
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.5089076311217133,
+          -0.002504139052617038,
+          -0.21410269442985463,
+          -0.24988739588049924,
+          -1.3152216517004351
+        ],
+        "drive_clearance_mm": [
+          -1.4243641227144332,
+          -1.455472282433243
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 3.057349927868991,
+          "drilling_module1": -0.008796058833943077,
+          "drilling_module2": 11.734499448052354,
+          "bit": 3.514782317387291,
+          "motor_module_body": -0.011767536655271638
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 439.8029416971538,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 588.3768327635819
+        },
+        "minimum_body_clearance_mm": -0.011767536655271638,
+        "whole_robot_force_residual_n": {
+          "y": -1.9663120895144175,
+          "z": 0.18748363304553095
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.000541353529115838,
+          "body_z_n": 0.0006884556569274532,
+          "slider_n": 0.0006493610271502788
+        },
+        "required_roll_holding_torque_n_m": -1.0114446969541149,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 154.5921052631579,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1545921052631578,
+          "y": -0.013291128502591643,
+          "z": -0.003995142095780434
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.201975640052474,
+        "cylinder_stroke_from_min_mm": 11.201975640052474,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.49446383252797,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          173.54635190988955,
+          70.87074670623639,
+          58.693324764183544,
+          0.0,
+          269.11603419598197
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          30.255143594361016,
+          37.2748696750295
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.8677317595494477,
+          -0.35435373353118194,
+          -0.2934666238209177,
+          0.21259342127610825,
+          -1.3455801709799098
+        ],
+        "drive_clearance_mm": [
+          -1.8510996231735217,
+          -2.2805873320049104
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.982574932692106,
+          "drilling_module1": -0.006004947077406508,
+          "drilling_module2": 12.182245032460584,
+          "bit": 3.6169950221053155,
+          "motor_module_body": -0.011283191582667218
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 300.2473538703254,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 564.1595791333609
+        },
+        "minimum_body_clearance_mm": -0.011283191582667218,
+        "whole_robot_force_residual_n": {
+          "y": -1.6441016209078043,
+          "z": 0.9735721978776724
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.17421436677990706,
+          "body_z_n": 0.10033403395935726,
+          "slider_n": -0.00025793269741423996
+        },
+        "required_roll_holding_torque_n_m": -1.067837655122541,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion straight +0 deg / ridge platform_1+platform_3+drilling_1",
+        "rotation9_deg": 0.0,
+        "axial_phase_mm": 179.52631578947367,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1795263157894738,
+          "y": -0.013546088854316463,
+          "z": -0.0040533652785469595
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.58010751174474,
+        "cylinder_stroke_from_min_mm": 11.580107511744743,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 24.84202281266812,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          271.69531221023504,
+          190.89374111368463,
+          127.99162236441231,
+          25.67852744201904,
+          209.19513926740407
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          43.539344912166854,
+          46.94300747024579
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.358476561051175,
+          -0.9544687055684231,
+          -0.6399581118220615,
+          -0.1283926372100952,
+          -1.0459756963370204
+        ],
+        "drive_clearance_mm": [
+          -2.663866549129701,
+          -2.872112742343738
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.744603515706628,
+          "drilling_module1": 0.15857892903008153,
+          "drilling_module2": 12.062344736200103,
+          "bit": 3.988131989265259,
+          "motor_module_body": -0.010830656697616292
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 541.5328348808146
+        },
+        "minimum_body_clearance_mm": -0.010830656697616292,
+        "whole_robot_force_residual_n": {
+          "y": 449.23335350712375,
+          "z": -2.650640996594973
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -156.8432401924171,
+          "body_z_n": 0.6210851083778011,
+          "slider_n": 0.5927727033653025
+        },
+        "required_roll_holding_torque_n_m": 2.7480758770328695,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+        "rotation9_deg": -5.0,
+        "axial_phase_mm": 124.67105263157893,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1246710526315788,
+          "y": -0.012530784734788013,
+          "z": -0.004186502975218609
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.510660880169915,
+        "cylinder_stroke_from_min_mm": 10.510660880169915,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.142636466494366,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          29.90205486942399,
+          0.0,
+          67.01210976216288,
+          109.83955668474876,
+          242.26258269887114
+        ],
+        "passive_contact": [
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_2"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          16.85633655864944,
+          21.816412351270756
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.14951027434711994,
+          0.35654977074989214,
+          -0.3350605488108144,
+          -0.5491977834237438,
+          -1.2113129134943557
+        ],
+        "drive_clearance_mm": [
+          -1.0313207787127354,
+          -1.3347929602939428
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 3.530567284203423,
+          "drilling_module1": -0.010050986655088523,
+          "drilling_module2": 11.822922035370151,
+          "bit": 3.4039715690510617,
+          "motor_module_body": -0.012031922372437998
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 502.54933275442613,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 601.5961186218999
+        },
+        "minimum_body_clearance_mm": -0.012031922372437998,
+        "whole_robot_force_residual_n": {
+          "y": 1.470215921720694,
+          "z": -1.9509648752485873
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.007252230716408902,
+          "body_z_n": 0.004706633262684876,
+          "slider_n": -8.51969161857508e-05
+        },
+        "required_roll_holding_torque_n_m": -1.0767610987109646,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+        "rotation9_deg": -5.0,
+        "axial_phase_mm": 134.64473684210526,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1346447368421053,
+          "y": -0.012555729686683845,
+          "z": -0.004134046070464888
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.5134994313871,
+        "cylinder_stroke_from_min_mm": 10.513499431387103,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.112143158568585,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          56.5878128872821,
+          0.0,
+          88.51880787018318,
+          65.18012107374626,
+          264.8339400421612
+        ],
+        "passive_contact": [
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_2"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          15.142544647397576,
+          25.143849465893666
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.2829390644364105,
+          0.2246553902457843,
+          -0.4425940393509159,
+          -0.32590060536873133,
+          -1.3241697002108062
+        ],
+        "drive_clearance_mm": [
+          -0.9264658950721427,
+          -1.5383754542854788
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 3.491330674360804,
+          "drilling_module1": -0.009238708827519204,
+          "drilling_module2": 11.75979323387158,
+          "bit": 3.5147636502027986,
+          "motor_module_body": -0.011946857329206417
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 461.9354413759602,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 597.3428664603209
+        },
+        "minimum_body_clearance_mm": -0.011946857329206417,
+        "whole_robot_force_residual_n": {
+          "y": -1.9315416373576682,
+          "z": 0.03860536637120049
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -0.010398502126925812,
+          "body_z_n": -0.015816949144207403,
+          "slider_n": -0.014969714356496848
+        },
+        "required_roll_holding_torque_n_m": -1.1222157460772166,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated -5 deg / ridge drilling_1",
+        "rotation9_deg": -5.0,
+        "axial_phase_mm": 139.6315789473684,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1396315789473683,
+          "y": -0.012610666628166775,
+          "z": -0.004129396068918555
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.6141845162637,
+        "cylinder_stroke_from_min_mm": 10.614184516263698,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.08406479120157,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          77.97421259731763,
+          0.0,
+          98.87389843214467,
+          42.176991164064034,
+          277.03088416588525
+        ],
+        "passive_contact": [
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_2"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          15.731337630231206,
+          27.62865265686484
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.38987106298658813,
+          0.11911691353096165,
+          -0.49436949216072335,
+          -0.21088495582032019,
+          -1.3851544208294264
+        ],
+        "drive_clearance_mm": [
+          -0.9624900000396591,
+          -1.6904030999689845
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 3.4495671472332123,
+          "drilling_module1": -0.008675180263220672,
+          "drilling_module2": 11.82900842062079,
+          "bit": 3.578288906711011,
+          "motor_module_body": -0.011874533017861011
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 433.7590131610336,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 593.7266508930505
+        },
+        "minimum_body_clearance_mm": -0.011874533017861011,
+        "whole_robot_force_residual_n": {
+          "y": -3.553270971522295,
+          "z": 2.004859524930964
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -0.00021282085072031978,
+          "body_z_n": -0.0003030395419045415,
+          "slider_n": -6.598838808494422e-05
+        },
+        "required_roll_holding_torque_n_m": -1.1582445667551484,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+drilling_1",
+        "rotation9_deg": 5.0,
+        "axial_phase_mm": 4.9868421052631575,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0049868421052632,
+          "y": -0.014004326248366884,
+          "z": -0.003995670235465709
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.52107412931506,
+        "cylinder_stroke_from_min_mm": 11.52107412931506,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.97940269192742,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          271.37424844411726,
+          277.4922212076897,
+          123.11744138287506,
+          21.222562524139676,
+          144.55722713200836
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          50.85528966920514,
+          47.75240398516648
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3568712422205864,
+          -1.3874611060384483,
+          -0.6155872069143753,
+          -0.10611281262069838,
+          -0.7227861356600418
+        ],
+        "drive_clearance_mm": [
+          -3.1114777971369967,
+          -2.9216340271822903
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.4163131382357594,
+          "drilling_module1": 0.5036425730783195,
+          "drilling_module2": 12.320944992502843,
+          "bit": 4.083324241822034,
+          "motor_module_body": -0.010652923650281143
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 532.6461825140572
+        },
+        "minimum_body_clearance_mm": -0.010652923650281143,
+        "whole_robot_force_residual_n": {
+          "y": 487.2461879590811,
+          "z": -1.4385061277020554
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -199.99724455207027,
+          "body_z_n": 0.4645150961550209,
+          "slider_n": 0.4314159696007239
+        },
+        "required_roll_holding_torque_n_m": 3.1380720787275673,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+platform_4+drilling_1",
+        "rotation9_deg": 5.0,
+        "axial_phase_mm": 9.973684210526315,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0099736842105262,
+          "y": -0.014155875201896742,
+          "z": -0.003990601636768955
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.517979712770206,
+        "cylinder_stroke_from_min_mm": 11.517979712770206,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 24.713140683414792,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          269.7565668599966,
+          304.24480358551557,
+          120.53282465049608,
+          22.588482904017937,
+          123.95124101731992
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          53.34791010769389,
+          48.02167390638096
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.348782834299983,
+          -1.5212240179275778,
+          -0.6026641232524804,
+          -0.11294241452008968,
+          -0.6197562050865996
+        ],
+        "drive_clearance_mm": [
+          -3.263983725261599,
+          -2.938108761408473
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.3530449519930525,
+          "drilling_module1": 0.49335684980747474,
+          "drilling_module2": 12.28152524569491,
+          "bit": 4.012645857334948,
+          "motor_module_body": -0.010597599552186754
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 529.8799776093377
+        },
+        "minimum_body_clearance_mm": -0.010597599552186754,
+        "whole_robot_force_residual_n": {
+          "y": -65.15866534034848,
+          "z": -2.7659425452067694
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -219.91431123631412,
+          "body_z_n": 0.8196985004359525,
+          "slider_n": 0.7590124550663823
+        },
+        "required_roll_holding_torque_n_m": -1.5558034982433544,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_2+platform_3+platform_4",
+        "rotation9_deg": 5.0,
+        "axial_phase_mm": 19.94736842105263,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0199473684210527,
+          "y": -0.014290818962983919,
+          "z": -0.003990764158174242
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.46626320906873,
+        "cylinder_stroke_from_min_mm": 11.466263209068728,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.410838837186247,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          250.1584054113465,
+          337.1182974526987,
+          127.80379562178923,
+          43.31961369768156,
+          88.52424457738151
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          56.30896854355011,
+          48.47576849298172
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.2507920270567325,
+          -1.6855914872634936,
+          -0.6390189781089461,
+          -0.2165980684884078,
+          -0.44262122288690753
+        ],
+        "drive_clearance_mm": [
+          -3.4451500825691816,
+          -2.96589161808275
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.1960676701605344,
+          "drilling_module1": 0.4330742946530436,
+          "drilling_module2": 12.353121031494926,
+          "bit": 3.7863793880142382,
+          "motor_module_body": -0.010480239601332042
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 524.0119800666021
+        },
+        "minimum_body_clearance_mm": -0.010480239601332042,
+        "whole_robot_force_residual_n": {
+          "y": -63.85610044944656,
+          "z": -0.7031001064644897
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -215.8872324600219,
+          "body_z_n": 0.08294456756628996,
+          "slider_n": 0.0766652556169008
+        },
+        "required_roll_holding_torque_n_m": -1.583147005770805,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +5 deg / ridge platform_1+drilling_1",
+        "rotation9_deg": 5.0,
+        "axial_phase_mm": 154.5921052631579,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1545921052631578,
+          "y": -0.013567556678357108,
+          "z": -0.004206762589758409
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.58988159489373,
+        "cylinder_stroke_from_min_mm": 11.589881594893733,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.48092319404236,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          238.21372323520885,
+          135.5362882919431,
+          68.92344978852717,
+          0.0,
+          309.84739405795494
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          34.81863505834779,
+          37.86153553428114
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.1910686161760442,
+          -0.6776814414597154,
+          -0.3446172489426358,
+          0.16144279615439017,
+          -1.5492369702897746
+        ],
+        "drive_clearance_mm": [
+          -2.1303075966209173,
+          -2.3164812932284784
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.634452249844224,
+          "drilling_module1": -0.0013412893985487173,
+          "drilling_module2": 11.833561100704006,
+          "bit": 3.8403196665538624,
+          "motor_module_body": -0.011152953995452464
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 67.06446992743587,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 557.6476997726231
+        },
+        "minimum_body_clearance_mm": -0.011152953995452464,
+        "whole_robot_force_residual_n": {
+          "y": -127.22816152940078,
+          "z": 1.7034270808781002
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -175.52772022158186,
+          "body_z_n": 0.15443646316268994,
+          "slider_n": 0.000242716851054084
+        },
+        "required_roll_holding_torque_n_m": -2.0064663767904265,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +5 deg / ridge platform_1+platform_3+drilling_1",
+        "rotation9_deg": 5.0,
+        "axial_phase_mm": 179.52631578947367,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1795263157894738,
+          "y": -0.01354608885590336,
+          "z": -0.004046783063063902
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.5735244628935,
+        "cylinder_stroke_from_min_mm": 11.573524462893502,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.938121504050116,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          270.56051772643974,
+          189.76376147403772,
+          126.83962255368164,
+          24.526572778343912,
+          214.22895910281073
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          43.53933266669929,
+          46.94299523176736
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3528025886321986,
+          -0.9488188073701886,
+          -0.6341981127684082,
+          -0.12263286389171957,
+          -1.0711447955140536
+        ],
+        "drive_clearance_mm": [
+          -2.6638657999155937,
+          -2.872111993557247
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.7485584545010324,
+          "drilling_module1": 0.507066904986142,
+          "drilling_module2": 12.310605047250608,
+          "bit": 4.1213481084120955,
+          "motor_module_body": -0.010829956419516895
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 541.4978209758448
+        },
+        "minimum_body_clearance_mm": -0.010829956419516895,
+        "whole_robot_force_residual_n": {
+          "y": -153.74561301003644,
+          "z": -1.4781185665307817
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -137.16016648469193,
+          "body_z_n": 0.6025106181367956,
+          "slider_n": 0.5633273803863982
+        },
+        "required_roll_holding_torque_n_m": -2.193464698732069,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +10 deg / ridge platform_4",
+        "rotation9_deg": 10.0,
+        "axial_phase_mm": 74.80263157894737,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0748026315789474,
+          "y": -0.0132628513060141,
+          "z": -0.004602668883095173
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.29444879357481,
+        "cylinder_stroke_from_min_mm": 12.294448793574809,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.995059899742046,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          72.41695858811181,
+          173.6289648384043,
+          170.6429581533553,
+          273.34951112727157,
+          146.76703064947228
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          55.83193682349847,
+          48.59474562161237
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.36208479294055906,
+          -0.8681448241920214,
+          -0.8532147907667764,
+          -1.366747555636358,
+          -0.7338351532473614
+        ],
+        "drive_clearance_mm": [
+          -3.4159638638862204,
+          -2.973170992490198
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.6179847824583242,
+          "drilling_module1": 0.1405502532807884,
+          "drilling_module2": 11.344956251715429,
+          "bit": 3.2285034308258407,
+          "motor_module_body": -0.010485636390500375
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 524.2818195250187
+        },
+        "minimum_body_clearance_mm": -0.010485636390500375,
+        "whole_robot_force_residual_n": {
+          "y": 151.37763280190558,
+          "z": -0.8726699867332286
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 130.29849862378364,
+          "body_z_n": 0.10214193707723561,
+          "slider_n": 0.09637141829123942
+        },
+        "required_roll_holding_torque_n_m": 0.7118193357383036,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +10 deg / ridge drilling_1",
+        "rotation9_deg": 10.0,
+        "axial_phase_mm": 114.69736842105263,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1146973684210526,
+          "y": -0.013959702042968513,
+          "z": -0.004357111691310208
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.758185629050736,
+        "cylinder_stroke_from_min_mm": 11.758185629050736,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 25.92586916172661,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          170.43624756021836,
+          69.22423854081595,
+          0.0,
+          28.364495160254634,
+          207.28339249592165
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          45.698622390907666,
+          28.554955525185104
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.8521812378010918,
+          -0.3461211927040797,
+          0.3642375554501892,
+          -0.14182247580127316,
+          -1.0364169624796082
+        ],
+        "drive_clearance_mm": [
+          -2.795977564063676,
+          -1.7470770630306498
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.235303721652551,
+          "drilling_module1": -0.007531371795266306,
+          "drilling_module2": 11.95302956691767,
+          "bit": 3.2834479615117402,
+          "motor_module_body": -0.011160451772199154
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 376.5685897633153,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 558.0225886099577
+        },
+        "minimum_body_clearance_mm": -0.011160451772199154,
+        "whole_robot_force_residual_n": {
+          "y": -0.8645997395291829,
+          "z": -0.2051351168149722
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.00014944907889013914,
+          "body_z_n": 0.00017249931261173953,
+          "slider_n": 4.7525645639566675e-05
+        },
+        "required_roll_holding_torque_n_m": -0.7787265744591523,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +10 deg / ridge drilling_1",
+        "rotation9_deg": 10.0,
+        "axial_phase_mm": 124.67105263157893,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1246710526315788,
+          "y": -0.014026005650309387,
+          "z": -0.004324889633081583
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.62485307502037,
+        "cylinder_stroke_from_min_mm": 11.624853075020368,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.172518670418754,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          204.8327964065344,
+          103.62078738713198,
+          0.0,
+          0.0,
+          232.43030116373853
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3",
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          42.00012606440665,
+          25.2327390266539
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.024163982032672,
+          -0.5181039369356599,
+          0.2691402185642233,
+          0.08411831928517577,
+          -1.1621515058186926
+        ],
+        "drive_clearance_mm": [
+          -2.5696925644588253,
+          -1.543813981850689
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.2544162085424424,
+          "drilling_module1": -0.00608695257252323,
+          "drilling_module2": 11.860405937342305,
+          "bit": 3.3667409623155535,
+          "motor_module_body": -0.011304532557834812
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 304.3476286261615,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 565.2266278917406
+        },
+        "minimum_body_clearance_mm": -0.011304532557834812,
+        "whole_robot_force_residual_n": {
+          "y": -1.4573624072074836,
+          "z": -0.009009755335569025
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -0.00030431692721344535,
+          "body_z_n": -0.0004922253538097067,
+          "slider_n": 5.9526428229062085e-06
+        },
+        "required_roll_holding_torque_n_m": -0.7982288243084146,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +10 deg / ridge platform_1+drilling_1",
+        "rotation9_deg": 10.0,
+        "axial_phase_mm": 149.60526315789474,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1496052631578948,
+          "y": -0.013700272522222947,
+          "z": -0.004363154888359044
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.73204103762966,
+        "cylinder_stroke_from_min_mm": 11.732041037629664,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.441535478523974,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          261.85130372821664,
+          159.45138066276454,
+          66.95806255111458,
+          0.0,
+          326.8168087343121
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          34.20559398202702,
+          35.34471624908595
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3092565186410832,
+          -0.7972569033138227,
+          -0.3347903127555729,
+          0.17126973234143916,
+          -1.6340840436715602
+        ],
+        "drive_clearance_mm": [
+          -2.0927999212126682,
+          -2.16249480772758
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.4924846445888993,
+          "drilling_module1": 0.12044643100038444,
+          "drilling_module2": 11.361558572535833,
+          "bit": 3.9907401237950504,
+          "motor_module_body": -0.011214503256390396
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 560.7251628195198
+        },
+        "minimum_body_clearance_mm": -0.011214503256390396,
+        "whole_robot_force_residual_n": {
+          "y": -181.42979608016566,
+          "z": 1.8207858484011012
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -122.922000758171,
+          "body_z_n": 0.014508111689790788,
+          "slider_n": 0.00011798874765708516
+        },
+        "required_roll_holding_torque_n_m": -2.2981633398397916,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +15 deg / ridge platform_2+platform_3+platform_4",
+        "rotation9_deg": 15.0,
+        "axial_phase_mm": 49.868421052631575,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0498684210526317,
+          "y": -0.013554547220573206,
+          "z": -0.004238199604629678
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.61723005881775,
+        "cylinder_stroke_from_min_mm": 11.617230058817754,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 29.245236822036816,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          119.7782508252837,
+          222.12117714426603,
+          162.32262139344033,
+          243.88164662096366,
+          92.01110113223888
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          57.02689475783252,
+          48.79574190524353
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.5988912541264185,
+          -1.1106058857213301,
+          -0.8116131069672017,
+          -1.2194082331048184,
+          -0.46005550566119435
+        ],
+        "drive_clearance_mm": [
+          -3.4890749425051384,
+          -2.9854685426151386
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.5529802039641334,
+          "drilling_module1": 0.8481088364462597,
+          "drilling_module2": 10.869126744233709,
+          "bit": 3.2199175283201957,
+          "motor_module_body": -0.010428580377891405
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 521.4290188945703
+        },
+        "minimum_body_clearance_mm": -0.010428580377891405,
+        "whole_robot_force_residual_n": {
+          "y": -333.44347090037803,
+          "z": 1.4309593263416787
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 53.66850447766715,
+          "body_z_n": -0.3112786234850815,
+          "slider_n": -0.33949126190019213
+        },
+        "required_roll_holding_torque_n_m": -3.2734983458759213,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +15 deg / ridge none",
+        "rotation9_deg": 15.0,
+        "axial_phase_mm": 104.7236842105263,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1047236842105264,
+          "y": -0.01415071413680064,
+          "z": -0.004644239269711905
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.36132073280995,
+        "cylinder_stroke_from_min_mm": 12.36132073280995,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.493272349999415,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          206.236755720382,
+          168.06015463038116,
+          0.0,
+          93.04718143062219,
+          216.6239853100771
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          54.41907493514394,
+          34.58201855602142
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.03118377860191,
+          -0.8403007731519058,
+          0.040824124098351455,
+          -0.4652359071531109,
+          -1.0831199265503855
+        ],
+        "drive_clearance_mm": [
+          -3.3295207736072916,
+          -2.1158306956296222
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 1.9039041610083296,
+          "drilling_module1": -0.002921960779084243,
+          "drilling_module2": 11.812011988494547,
+          "bit": 3.495731561304727,
+          "motor_module_body": -0.010845863820552193
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 146.09803895421214,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 542.2931910276096
+        },
+        "minimum_body_clearance_mm": -0.010845863820552193,
+        "whole_robot_force_residual_n": {
+          "y": 463.5995118597866,
+          "z": -1.432232337510186
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -172.66310383742118,
+          "body_z_n": 0.7244293938128015,
+          "slider_n": 0.005777710611973011
+        },
+        "required_roll_holding_torque_n_m": 3.4114712586853537,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +15 deg / ridge drilling_1",
+        "rotation9_deg": 15.0,
+        "axial_phase_mm": 109.71052631578947,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1097105263157894,
+          "y": -0.01430374495872605,
+          "z": -0.0044962138747500135
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.213798108525594,
+        "cylinder_stroke_from_min_mm": 12.213798108525594,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.917208091474663,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          213.18288120891205,
+          140.73280232948792,
+          0.0,
+          35.761985563240174,
+          196.8882617631035
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          54.19312534915555,
+          32.166434481086355
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.0659144060445602,
+          -0.7036640116474396,
+          0.3272501034352615,
+          -0.17880992781620086,
+          -0.9844413088155174
+        ],
+        "drive_clearance_mm": [
+          -3.315696506266605,
+          -1.9680380812296812
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 1.8837219635507023,
+          "drilling_module1": -0.004983065814798127,
+          "drilling_module2": 11.92367371438649,
+          "bit": 3.3188163171457425,
+          "motor_module_body": -0.010900155959253643
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 249.15329073990634,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 545.0077979626822
+        },
+        "minimum_body_clearance_mm": -0.010900155959253643,
+        "whole_robot_force_residual_n": {
+          "y": 544.4872448199962,
+          "z": -0.8397295523652701
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -253.43816989534818,
+          "body_z_n": 1.033545877362348,
+          "slider_n": -0.267547793546541
+        },
+        "required_roll_holding_torque_n_m": 4.00887213693075,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +20 deg / ridge platform_1+platform_2+platform_3+platform_4",
+        "rotation9_deg": 20.0,
+        "axial_phase_mm": 34.9078947368421,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0349078947368422,
+          "y": -0.013978654129559502,
+          "z": -0.004054549619688753
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.42956826221462,
+        "cylinder_stroke_from_min_mm": 11.429568262214623,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.566527297621292,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          179.11712173515338,
+          280.9701399637182,
+          138.13607283834074,
+          134.0318445605393,
+          110.33558893626949
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          56.682459593192995,
+          49.27976082141947
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.8955856086757669,
+          -1.4048506998185912,
+          -0.6906803641917036,
+          -0.6701592228026965,
+          -0.5516779446813475
+        ],
+        "drive_clearance_mm": [
+          -3.4680013752459575,
+          -3.0150822587275
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.4575074105571417,
+          "drilling_module1": 0.5788674237179464,
+          "drilling_module2": 10.84617081854898,
+          "bit": 3.2646583001018357,
+          "motor_module_body": -0.010437019315509555
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 521.8509657754778
+        },
+        "minimum_body_clearance_mm": -0.010437019315509555,
+        "whole_robot_force_residual_n": {
+          "y": 341.29137824227195,
+          "z": 0.5998904822317286
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -57.51491049527108,
+          "body_z_n": 0.14132183741819915,
+          "slider_n": 0.12909567430623428
+        },
+        "required_roll_holding_torque_n_m": 2.321759979330001,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +20 deg / ridge platform_4",
+        "rotation9_deg": 20.0,
+        "axial_phase_mm": 74.80263157894737,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0748026315789474,
+          "y": -0.013262851305875149,
+          "z": -0.004577960610555696
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.269739889961826,
+        "cylinder_stroke_from_min_mm": 12.269739889961826,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.017559629361074,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          68.0931686510261,
+          169.3051749013158,
+          166.3894320601267,
+          269.09615979727744,
+          170.57248729183127
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          55.831927565523486,
+          48.5947363325121
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.3404658432551305,
+          -0.846525874506579,
+          -0.8319471603006334,
+          -1.345480798986387,
+          -0.8528624364591564
+        ],
+        "drive_clearance_mm": [
+          -3.4159632974557903,
+          -2.9731704241554304
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.632723786763269,
+          "drilling_module1": 0.26370636355578514,
+          "drilling_module2": 10.37357930764303,
+          "bit": 3.1031336680231862,
+          "motor_module_body": -0.010485104358887165
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 524.2552179443583
+        },
+        "minimum_body_clearance_mm": -0.010485104358887165,
+        "whole_robot_force_residual_n": {
+          "y": 117.10241432444815,
+          "z": -0.9919520394487904
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 164.4373095647396,
+          "body_z_n": 0.07907378585513329,
+          "slider_n": 0.07394361091182969
+        },
+        "required_roll_holding_torque_n_m": 0.7486278876616121,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +20 deg / ridge platform_4",
+        "rotation9_deg": 20.0,
+        "axial_phase_mm": 79.78947368421052,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.0797894736842104,
+          "y": -0.013374155136695558,
+          "z": -0.004636309820231256
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.35312757796935,
+        "cylinder_stroke_from_min_mm": 12.353127577969353,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 24.19458322121386,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          72.53872816667672,
+          173.75073441697197,
+          148.96644861638052,
+          251.35881205387287,
+          190.02602484460286
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          55.644024391331946,
+          46.812435752958166
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.3626936408333836,
+          -0.8687536720848599,
+          -0.7448322430819027,
+          -1.2567940602693644,
+          -0.9501301242230142
+        ],
+        "drive_clearance_mm": [
+          -3.404466822687649,
+          -2.864123976535557
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.4504389934494606,
+          "drilling_module1": 0.255884976020318,
+          "drilling_module2": 10.549921349760446,
+          "bit": 3.1089184271540367,
+          "motor_module_body": -0.010574679220692884
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 528.7339610346442
+        },
+        "minimum_body_clearance_mm": -0.010574679220692884,
+        "whole_robot_force_residual_n": {
+          "y": 143.4441000029517,
+          "z": -2.966999724762445
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 142.22479196552274,
+          "body_z_n": 0.9812818875615055,
+          "slider_n": 0.9163206868529908
+        },
+        "required_roll_holding_torque_n_m": 0.9539478299419537,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +20 deg / ridge drilling_1",
+        "rotation9_deg": 20.0,
+        "axial_phase_mm": 109.71052631578947,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1097105263157894,
+          "y": -0.014303744804486282,
+          "z": -0.004847632587461146
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.56520308131707,
+        "cylinder_stroke_from_min_mm": 12.565203081317073,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 27.40598858131341,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          273.4148274192244,
+          201.96769707025996,
+          0.0,
+          97.25335325705132,
+          262.89088511369795
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          54.19292343424864,
+          32.16623254485727
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3670741370961221,
+          -1.0098384853512998,
+          0.019793264966205815,
+          -0.48626676628525656,
+          -1.3144544255684898
+        ],
+        "drive_clearance_mm": [
+          -3.315684152512377,
+          -1.9680257261708993
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 1.6707828930502544,
+          "drilling_module1": 0.030807162249069098,
+          "drilling_module2": 11.44114499972114,
+          "bit": 3.611590430705136,
+          "motor_module_body": -0.010888544602336014
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 544.4272301168007
+        },
+        "minimum_body_clearance_mm": -0.010888544602336014,
+        "whole_robot_force_residual_n": {
+          "y": 403.9933334800857,
+          "z": 0.24440878646021247
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -112.56034939023348,
+          "body_z_n": -0.43008585998899185,
+          "slider_n": -0.4413132228218202
+        },
+        "required_roll_holding_torque_n_m": 3.010513749385245,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +25 deg / ridge platform_2+platform_3+platform_4",
+        "rotation9_deg": 25.0,
+        "axial_phase_mm": 69.8157894736842,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.0698157894736842,
+          "y": -0.013407467872267606,
+          "z": -0.004430774191839929
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.94253202333111,
+        "cylinder_stroke_from_min_mm": 11.942532023331111,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.3250014733469,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          72.92412783226065,
+          174.15818551977657,
+          143.0115554355571,
+          245.37439758429977,
+          150.04980472604902
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          55.559511697447874,
+          46.29287618019253
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.3646206391613033,
+          -0.8707909275988829,
+          -0.7150577771777855,
+          -1.2268719879214989,
+          -0.750249023630245
+        ],
+        "drive_clearance_mm": [
+          -3.3992960848488325,
+          -2.8323357774029665
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.63132521037418,
+          "drilling_module1": -0.0031908390380475105,
+          "drilling_module2": 9.945793608764172,
+          "bit": 3.0372011494063655,
+          "motor_module_body": -0.010545673369055653
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 159.54195190237553,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 527.2836684527826
+        },
+        "minimum_body_clearance_mm": -0.010545673369055653,
+        "whole_robot_force_residual_n": {
+          "y": 1.416410635238094,
+          "z": 0.30905431601274813
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -0.013991133982937118,
+          "body_z_n": 0.020789786049132966,
+          "slider_n": 0.02002639121134874
+        },
+        "required_roll_holding_torque_n_m": -0.05158003868809091,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +25 deg / ridge none",
+        "rotation9_deg": 25.0,
+        "axial_phase_mm": 109.71052631578947,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": false,
+        "body_pose_m": {
+          "x": 1.1097105263157894,
+          "y": -0.014303744943058291,
+          "z": -0.0048517599111608375
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 55.56936979807455,
+        "cylinder_stroke_from_min_mm": 12.569369798074547,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 23.96698466353024,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          274.1225731138441,
+          202.68735520314883,
+          0.0,
+          97.97582731136956,
+          271.20560604854404
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          54.193500111780004,
+          32.16681362823246
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.3706128655692207,
+          -1.0134367760157441,
+          0.01618089469461459,
+          -0.4898791365568478,
+          -1.3560280302427201
+        ],
+        "drive_clearance_mm": [
+          -3.3157194353580084,
+          -1.968061278579153
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 1.668277892480724,
+          "drilling_module1": 0.16302469406043185,
+          "drilling_module2": 11.063154431866687,
+          "bit": 3.4682672959820553,
+          "motor_module_body": -0.010921669724217598
+        },
+        "body_contact_ids": [
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 0.0,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 546.0834862108799
+        },
+        "minimum_body_clearance_mm": -0.010921669724217598,
+        "whole_robot_force_residual_n": {
+          "y": -207.64984499647312,
+          "z": -3.3558225532088386
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": -87.30010363257908,
+          "body_z_n": 1.020470711864483,
+          "slider_n": 0.952520786054477
+        },
+        "required_roll_holding_torque_n_m": -1.9394351231159215,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +25 deg / ridge platform_1+drilling_1",
+        "rotation9_deg": 25.0,
+        "axial_phase_mm": 154.5921052631579,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.1545921052631578,
+          "y": -0.014060960567608034,
+          "z": -0.003999782148868243
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.06891508630566,
+        "cylinder_stroke_from_min_mm": 11.068915086305658,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.119554286911523,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          253.49005448540848,
+          150.80519702196648,
+          0.0,
+          0.0,
+          286.176563054491
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3",
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          33.74751393435224,
+          29.705638382352777
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.2674502724270424,
+          -0.7540259851098324,
+          0.07460878735258969,
+          0.5806688324496295,
+          -1.430882815272455
+        ],
+        "drive_clearance_mm": [
+          -2.0647732221824864,
+          -1.8174792608140478
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.363935217378002,
+          "drilling_module1": -0.008300726999796448,
+          "drilling_module2": 10.367200848429459,
+          "bit": 3.3799567472120593,
+          "motor_module_body": -0.011370930398282852
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 415.03634998982244,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 568.5465199141427
+        },
+        "minimum_body_clearance_mm": -0.011370930398282852,
+        "whole_robot_force_residual_n": {
+          "y": -0.1492777519999322,
+          "z": 2.584993190347234
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.0014920374269433568,
+          "body_z_n": -0.002146822225767834,
+          "slider_n": -0.0018878836271424846
+        },
+        "required_roll_holding_torque_n_m": -0.20075452194839905,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +25 deg / ridge platform_1+platform_2+drilling_1",
+        "rotation9_deg": 25.0,
+        "axial_phase_mm": 159.57894736842104,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.159578947368421,
+          "y": -0.014015374695043246,
+          "z": -0.003922838540358052
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 53.95208043217676,
+        "cylinder_stroke_from_min_mm": 10.952080432176757,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 28.114420516218786,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          251.8496073277615,
+          149.51789884339595,
+          0.0,
+          0.0,
+          288.00682368545773
+        ],
+        "passive_contact": [
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "floating_passive_wheels": [
+          "platform_3",
+          "platform_4"
+        ],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          34.18612730002731,
+          30.799199294308597
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -1.2592480366388075,
+          -0.7475894942169797,
+          0.037380711743362216,
+          0.5434407568403743,
+          -1.4400341184272887
+        ],
+        "drive_clearance_mm": [
+          -2.091608891740218,
+          -1.8843865681856116
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.4583423779871576,
+          "drilling_module1": -0.008235707159950922,
+          "drilling_module2": 10.393637675081793,
+          "bit": 3.387915313665793,
+          "motor_module_body": -0.011337330488553343
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 411.7853579975461,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 566.8665244276672
+        },
+        "minimum_body_clearance_mm": -0.011337330488553343,
+        "whole_robot_force_residual_n": {
+          "y": -0.9398747964204972,
+          "z": 0.2454478122711521
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.00021234063751778332,
+          "body_z_n": -0.00044587750380736444,
+          "slider_n": -0.0004247658580284188
+        },
+        "required_roll_holding_torque_n_m": -0.19499932212764648,
+        "drive_stiffness_n_per_mm": 16.3444167
+      },
+      {
+        "case_label": "insertion pre_rotated +30 deg / ridge platform_2+platform_4",
+        "rotation9_deg": 30.0,
+        "axial_phase_mm": 69.8157894736842,
+        "solver_success": true,
+        "solver_message": "Optimization terminated successfully.",
+        "valid": true,
+        "body_pose_m": {
+          "x": 1.0698157894736842,
+          "y": -0.013929700962838458,
+          "z": -0.004426019019198453
+        },
+        "body_roll_deg": 0.0,
+        "slider6_mm": 54.60231356327078,
+        "cylinder_stroke_from_min_mm": 11.602313563270783,
+        "at_extension_limit": false,
+        "cylinder_force_n": 562.9734035232909,
+        "cylinder_axis_balance_error_n": 26.30439217308208,
+        "passive_wheel_ids": [
+          "platform_1",
+          "platform_2",
+          "platform_3",
+          "platform_4",
+          "drilling_1"
+        ],
+        "passive_normal_force_n": [
+          122.99557059753108,
+          224.22323376572183,
+          91.07742863200264,
+          193.4549655892015,
+          146.2763295112579
+        ],
+        "passive_contact": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "floating_passive_wheels": [],
+        "drive_wheel_ids": [
+          "drive_1",
+          "drive_2"
+        ],
+        "drive_normal_force_n": [
+          54.44649059230929,
+          37.65511121739354
+        ],
+        "drive_contact": [
+          true,
+          true
+        ],
+        "floating_drive_wheels": [],
+        "passive_clearance_mm": [
+          -0.6149778529876554,
+          -1.121116168828609,
+          -0.45538714316001316,
+          -0.9672748279460075,
+          -0.7313816475562895
+        ],
+        "drive_clearance_mm": [
+          -3.331198145009928,
+          -2.303851639893245
+        ],
+        "body_clearance_mm": {
+          "move_module_body": 2.2192907139012426,
+          "drilling_module1": -0.005272546561449487,
+          "drilling_module2": 9.935540063767915,
+          "bit": 3.0210832973113497,
+          "motor_module_body": -0.010791687839170616
+        },
+        "body_contact_ids": [
+          "drilling_module1",
+          "motor_module_body"
+        ],
+        "body_contact_force_n": {
+          "move_module_body": 0.0,
+          "drilling_module1": 263.62732807247437,
+          "drilling_module2": 0.0,
+          "bit": 0.0,
+          "motor_module_body": 539.5843919585308
+        },
+        "minimum_body_clearance_mm": -0.010791687839170616,
+        "whole_robot_force_residual_n": {
+          "y": 1.4204005062221086,
+          "z": 0.36412130299567025
+        },
+        "generalized_equilibrium_residual_n": {
+          "body_y_n": 0.0007100784387153668,
+          "body_z_n": -0.0007287053449544089,
+          "slider_n": -0.000918025762045083
+        },
+        "required_roll_holding_torque_n_m": 0.025959369210919014,
+        "drive_stiffness_n_per_mm": 16.3444167
+      }
+    ]
+  }
+}

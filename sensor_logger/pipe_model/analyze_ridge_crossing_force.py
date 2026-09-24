@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 from pathlib import Path
@@ -112,13 +113,26 @@ def contact_phase_mm(point: np.ndarray, estimation: dict) -> float:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--pressure-json",
+        default="pressurized_contact_distribution_0p7mpa.json",
+    )
+    parser.add_argument(
+        "--profile-shape",
+        choices=("measured", "symmetric-triangle"),
+        default="measured",
+    )
+    parser.add_argument("--ridge-width-mm", type=float, default=30.0)
+    parser.add_argument("--output-stem", default="ridge_crossing_force_0p7mpa")
+    args = parser.parse_args()
     here = Path(__file__).resolve().parent
     output = here / "output"
     estimation = json.loads(
         (output / "helical_ridge_estimation.json").read_text(encoding="utf-8")
     )
     pressure = json.loads(
-        (output / "pressurized_contact_distribution_0p7mpa.json").read_text(
+        (output / args.pressure_json).read_text(
             encoding="utf-8"
         )
     )
@@ -145,9 +159,32 @@ def main() -> None:
     lead = float(estimation["lead_mm_per_revolution"])
     shifts = np.arange(0.0, lead, AXIAL_SAMPLE_MM)
     source_csv = here.parent / str(estimation["source_csv"])
-    phase_grid, measured_height, measured_slope = measured_folded_profile(
-        source_csv, estimation
-    )
+    if args.profile_shape == "measured":
+        phase_grid, measured_height, measured_slope = measured_folded_profile(
+            source_csv, estimation
+        )
+        method = (
+            "fixed post-press normal loads projected through the 1 mm "
+            "phase-folded measured helical profile over one lead"
+        )
+    else:
+        phase_grid = np.arange(0.0, lead, 0.25)
+        distance = np.minimum(phase_grid, lead - phase_grid)
+        half_width = 0.5 * args.ridge_width_mm
+        measured_height = np.maximum(
+            0.0, float(estimation["profile"]["peak_to_valley_mm"])
+            * (1.0 - distance / half_width),
+        )
+        measured_slope = np.zeros_like(phase_grid)
+        on_ridge = (distance > 0.0) & (distance < half_width)
+        measured_slope[on_ridge] = (
+            -float(estimation["profile"]["peak_to_valley_mm"]) / half_width
+            * np.where(phase_grid[on_ridge] < 0.5 * lead, 1.0, -1.0)
+        )
+        method = (
+            f"fixed post-press normal loads projected through a symmetric "
+            f"triangular helical ridge of total width {args.ridge_width_mm:g} mm"
+        )
     maximum_surface_slope = float(np.max(np.abs(measured_slope)))
     rows = []
 
@@ -217,11 +254,16 @@ def main() -> None:
         / (DRIVE_EFFECTIVE_RADIUS_MM - ridge_height)
     )
     result = {
-        "method": "fixed post-press normal loads projected through the 1 mm phase-folded measured helical profile over one lead",
+        "method": method,
         "profile_source_csv": str(source_csv.relative_to(here.parent.parent)),
+        "post_press_load_source": args.pressure_json,
         "profile_phase_step_mm": float(np.median(np.diff(phase_grid))),
         "ridge_height_mm": ridge_height,
         "ridge_lead_mm": lead,
+        "ridge_profile_shape": args.profile_shape,
+        "ridge_total_width_mm": (
+            args.ridge_width_mm if args.profile_shape == "symmetric-triangle" else None
+        ),
         "maximum_inferred_surface_slope": maximum_surface_slope,
         "maximum_inferred_surface_angle_deg": float(np.degrees(np.arctan(maximum_surface_slope))),
         "friction_coefficient": FRICTION_COEFFICIENT,
@@ -229,8 +271,8 @@ def main() -> None:
         "vertical_step_force_to_normal_ratio_reference": vertical_step_ratio,
         "important_limitations": [
             "Normal loads are held at each case's 0.7 MPa equilibrium values while crossing.",
-            "The 1 mm phase-folded and smoothed ridge profile is based on a helix fit with R-squared 0.424; an unresolved sharp edge could increase force.",
-            "Tire deformation and rolling hysteresis await the TPU specimen test.",
+            "The ridge phase is based on a helix fit with R-squared 0.424; local geometry error could change force.",
+            "Coupon-derived stiffness does not determine completed-wheel deformation or rolling hysteresis; a radial compression test of one completed wheel is still required.",
             "Body contacts are flagged separately because a non-rolling edge can snag even when wheels can climb.",
             "The traction limit uses mu=0.1 and does not prove that the motor can supply the corresponding torque.",
         ],
@@ -240,20 +282,23 @@ def main() -> None:
             "minimum_forward_ridge_force_n": min(r["maximum_forward_ridge_force_n"] for r in rows),
             "maximum_conservative_same_slope_force_n": max(r["conservative_all_contacts_same_slope_n"] for r in rows),
             "minimum_traction_margin_n": min(r["traction_margin_after_ridge_n"] for r in rows),
+            "traction_pass_cases": sum(
+                r["traction_margin_after_ridge_n"] > 0.0 for r in rows
+            ),
             "wheel_only_clear_cases": sum(r["wheel_only_ridge_stack_unlikely"] for r in rows),
             "body_contact_risk_cases": sum(bool(r["body_contact_ids"]) for r in rows),
         },
     }
-    json_path = output / "ridge_crossing_force_0p7mpa.json"
+    json_path = output / f"{args.output_stem}.json"
     json_path.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    csv_path = output / "ridge_crossing_force_0p7mpa.csv"
+    csv_path = output / f"{args.output_stem}.csv"
     with csv_path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
         writer.writeheader()
         writer.writerows(rows)
-    figure_path = output / "ridge_crossing_force_0p7mpa.png"
+    figure_path = output / f"{args.output_stem}.png"
     case_ids = np.array([row["case"] for row in rows])
     ridge_force = np.array([row["maximum_forward_ridge_force_n"] for row in rows])
     traction = np.array([row["traction_limit_mu_0p1_n"] for row in rows])
@@ -274,10 +319,18 @@ def main() -> None:
     )
     axis.axhline(4.0 * 9.80665, color="#6f42c1", ls=":", lw=2,
                  label="4 kgf spring-scale assistance (39.2 N)")
+    profile_label = (
+        "measured folded profile"
+        if args.profile_shape == "measured"
+        else f"symmetric triangular ridge, width {args.ridge_width_mm:g} mm"
+    )
     axis.set(
         xlabel="Simulator case",
         ylabel="Axial force [N]",
-        title="Estimated helical-ridge crossing force after 0.7 MPa clamping",
+        title=(
+            "Estimated helical-ridge crossing force after 0.7 MPa clamping\n"
+            + profile_label
+        ),
         xticks=case_ids,
     )
     axis.grid(alpha=0.25)
