@@ -82,6 +82,8 @@ def solve_case(
     bore_mm: float,
     efficiency: float,
     drive_stiffness: float,
+    passive_stiffness: float = contact.WHEEL_RADIAL_STIFFNESS_N_PER_MM,
+    body_penalty_stiffness: float = PRESS_BODY_CONTACT_STIFFNESS_N_PER_MM,
 ) -> dict:
     angle = float(case["rotation9_deg"])
     initial_pose = tuple(case["body_pose_m"][axis] for axis in ("x", "y", "z"))
@@ -139,13 +141,13 @@ def solve_case(
         body_penetrations.append(max(0.0, -gap(motor_sample, y, z, slider_mm)))
         com_height_mm = (z + local_com(slider_mm)[2]) * 1000.0
         gravity = contact.ROBOT_MASS_KG * contact.GRAVITY_M_S2 * com_height_mm
-        passive_energy = 0.5 * contact.WHEEL_RADIAL_STIFFNESS_N_PER_MM * sum(
+        passive_energy = 0.5 * passive_stiffness * sum(
             value * value for value in passive_penetrations
         )
         drive_energy = 0.5 * drive_stiffness * sum(
             value * value for value in drive_penetrations
         )
-        body_energy = 0.5 * PRESS_BODY_CONTACT_STIFFNESS_N_PER_MM * sum(
+        body_energy = 0.5 * body_penalty_stiffness * sum(
             value * value for value in body_penetrations
         )
         actuator_work = -force_cylinder * (slider_mm - contact.SLIDER6_MIN_MM)
@@ -224,7 +226,7 @@ def solve_case(
         for wheel in active_drive
     ]
     passive_forces = [
-        contact.WHEEL_RADIAL_STIFFNESS_N_PER_MM * max(0.0, -item[0])
+        passive_stiffness * max(0.0, -item[0])
         for item in passive_details
     ]
     drive_forces = [
@@ -239,7 +241,7 @@ def solve_case(
         motor_body, pose, estimation, slider_mm=slider_mm
     )
     body_forces = {
-        name: PRESS_BODY_CONTACT_STIFFNESS_N_PER_MM * max(0.0, -item[0])
+        name: body_penalty_stiffness * max(0.0, -item[0])
         for name, item in exact_body_details.items()
     }
 
@@ -320,6 +322,8 @@ def solve_case(
         "generalized_equilibrium_residual_n": generalized_residual,
         "required_roll_holding_torque_n_m": float(-torque_x),
         "drive_stiffness_n_per_mm": drive_stiffness,
+        "passive_stiffness_n_per_mm": passive_stiffness,
+        "body_penalty_stiffness_n_per_mm": body_penalty_stiffness,
     }
 
 
@@ -329,7 +333,21 @@ def main() -> None:
     parser.add_argument("--bore-mm", type=float, default=DEFAULT_BORE_MM)
     parser.add_argument("--efficiency", type=float, default=DEFAULT_EFFICIENCY)
     parser.add_argument("--stiffness", type=float, nargs="+")
+    parser.add_argument(
+        "--passive-stiffness",
+        type=float,
+        default=contact.WHEEL_RADIAL_STIFFNESS_N_PER_MM,
+    )
+    parser.add_argument(
+        "--body-penalty-stiffness",
+        type=float,
+        default=PRESS_BODY_CONTACT_STIFFNESS_N_PER_MM,
+    )
     parser.add_argument("--max-cases", type=int)
+    parser.add_argument(
+        "--case-start", type=int, default=0,
+        help="Zero-based first contact case to solve.",
+    )
     parser.add_argument(
         "--output-stem",
         default="pressurized_contact_distribution_0p7mpa",
@@ -367,7 +385,10 @@ def main() -> None:
 
     all_scenarios: dict[str, list[dict]] = {}
     stiffness_values = tuple(args.stiffness or SENSITIVITY_STIFFNESSES_N_PER_MM)
-    selected_cases = cases_data["simulator_cases"][:args.max_cases]
+    case_stop = (
+        None if args.max_cases is None else args.case_start + args.max_cases
+    )
+    selected_cases = cases_data["simulator_cases"][args.case_start:case_stop]
     for stiffness in stiffness_values:
         print(f"[STIFFNESS] {stiffness:.0f} N/mm", flush=True)
         rows = []
@@ -377,6 +398,7 @@ def main() -> None:
                 fixed["move_module_body"], fixed["motor_module_body_retracted"],
                 drilling_modules, pivot, com_model,
                 args.pressure_mpa, args.bore_mm, args.efficiency, stiffness,
+                args.passive_stiffness, args.body_penalty_stiffness,
             )
             rows.append(row)
             print(
@@ -403,10 +425,11 @@ def main() -> None:
         "theoretical_cylinder_force_n": cylinder_force_n(
             args.pressure_mpa, args.bore_mm, args.efficiency
         ),
-        "passive_stiffness_n_per_mm": contact.WHEEL_RADIAL_STIFFNESS_N_PER_MM,
-        "body_penalty_stiffness_n_per_mm": PRESS_BODY_CONTACT_STIFFNESS_N_PER_MM,
+        "passive_stiffness_n_per_mm": args.passive_stiffness,
+        "body_penalty_stiffness_n_per_mm": args.body_penalty_stiffness,
         "primary_drive_stiffness_n_per_mm": float(primary_key),
         "contact_force_threshold_n": CONTACT_FORCE_THRESHOLD_N,
+        "case_start_zero_based": args.case_start,
         "important_limitations": [
             "Wheel stiffness is assumed, not measured.",
             "Body roll is constrained to zero and its holding torque is reported.",
@@ -431,7 +454,7 @@ def main() -> None:
             "passive_force_n", "drive_force_n", "min_body_gap_mm",
             "force_residual_y_n", "force_residual_z_n", "hold_torque_nm",
         ])
-        for index, row in enumerate(primary, 11):
+        for index, row in enumerate(primary, 11 + args.case_start):
             writer.writerow([
                 index, row["rotation9_deg"], row["axial_phase_mm"], row["valid"],
                 row["cylinder_stroke_from_min_mm"],
