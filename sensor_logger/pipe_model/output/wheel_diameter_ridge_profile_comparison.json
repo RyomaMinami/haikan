@@ -1,0 +1,113 @@
+{
+  "method": "periodic morphological offset of a symmetric triangular ridge by each rigid-wheel radius",
+  "ridge_height_mm": 1.5122259907957454,
+  "ridge_total_width_mm": 30.0,
+  "ridge_lead_mm": 189.5,
+  "grid_step_mm": 0.02,
+  "interpretation": [
+    "A straight ramp has the same maximum centre-path slope for every rigid wheel that can contact the ramp tangentially.",
+    "Larger wheels begin lifting earlier and remain lifted over a longer axial span.",
+    "Diameter effects become dominant for vertical steps, rounded short ramps, dynamics, deformation, and bearing torque; those are outside this calculation."
+  ],
+  "diameters": [
+    {
+      "wheel_diameter_mm": 10.0,
+      "wheel_radius_mm": 5.0,
+      "ridge_height_to_radius": 0.30244519815914905,
+      "maximum_centre_path_slope": 0.10081506605312818,
+      "maximum_centre_path_angle_deg": 5.756826866587086,
+      "ridge_force_per_100n_normal_n": 10.081506605312818,
+      "lifted_span_above_1pct_mm": 30.22,
+      "lifted_span_above_10pct_mm": 27.5,
+      "lifted_span_above_50pct_mm": 15.5
+    },
+    {
+      "wheel_diameter_mm": 15.0,
+      "wheel_radius_mm": 7.5,
+      "ridge_height_to_radius": 0.2016301321060994,
+      "maximum_centre_path_slope": 0.10081506605312818,
+      "maximum_centre_path_angle_deg": 5.756826866587086,
+      "ridge_force_per_100n_normal_n": 10.081506605312818,
+      "lifted_span_above_1pct_mm": 30.46,
+      "lifted_span_above_10pct_mm": 27.740000000000002,
+      "lifted_span_above_50pct_mm": 15.74
+    },
+    {
+      "wheel_diameter_mm": 20.0,
+      "wheel_radius_mm": 10.0,
+      "ridge_height_to_radius": 0.15122259907957453,
+      "maximum_centre_path_slope": 0.10081506605312818,
+      "maximum_centre_path_angle_deg": 5.756826866587086,
+      "ridge_force_per_100n_normal_n": 10.081506605312818,
+      "lifted_span_above_1pct_mm": 30.7,
+      "lifted_span_above_10pct_mm": 28.02,
+      "lifted_span_above_50pct_mm": 16.02
+    },
+    {
+      "wheel_diameter_mm": 25.0,
+      "wheel_radius_mm": 12.5,
+      "ridge_height_to_radius": 0.12097807926365962,
+      "maximum_centre_path_slope": 0.10081506605312818,
+      "maximum_centre_path_angle_deg": 5.756826866587086,
+      "ridge_force_per_100n_normal_n": 10.081506605312818,
+      "lifted_span_above_1pct_mm": 30.94,
+      "lifted_span_above_10pct_mm": 28.26,
+      "lifted_span_above_50pct_mm": 16.26
+    },
+    {
+      "wheel_diameter_mm": 32.0,
+      "wheel_radius_mm": 16.0,
+      "ridge_height_to_radius": 0.09451412442473409,
+      "maximum_centre_path_slope": 0.10081506605317259,
+      "maximum_centre_path_angle_deg": 5.756826866589605,
+      "ridge_force_per_100n_normal_n": 10.081506605317259,
+      "lifted_span_above_1pct_mm": 31.3,
+      "lifted_span_above_10pct_mm": 28.62,
+      "lifted_span_above_50pct_mm": 16.62
+    },
+    {
+      "wheel_diameter_mm": 40.0,
+      "wheel_radius_mm": 20.0,
+      "ridge_height_to_radius": 0.07561129953978726,
+      "maximum_centre_path_slope": 0.10081506605317259,
+      "maximum_centre_path_angle_deg": 5.756826866589605,
+      "ridge_force_per_100n_normal_n": 10.081506605317259,
+      "lifted_span_above_1pct_mm": 31.7,
+      "lifted_span_above_10pct_mm": 29.02,
+      "lifted_span_above_50pct_mm": 17.02
+    },
+    {
+      "wheel_diameter_mm": 54.0,
+      "wheel_radius_mm": 27.0,
+      "ridge_height_to_radius": 0.05600837002947205,
+      "maximum_centre_path_slope": 0.10081506605317259,
+      "maximum_centre_path_angle_deg": 5.756826866589605,
+      "ridge_force_per_100n_normal_n": 10.081506605317259,
+      "lifted_span_above_1pct_mm": 32.42,
+      "lifted_span_above_10pct_mm": 29.7,
+      "lifted_span_above_50pct_mm": 17.7
+    },
+    {
+      "wheel_diameter_mm": 70.0,
+      "wheel_radius_mm": 35.0,
+      "ridge_height_to_radius": 0.04320645687987844,
+      "maximum_centre_path_slope": 0.10081506605317259,
+      "maximum_centre_path_angle_deg": 5.756826866589605,
+      "ridge_force_per_100n_normal_n": 10.081506605317259,
+      "lifted_span_above_1pct_mm": 33.22,
+      "lifted_span_above_10pct_mm": 30.5,
+      "lifted_span_above_50pct_mm": 18.5
+    },
+    {
+      "wheel_diameter_mm": 100.0,
+      "wheel_radius_mm": 50.0,
+      "ridge_height_to_radius": 0.030244519815914906,
+      "maximum_centre_path_slope": 0.10081506605317259,
+      "maximum_centre_path_angle_deg": 5.756826866589605,
+      "ridge_force_per_100n_normal_n": 10.081506605317259,
+      "lifted_span_above_1pct_mm": 34.74,
+      "lifted_span_above_10pct_mm": 32.02,
+      "lifted_span_above_50pct_mm": 20.02
+    }
+  ]
+}
