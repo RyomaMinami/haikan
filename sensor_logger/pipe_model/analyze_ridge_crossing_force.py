@@ -16,7 +16,7 @@ from build_pipe_model import common_grid, load_tracks
 from estimate_helical_ridge import folded_profile
 
 
-FRICTION_COEFFICIENT = 0.10
+DEFAULT_FRICTION_COEFFICIENT = 0.10
 AXIAL_SAMPLE_MM = 0.25
 DRIVE_EFFECTIVE_RADIUS_MM = 27.0
 
@@ -124,6 +124,11 @@ def main() -> None:
         default="measured",
     )
     parser.add_argument("--ridge-width-mm", type=float, default=30.0)
+    parser.add_argument(
+        "--friction-coefficient",
+        type=float,
+        default=DEFAULT_FRICTION_COEFFICIENT,
+    )
     parser.add_argument("--output-stem", default="ridge_crossing_force_0p7mpa")
     args = parser.parse_args()
     here = Path(__file__).resolve().parent
@@ -226,7 +231,7 @@ def main() -> None:
         simultaneous_absolute = float(np.max(absolute_bound_curve))
         total_normal = float(sum(wheel_forces))
         drive_normal = float(sum(state["drive_normal_force_n"]))
-        traction_limit = FRICTION_COEFFICIENT * drive_normal
+        traction_limit = args.friction_coefficient * drive_normal
         required_total_wheel_torque = maximum_forward * DRIVE_EFFECTIVE_RADIUS_MM / 1000.0
         body_contact = bool(state["body_contact_ids"])
         rows.append({
@@ -238,7 +243,7 @@ def main() -> None:
             "maximum_reverse_ridge_force_n": maximum_reverse,
             "simultaneous_absolute_ridge_force_n": simultaneous_absolute,
             "conservative_all_contacts_same_slope_n": total_normal * maximum_surface_slope,
-            "traction_limit_mu_0p1_n": traction_limit,
+            "traction_limit_n": traction_limit,
             "traction_margin_after_ridge_n": traction_limit - maximum_forward,
             "required_total_drive_wheel_torque_n_m": required_total_wheel_torque,
             "required_torque_per_drive_wheel_if_equal_n_m": required_total_wheel_torque / 2.0,
@@ -266,7 +271,7 @@ def main() -> None:
         ),
         "maximum_inferred_surface_slope": maximum_surface_slope,
         "maximum_inferred_surface_angle_deg": float(np.degrees(np.arctan(maximum_surface_slope))),
-        "friction_coefficient": FRICTION_COEFFICIENT,
+        "friction_coefficient": args.friction_coefficient,
         "drive_effective_radius_mm": DRIVE_EFFECTIVE_RADIUS_MM,
         "vertical_step_force_to_normal_ratio_reference": vertical_step_ratio,
         "important_limitations": [
@@ -274,7 +279,7 @@ def main() -> None:
             "The ridge phase is based on a helix fit with R-squared 0.424; local geometry error could change force.",
             "Coupon-derived stiffness does not determine completed-wheel deformation or rolling hysteresis; a radial compression test of one completed wheel is still required.",
             "Body contacts are flagged separately because a non-rolling edge can snag even when wheels can climb.",
-            "The traction limit uses mu=0.1 and does not prove that the motor can supply the corresponding torque.",
+            f"The traction limit uses mu={args.friction_coefficient:g} and does not prove that the motor can supply the corresponding torque.",
         ],
         "cases": rows,
         "summary": {
@@ -301,13 +306,16 @@ def main() -> None:
     figure_path = output / f"{args.output_stem}.png"
     case_ids = np.array([row["case"] for row in rows])
     ridge_force = np.array([row["maximum_forward_ridge_force_n"] for row in rows])
-    traction = np.array([row["traction_limit_mu_0p1_n"] for row in rows])
+    traction = np.array([row["traction_limit_n"] for row in rows])
     conservative = np.array([
         row["conservative_all_contacts_same_slope_n"] for row in rows
     ])
     body_mask = np.array([bool(row["body_contact_ids"]) for row in rows])
     fig, axis = plt.subplots(figsize=(13, 6.5))
-    axis.plot(case_ids, traction, "o-", color="#167d45", label="traction limit (mu=0.1)")
+    axis.plot(
+        case_ids, traction, "o-", color="#167d45",
+        label=f"traction limit (mu={args.friction_coefficient:g})",
+    )
     axis.plot(case_ids, ridge_force, "o-", color="#1665a8", label="phase-aware ridge force")
     axis.plot(
         case_ids, conservative, "--", color="#e28b21",
