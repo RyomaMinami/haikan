@@ -2,6 +2,8 @@
 
 このフォルダは、配管内くぼみ計測実験で使用したPC側の計測・可視化・評価プログラムをまとめたものです。
 
+通信経路、ICSサーボ指令、角度・軸方向の自動走査シーケンスを含む詳細資料は、[PIPE_LASER_SCAN_COMMUNICATION_AND_SERVO_CONTROL.md](PIPE_LASER_SCAN_COMMUNICATION_AND_SERVO_CONTROL.md)を参照してください。
+
 対象機器:
 
 - KEYENCE LK-G85A
