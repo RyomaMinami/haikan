@@ -1,0 +1,13 @@
+{
+  "name": "machining-ja",
+  "surface_roughness_ra_um": 18,
+  "surface_scope": "全シート多数面指示、個別指定面はその値",
+  "edge_note": "指示なき角部は糸面取り",
+  "manufacturing_method": [
+    "汎用フライス",
+    "汎用旋盤"
+  ],
+  "omit_drill_details": true,
+  "title_block": "generic;依頼者独自枠があれば確認して差替え",
+  "note": "従来依頼者の慣習。明示的に選択した案件のみ適用。ねじ有効深さは残す。"
+}

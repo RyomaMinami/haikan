@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "files": {
+    ".gitignore": "93602d2499725b3a5f70ad2aa2ba348a3840d65de215710f2f5b4556e3e441ab",
+    "assets/templates/portable-a3.idw": "83e78f62f09d76bb0a9d5b25d189e79b3dcfee68190cd5f4d6fed9f01351af39",
+    "CHANGELOG.md": "1f9bb4c161a32e1531d25bfdb186af035c01cc01645a64345d978b0a97735d16",
+    "CONTRIBUTING.md": "5f8780a9547085efcf5bf2b61a0b9269d9ccd19c4ed79598e30070b96a118979",
+    "NOTICE.md": "bac206abd03d3bcad561419a86df87c7d3a155512bff7bdfb45b6ec8b5d95911",
+    "profiles/default.json": "f138f4260aefa680d7412c0ed901e7c115fb4cdce768a8010abcea666520efb4",
+    "profiles/machining-ja.json": "01ff12249110148833f729a724d1c3894a5e5df86928cff69c3156015cf21a4d",
+    "README.md": "3376ff46cacca047e02a9b3d713e2137024ae0e012cfc0ae05cf95c009b179c9",
+    "requirements.txt": "e207396c2239f67363eab8230d09f731052369c4f984fecbf8539a69bc504781",
+    "rules/assemblies.md": "5bda375ef2c666553ae6208289885620326c42af7d456f89ed5070e032197067",
+    "rules/drafting.md": "22ff89c68266b23d25a7e0109c1b6b1664945d4a3bce753a5aa8c97d616637eb",
+    "rules/review.md": "c8ea6e1cfd8aa920bef240cbd11510403d1cd15a30e80988690fc67d8a946963",
+    "runtime/claude-code.md": "017b712139b27ca0c2a9e5203cf3a1d42249eb754b1dd00fbbf560f2aeb147aa",
+    "runtime/codex.md": "21660a1b0cc17ab82c1ce0e9c67303cf7018b4d194ee04ec43bb6ef4b04ce7f9",
+    "runtime/windows-inventor.md": "1c70bbb8e7517f67f7dd8054e35e08c06f7134e2dba9ffed7b555bb6bbd7ce2f",
+    "scripts/catalog_examples.py": "b9324ea7dc7d4d6346ac1ffec17807f6d720bd7dff3cc6f8f0746d82e280ba70",
+    "scripts/doctor.py": "9b7246d1766837d7f5a23ca1535d6575cb24ea3988ec3a93371f32c7a955e7b4",
+    "scripts/install.py": "33c21b2ed7a1ed21ca66ee4d559d8bc99a7d2214870cb0955ac95c6785b9e82b",
+    "scripts/inventor_drawings.py": "a532a0482626cf5da5e92a4f0f884a8fae98b7bb329b116997859d958a385952",
+    "scripts/make_template.py": "b2252e4a3114a5ba244951fa3941706c64679d4e2e4b33c76938f5413636dbd7",
+    "scripts/portable_helpers.py": "7cc581159dc9d9cb78250bf125c6c361569937c903af2278409af9882504a1cd",
+    "scripts/run.py": "7d0aab7264cac9006d9e241f5d42c8b62ff72c972a5244030acd285e288d0daa",
+    "scripts/workflow_helpers.py": "9820bc81f505df173aa4f6973cdd5b55c88269d38a8eb98fc9579036f98228bd",
+    "SKILL.md": "fd18f7979223b755bf39c470f266c76aaf4311413baea02cc7bc6ab32026e51c",
+    "templates/dimension-plan.json": "ecf723c7775eb85bfed4b156fe1b57dc7af33cd493abbae006ab69569ee706ea",
+    "templates/review.md": "f376a707db2f7e85b32f38a90fbabd9cc454beba6eba3c07cb382cfb29116cec",
+    "VALIDATION.md": "b1f66090e4eda376a4bb1d8b96cb4d276e135492d2324a15928c3cbbdb0bf1c9"
+  }
+}

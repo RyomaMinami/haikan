@@ -1,0 +1,33 @@
+{
+  "part": null,
+  "revision": null,
+  "profile": null,
+  "source_hashes": {},
+  "known_specifications": {},
+  "uncertainties": [],
+  "one_sheet_plan": null,
+  "machining_faces": [],
+  "datums": [],
+  "all_hole_rows": [
+    {
+      "direction": null,
+      "centers": [],
+      "start_datum": null,
+      "first_offset_mm": null,
+      "feeds_mm": [],
+      "specification_group": null,
+      "crosses_expected": null,
+      "connections_expected": null,
+      "status": "未確認"
+    }
+  ],
+  "symmetry": {
+    "axis": null,
+    "scope": null,
+    "matched_features": [],
+    "omitted_dimensions": [],
+    "retained_feeds": [],
+    "reconstructed_positions": []
+  },
+  "notes": []
+}

@@ -1,0 +1,9 @@
+{
+  "name": "neutral",
+  "surface_roughness_ra_um": null,
+  "edge_note": null,
+  "title_block": "generic",
+  "manufacturing_method": null,
+  "omit_drill_details": false,
+  "note": "仕様未指定は確認。従来利用者の値を暗黙継承しない。"
+}

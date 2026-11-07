@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+config.local.json
+output/
+work/
+*.ipt
+*.iam
+*.dwg
+*.pdf
+*.idw
+!assets/templates/portable-a3.idw
+*.log
