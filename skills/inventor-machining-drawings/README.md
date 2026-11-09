@@ -11,7 +11,7 @@ Claude Code・Codexで、Inventorのモデルをもとに加工図面を作成�
 - Claude Code（またはCodex）
 - Git（以下のclone手順を使う場合）
 
-Inventor 2024.3でローカル動作を確認しています。別バージョンでは試験が必要です。同梱IDWを開けない場合は、自分のInventorで空テンプレートを用意してください。Claude Code本体と受領者PCでの動作は、これから試用・確認する段階です。
+Inventor 2024.3でローカル動作を確認しています。別バージョンでは試験が必要です。同梱IDWを開けない場合は、自分のInventorで空テンプレートを用意してください。[試用報告 #2](https://github.com/RyomaMinami/haikan/issues/2)では、受領者のClaude Codeで導入・起動・単純板の寸法付き図面・IAM下書きまで動作したと報告されています。v1.1の修正は作成側のInventor 2024.3で再確認しており、受領者PCでの新版再試験は別途必要です。
 
 ## 1. Claude Codeへ導入する
 
@@ -86,5 +86,7 @@ Claude Codeで対象モデルのある作業フォルダを開き、次のよう
 - [検証済み範囲](VALIDATION.md)、[変更履歴](CHANGELOG.md)、[ファイルハッシュ](manifest.json)
 
 汎用A3テンプレートはモデル参照のない空図面です。仮表題欄は完成時に実尺度・図番・必要な仕様へ更新してください。元製品モデルや研究室名入りの実案件図面は同梱していません。
+
+v1.1では、規格尺度、ISO追加時の第三角親子配置、和文フォント、表題欄の状態/図番、押出穴の形状調査、関連径寸法と側面穴軸の補助関数、中心十字を覆わない補助線の起点設定、改行を残す検査出力を改善しました。使い方と制約は[補助API](runtime/windows-inventor.md)を参照してください。
 
 Codexへの導入は `python scripts/install.py --target codex` を使います。既定の導入先は `$HOME/.codex/skills/inventor-machining-drawings` です。

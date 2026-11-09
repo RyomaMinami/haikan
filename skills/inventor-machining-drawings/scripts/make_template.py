@@ -2,7 +2,7 @@
 import argparse,json
 from pathlib import Path
 from types import SimpleNamespace
-from inventor_drawings import connect,drawing_document,items,sha,add_draft_title_block
+from inventor_drawings import connect,drawing_document,items,sha,add_draft_title_block,configure_drawing_font
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source-template',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();source=a.source_template.resolve(strict=True);out=a.output.resolve()
  if out.exists():p.error('Output already exists')
@@ -12,6 +12,7 @@ def main():
   app.SilentOperation=True;doc=drawing_document(app,app.Documents.Add(12292,str(source),False))
   if doc.Sheets.Count!=1 or doc.Sheets.Item(1).DrawingViews.Count or doc.ReferencedDocumentDescriptors.Count:raise ValueError('Source must be a blank single-sheet template without model references')
   sheet=doc.Sheets.Item(1);sheet.Size=9996;doc.StylesManager.ActiveStandardStyle.FirstAngleProjection=False
+  configure_drawing_font(doc)
   if sheet.TitleBlock:sheet.TitleBlock.Delete()
   for note in items(sheet.DrawingNotes.GeneralNotes):note.Delete()
   for de in items(doc.TitleBlockDefinitions):

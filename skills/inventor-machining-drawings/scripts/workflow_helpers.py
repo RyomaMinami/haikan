@@ -37,9 +37,12 @@ def render_pdf(pdf, output):
     return {'pages':result,'visual_review':'PENDING: inspect every rendered page'}
 
 
-def checked_linear(sheet, point, intent_one, intent_two, dimension_type, expected_mm, tolerance_mm=1e-5):
+def checked_linear(sheet, point, intent_one, intent_two, dimension_type, expected_mm, tolerance_mm=1e-5, dimension_style=None):
     """Caller must identify actual model geometry and substantiate expected_mm."""
-    dim=sheet.DrawingDimensions.GeneralDimensions.AddLinear(point,intent_one,intent_two,dimension_type)
+    if dimension_style is None:
+        dim=sheet.DrawingDimensions.GeneralDimensions.AddLinear(point,intent_one,intent_two,dimension_type)
+    else:
+        dim=sheet.DrawingDimensions.GeneralDimensions.AddLinear(point,intent_one,intent_two,dimension_type,True,dimension_style)
     if abs(dim.ModelValue*10-expected_mm)>tolerance_mm or not dim.Attached or dim.ModelValueOverridden:
         actual=dim.ModelValue*10
         dim.Delete()

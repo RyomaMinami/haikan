@@ -46,10 +46,39 @@ def symmetry_axis(app,view,sheet_start,sheet_end,extension_mark_cm=.35):
  finally:sketch.ExitEdit()
  return sketch
 
-def linear_dimension(sheet,point,intent1,intent2,horizontal,expected_mm):
+def linear_dimension(sheet,point,intent1,intent2,horizontal,expected_mm,*,center_clearance_cm=None):
  dim=checked_linear(sheet,point,intent1,intent2,HORIZONTAL if horizontal else VERTICAL,expected_mm,tolerance_mm=.001)
  dim.Style.TextStyle.FontSize=.32
  if expected_mm<10:dim.ArrowheadsInside=False
+ if center_clearance_cm is not None:
+  # OriginOffset affects both witnesses. Use only where both clearances fit.
+  # Set from projected hole radius + cross extension + gap, NOT model radius alone.
+  if not math.isfinite(center_clearance_cm) or center_clearance_cm<=0:
+   dim.Delete();raise ValueError('Center clearance must be finite and positive')
+  style=dim.Style.Copy('Center witness gap '+str(sheet.DrawingDimensions.GeneralDimensions.Count))
+  style.OriginOffset=center_clearance_cm
+  dim.Delete()
+  # Inventor applies OriginOffset when placing the dimension, not retroactively.
+  dim=checked_linear(sheet,point,intent1,intent2,HORIZONTAL if horizontal else VERTICAL,expected_mm,tolerance_mm=.001,dimension_style=style)
+  if expected_mm<10:dim.ArrowheadsInside=False
+ return dim
+
+def projected_hole_axis(sheet,curve_one,curve_two):
+ """Caller identifies the two parallel projected walls of the SAME hole."""
+ return sheet.Centerlines.AddBisector(sheet.CreateGeometryIntent(curve_one),sheet.CreateGeometryIntent(curve_two))
+
+def diameter_dimension(sheet,point,curve,expected_mm,*,suffix='',prefix='',precision=None):
+ """Associated diameter, also for cut-extrusion circles without HoleFeatures.
+ Through/depth/thread intent must be independently confirmed by the caller.
+ Native DimensionValue already supplies the diameter symbol; do not prepend φ.
+ """
+ dim=sheet.DrawingDimensions.GeneralDimensions.AddDiameter(point,sheet.CreateGeometryIntent(curve))
+ if abs(dim.ModelValue*10-expected_mm)>.001 or not dim.Attached or dim.ModelValueOverridden:
+  dim.Delete();raise ValueError('Unverified diameter or detached geometry')
+ dim.Style.TextStyle.FontSize=.32
+ if precision is not None:dim.Precision=precision
+ dim.Text.FormattedText=escape(prefix)+'<DimensionValue/>'+escape(suffix)
+ dim.Text.Origin=point
  return dim
 
 def outside_leader(app,sheet,curve,target_point,text_start,elbow,text):

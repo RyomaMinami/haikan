@@ -9,6 +9,7 @@ from pathlib import Path
 import sys
 from xml.sax.saxutils import escape
 from workflow_helpers import Timings, render_pdf
+from drawing_layout import plan_views, scale_label, plain_formatted_text, readable_dimension
 
 _INTERFACE_IDS = {}
 _TIMINGS = None
@@ -56,7 +57,7 @@ def cast_document(app, doc, interface):
 
 def probe_model(app, doc):
     """Compact part evidence; no thumbnail access, B-rep dump, or inferred tolerances."""
-    result={'path':doc.FullFileName,'type':doc.DocumentType,'scope':'parameters and native hole features; intersections and machining intent not inferred'}
+    result={'path':doc.FullFileName,'type':doc.DocumentType,'scope':'parameters, native hole features and cylindrical-face evidence; machining/thread intent not inferred from geometry'}
     if doc.DocumentType!=12290:
         result['limitation']='Detailed probe currently supports IPT only';return result
     part=cast_document(app,doc,'PartDocument');cd=part.ComponentDefinition
@@ -88,7 +89,75 @@ def probe_model(app, doc):
             except Exception as exc:
                 thread['partial_read_error'] = repr(exc)
         result['threads'].append(thread)
+    result['cylindrical_faces'] = cylindrical_faces(cd)
+    result['geometric_hole_candidates'] = [r for r in result['cylindrical_faces']
+                                          if r.get('interior') and r.get('full_circular_ends')]
+    result['geometric_hole_scope'] = 'Candidates may duplicate native hole features. Do not sum both lists. Fillets/open grooves, intersecting holes, stepped/blind ends and threads need model review. Span is not drill or tap depth.'
     return result
+
+
+def cylindrical_faces(cd):
+    """B-rep evidence also covers cut extrusions/imports; not a toolpath detector."""
+    rows = []
+    for bi, body in enumerate(items(cd.SurfaceBodies), 1):
+        for fi, face in enumerate(items(body.Faces), 1):
+            if face.SurfaceType != 5891:
+                continue
+            row = {'body': bi, 'face': fi}
+            try:
+                cylinder = face.Geometry
+                axis = cylinder.AxisVector
+                base = cylinder.BasePoint
+                p = face.PointOnFace
+                _, normal = face.Evaluator.GetNormalAtPoint([p.X,p.Y,p.Z], [0.,0.,0.])
+                direction = [axis.X,axis.Y,axis.Z]
+                delta = [p.X-base.X,p.Y-base.Y,p.Z-base.Z]
+                along = sum(delta[i]*direction[i] for i in range(3))
+                radial = [delta[i]-along*direction[i] for i in range(3)]
+                dot = sum(radial[i]*normal[i] for i in range(3))
+                row.update(radius_mm=cylinder.Radius * 10,
+                           diameter_mm=cylinder.Radius * 20,
+                           axis_point_mm=[base.X*10, base.Y*10, base.Z*10],
+                           axis_direction=[axis.X, axis.Y, axis.Z],
+                           normal_dot_radial_cm=dot,
+                           interior=dot < -1e-7)
+                ends = []
+                for edge in items(face.Edges):
+                    if edge.GeometryType != 5124:  # full Circle, not Arc
+                        continue
+                    circle = edge.Geometry
+                    center = circle.Center
+                    openings = []
+                    for adjacent in items(edge.Faces):
+                        if adjacent.SurfaceType != 5890:
+                            continue
+                        for loop in items(adjacent.EdgeLoops):
+                            if any(e.TransientKey == edge.TransientKey for e in items(loop.Edges)):
+                                openings.append(not bool(loop.IsOuterEdgeLoop))
+                    ends.append({'center_mm': [center.X*10, center.Y*10, center.Z*10],
+                                 'radius_mm': circle.Radius*10,
+                                 'planar_inner_loop_opening': any(openings)})
+                row['circular_ends'] = ends
+                row['full_circular_ends'] = len(ends) == 2 and all(abs(e['radius_mm']-row['radius_mm']) < 1e-5 for e in ends)
+                row['through_status'] = 'unconfirmed'
+                if row['full_circular_ends']:
+                    a, b = [e['center_mm'] for e in ends]
+                    row['axial_span_mm'] = abs(sum((b[i]-a[i])*row['axis_direction'][i] for i in range(3)))
+                    if row['interior'] and all(e['planar_inner_loop_opening'] for e in ends):
+                        row['through_status'] = 'two_planar_openings'
+            except Exception as exc:
+                row['partial_read_error'] = repr(exc)
+            rows.append(row)
+    return rows
+
+
+def configure_drawing_font(doc, font='ＭＳ ゴシック'):
+    """Only the generated document's local styles; never writes a style library."""
+    for style in items(doc.StylesManager.TextStyles):
+        if style.StyleLocation == 51203:
+            style = style.ConvertToLocal()
+        style.Font = font
+    return font
 
 
 def references(doc):
@@ -111,11 +180,21 @@ def inspect(doc):
         for v in items(s.DrawingViews):
             row['views'].append({'name': v.Name, 'scale': v.Scale, 'width_cm': v.Width,
                                  'height_cm': v.Height,
+                                 'position_cm': [v.Position.X, v.Position.Y],
+                                 'parent': v.ParentView.Name if v.ParentView else None,
+                                 'style': v.ViewStyle,
                                  'reference': v.ReferencedDocumentDescriptor.FullDocumentName})
+        row['first_angle_projection'] = bool(doc.StylesManager.ActiveStandardStyle.FirstAngleProjection)
+        row['general_notes_raw'] = []
+        row['general_notes_formatted'] = []
         for n in items(s.DrawingNotes.GeneralNotes):
-            row['general_notes'].append(n.Text)
+            row['general_notes_raw'].append(n.Text)
+            row['general_notes_formatted'].append(n.FormattedText)
+            row['general_notes'].append(plain_formatted_text(n.FormattedText, n.Text))
         for d in items(s.DrawingDimensions.GeneralDimensions):
-            row['dimensions'].append({'text': d.Text.Text, 'model_value': d.ModelValue,
+            row['dimensions'].append({'text': readable_dimension(d.Text.Text, d.Text.FormattedText, d.Type == 117475328),
+                                      'text_raw': d.Text.Text, 'formatted_text': d.Text.FormattedText,
+                                      'model_value': d.ModelValue,
                                       'overridden': bool(d.ModelValueOverridden),
                                       'attached': bool(d.Attached)})
             if not d.Attached or d.ModelValueOverridden:
@@ -162,7 +241,9 @@ def _export_pdf(app, doc, path):
         raise RuntimeError('PDF export did not create a nonempty file')
 
 
-def add_draft_title_block(app, doc, sheet, model, scale):
+def add_draft_title_block(app, doc, sheet, model, scale, *,
+                          status='未完成・加工不可', drawing_number=None,
+                          sheet_number='1 / 1', font='ＭＳ ゴシック'):
     """Native Inventor title block; unknown specifications remain explicit."""
     pt = app.TransientGeometry.CreatePoint2d
     definition = doc.TitleBlockDefinitions.Add('Portable Draft ' + str(doc.TitleBlockDefinitions.Count + 1))
@@ -171,11 +252,13 @@ def add_draft_title_block(app, doc, sheet, model, scale):
     for y in [1,2]:
         sketch.SketchLines.AddByTwoPoints(pt(0,y),pt(18,y))
     sketch.SketchLines.AddByTwoPoints(pt(9,0),pt(9,2))
-    cells=[(.3,2.75,'図番 / '+Path(model.FullFileName).stem),
+    if sheet.TitleBlock:
+        sheet.TitleBlock.Delete()
+    cells=[(.3,2.75,'図番：'+(drawing_number or '未確定')+' / '+Path(model.FullFileName).stem),
            (.3,1.75,'材質：未確定'),(9.3,1.75,'数量：未確定'),
-           (.3,.75,'尺度 '+format(scale,'.6g')+':1'),(9.3,.75,'1 / 1  未完成・加工不可')]
+           (.3,.75,'尺度 '+scale_label(scale)),(9.3,.75,sheet_number+'  '+status)]
     for x,y,text in cells:
-        sketch.TextBoxes.AddFitted(pt(x,y),'<StyleOverride FontSize="0.3">'+escape(text)+'</StyleOverride>')
+        sketch.TextBoxes.AddFitted(pt(x,y),'<StyleOverride Font="'+escape(font, {'"':'&quot;'})+'" FontSize="0.3">'+escape(text)+'</StyleOverride>')
     definition.ExitEdit(True)
     sheet.AddTitleBlock(definition,29444)  # kBottomRightPosition
 
@@ -195,33 +278,43 @@ def draft(app, model, template, scale, front, output, view_names=None,
         w, h = sheet.Width, sheet.Height
         tg = app.TransientGeometry
         pt = tg.CreatePoint2d
-        # Views are selected for the part, not a mandatory four-view recipe.
+        configure_drawing_font(doc)
+        doc.StylesManager.ActiveStandardStyle.FirstAngleProjection = False
         orientations={'front':front,'top':10754,'right':10755,'back':10756,'bottom':10757,'left':10758,'iso':10759}
         selected=list(view_names or ['front','top'])
-        if include_iso:
-            selected.append('iso')
-        stacked=len(selected)==2 and 'front' in selected and ('top' in selected or 'bottom' in selected)
-        arranged=(['top','front'] if 'top' in selected else ['front','bottom']) if stacked else selected
-        cols=1 if stacked else min(2,len(selected)); rows=math.ceil(len(selected)/cols)
-        cell_w=w*.8/cols; cell_h=(h-12)/rows
-        locations=[(w*.1+cell_w*(i%cols+.5),7+cell_h*(rows-i//cols-.5),orientations[name],name.upper()) for i,name in enumerate(arranged)]
-        views=[]
-        for x,y,orientation,name in locations:
-            v=measured('create_view_'+name,sheet.DrawingViews.AddBaseView,model,pt(x,y),scale,orientation,32257)
-            v.Name=name
-            views.append(v)
+        if include_iso:selected.append('iso')
+        if len(selected) > 1 and 'front' not in selected:
+            raise ValueError('Multiple orthographic views require front as the projection parent')
+        views={}
+        root_name = 'front' if 'front' in selected else selected[0]
+        parent=measured('create_view_'+root_name,sheet.DrawingViews.AddBaseView,model,pt(w/2,h/2),scale,orientations[root_name],32257)
+        parent.Name=root_name.upper();views[root_name]=parent
+        doc.Update()
+        offsets={'top':(0,10),'bottom':(0,-10),'right':(10,0),'left':(-10,0)}
+        for name in selected:
+            if name==root_name:continue
+            if name in offsets:
+                dx,dy=offsets[name]
+                v=measured('create_view_'+name,sheet.DrawingViews.AddProjectedView,parent,pt(w/2+dx,h/2+dy),32260)
+            else:
+                # BACK and ISO are independent orientations; no false projection parent.
+                v=measured('create_view_'+name,sheet.DrawingViews.AddBaseView,model,pt(w/2+10,h/2+10),scale,orientations[name],32258 if name=='iso' else 32257)
+            v.Name=name.upper();views[name]=v
         measured('update_initial_views',doc.Update)
-        # Fit each view to its cell, preserving one common scale. No geometry dimensions inferred.
-        factor=min([1.0]+[min(cell_w*.8/v.Width,cell_h*.7/v.Height) for v in views if v.Width and v.Height])
-        actual=scale*factor
-        for v in views:
-            v.Scale=actual
+        sizes={name:(v.Width/scale,v.Height/scale) for name,v in views.items()}
+        actual,positions=plan_views(sizes,scale,(2,8,w-2,h-6))
+        for name,v in views.items():
+            if not v.ParentView:v.Scale=actual
         measured('update_scale',doc.Update)
-        for v,(_,_,_,name) in zip(views,locations):
-            sheet.DrawingNotes.GeneralNotes.AddFitted(pt(v.Position.X-v.Width/2,v.Position.Y-v.Height/2-.5),name)
+        parent.Position=pt(*positions[root_name])
+        for name,v in views.items():
+            if name!=root_name:v.Position=pt(*positions[name])
+        measured('update_positions',doc.Update)
+        for name,v in views.items():
+            sheet.DrawingNotes.GeneralNotes.AddFitted(pt(v.Position.X-v.Width/2,v.Position.Y-v.Height/2-.5),name.upper())
         text='未完成・加工不可 / VIEW DRAFT ONLY\n'+Path(model.FullFileName).name+'\n寸法・材質・公差・数量・加工工程は未確定。製作には使用しない。'
         sheet.DrawingNotes.GeneralNotes.AddFitted(pt(1.2,h-1.2),escape(text))
-        sheet.DrawingNotes.GeneralNotes.AddFitted(pt(1.2,5.5),escape('各ビュー名を参照 / 単位・投影配置・正面方向を要確認'))
+        sheet.DrawingNotes.GeneralNotes.AddFitted(pt(1.2,5.5),escape('第三角法 / 単位 mm / 正面方向と必要な加工面を要確認'))
         if edge_note:
             sheet.DrawingNotes.GeneralNotes.AddFitted(pt(1.2,4.5),escape(edge_note))
         measured('title_block',add_draft_title_block,app,doc,sheet,model,actual)
@@ -229,7 +322,8 @@ def draft(app, model, template, scale, front, output, view_names=None,
         measured('save_idw',doc.SaveAs,str(output/'view-draft.idw'), False)
         measured('export_pdf',export_pdf,app,doc,output/'view-draft.pdf')
         result=measured('inspect_output',inspect,doc)
-        result.update(status='VIEW_DRAFT_NOT_FOR_MANUFACTURE',scale=actual,selected_views=selected,edge_note=edge_note,
+        result.update(status='VIEW_DRAFT_NOT_FOR_MANUFACTURE',scale=actual,scale_label=scale_label(actual),selected_views=selected,edge_note=edge_note,
+                      font='ＭＳ ゴシック',projection='third-angle native parent/projected views; ISO without hidden lines',
                       omitted=['manufacturing dimensions','hole/thread notes','material approval','tolerances','quantity','sections','process selection'])
         return result
     finally:
